@@ -84,7 +84,7 @@
 			</div>
 			<?php if ($user->id) { ?>
 				<?php if ($this->target->id != $user->id) { ?>
-					<?php if ($this->target->area == $user->area and IP::canAttack($user, $this->target)) { ?>
+					<?php if ($this->target->area == $user->area/* and IP::canAttack($user, $this->target)*/) { ?>
 						<div class="line">
 							<label>Spy</label>
 							<form action="spy.php" method="post" class="right-section">

@@ -1,6 +1,6 @@
 <?php
 $incron = true;
-ini_set('include_path', '.:/home/ww2game/public_html/scripts/:/home/ww2game/public_html/');
+//ini_set('include_path', '.:/home/ww2game/public_html/scripts/:/home/ww2game/public_html/');
 
 include('vsys.php');
 
@@ -46,17 +46,17 @@ $time = time();
 $canChange = !$allow_bonuses ? 'true' : 'false';
 
 $q = mysqli_query($db, "SELECT sum(gold) as g,(sum(bank)/count(*)) as b  FROM User") or die(mysqli_error($db));
-$ret = mysqli_fetch_array($q, mysqli_ASSOC);
+$ret = mysqli_fetch_array($q, MYSQLI_ASSOC);
 
 $totalGold = $ret['g'];
 $avgBank   = $ret['b'];
 
-$fp = fopen(INCDIR . '/scripts/gen-stats.php','w') or die('Could not open file');
+$fp = fopen(DIRSCR . 'gen-stats.php','w') or die('Could not open file');
 $str = "<?php
 \$conf['online-now'       ] = $lastTurnActive;
 \$conf['online-today'     ] = $lastDayActive;
 \$conf['attacks-today'    ] = $totalAttacks;
-require_once(INCDIR . '/scripts/gen-stats-l.php');
+require_once(DIRSCR . 'gen-stats-l.php');
 \$conf['can-change-nation'] = $canChange;
 \$conf['totalGold'        ] = $totalGold;
 \$stats = " . var_export($stats, true ) . "

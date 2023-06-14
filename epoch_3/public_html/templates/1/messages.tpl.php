@@ -24,7 +24,7 @@
 		<?php if ($this->messages) { ?>
 			<div class="panel-title">
 				Messages&nbsp;<span class="no-hl">(<a href="messages.php?view=0">Inbox</a> || <a href="messages.php?view=1">Outbox</a> || <a href="writemail.php">New</a> || <a href="message-ignore.php">Ignore List</a>)</span><br />
-				Age: <?global $current_age, $first_age;
+				Age: <?php global $current_age, $first_age;
 				for ($i = $first_age; $i <= $current_age; $i++) { ?>
 					<?php if ($this->age == $i) { ?>
 						<span><?= $i ?></span>
@@ -76,7 +76,7 @@
 			</form>
 		<?php }
 			else if ($this->message) { ?>
-			<?php $a = new User(); $a->get($this->message->senderId) ?>
+			<?php $a = new User(); $a->get($this->message->senderId); ?>
 			<div class="panel-title">
 				<?= $this->message->subject ?><br />
 				<span class="no-hl">(<a href="messages.php?view=0">Inbox</a> || <a href="messages.php?view=1">Outbox</a> || <a href="writemail.php">New</a> || <a href="message-ignore.php">Ignore List</a>)</span>
@@ -110,7 +110,7 @@
 			else { ?>
 			<div class="panel-title">
 				Messages&nbsp;<span class="no-hl">(<a href="messages.php?view=0">Inbox</a> || <a href="messages.php?view=1">Outbox</a> || <a href="writemail.php">New</a> || <a href="message-ignore.php">Ignore List</a>)</span><br />
-				Age: <?global $current_age, $first_age;
+				Age: <?php global $current_age, $first_age;
 				for ($i = $first_age; $i <= $current_age; $i++) { ?>
 					<?php if ($this->age == $i) { ?>
 						<span><?= $i ?></span>

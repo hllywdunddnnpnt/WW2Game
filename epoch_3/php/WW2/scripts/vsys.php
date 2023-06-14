@@ -43,7 +43,7 @@ require_once('BaseClass.php');
 
 require_once('User.php');
 //require_once('Weapon.php');
-														// require_once('gen-stats.php');
+require_once('gen-stats.php');
 require_once('Privacy.php');
 require_once('IP.php');
 
@@ -65,7 +65,7 @@ function numecho ($str){
 }
 
 function numecho2 ($str){
-	return number_format($str, 0, '.', ',');
+	return number_format(floatval($str), 0, '.', ',');
 }
 
 function getPassword($n = 10) {

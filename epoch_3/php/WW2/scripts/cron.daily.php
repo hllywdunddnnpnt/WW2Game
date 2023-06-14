@@ -20,7 +20,7 @@
 ***/
 
 $incron = true;
-ini_set('include_path', '.:/home/ww2game/public_html/scripts/:/home/ww2game/public_html/');
+//ini_set('include_path', '.:/home/ww2game/public_html/scripts/:/home/ww2game/public_html/');
 
 include('vsys.php');
 

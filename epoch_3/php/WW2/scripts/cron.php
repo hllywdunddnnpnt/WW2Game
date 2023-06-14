@@ -20,11 +20,13 @@
 ***/
 
 $incron = true;
-ini_set('include_path', '.:/home/ww2game/public_html/scripts/:/home/ww2game/public_html/');
+//ini_set('include_path', '.:/home/ww2game/public_html/scripts/:/home/ww2game/public_html/');
 
 include('vsys.php');
 require_once('Message.php');
 $errcount = 0;
+
+$time = time();
 
 
 //Updates the Ranks.active
@@ -121,7 +123,7 @@ foreach ($users as $user) {
 $avgsql="SELECT floor(sum(sa)/count(*)) as avgsa, floor(sum(da)/count(*)) as avgda, floor(sum(ca)/count(*)) as avgca, floor(sum(ra)/count(*)) as avgra FROM User where active=1";
 				
 $avq=mysqli_query($db, $avgsql) or die(mysqli_error($db));
-$avr=mysqli_fetch_array($avq,mysqli_ASSOC);
+$avr=mysqli_fetch_array($avq,MYSQLI_ASSOC);
 $avgsa=0;
 $avgda=0; 
 $avgca=0; 
@@ -153,7 +155,7 @@ $q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY area,SA D
 $i=1;
 $area = 0;
 
-while($row=mysqli_fetch_array($q, mysqli_ASSOC)) {
+while($row=mysqli_fetch_array($q, MYSQLI_ASSOC)) {
 	if ($area != $row['area']) {
 		$i = 1;
 	}
@@ -166,7 +168,7 @@ while($row=mysqli_fetch_array($q, mysqli_ASSOC)) {
 $q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY area,DA DESC")or die(mysqli_error($db));
 $i=1;
 $area = 0;
-while($row=mysqli_fetch_array($q, mysqli_ASSOC)){
+while($row=mysqli_fetch_array($q, MYSQLI_ASSOC)){
 	if ($area != $row['area']) {
 		$i = 1;
 	}
@@ -178,7 +180,7 @@ while($row=mysqli_fetch_array($q, mysqli_ASSOC)){
 $q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY area,CA DESC")or die(mysqli_error($db));
 $i=1;
 $area = 0;
-while($row=mysqli_fetch_array($q,mysqli_ASSOC)){
+while($row=mysqli_fetch_array($q,MYSQLI_ASSOC)){
 	if ($area != $row['area']) {
 		$i = 1;
 	}
@@ -191,11 +193,11 @@ while($row=mysqli_fetch_array($q,mysqli_ASSOC)){
 $q=mysqli_query($db, "SELECT id,active,area FROM User WHERE active=1 ORDER BY area,RA DESC")or die(mysqli_error($db));
 $i=1;
 $area = 0;
-while($row=mysqli_fetch_array($q,mysqli_ASSOC)){
+while($row=mysqli_fetch_array($q,MYSQLI_ASSOC)){
 	if ($area != $row['area']) {
 		$i = 1;
 	}
-	$update=mysqli_query($db, "UPDATE User SET rarank=$i,active=".$row[active]." WHERE id=".$row['id'])or die(mysqli_error($db));
+	$update=mysqli_query($db, "UPDATE User SET rarank=$i,active=".$row['active']." WHERE id=".$row['id'])or die(mysqli_error($db));
 	$i++;
 	$area = $row['area'];
 	
@@ -205,7 +207,7 @@ $q=mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) as avg, id, area 
 
 $i = 1;
 $area = 0;
-while($row=mysqli_fetch_array($q,mysqli_ASSOC)){
+while($row=mysqli_fetch_array($q,MYSQLI_ASSOC)){
 	if ($area != $row['area']) {
 		$i = 1;
 	}
@@ -256,10 +258,9 @@ WHERE
 
 $t = time();
 
-$fp = fopen(INCDIR . '/scripts/gen-stats-l.php','w+') or die('Could not open file');
-$str = "<?php\$conf['last-turn'        ] = $time;?>";
-
-fwrite($fp,$str);
+$fp = fopen(DIRSCR.'gen-stats-l.php','w+') or die('Could not open file');
+$str = "<?php \$conf['last-turn'] = " . $time . "; ?>";
+echo fwrite($fp, $str) ? "Y":"N";
 fclose($fp);
 
 ?>

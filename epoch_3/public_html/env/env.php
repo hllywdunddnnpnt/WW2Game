@@ -10,6 +10,8 @@ define('BASEURL', 'http://www.ww2game.net/');
 define('BASEDIR', '/public_html/');
 define('INCDIR', '/');
 define('CACHEDIR', 'cache/');
+define('SCRIPTSDIR', 'scripts/');
+define("DIRSCR", "../php/WW2/scripts/");
 
 define('Inf', null);
 
