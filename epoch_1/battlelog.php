@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 class User {
 	var $id;
@@ -16,13 +16,13 @@ class User {
 	var $expgain = 0;
 	var $powgain = 0;
 	function __construct($id) {
-		$q = mysql_query("SELECT username,race,alliance FROM UserDetails WHERE id=$id") or die(mysql_error());
-		$a = mysql_fetch_object($q);
-		mysql_free_result($q);
+		$q = mysqli_query($db, "SELECT username,race,alliance FROM UserDetails WHERE id=$id") or die(mysqli_error($db));
+		$a = mysqli_fetch_object($q);
+		mysqli_free_result($q);
 		if ($a->alliance > 0) {
-			$q = mysql_query("SELECT name FROM alliances WHERE ID={$a->alliance}") or die(mysql_error());
-			$f = mysql_fetch_object($q);
-			mysql_free_result($q);
+			$q = mysqli_query($db, "SELECT name FROM alliances WHERE ID={$a->alliance}") or die(mysqli_error($db));
+			$f = mysqli_fetch_object($q);
+			mysqli_free_result($q);
 			$a->alliance = $f->name;
 		}
 		$this->id = $id;
@@ -105,24 +105,24 @@ class Attack {
 				
 				<?=$winner->husername
 ?> striked at <font color="green"><?=$winner->effectiveness
-?>%</font> effectiveness with <font color="red"><? numecho($winner->SA) ?></font> strike action and caused <font color="green"><?=$loser->DADamage ?>%</font> to <?=$loser->husername ?>'s defence weapons<br />
+?>%</font> effectiveness with <font color="red"><?php numecho($winner->SA) ?></font> strike action and caused <font color="green"><?=$loser->DADamage ?>%</font> to <?=$loser->husername ?>'s defence weapons<br />
 				<?=$loser->husername
 ?> defended at <font color="green"><?=$loser->effectiveness
-?>%</font> effectiveness with <font color="red"><? numecho($loser->DA) ?></font> defence action and caused <font color="green"><?=$winner->SADamage ?>%</font> to <?=$winner->husername ?>'s attack weapons<br />
+?>%</font> effectiveness with <font color="red"><?php numecho($loser->DA) ?></font> defence action and caused <font color="green"><?=$winner->SADamage ?>%</font> to <?=$winner->husername ?>'s attack weapons<br />
 				
 				<p style="width:90%;position:relative;">Retaliation caused <font color="green"><?=$winner->DADamage ?>%</font> damage to <?=$winner->husername ?>'s defence weapons,<br /> and caused <font color="green"><?=$loser->SADamage ?>%</font> damage to <?=$loser->husername ?>'s attack weapons.</p>
 				
 				Retaliation added <font color="green"><?=$this->raeff ?>%</font> more damage to the weapons.
-		</p><?
+		</p><?php
 		if ($winner->powgain > 0) {
 ?>
-				<?=$winner->husername ?> took <? numecho($winner->powgain) ?> prisoners of war<br />
-			<?
+				<?=$winner->husername ?> took <?php numecho($winner->powgain) ?> prisoners of war<br />
+			<?php
 		}
 		if ($loser->powgain > 0) {
 ?>
-				<?=$loser->husername ?> took <? numecho($loser->powgain) ?> prisoners of war<br />
-			<?
+				<?=$loser->husername ?> took <?php numecho($loser->powgain) ?> prisoners of war<br />
+			<?php
 		}
 		if ($this->success == 0) {
 			echo $winner->husername . " had a <font color=\"green\">{$this->percent_steal}%</font> steal and took <font color=\"red\">" . number_format($this->gold) . "</font> gold from {$loser->husername}<br />";
@@ -136,10 +136,10 @@ class Attack {
 ?></font> experience<br />
 			
 			<?=$winner->husername
-?> lost <font color="red"><? numecho($winner->deaths) ?></font> soldiers<br />
+?> lost <font color="red"><?php numecho($winner->deaths) ?></font> soldiers<br />
 			<?=$loser->husername
-?> lost <font color="red"><? numecho($loser->deaths) ?></font> soldiers<br />
-		<?
+?> lost <font color="red"><?php numecho($loser->deaths) ?></font> soldiers<br />
+		<?php
 	}
 	function ShowAttackerAlloc() {
 ?>
@@ -169,7 +169,7 @@ class Attack {
 				<td><?=$this->attacker->noweapons['untrained'] + $this->attacker->weapons['untrained'] ?></td>
 			</tr>
 		</table>
-	<?
+	<?php
 	}
 	function ShowDefenderAlloc() {
 ?>
@@ -199,17 +199,17 @@ class Attack {
 				<td><?=$this->defender->noweapons['untrained'] + $this->defender->weapons['untrained'] ?></td>
 			</tr>
 		</table>
-	<?
+	<?php
 	}
 	function NukeTable() {
 ?>
 		<p>
 			<?=$this->attacker->alliance
 ?>'s alliance unleashed a nuclear bomb upon <?=$this->defender->username ?>'s forces!<Br />
-			<? numecho($this->defender->deaths) ?> of <?=$this->defender->username ?>'s forces were killed in the explosion and resulting radiation. 
+			<?php numecho($this->defender->deaths) ?> of <?=$this->defender->username ?>'s forces were killed in the explosion and resulting radiation. 
 			Many of&nbsp;<?=$this->defender->username ?>'s weapons were damaged or destroyed!
 		</p>
-	<?
+	<?php
 	}
 }
 $attack = new Attack(getAttack($cgi['id']));
@@ -235,21 +235,21 @@ $attack = new Attack(getAttack($cgi['id']));
 		</SCRIPT>
   </HEAD>
   <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
-    <?
+    <?php
 include "top.php";
 ?>
     <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
       <TBODY>
         <TR>
           <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-            <?
+            <?php
 include ("left.php");
 ?>
           </TD>
           <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" vAlign=top align=left>
             <BR />
             <center>
-            <?
+            <?php
 include "islogined.php";
 if ($_SESSION['isLogined'] != $attack->attacker->id AND $_SESSION['isLogined'] != $attack->defender->id) {
 	die("Cannot view other's Attack Logs.");
@@ -263,16 +263,16 @@ if (!$cgi['isview']) {
 ?>
 												   name=id><INPUT name="submit" type=submit value="Attack / Spy Again">
 												</FORM>
-												<?
+												<?php
 } ?>
             </center>
             <P>
-				<? include ("bottom.php"); ?>
+				<?php include ("bottom.php"); ?>
 			</P>
           </th>
         </TR>
       </TBODY>
     </TABLE>
   </BODY>
-  <? include "gzfooter.php";
+  <?php include "gzfooter.php";
 ?>

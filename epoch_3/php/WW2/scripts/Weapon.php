@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -82,14 +82,14 @@ class Weapon extends BaseClass{
 	}
 
 	public static function
-	getUserAttackWeapons($userId, $order = 'weaponStrength') {
+	getUserAttackWeapons($userId, $order = 'weaponStrength') { global $db;
 		$ret = array();
 		if (!$userId) {
 			return $ret;	
 		}
 		
-		$q = mysql_query("SELECT * FROM Weapon WHERE userId = $userId AND isAttack = 1 AND weaponStrength > 0 and weaponCount > 0 ORDER BY $order DESC") or die(mysql_error());
-		while ($w = mysql_fetch_object($q, 'Weapon')) {
+		$q = mysqli_query($db, "SELECT * FROM Weapon WHERE userId = $userId AND isAttack = 1 AND weaponStrength > 0 and weaponCount > 0 ORDER BY $order DESC") or die(mysqli_error($db));
+		while ($w = mysqli_fetch_object($q, 'Weapon')) {
 			$ret[] = $w;
 		}
 		
@@ -97,14 +97,14 @@ class Weapon extends BaseClass{
 	}
 
 	public static function
-	getUserDefenseWeapons($userId, $order = 'weaponStrength') {
+	getUserDefenseWeapons($userId, $order = 'weaponStrength') { global $db;
 		$ret = array();
 		if (!$userId) {
 			return $ret;	
 		}
 		
-		$q = mysql_query("SELECT * FROM Weapon WHERE userId = $userId AND isAttack = 0 AND weaponStrength > 0 and weaponCount > 0 ORDER BY $order DESC") or die(mysql_error());
-		while ($w = mysql_fetch_object($q, 'Weapon')) {
+		$q = mysqli_query($db, "SELECT * FROM Weapon WHERE userId = $userId AND isAttack = 0 AND weaponStrength > 0 and weaponCount > 0 ORDER BY $order DESC") or die(mysqli_error($db));
+		while ($w = mysqli_fetch_object($q, 'Weapon')) {
 			$ret[] = $w;
 		}
 		
@@ -112,39 +112,40 @@ class Weapon extends BaseClass{
 	}
 
 	public static function
-	getUserAttackWeaponsCount($userId) {
+	getUserAttackWeaponsCount($userId) { global $db;
 		$ret = 0;
 		if (!$userId) {
 			return $ret;	
 		}
 		
-		$q = mysql_query("SELECT sum(weaponCount) as retCode FROM Weapon WHERE userId = $userId AND isAttack = 1") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT sum(weaponCount) as retCode FROM Weapon WHERE userId = $userId AND isAttack = 1") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		
 		return $ret->retCode;
 	}
 
 	public static function
-	getUserDefenseWeaponsCount($userId) {
+	getUserDefenseWeaponsCount($userId) { global $db;
 		$ret = 0;
 		if (!$userId) {
 			return $ret;	
 		}
 		
-		$q = mysql_query("SELECT sum(weaponCount) as retCode FROM Weapon WHERE userId = $userId AND isAttack = 0") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT sum(weaponCount) as retCode FROM Weapon WHERE userId = $userId AND isAttack = 0") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		
 		return $ret->retCode;
 	}
 
 	public static function
-	getStrengthRatio($userId, $isAttack) {
+	getStrengthRatio($userId, $isAttack) { global $db;
 		$isAttack = $isAttack ? 1 : 0;
 		if (!$userId) {
 			return 0;
 		}
+		$ret = (Object) [];
 		
-		$q = mysql_query("
+		$q = mysqli_query($db, "
 			SELECT
 				sum(weaponCount * weaponStrength) as ratio,
 				sum(weaponCount) as total
@@ -153,20 +154,24 @@ class Weapon extends BaseClass{
 			WHERE
 				userId = $userId AND
 				isAttack = $isAttack
-		") or die(mysql_error());
+		") or die(mysqli_error($db));
 
-		$r = mysql_fetch_object($q);
+		$r = mysqli_fetch_object($q);
+
+		if ($r)
+			{
+				$ret->ratio = $r->ratio / ($r->total <= 0 ? 1 : $r->total);
+				$ret->total = $r->total;
+			}
 	
-		$ret->ratio = $r->ratio / ($r->total <= 0 ? 1 : $r->total);
-		$ret->total = $r->total;
 
 		return $ret;
 	}
 	
 	public static function
-	queryWeapon($userId, $isAttack, $weaponType) {
+	queryWeapon($userId, $isAttack, $weaponType) { global $db;
 		$ret = null;
-		$q = mysql_query("
+		$q = mysqli_query($db, "
 			SELECT 
 				* 
 			FROM 
@@ -175,9 +180,9 @@ class Weapon extends BaseClass{
 				userId   = $userId AND 
 				isAttack = $isAttack AND
 				weaponId = $weaponType
-		") or die(mysql_error());
+		") or die(mysqli_error($db));
 		
-		if ($r = mysql_fetch_object($q, 'Weapon')) {
+		if ($r = mysqli_fetch_object($q, 'Weapon')) {
 			$ret = $r;
 		}
 		
@@ -185,18 +190,18 @@ class Weapon extends BaseClass{
 	}
 	
 	public static function
-	deleteAllUserWeapons($userId) {
-		mysql_query("DELETE FROM Weapon WHERE userId = $userId") or die(mysql_error());
+	deleteAllUserWeapons($userId) { global $db;
+		mysqli_query($db, "DELETE FROM Weapon WHERE userId = $userId") or die(mysqli_error($db));
 	}
 	
 	public static function
 	cleanupWeapons() {
-		global $conf;
-		mysql_query("DELETE FROM Weapon WHERE weaponStrength <= 0") or die(mysql_error());
+		global $conf, $db;
+		mysqli_query($db, "DELETE FROM Weapon WHERE weaponStrength <= 0") or die(mysqli_error($db));
 		
 		for ($i = 0; $i < 5; $i++) {
 			$max_strength = $conf["weapon{$i}strength"];
-			mysql_query("DELETE FROM Weapon WHERE weaponId = $i and weaponStrength > $max_strength and weaponStrength > 0") or die(mysql_error());
+			mysqli_query($db, "DELETE FROM Weapon WHERE weaponId = $i and weaponStrength > $max_strength and weaponStrength > 0") or die(mysqli_error($db));
 		}
 	}
 }

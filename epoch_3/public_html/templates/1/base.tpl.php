@@ -38,26 +38,26 @@
 							<td><a href="support.php"><?= ($user->supporter? "\$$user->supporter" : 'Become A Supporter') ?></a><td>
 						</tr>
 						<tr><td>Alliance</td><td>
-							<? if ($user->alliance > 0) { ?>
+							<?php if ($user->alliance > 0) { ?>
 								<a href="alliance-home.php?"><?= $user->getAlliance()->getNameHTML() ?></a>
 								[<a href="alliance-home.php?leave-alliance=yes"> leave </a>]
-							<? }
+							<?php }
 								else { ?>
 								<a href="alliance-list.php">None</a>
-							<? } ?>
+							<?php } ?>
 						</td></tr>
 						<tr><td>Email</td><td><?= $user->email ?></td></tr>
 						<tr><td>Nation</td><td><?= $user->getNation() ?></td></tr>
 						<tr><td>Rank</td><td><?= numecho($user->rank) ?></td></tr>
 						<tr><td>Area</td><td><?= $user->getAreaName() ?></td></tr>
 						<tr><td>Commander</td><td>
-							<? if ($user->commander) { ?>
+							<?php if ($user->commander) { ?>
 								<?= $user->getCommander()->getNameLink() ?>
 								[<a href="base.php?leave-commander=yes"> leave </a>]
-							<? }
+							<?php }
 								else { ?>
 								None
-							<? } ?>
+							<?php } ?>
 						</td></tr>
 						<tr><td>Game Skill</td><td><?= numecho($user->gameSkill) ?></td></tr>
 						<tr><td>Defensive Tech</td><td><?= $user->getDAName() ?></td></tr>
@@ -67,11 +67,11 @@
 						<tr><td>Hand-to-hand Level</td><td><?= $user->hhlevel ?></td></tr>
 						<tr>
 							<td>Unit Production</td>
-							<td><?= numecho($user->up) ?> (+ <? numecho($user->getOfficerUP());echo ' +';numecho($user->getAllianceUP()); ?>)</td>
+							<td><?= numecho($user->up) ?> (+ <?php numecho($user->getOfficerUP());echo ' +';numecho($user->getAllianceUP()); ?>)</td>
 						</tr>
 						<tr><td>Gold</td><td><?= numecho($user->gold) ?> </td></tr>
 						<tr><td>Income</td><td><?= numecho($user->getIncome()) ?> gold / turn</td></tr>
-						<tr><td>Commander Bonus</td><td><? numecho($user->commandergold) ?> gold / turn</td></tr>
+						<tr><td>Commander Bonus</td><td><?php numecho($user->commandergold) ?> gold / turn</td></tr>
 						<tr><td>Attack Turns</td><td><?= numecho($user->attackturns) ?></td></tr>
 						<tr><td>Click Credits</td><td><?= $user->gclick ?></td></tr>
 						
@@ -79,23 +79,23 @@
 				</div>
 			</td>
 			<td id="right-pane">
-				<? $this->load('user-stats') ?>
-				<? $this->load('personnel') ?>
+				<?php $this->load('user-stats') ?>
+				<?php $this->load('personnel') ?>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<? $this->load('officers-list') ?>
+				<?php $this->load('officers-list') ?>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<? if($user->clickall == 0) {?>
+				<?php if($user->clickall == 0) {?>
                 	<form method="POST">
                 		<input type="submit" name="clickall" value="Global Click" /><br>
                 		<small>Adds 10 soldiers to everyone.</small>
                 	</form>
-                <? } ?>
+                <?php } ?>
 			</td>
 		</tr>
 	</table>

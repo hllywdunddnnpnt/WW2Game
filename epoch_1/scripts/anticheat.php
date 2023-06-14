@@ -1,4 +1,4 @@
-<?
+<?php
 //==================
 // ANTI PAGE REFRESH
 //==================
@@ -39,7 +39,7 @@ if (isset($_SESSION['hash'])) {
 		if ($ip != $CK['lastip'] && ($CK['time'] + (60 * 60)) >= time()) {
 			//Possible IP switching
 			if (isset($CK['ipcount']) && $CK['ipcount'] >= 3 && isset($_SESSION['isLogined'])) {
-				mysql_query("UPDATE UserDetails SET active=3 WHERE ID='$_SESSION[isLogined]'");
+				mysqli_query($db, "UPDATE UserDetails SET active=3 WHERE ID='$_SESSION[isLogined]'");
 			}
 			$_SESSION['isLogined'] = null;
 			$CK['ipcount'] = $CK['ipcount'] + 1;
@@ -59,8 +59,8 @@ if (isset($_SESSION['hash'])) {
 			$alert.= "proxy2";
 		}
 	}
-	$proxy_query = mysql_query("SELECT count(*) FROM proxylist WHERE ip LIKE '$ip%'") or die(mysql_error());
-	$proxy_array = mysql_fetch_array($proxy_query);
+	$proxy_query = mysqli_query($db, "SELECT count(*) FROM proxylist WHERE ip LIKE '$ip%'") or die(mysqli_error($db));
+	$proxy_array = mysqli_fetch_array($proxy_query);
 	if ($proxy_array[0] > 0) {
 		$alert.= "proxy3";
 	}
@@ -83,9 +83,9 @@ if (isset($_SESSION['hash'])) {
 		if ($_SESSION['banpass'] == 1) {
 			$_SESSION['banpass'] = null;
 			$alert.= "auto-banned";
-			$get = mysql_query("SELECT ID FROM UserDetails WHERE userName='$cgi[uname]' AND password='" . md5($cgi['psword']) . "'");
-			$ar = mysql_fetch_array($get, MYSQL_ASSOC);
-			mysql_query("UPDATE UserDetails SET active=4 WHERE ID='$ar[ID]'");
+			$get = mysqli_query($db, "SELECT ID FROM UserDetails WHERE userName='$cgi[uname]' AND password='" . md5($cgi['psword']) . "'");
+			$ar = mysqli_fetch_array($get, mysqli_ASSOC);
+			mysqli_query($db, "UPDATE UserDetails SET active=4 WHERE ID='$ar[ID]'");
 			$_SESSION['isLogined'] = null;
 			mail($conf['admin_email'], "Banned - $cgi[uname]", "User $ar[ID] $cgi[uname] Banned for automated scripts");
 		} else {

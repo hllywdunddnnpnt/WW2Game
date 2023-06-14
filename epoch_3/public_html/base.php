@@ -1,4 +1,4 @@
-<?
+<?php
 
 /***
 
@@ -31,7 +31,7 @@ $saveUser = false;
 $filters = array(
 	'kick-officer'      => FILTER_VALIDATE_INT,
 	'accept-officer'    => FILTER_VALIDATE_INT,
-	'officer-list-page' => FILTER_SANITIZE_INT,
+	'officer-list-page' => FILTER_VALIDATE_INT,
 	'clickall'          => FILTER_SANITIZE_STRING,
 	'leave-commander'   => FILTER_SANITIZE_STRING,
 );
@@ -48,7 +48,7 @@ if ($filteredG['kick-officer'] > 0) {
 		$user->accepted = 0;
 	}
 	else {
-		mysql_query("UPDATE User SET commander=0,accepted=0 WHERE id=$id") or die(mysql_error());
+		mysqli_query($db, "UPDATE User SET commander=0,accepted=0 WHERE id=$id") or die(mysqli_error($db));
 	}
 	$user->numofficers--;
 	$saveUser = true;
@@ -61,7 +61,7 @@ if ($filteredG['accept-officer'] > 0){
 		$user->accepted = 1;
 	}
 	else {
-		mysql_query("UPDATE User SET accepted=1 WHERE id=$id") or die(mysql_error());
+		mysqli_query($db, "UPDATE User SET accepted=1 WHERE id=$id") or die(mysqli_error($db));
 	}
 	$user->numofficers++;
 	$saveUser = true;
@@ -70,7 +70,7 @@ if ($filteredG['accept-officer'] > 0){
 
 if ($filtered['clickall'] and $user->clickall == 0 and Privacy::getId()){
 	
-	mysql_query("UPDATE User SET uu=uu+10,gclick=gclick-1 WHERE gclick>0 AND active=1 AND id!=$user->id");
+	mysqli_query($db, "UPDATE User SET uu=uu+10,gclick=gclick-1 WHERE gclick>0 AND active=1 AND id!=$user->id");
 
 	$user->clickall = 1;
 	if ($user->gclick <15) {

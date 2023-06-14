@@ -1,4 +1,4 @@
-<?
+<?php
 if ($_SESSION['isLogined'] > 0 or $_SESSION['admin']) {
 	//echo "LOGINNED";
 	

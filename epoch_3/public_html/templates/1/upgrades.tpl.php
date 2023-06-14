@@ -36,24 +36,24 @@
 					<td>Offensive Technology</td>
 					<td><?= $user->getSAName() ?></td>
 					<td>
-						<? if ($user->salevel >= $conf['race'][$user->nation]['max-salevel']) { ?>
+						<?php if ($user->salevel >= $conf['race'][$user->nation]['max-salevel']) { ?>
 							[ No More ]
-						<? }
+						<?php }
 							else { ?>
 							<input type="submit" name="upgrade-sa" value="<?= numecho(Upgrades::saCost($user)) ?> Gold" />
-						<? } ?>
+						<?php } ?>
 					</td>
 				</tr>
 				<tr>
 					<td>Defensive Technology</td>
 					<td><?= $user->getDAName() ?></td>
 					<td>
-						<? if ($user->dalevel >= $conf['race'][$user->nation]['max-dalevel']) { ?>
+						<?php if ($user->dalevel >= $conf['race'][$user->nation]['max-dalevel']) { ?>
 							[ No More ]
-						<? }
+						<?php }
 							else { ?>
 							<input type="submit" name="upgrade-da" value="<?= numecho(Upgrades::daCost($user)) ?> Gold" />
-						<? } ?>
+						<?php } ?>
 					</td>
 				</tr>
 				<tr>
@@ -79,7 +79,7 @@
 					<td><?= $user->hhlevel ?></td>
 					<td><input type="submit" name="upgrade-hh" value="<?= numecho(Upgrades::hhCost($user)) ?> Gold" /></td>
 				</tr>
-				<? if ($user->getSupport('upgrades')) { ?>
+				<?php if ($user->getSupport('upgrades')) { ?>
 					<tr>
 						<td>Upgrade Officer Limit</td>
 						<td><?= $user->maxofficers ?></td>
@@ -90,7 +90,7 @@
 						<td><?= $user->bankper ?>%</td>
 						<td><input type="submit" name="upgrade-bk" value="<?= numecho(Upgrades::bkCost($user)) ?> Gold" /></td>
 					</tr>
-				<? } ?>
+				<?php } ?>
 			</table>
 		</form>
 	</div>

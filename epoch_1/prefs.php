@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 if ($cgi['ircnick']) {
 	$nick = str_replace(" ", "_", $cgi['ircnick']);
@@ -6,13 +6,13 @@ if ($cgi['ircnick']) {
 	$nick = str_replace("/", "", $nick);
 	$nick = str_replace("\\", "", $nick);
 	$nick = substr($nick, 0, 25);
-	$nick = mysql_escape_string($nick);
+	$nick = mysqli_escape_string($nick);
 	updateUser($user->ID, "ircnick=\"$cgi[ircnick]\"");
 }
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Preferences</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Preferences</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <LINK href="css/common.css" type=text/css rel=stylesheet>
 
@@ -30,7 +30,7 @@ if ($cgi['ircnick']) {
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 
@@ -38,17 +38,17 @@ include "top.php";
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 </TD>
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
     vAlign=top align=left> <BR>
-        <?
+        <?php
 include "islogined.php";
-$em = mysql_real_escape_string($cgi['email']);
-$q = mysql_query("SELECT count(*) FROM UserDetails WHERE email=\"$em\"") or die(mysql_error());
-$a = mysql_fetch_array($q);
+$em = mysqli_real_escape_string($db, $cgi['email']);
+$q = mysqli_query($db, "SELECT count(*) FROM UserDetails WHERE email=\"$em\"") or die(mysqli_error($db));
+$a = mysqli_fetch_array($q);
 if ($cgi['submit']) {
 	//change e-mail
 	echo "<center><font color=red>";
@@ -136,9 +136,9 @@ if ($cgi['submit']) {
 ?>" /><input type="submit" value="Set" />
         </form>
         <P> 
-          <?
+          <?php
 include ("bottom.php");
 ?>	
 	 </TD></TR></TBODY></TABLE>
 </BODY></HTML>
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

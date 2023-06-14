@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -104,10 +104,10 @@ class BattleLog extends BaseClass {
 	// Static
 
 	public static function
-	getAllAttacks() {
+	getAllAttacks() { global $db;
 		$ret = array();
-		$q = mysql_query("SELECT * FROM BattleLog ORDER BY time ASC") or die(mysql_error());
-		while ($log = mysql_fetch_object($q, 'BattleLog')) {
+		$q = mysqli_query($db, "SELECT * FROM BattleLog ORDER BY time ASC") or die(mysqli_error($db));
+		while ($log = mysqli_fetch_object($q, 'BattleLog')) {
 			$ret[] = $log;
 		}
 
@@ -116,7 +116,7 @@ class BattleLog extends BaseClass {
 
 	public static function
 	getDefenseLogs($userId, $page = NULL) {
-		global $conf;
+		global $conf, $db;
 
 		$ret = array();
 		
@@ -129,8 +129,8 @@ class BattleLog extends BaseClass {
 
 
 			
-		$q = mysql_query("SELECT * FROM BattleLog WHERE targetId = $userId ORDER BY time DESC $pageSQL") or die(mysql_error());
-		while ($log = mysql_fetch_object($q, 'BattleLog')) {
+		$q = mysqli_query($db, "SELECT * FROM BattleLog WHERE targetId = $userId ORDER BY time DESC $pageSQL") or die(mysqli_error($db));
+		while ($log = mysqli_fetch_object($q, 'BattleLog')) {
 			$ret[] = $log;
 		}
 
@@ -138,15 +138,15 @@ class BattleLog extends BaseClass {
 	}
 
 	public static function
-	getDefenseLogsCount($userId) {
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM BattleLog WHERE targetId = $userId") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+	getDefenseLogsCount($userId) { global $db;
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM BattleLog WHERE targetId = $userId") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 
 	public static function
 	getAttackLogs($userId, $page = NULL) {
-		global $conf;
+		global $conf, $db;
 
 		$ret = array();
 		
@@ -159,8 +159,8 @@ class BattleLog extends BaseClass {
 
 
 			
-		$q = mysql_query("SELECT * FROM BattleLog WHERE attackerId = $userId ORDER BY time DESC $pageSQL") or die(mysql_error());
-		while ($log = mysql_fetch_object($q, 'BattleLog')) {
+		$q = mysqli_query($db, "SELECT * FROM BattleLog WHERE attackerId = $userId ORDER BY time DESC $pageSQL") or die(mysqli_error($db));
+		while ($log = mysqli_fetch_object($q, 'BattleLog')) {
 			$ret[] = $log;
 		}
 
@@ -168,38 +168,38 @@ class BattleLog extends BaseClass {
 	}
 
 	public static function
-	getAttackLogsCount($userId) {
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM BattleLog WHERE attackerId = $userId") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+	getAttackLogsCount($userId) { global $db;
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM BattleLog WHERE attackerId = $userId") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 
 	public static function
-	getDefenseLogsOfUserSinceTimeCount($userId, $time) {
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM BattleLog WHERE targetId = $userId and time > $time") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+	getDefenseLogsOfUserSinceTimeCount($userId, $time) { global $db;
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM BattleLog WHERE targetId = $userId and time > $time") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 
 	public static function
-	getAttackLogsOfUserSinceTimeCount($userId, $time) {
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM BattleLog WHERE attackerId = $userId and time > $time") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+	getAttackLogsOfUserSinceTimeCount($userId, $time) { global $db;
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM BattleLog WHERE attackerId = $userId and time > $time") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 
 	public static function
-	getAttackLogsBetweenUsersSinceTimeCount($attackerId, $defenderId, $time) {
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM BattleLog WHERE attackerId = $attackerId and targetId = $defenderId and time > $time") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+	getAttackLogsBetweenUsersSinceTimeCount($attackerId, $defenderId, $time) { global $db;
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM BattleLog WHERE attackerId = $attackerId and targetId = $defenderId and time > $time") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 
 	public static function
-	getLogsSinceTime($time) {
+	getLogsSinceTime($time) { global $db;
 		$ret = array();
-		$q = mysql_query("SELECT * FROM BattleLog WHERE time > $time ORDER BY time ASC LIMIT 10") or die(mysql_error());
-		while ($log = mysql_fetch_object($q, 'BattleLog')) {
+		$q = mysqli_query($db, "SELECT * FROM BattleLog WHERE time > $time ORDER BY time ASC LIMIT 10") or die(mysqli_error($db));
+		while ($log = mysqli_fetch_object($q, 'BattleLog')) {
 			$ret[] = $log;
 		}
 

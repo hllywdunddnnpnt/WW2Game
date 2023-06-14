@@ -26,7 +26,7 @@
 			User Info {<a href="report-user.php?uid=<?= $this->target->id ?>">Report User</a>}
 		</div>
 		<div class="large">
-			<?
+			<?php
 				$tag = '';
 				if ($this->target->alliance) {
 					$tag = '&nbsp;' . $this->target->getAlliance()->getTag();
@@ -36,14 +36,14 @@
 				<label>Username</label>
 				<span><?= $this->target->getNameRecruit() . $tag ?></span>
 			</div>
-			<? if (Privacy::isAdmin()) { ?>
+			<?php if (Privacy::isAdmin()) { ?>
 				<div class="line">
 					<span>
 						<a href="admin-stats.php?uid=<?= $this->target->id ?>">Stats</a>
 						(<?= $this->target->currentIP ?>)
 					</span>
 				</div>
-			<? } ?>
+			<?php } ?>
 			<div class="line">
 				<span colspan="2" style="text-align:center;margin-left:0;">
 					<a href="support.php?uid=<?= $this->target->id ?>" title="Buy Supporter Status for <?= $this->target->getNameHTML() ?>">
@@ -54,12 +54,12 @@
 			<div class="line">
 				<label>Commander</label>
 				<span>
-					<? if($this->target->commander) { ?>
+					<?php if($this->target->commander) { ?>
 						<?= $this->target->getCommander()->getNameLink() ?>
-					<? }
+					<?php }
 						else { ?>
 						None
-					<? } ?>
+					<?php } ?>
 				</span>
 			</div>
 			<div class="line">
@@ -82,9 +82,9 @@
 				<label>Gold</label>
 				<span><?= ( $user->canSpyOn($this->target) ? numecho2($this->target->gold) : '?????' ) ?></span>
 			</div>
-			<? if ($user->id) { ?>
-				<? if ($this->target->id != $user->id) { ?>
-					<? if ($this->target->area == $user->area and IP::canAttack($user, $this->target)) { ?>
+			<?php if ($user->id) { ?>
+				<?php if ($this->target->id != $user->id) { ?>
+					<?php if ($this->target->area == $user->area and IP::canAttack($user, $this->target)) { ?>
 						<div class="line">
 							<label>Spy</label>
 							<form action="spy.php" method="post" class="right-section">
@@ -98,16 +98,16 @@
 								<input type="hidden" name="id" value="<?= $this->target->id ?>" />
 						
 								<input type="hidden" name="uid" value="<?= $this->target->id ?>" />
-								<? if (!$user->getSupport('theft-calc')) { ?>
+								<?php if (!$user->getSupport('theft-calc')) { ?>
 									<label for="spies">Spies:</label>
 									<input id="theft-spies" type="text" name="spies" value="" style="margin-bottom:5px;"/>
 									<br />
-								<? } ?>
+								<?php } ?>
 								<input type="submit" name="saweapons" value="Attack Weapons" /> |
 								<input type="submit" name="daweapons" value="Defense Weapons" /> |
-								<? if ($user->nation != 1 and $user->nation != 3) { ?>
+								<?php if ($user->nation != 1 and $user->nation != 3) { ?>
 									<input type="submit" name="gold" value="Gold" />
-								<? } ?>
+								<?php } ?>
 							</form>
 						</div>
 						<div class="line">
@@ -118,7 +118,7 @@
 								<input type="submit" name="raid" value="6 Turn Raid!" />
 							</form>
 						</div>
-					<? } ?>
+					<?php } ?>
 					<div class="line">
 						<label>&nbsp;</label>
 						<form action="writemail.php" method="post" class="right-section">
@@ -126,32 +126,32 @@
 							<input type="submit" name="message" value="Send a Message!" />
 						</form>
 					</div>
-				<? } ?>
+				<?php } ?>
 
 				<div class="line">
 					<label>&nbsp;</label>
-					<? if ($this->target->numofficers < $this->target->maxofficers) { ?>
-						<? if ($user->commander != $this->target->id) { ?>
+					<?php if ($this->target->numofficers < $this->target->maxofficers) { ?>
+						<?php if ($user->commander != $this->target->id) { ?>
 							<form method="post" class="right-section">
 								<input type="hidden" name="uid" value="<?= $this->target->id ?>" />
 								<input type="submit" name="mkcommander" value="Make this user my commander!" />
 							</form>
-						<? }
+						<?php }
 							else { ?>
 							<span>[ This is your commander ]</span>
-						<? } ?>
-					<? }
+						<?php } ?>
+					<?php }
 						else { ?>
 						<span>[ This user has enough officers ]</span>
-					<? } ?>
+					<?php } ?>
 				</div>
 				
-			<? } ?>
+			<?php } ?>
 			<div class="clear flat"></div>
 		</div>
 	</div>
 
-	<?
+	<?php
 		$tmp = $user;
 		$this->offargs = 'uid=' . $this->target->id;
 		$this->user = $this->target;

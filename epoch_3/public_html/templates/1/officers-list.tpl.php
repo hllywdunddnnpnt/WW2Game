@@ -29,15 +29,15 @@
 			<th>Army</th>
 			<th>Area</th>
 			<th>Rank</th>
-			<? $col1 = 3; $col2 = 1; ?>
-			<? if (me($user->id)) { // $user might be the person we're looking at ?>
-				<? $col1 = 6; $col2 = 4; ?>
+			<?php $col1 = 3; $col2 = 1; ?>
+			<?php if (me($user->id)) { // $user might be the person we're looking at ?>
+				<?php $col1 = 6; $col2 = 4; ?>
 				<th>Unit Production</td>
 				<th>Last Active</th>
 				<th>Kick/Accept</th>
-			<? } ?>
+			<?php } ?>
 		</tr>
-		<?
+		<?php
 			$count = $user->getOfficersCount();
 			$page = intval($_GET['officer-list-page']);
 			$page = $page ? $page : 1;
@@ -52,8 +52,8 @@
 			}
 		?>
 
-		<? if ($count > 0) { ?>
-			<? $officers = $user->getOfficers(max($page, 1));
+		<?php if ($count > 0) { ?>
+			<?php $officers = $user->getOfficers(max($page, 1));
 			foreach ($officers as $officer) { ?>
 				<tr>
 					<td>
@@ -62,31 +62,31 @@
 					<td><?= numecho($officer->getTFF())     ?></td>
 					<td><?= $officer->getAreaNameShort()    ?></td>
 					<td><?= numecho($officer->rank)         ?></td>
-					<? if (me($user->id)) { ?>
+					<?php if (me($user->id)) { ?>
 						<td><?= numecho($officer->up) ?></td>
 						<td><?= date('G:s:i M jS', $officer->lastturntime)  ?></td>
 						<td>
-							<? if ($officer->accepted) { ?>
+							<?php if ($officer->accepted) { ?>
 								<a href="base.php?kick-officer=<?= $officer->id ?>">Kick</a>
-							<? }
+							<?php }
 								else { ?>
 								<a href="base.php?accept-officer=<?= $officer->id ?>">Accept</a>
-							<?} ?>
+							<?php } ?>
 						</td>
-					<? } ?>
+					<?php } ?>
 				</tr>
-			<? } ?>
-		<? }
+			<?php } ?>
+		<?php }
 			else { ?>
 			<tr><td colspan="<?= $col1 ?>">No Officers</td></tr>
-		<?} ?>
+		<?php } ?>
 		
 
 		<tr>
 			<td>
-				<? if ($prev > 0) { ?>
+				<?php if ($prev > 0) { ?>
 					<a href="?officer-list-page=<?= $prev ?>&<?= $this->offargs ?>">&lt;&lt; prev</a>
-				<? }
+				<?php }
 					else {
 						echo '&nbsp;';
 					}
@@ -96,9 +96,9 @@
 				<?= numecho($count); ?> / <?= numecho($user->maxofficers) ?> officers | page <?= $page ?> of <?= $totalPages ?>
 			</td>
 			<td>
-				<? if ($next > 0) { ?>
+				<?php if ($next > 0) { ?>
 					<a href="?officer-list-page=<?= $next ?>&<?= $this->offargs ?>">next &gt;&gt;</a>
-				<? }
+				<?php }
 					else {
 						echo '&nbsp;';
 					}

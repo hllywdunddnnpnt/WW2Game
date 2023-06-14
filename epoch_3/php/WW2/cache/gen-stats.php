@@ -1,4 +1,4 @@
-<?
+<?php
 $conf['online-now'       ] = 12;
 $conf['online-today'     ] = 78;
 $conf['attacks-today'    ] = 1425;

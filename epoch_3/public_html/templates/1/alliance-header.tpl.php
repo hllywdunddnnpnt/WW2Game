@@ -19,15 +19,15 @@
 
 -->
 			<span class="no-hl">(
-				<? if ($user->alliance) { ?>
+				<?php if ($user->alliance) { ?>
 				<a href="alliance-home.php">Home</a>
 				|| <a href="alliance-home.php?leave-alliance=yes">Leave</a>
-				<? } 
+				<?php } 
 				else { ?>
 					|| <a href="alliance-create.php">Create</a>
-				<? }?>
-				<? if ($user->alliance and $this->alliance and $this->alliance->isLeader($user)) { ?>
+				<?php }?>
+				<?php if ($user->alliance and $this->alliance and $this->alliance->isLeader($user)) { ?>
 					|| <a href="alliance-edit.php">Edit</a>
-				<? } ?>
+				<?php } ?>
 				||	<a href="alliance-list.php">List</a>
 			)</span>

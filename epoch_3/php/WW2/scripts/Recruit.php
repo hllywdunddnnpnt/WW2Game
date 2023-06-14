@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -33,9 +33,9 @@ class Recruit extends BaseClass {
 	queryRecentCount($uid, $IP) {
 		global $conf;
 		$t = time() - $conf['recruit-seconds'];
-		$IP = mysql_real_escape_string($IP);
-		$q = mysql_query("SELECT count(*) as retCode FROM Recruit WHERE uId = $uid and IP = \"$IP\" and time > $t") or die(mysql_error());
-		$o = mysql_fetch_object($q);
+		$IP = mysqli_real_escape_string($db, $IP);
+		$q = mysqli_query($db, "SELECT count(*) as retCode FROM Recruit WHERE uId = $uid and IP = \"$IP\" and time > $t") or die(mysqli_error($db));
+		$o = mysqli_fetch_object($q);
 		
 		if ($o->retCode) {
 			return $o->retCode;

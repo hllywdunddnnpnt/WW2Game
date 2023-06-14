@@ -18,15 +18,15 @@ email. Please note that we check emails less frequently, and may not reply for
 a few days.</p>
 <p>
 Here is your information:<br>
-<? if ($this->username) { ?>
+<?php if ($this->username) { ?>
 Username: <?= $this->username ?><br>
-<? } ?>
-<? if ($this->email) { ?>
+<?php } ?>
+<?php if ($this->email) { ?>
 Email: <?= $this->email ?><br>
-<? } ?>
-<? if ($this->password) { ?>
+<?php } ?>
+<?php if ($this->password) { ?>
 Password: <?= $this->password ?><br>
-<? } ?>
+<?php } ?>
 <br><br>
 Alternately, go to 
 <a href="http://www.ww2game.net/loginverify.php?id=<?= $this->user->id ?>&key=<?= $this->key ?>">

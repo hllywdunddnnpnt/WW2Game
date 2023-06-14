@@ -22,7 +22,7 @@
 <div id="allianceedit-container">
 	<div class="panel">
 		<div class="panel-title">
-			Edit <? $this->load('alliance-header') ?>
+			Edit <?php $this->load('alliance-header') ?>
 		</div>
 		<form class="large" method="post">
 			<div class="line">

@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -29,11 +29,11 @@ class Ignore extends BaseClass {
 
 	//statics
 	public static function
-	getByPair(User $u, User $target) {
+	getByPair(User $u, User $target) { global $db;
 		$ret = null;
 		
-		$q = mysql_query("SELECT * FROM `Ignore` WHERE userId = $u->id and targetId = $target->id") or die(mysql_error());
-		$r = mysql_fetch_object($q, 'Ignore');
+		$q = mysqli_query($db, "SELECT * FROM `Ignore` WHERE userId = $u->id and targetId = $target->id") or die(mysqli_error($db));
+		$r = mysqli_fetch_object($q, 'Ignore');
 		if ($r) {
 			$ret = $r;
 		}
@@ -42,11 +42,11 @@ class Ignore extends BaseClass {
 	}
 	
 	public static function
-	isBlocked(User $u, User $target) {
+	isBlocked(User $u, User $target) { global $db;
 		$ret = false;
 		
-		$q = mysql_query("SELECT count(*) as retCode FROM `Ignore` WHERE userId = $u->id and targetId = $target->id") or die(mysql_error());
-		$r = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT count(*) as retCode FROM `Ignore` WHERE userId = $u->id and targetId = $target->id") or die(mysqli_error($db));
+		$r = mysqli_fetch_object($q);
 		if ($r->retCode > 0) {
 			$ret = true;
 		}	
@@ -56,11 +56,11 @@ class Ignore extends BaseClass {
 	
 
 	public static function
-	getAll(User $u) {
+	getAll(User $u) { global $db;
 		$ret = array();
 		
-		$q = mysql_query("SELECT * FROM `Ignore` WHERE userId = $u->id ORDER BY id DESC") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'Ignore')) {
+		$q = mysqli_query($db, "SELECT * FROM `Ignore` WHERE userId = $u->id ORDER BY id DESC") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'Ignore')) {
 			$ret[] = $r;
 		}
 		
@@ -68,11 +68,11 @@ class Ignore extends BaseClass {
 	}
 	
 	public static function
-	getUserIdsWhoBlockedUser(User $u) {
+	getUserIdsWhoBlockedUser(User $u) { global $db;
 		$ret = array();
 		
-		$q = mysql_query("SELECT userId FROM `Ignore` WHERE targetId = $u->id ORDER BY id DESC") or die(mysql_error());
-		while ($r = mysql_fetch_object($q)) {
+		$q = mysqli_query($db, "SELECT userId FROM `Ignore` WHERE targetId = $u->id ORDER BY id DESC") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q)) {
 			$ret[$r->userId] = true;
 		}
 		
@@ -80,11 +80,11 @@ class Ignore extends BaseClass {
 	}
 	
 	public static function
-	removeIds(User $u, array $ids) {
+	removeIds(User $u, array $ids) { global $db;
 		if (!count($ids)) return;
 		
 		$ids = implode(',', $ids);
-		mysql_query("DELETE FROM `Ignore` WHERE userId = $u->id and id in ($ids)") or die(mysql_error());
+		mysqli_query($db, "DELETE FROM `Ignore` WHERE userId = $u->id and id in ($ids)") or die(mysqli_error($db));
 	}
 }
 ?>

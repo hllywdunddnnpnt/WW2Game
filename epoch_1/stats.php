@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 if (!$cgi['id']) {
 	header('Location: battlefeild.php');
@@ -10,8 +10,8 @@ if ($cgi['mkcomander'] and intval($cgi['mkcomander'])) {
 $attacker = $user;
 $def = getUserDetails($cgi['id']);
 if ($user->alliance > 0 and $user->accepted > 0) {
-	$tagq = mysql_query("SELECT tag FROM alliances WHERE id={$def->alliance}") or die(mysql_error());
-	$t = mysql_fetch_array($tagq, MYSQL_ASSOC);
+	$tagq = mysqli_query($db, "SELECT tag FROM alliances WHERE id={$def->alliance}") or die(mysqli_error($db));
+	$t = mysqli_fetch_array($tagq, mysqli_ASSOC);
 	$tag = $t['tag'];
 }
 if ($def->active != 1) {
@@ -20,8 +20,8 @@ if ($def->active != 1) {
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: 
-<? echo $def->userName; ?>'s Stats</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: 
+<?php echo $def->userName; ?>'s Stats</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <LINK href="css/common.css" type=text/css rel=stylesheet>
 
@@ -39,7 +39,7 @@ if ($def->active != 1) {
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 
@@ -47,13 +47,13 @@ include "top.php";
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 </TD>
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
     vAlign=top align=left> <BR>
-        <?
+        <?php
 //include "islogined.php";
 $defR = getUserRanks($cgi['id']);
 if ($strErr) {
@@ -80,7 +80,7 @@ if ($strErr) {
                     <TR> 
                       <TD><B>Commander:</B></TD>
                       <TD>
-                        <? if ($def->commander != 0) {
+                        <?php if ($def->commander != 0) {
 	$defC = getUserDetails($def->commander, 'userName');
 	echo "<a href='stats.php?id=" . $def->commander . "'>" . $defC->userName . "</a>";
 } else {
@@ -98,19 +98,19 @@ if ($strErr) {
                     <TR> 
                       <TD><B>Rank:</B></TD>
                       <TD>
-                        <? numecho($defR->rank) ?>
+                        <?php numecho($defR->rank) ?>
                       </TD>
                     </TR>                    
                     <TR> 
                       <TD><B>Army Size:</B></TD>
                       <TD>
-                        <? numecho(getTotalFightingForce($def)) ?>
+                        <?php numecho(getTotalFightingForce($def)) ?>
                       </TD>
                     </TR>
                     <TR> 
                       <TD><B>Treasury:</B></TD>
                       <TD>
-                        <? if (($_SESSION['isLogined'] != $def->ID) AND ((getCovertAction($def) * (rand(90, 110) / 100)) > getCovertAction($user) or !$_SESSION['isLogined'])) {
+                        <?php if (($_SESSION['isLogined'] != $def->ID) AND ((getCovertAction($def) * (rand(90, 110) / 100)) > getCovertAction($user) or !$_SESSION['isLogined'])) {
 	echo "??????";
 } else {
 	numecho($def->gold);
@@ -120,7 +120,7 @@ if ($strErr) {
                     <TR> 
                       <TD><B>Fortifications:</B></TD>
                       <TD>
-                        <? echo $conf["race"][$def->race]["fortification"][$def->dalevel]["name"]; ?>
+                        <?php echo $conf["race"][$def->race]["fortification"][$def->dalevel]["name"]; ?>
                       </TD>
                     </TR>
 			
@@ -133,7 +133,7 @@ if ($strErr) {
                           <INPUT type=hidden value=<?=$cgi['id'] ?> name=to>
                           <INPUT name="submit" type=submit value="Send Message">
                         </FORM></TD>
-                     <? if (!$_SESSION['isLogined'] OR $attacker->commander == $cgi['id'] OR $def->commander == $attacker->ID) {
+                     <?php if (!$_SESSION['isLogined'] OR $attacker->commander == $cgi['id'] OR $def->commander == $attacker->ID) {
 } else { ?>
                      
                      	 
@@ -151,14 +151,14 @@ if ($strErr) {
                       <TD align=left width="33%">
 						<FORM action=attack.php method=get>
                           <INPUT type=hidden value=<?=$cgi['id'] ?> name=id>
-                          <? if ($attacker->commander == $cgi['id']) {
+                          <?php if ($attacker->commander == $cgi['id']) {
 		echo "[This is your commander]";
 	} elseif ($def->commander == $attacker->ID) {
 		echo "[This is your officer]";
 	} else {
 ?>
                           <INPUT name="submit" type=submit value=Attack>
-                          <?
+                          <?php
 	}
 ?>
                         </FORM>		
@@ -166,7 +166,7 @@ if ($strErr) {
                     </TR>
 			 <tr>
 		    	<TD colspan="3" align="center">
-			<?
+			<?php
 	$officersC = getOfficersCount($cgi['id']);
 	if ($attacker->commander == $cgi['id']) {
 		echo "[This is your commander]";
@@ -179,10 +179,10 @@ if ($strErr) {
 				   <INPUT type=hidden    value=<?=$cgi['id'] ?> name=id>
                                      <input type="submit" value="Make this user my commander!" />
 		    		</form>
-			<?
+			<?php
 	}
 ?>
-			</TD><?
+			</TD><?php
 } ?>
 		</tr>
                   </TBODY>
@@ -201,9 +201,9 @@ if ($strErr) {
                       <TH class=subh align=left>Army</TH>
                       <TH class=subh align=right>Rank</TH>
                     </TR>
-<?
-$officersCq = mysql_query("SELECT count(*) FROM UserDetails WHERE commander={$def->ID}") or die(mysql_error());
-$a = mysql_fetch_array($officersCq);
+<?php
+$officersCq = mysqli_query($db, "SELECT count(*) FROM UserDetails WHERE commander={$def->ID}") or die(mysqli_error($db));
+$a = mysqli_fetch_array($officersCq);
 $officersC = $a[0];
 if ($officersC) {
 	$pCount = $officersC / $conf["users_per_page"];
@@ -217,24 +217,24 @@ if ($officersC) {
 ?>					
                     <tr>
         <td><a href="stats.php?id=<?=$officers[$i]->userID ?>"><?=$officers[$i]->userName ?></a></td>
-		<td align="right"><? numecho(getTotalFightingForce($officers[$i])); ?></td>
+		<td align="right"><?php numecho(getTotalFightingForce($officers[$i])); ?></td>
 		              <td align="left"> 
                         <?=$conf["race"][$officers[$i]->race]["name"] ?>
                       </td>
-        <td align="right"><? numecho($officers[$i]->rank); ?></td>
+        <td align="right"><?php numecho($officers[$i]->rank); ?></td>
     </tr>
-<?
+<?php
 	}
 } else {
 ?>
 					<TR> 
                       <TD align=middle colSpan=4>No Officers</TD>
                     </TR>
-<?
+<?php
 } ?>
                     <TR> 
                       <TD>
-                        <?
+                        <?php
 if ($cgi['page'] > 1) {
 	echo "<A href='stats.php?page=" . ($cgi['page'] - 1) . "&id=" . $cgi['id'] . "'>&lt;&lt; Prev</A>";
 } else {
@@ -243,14 +243,14 @@ if ($cgi['page'] > 1) {
 ?>
                       </TD>
                       <TD align=middle colSpan=2> 
-                        <? numecho($officersC) ?>
+                        <?php numecho($officersC) ?>
                         officers total | page 
                         <?=$cgi['page'] ?>
                         of 
-                        <? numecho($pCountF); ?>
+                        <?php numecho($pCountF); ?>
                       </TD>
                       <TD>
-                        <?
+                        <?php
 if ($cgi['page'] < $pCountF) {
 	echo '<A href="stats.php?page=' . ($cgi['page'] + 1) . '&id=' . $cgi["id"] . '">Next &gt;&gt;</A>';
 } else {
@@ -267,10 +267,10 @@ if ($cgi['page'] < $pCountF) {
           </TBODY>
         </TABLE> 
         <P>
-      <?
+      <?php
 include ("bottom.php");
 ?>	
 	 </TD></TR></TBODY></TABLE>
 </BODY></HTML>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

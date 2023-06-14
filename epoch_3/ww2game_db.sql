@@ -32,6 +32,93 @@
 -- Database: `ww2game_db`
 --
 
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `User`
+--
+
+CREATE TABLE IF NOT EXISTS `User` (
+  `id` int(10) NOT NULL auto_increment,
+  `username` varchar(25) NOT NULL,
+  `nation` tinyint(4) NOT NULL default '0',
+  `email` varchar(100) NOT NULL,
+  `password` varchar(32) NOT NULL default '',
+  `key` varchar(32) NOT NULL,
+  `gclick` tinyint(2) NOT NULL default '15',
+  `commander` int(10) NOT NULL default '0',
+  `active` int(1) NOT NULL default '0',
+  `area` int(11) NOT NULL,
+  `dalevel` int(10) NOT NULL default '0',
+  `salevel` int(10) NOT NULL default '0',
+  `gold` bigint(15) NOT NULL default '0',
+  `bank` bigint(10) unsigned NOT NULL default '0',
+  `primary` tinyint(1) NOT NULL,
+  `attackturns` bigint(15) NOT NULL default '0',
+  `up` bigint(15) unsigned NOT NULL default '0',
+  `calevel` int(10) unsigned NOT NULL default '0',
+  `ralevel` int(10) unsigned NOT NULL default '0',
+  `maxofficers` smallint(2) NOT NULL default '5',
+  `sasoldiers` bigint(15) NOT NULL default '0',
+  `samercs` bigint(15) NOT NULL default '0',
+  `dasoldiers` bigint(15) NOT NULL default '0',
+  `damercs` bigint(15) NOT NULL default '0',
+  `uu` bigint(15) unsigned NOT NULL default '0',
+  `spies` bigint(15) unsigned NOT NULL default '0',
+  `lastturntime` int(10) unsigned NOT NULL default '0',
+  `vacation` int(11) NOT NULL,
+  `accepted` tinyint(1) NOT NULL default '0',
+  `commandergold` bigint(15) NOT NULL default '0',
+  `gameSkill` int(10) NOT NULL default '0',
+  `specialforces` bigint(15) unsigned NOT NULL default '0',
+  `bankper` int(10) NOT NULL default '10',
+  `SA` bigint(15) unsigned NOT NULL default '0',
+  `DA` bigint(15) unsigned NOT NULL default '0',
+  `CA` bigint(15) unsigned NOT NULL default '0',
+  `RA` bigint(15) unsigned NOT NULL default '0',
+  `rank` int(10) NOT NULL,
+  `sarank` int(10) NOT NULL,
+  `darank` int(10) NOT NULL,
+  `carank` int(10) NOT NULL,
+  `rarank` int(10) NOT NULL,
+  `alliance` int(5) NOT NULL default '0',
+  `hhlevel` int(10) NOT NULL default '0',
+  `officerup` float NOT NULL default '0',
+  `changenick` tinyint(4) NOT NULL default '0',
+  `admin` int(10) NOT NULL default '0',
+  `clicks` int(10) NOT NULL default '0',
+  `supporter` smallint(5) NOT NULL default '0' COMMENT 'Number of dollars',
+  `reason` varchar(255) NOT NULL,
+  `clickall` tinyint(1) NOT NULL default '0',
+  `bankimg` tinyint(1) NOT NULL default '1',
+  `cheatcount` int(10) NOT NULL default '0',
+  `status` varchar(50) NOT NULL,
+  `numofficers` int(10) NOT NULL default '0',
+  `irc` int(10) NOT NULL default '0',
+  `ircstatus` varchar(40) NOT NULL default '',
+  `ircnick` varchar(50) NOT NULL,
+  `currentIP` varchar(30) default NULL,
+  `unreadMsg` int(10) NOT NULL,
+  `msgCount` int(10) NOT NULL,
+  `aaccepted` tinyint(1) NOT NULL default '0',
+  `referrer` int(10) NOT NULL default '0',
+  `ircpass` varchar(30) NOT NULL,
+  `minattack` bigint(15) NOT NULL,
+  `htmlColour` varchar(6) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `commander` (`commander`),
+  KEY `alliance` (`alliance`),
+  KEY `currentIP` (`currentIP`),
+  KEY `referrer` (`referrer`),
+  KEY `rank` (`rank`),
+  KEY `area` (`area`),
+  KEY `key` (`key`)
+) ENGINE=MyISAM  PACK_KEYS=0  ;
+
+-- --------------------------------------------------------
+
 -- --------------------------------------------------------
 
 --
@@ -343,6 +430,58 @@ CREATE TABLE IF NOT EXISTS `SpyLog` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Transaction`
+--
+
+CREATE TABLE IF NOT EXISTS `Transaction` (
+  `id` int(10) NOT NULL auto_increment,
+  `time` int(10) NOT NULL,
+  `amount` float NOT NULL,
+  `userId` int(10) NOT NULL,
+  `forId` int(10) NOT NULL,
+  `isAlliance` tinyint(1) NOT NULL,
+  `token` varchar(50) NOT NULL,
+  `timestamp` varchar(50) NOT NULL,
+  `correlationId` varchar(50) NOT NULL,
+  `ack` varchar(25) NOT NULL,
+  `version` varchar(25) NOT NULL,
+  `build` varchar(25) NOT NULL,
+  `part1Success` tinyint(1) NOT NULL,
+  `part4Success` tinyint(1) NOT NULL,
+  `payerId` varchar(25) NOT NULL,
+  `transactionId` varchar(50) NOT NULL,
+  `transactionType` varchar(50) NOT NULL,
+  `paymentType` varchar(50) NOT NULL,
+  `orderTime` varchar(50) NOT NULL,
+  `fee` float NOT NULL,
+  `tax` float NOT NULL,
+  `currencyCode` varchar(5) NOT NULL,
+  `paymentStatus` varchar(50) NOT NULL,
+  `pendingReason` varchar(255) NOT NULL,
+  `reasonCode` varchar(50) NOT NULL,
+  `errorInfo` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `token` (`token`)
+) ENGINE=MyISAM ;
+
+--
+-- Table structure for table `Weapon`
+--
+
+CREATE TABLE IF NOT EXISTS `Weapon` (
+  `id` int(11) NOT NULL auto_increment,
+  `weaponId` int(11) NOT NULL default '0',
+  `weaponStrength` int(11) NOT NULL default '0',
+  `weaponCount` int(11) NOT NULL default '0',
+  `isAttack` int(11) NOT NULL default '0',
+  `userId` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `userID` (`userId`)
+) ENGINE=MyISAM  PACK_KEYS=0 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `TFF`
 --
 
@@ -380,140 +519,3 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`ww2game`@`localhost` SQL SECURITY DEFINER VI
 		(`ww2game_db`.`User`.`active` = 1) 
 	order by 
 		((((((`ww2game_db`.`User`.`uu` + `ww2game_db`.`User`.`samercs`) + `ww2game_db`.`User`.`damercs`) + `ww2game_db`.`User`.`spies`) + `ww2game_db`.`User`.`specialforces`) + `ww2game_db`.`User`.`sasoldiers`) + `ww2game_db`.`User`.`dasoldiers`) desc;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Transaction`
---
-
-CREATE TABLE IF NOT EXISTS `Transaction` (
-  `id` int(10) NOT NULL auto_increment,
-  `time` int(10) NOT NULL,
-  `amount` float NOT NULL,
-  `userId` int(10) NOT NULL,
-  `forId` int(10) NOT NULL,
-  `isAlliance` tinyint(1) NOT NULL,
-  `token` varchar(50) NOT NULL,
-  `timestamp` varchar(50) NOT NULL,
-  `correlationId` varchar(50) NOT NULL,
-  `ack` varchar(25) NOT NULL,
-  `version` varchar(25) NOT NULL,
-  `build` varchar(25) NOT NULL,
-  `part1Success` tinyint(1) NOT NULL,
-  `part4Success` tinyint(1) NOT NULL,
-  `payerId` varchar(25) NOT NULL,
-  `transactionId` varchar(50) NOT NULL,
-  `transactionType` varchar(50) NOT NULL,
-  `paymentType` varchar(50) NOT NULL,
-  `orderTime` varchar(50) NOT NULL,
-  `fee` float NOT NULL,
-  `tax` float NOT NULL,
-  `currencyCode` varchar(5) NOT NULL,
-  `paymentStatus` varchar(50) NOT NULL,
-  `pendingReason` varchar(255) NOT NULL,
-  `reasonCode` varchar(50) NOT NULL,
-  `errorInfo` text NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `token` (`token`)
-) ENGINE=MyISAM ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `User`
---
-
-CREATE TABLE IF NOT EXISTS `User` (
-  `id` int(10) NOT NULL auto_increment,
-  `username` varchar(25) NOT NULL,
-  `nation` tinyint(4) NOT NULL default '0',
-  `email` varchar(100) NOT NULL,
-  `password` varchar(32) NOT NULL default '',
-  `key` varchar(32) NOT NULL,
-  `gclick` tinyint(2) NOT NULL default '15',
-  `commander` int(10) NOT NULL default '0',
-  `active` int(1) NOT NULL default '0',
-  `area` int(11) NOT NULL,
-  `dalevel` int(10) NOT NULL default '0',
-  `salevel` int(10) NOT NULL default '0',
-  `gold` bigint(15) NOT NULL default '0',
-  `bank` bigint(10) unsigned NOT NULL default '0',
-  `primary` tinyint(1) NOT NULL,
-  `attackturns` bigint(15) NOT NULL default '0',
-  `up` bigint(15) unsigned NOT NULL default '0',
-  `calevel` int(10) unsigned NOT NULL default '0',
-  `ralevel` int(10) unsigned NOT NULL default '0',
-  `maxofficers` smallint(2) NOT NULL default '5',
-  `sasoldiers` bigint(15) NOT NULL default '0',
-  `samercs` bigint(15) NOT NULL default '0',
-  `dasoldiers` bigint(15) NOT NULL default '0',
-  `damercs` bigint(15) NOT NULL default '0',
-  `uu` bigint(15) unsigned NOT NULL default '0',
-  `spies` bigint(15) unsigned NOT NULL default '0',
-  `lastturntime` int(10) unsigned NOT NULL default '0',
-  `vacation` int(11) NOT NULL,
-  `accepted` tinyint(1) NOT NULL default '0',
-  `commandergold` bigint(15) NOT NULL default '0',
-  `gameSkill` int(10) NOT NULL default '0',
-  `specialforces` bigint(15) unsigned NOT NULL default '0',
-  `bankper` int(10) NOT NULL default '10',
-  `SA` bigint(15) unsigned NOT NULL default '0',
-  `DA` bigint(15) unsigned NOT NULL default '0',
-  `CA` bigint(15) unsigned NOT NULL default '0',
-  `RA` bigint(15) unsigned NOT NULL default '0',
-  `rank` int(10) NOT NULL,
-  `sarank` int(10) NOT NULL,
-  `darank` int(10) NOT NULL,
-  `carank` int(10) NOT NULL,
-  `rarank` int(10) NOT NULL,
-  `alliance` int(5) NOT NULL default '0',
-  `hhlevel` int(10) NOT NULL default '0',
-  `officerup` float NOT NULL default '0',
-  `changenick` tinyint(4) NOT NULL default '0',
-  `admin` int(10) NOT NULL default '0',
-  `clicks` int(10) NOT NULL default '0',
-  `supporter` smallint(5) NOT NULL default '0' COMMENT 'Number of dollars',
-  `reason` varchar(255) NOT NULL,
-  `clickall` tinyint(1) NOT NULL default '0',
-  `bankimg` tinyint(1) NOT NULL default '1',
-  `cheatcount` int(10) NOT NULL default '0',
-  `status` varchar(50) NOT NULL,
-  `numofficers` int(10) NOT NULL default '0',
-  `irc` int(10) NOT NULL default '0',
-  `ircstatus` varchar(40) NOT NULL default '',
-  `ircnick` varchar(50) NOT NULL,
-  `currentIP` varchar(30) default NULL,
-  `unreadMsg` int(10) NOT NULL,
-  `msgCount` int(10) NOT NULL,
-  `aaccepted` tinyint(1) NOT NULL default '0',
-  `referrer` int(10) NOT NULL default '0',
-  `ircpass` varchar(30) NOT NULL,
-  `minattack` bigint(15) NOT NULL,
-  `htmlColour` varchar(6) NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `commander` (`commander`),
-  KEY `alliance` (`alliance`),
-  KEY `currentIP` (`currentIP`),
-  KEY `referrer` (`referrer`),
-  KEY `rank` (`rank`),
-  KEY `area` (`area`),
-  KEY `key` (`key`)
-) ENGINE=MyISAM  PACK_KEYS=0  ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Weapon`
---
-
-CREATE TABLE IF NOT EXISTS `Weapon` (
-  `id` int(11) NOT NULL auto_increment,
-  `weaponId` int(11) NOT NULL default '0',
-  `weaponStrength` int(11) NOT NULL default '0',
-  `weaponCount` int(11) NOT NULL default '0',
-  `isAttack` int(11) NOT NULL default '0',
-  `userId` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `userID` (`userId`)
-) ENGINE=MyISAM  PACK_KEYS=0 ;

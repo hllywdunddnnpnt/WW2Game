@@ -1,4 +1,4 @@
-<?
+<?php
 /** DONE: progressive price increase done
  TODO: limit bonuses to 50% done, to 10%
  TODO: show prices on alliance_upgrade page
@@ -12,8 +12,8 @@ function echoURL($url, $name) {
 }
 //if($user->ID!=1){ header("Location: base.php");exit; }
 $alliances = array();
-$q = mysql_query("SELECT * FROM alliances ORDER BY ID ASC") or die(mysql_error());
-while ($a = mysql_fetch_object($q)) {
+$q = mysqli_query($db, "SELECT * FROM alliances ORDER BY ID ASC") or die(mysqli_error($db));
+while ($a = mysqli_fetch_object($q)) {
 	$alliances[$a->ID] = $a;
 	if (($a->leaderid1 == $user->ID OR $a->leaderid2 == $user->ID OR $a->leaderid3 == $user->ID) AND $a->ID != 0 AND !defined("IS_LEADER")) {
 		define("IS_LEADER", $a->ID);
@@ -39,7 +39,7 @@ switch ($cgi['leader']) {
 				$amount = intval($cgi['gold-exp']);
 				if ($alliances[MEMBER]->gold >= $amount) {
 					$exc = ($amount / 10000000) * 3333; //1,000,000,000/333,300
-					mysql_query("UPDATE alliances SET gold=gold-$amount,exp=exp+$exc WHERE id=" . MEMBER) or die(mysql_error());
+					mysqli_query($db, "UPDATE alliances SET gold=gold-$amount,exp=exp+$exc WHERE id=" . MEMBER) or die(mysqli_error($db));
 					header("Location: alliance.php?strErr=Conversion successful");
 					exit;
 				} else {
@@ -50,7 +50,7 @@ switch ($cgi['leader']) {
 				$amount = intval($cgi['exp-gold']);
 				if ($alliances[MEMBER]->exp >= $amount) {
 					$exc = ($amount / 3333) * 10000000; //333,300/1,000,000,000
-					mysql_query("UPDATE alliances SET exp=exp-$amount,gold=gold+$exc WHERE id=" . MEMBER) or die(mysql_error());
+					mysqli_query($db, "UPDATE alliances SET exp=exp-$amount,gold=gold+$exc WHERE id=" . MEMBER) or die(mysqli_error($db));
 					header("Location: alliance.php?strErr=Conversion successful");
 					exit;
 				} else {
@@ -61,7 +61,7 @@ switch ($cgi['leader']) {
 				$amount = intval($cgi['ap-gold']);
 				if ($alliances[MEMBER]->ap >= $amount) {
 					$exc = $amount * 1000000000; //1,000,000,000/333,300
-					mysql_query("UPDATE alliances SET ap=ap-$amount,gold=gold+$exc,usedap=usedap+$amount WHERE id=" . MEMBER) or die(mysql_error());
+					mysqli_query($db, "UPDATE alliances SET ap=ap-$amount,gold=gold+$exc,usedap=usedap+$amount WHERE id=" . MEMBER) or die(mysqli_error($db));
 					header("Location: alliance.php?strErr=Conversion successful");
 					exit;
 				} else {
@@ -72,7 +72,7 @@ switch ($cgi['leader']) {
 				$amount = intval($cgi['ap-exp']);
 				if ($alliances[MEMBER]->ap >= $amount) {
 					$exc = $amount * 333300; //1,000,000,000/333,300
-					mysql_query("UPDATE alliances SET ap=ap-$amount,exp=exp+$exc,usedap=usedap+$amount WHERE id=" . MEMBER) or die(mysql_error());
+					mysqli_query($db, "UPDATE alliances SET ap=ap-$amount,exp=exp+$exc,usedap=usedap+$amount WHERE id=" . MEMBER) or die(mysqli_error($db));
 					header("Location: alliance.php?strErr=Conversion successful");
 					exit;
 				} else {
@@ -83,7 +83,7 @@ switch ($cgi['leader']) {
 				$amount = intval($cgi['d-ap']);
 				if ($alliances[MEMBER]->donated >= $amount) {
 					$exc = $amount * 2; //1,000,000,000/333,300
-					mysql_query("UPDATE alliances SET donated=donated-$amount,ap=ap+$exc,usedcash=usedcash+$amount WHERE id=" . MEMBER) or die(mysql_error());
+					mysqli_query($db, "UPDATE alliances SET donated=donated-$amount,ap=ap+$exc,usedcash=usedcash+$amount WHERE id=" . MEMBER) or die(mysqli_error($db));
 					header("Location: alliance.php?strErr=Conversion successful");
 					exit;
 				} else {
@@ -131,7 +131,7 @@ switch ($cgi['leader']) {
 						$pris = 10;
 					}
 					if ($alliances[MEMBER]->ap >= 10) {
-						mysql_query("UPDATE alliances SET $what=$what+$upam,$pay=$pay-10,usedap=usedap+10 WHERE id=" . MEMBER) or die(mysql_error());
+						mysqli_query($db, "UPDATE alliances SET $what=$what+$upam,$pay=$pay-10,usedap=usedap+10 WHERE id=" . MEMBER) or die(mysqli_error($db));
 						header('Location: alliance.php?strErr=Upgrade Successful1');
 						exit;
 					} else {
@@ -147,7 +147,7 @@ switch ($cgi['leader']) {
 						$pris = 10000000000;
 					}
 					if ($alliances[MEMBER]->gold >= 10000000000) {
-						mysql_query("UPDATE alliances SET $what=$what+$upam,$pay=$pay-10000000000 WHERE id=" . MEMBER) or die(mysql_error());
+						mysqli_query($db, "UPDATE alliances SET $what=$what+$upam,$pay=$pay-10000000000 WHERE id=" . MEMBER) or die(mysqli_error($db));
 						header('Location: alliance.php?strErr=Upgrade Successful');
 						exit;
 					} else {
@@ -166,7 +166,7 @@ switch ($cgi['leader']) {
 				$pay = 'exp';
 				$pris = 100000000 + (100000000 * ($alliances[MEMBER]->$what));
 				if ($alliances[MEMBER]->exp >= 100000000) {
-					mysql_query("UPDATE alliances SET $what=$what+0.005,$pay=$pay-100000000 WHERE id=" . MEMBER) or die(mysql_error());
+					mysqli_query($db, "UPDATE alliances SET $what=$what+0.005,$pay=$pay-100000000 WHERE id=" . MEMBER) or die(mysqli_error($db));
 					header('Location: alliance.php?strErr=Upgrade Successful');
 					exit;
 				} else {
@@ -178,7 +178,7 @@ switch ($cgi['leader']) {
 				$pay = 'ap';
 				$pris = 10 + (($alliances[MEMBER]->$what / 0.005));
 				if ($alliances[MEMBER]->ap >= 10) {
-					mysql_query("UPDATE alliances SET $what=$what+0.005,$pay=$pay-10,usedap=usedap+10 WHERE id=" . MEMBER) or die(mysql_error());
+					mysqli_query($db, "UPDATE alliances SET $what=$what+0.005,$pay=$pay-10,usedap=usedap+10 WHERE id=" . MEMBER) or die(mysqli_error($db));
 					header('Location: alliance.php?strErr=Upgrade Successful');
 					exit;
 				} else {
@@ -190,7 +190,7 @@ switch ($cgi['leader']) {
 				$pay = 'gold';
 				$pris = 500000000 + (500000000 * ($alliances[MEMBER]->$what));
 				if ($alliances[MEMBER]->gold >= 500000000) {
-					mysql_query("UPDATE alliances SET $what=$what+0.005,$pay=$pay-500000000 WHERE id=" . MEMBER) or die(mysql_error());
+					mysqli_query($db, "UPDATE alliances SET $what=$what+0.005,$pay=$pay-500000000 WHERE id=" . MEMBER) or die(mysqli_error($db));
 					header('Location: alliance.php?strErr=Upgrade Successful ');
 					exit;
 				} else {
@@ -203,8 +203,8 @@ switch ($cgi['leader']) {
 	case 'disband':
 		if (IS_LEADER == MEMBER) {
 			if ($cgi['sbm_Yes']) {
-				mysql_query("UPDATE UserDetails SET alliance=0,aaccepted=0 WHERE alliance=" . MEMBER) or die(mysql_error());
-				mysql_query("DELETE FROM alliances WHERE id=" . MEMBER) or die(mysql_error());
+				mysqli_query($db, "UPDATE UserDetails SET alliance=0,aaccepted=0 WHERE alliance=" . MEMBER) or die(mysqli_error($db));
+				mysqli_query($db, "DELETE FROM alliances WHERE id=" . MEMBER) or die(mysqli_error($db));
 				header("Location: alliance.php?strErr=Alliance disbanded");
 				exit;
 			} else {
@@ -217,20 +217,20 @@ switch ($cgi['leader']) {
 		}
 	break;
 	case 'edit':
-		$name = mysql_escape_string($cgi['alliance_name']);
-		$tag = mysql_escape_string($cgi['alliance_tag']);
-		$url = mysql_escape_string($cgi['alliance_url']);
-		$irc = mysql_escape_string($cgi['alliance_irc']);
+		$name = mysqli_escape_string($cgi['alliance_name']);
+		$tag = mysqli_escape_string($cgi['alliance_tag']);
+		$url = mysqli_escape_string($cgi['alliance_url']);
+		$irc = mysqli_escape_string($cgi['alliance_irc']);
 		$tax = floatval($cgi['alliance_tax'] / 100);
-		$msg = mysql_escape_string($cgi['alliance_message']);
+		$msg = mysqli_escape_string($cgi['alliance_message']);
 		if (strlen($name) <= 30 AND strlen($name) > 0 AND strlen($tag) <= 8 AND strlen($tag) > 0 AND strlen($irc) <= 10 AND strlen($msg) <= 500) {
 			if ($tax > 0.05) {
 				$tax = 0.05;
 			}
-			$q = mysql_query("SELECT count(*) FROM alliances WHERE (name LIKE \"%$name%\" OR tag LIKE \"%$tag%\" OR irc LIKE \"%$irc%\" OR url LIKE \"%$url%\") AND id!=" . MEMBER) or die(mysql_error() . '1');
-			$a = mysql_fetch_array($q);
+			$q = mysqli_query($db, "SELECT count(*) FROM alliances WHERE (name LIKE \"%$name%\" OR tag LIKE \"%$tag%\" OR irc LIKE \"%$irc%\" OR url LIKE \"%$url%\") AND id!=" . MEMBER) or die(mysqli_error($db) . '1');
+			$a = mysqli_fetch_array($q);
 			if ($a[0] == 0) {
-				mysql_query("UPDATE alliances SET name=\"$name\",url=\"$url\",tag=\"$tag\",irc=\"$irc\",tax=\"$tax\",message=\"$msg\" WHERE id=" . MEMBER) OR die(mysql_error());
+				mysqli_query($db, "UPDATE alliances SET name=\"$name\",url=\"$url\",tag=\"$tag\",irc=\"$irc\",tax=\"$tax\",message=\"$msg\" WHERE id=" . MEMBER) OR die(mysqli_error($db));
 				header("Location: alliance.php?strErr=Alliance Updated");
 				exit;
 			} else {
@@ -244,23 +244,23 @@ switch ($cgi['leader']) {
 	break;
 	case 'create':
 		if ($user->alliance == 0) {
-			$name = mysql_escape_string($cgi['alliance_name']);
-			$tag = mysql_escape_string($cgi['alliance_tag']);
-			$url = mysql_escape_string($cgi['alliance_url']);
-			$irc = mysql_escape_string($cgi['alliance_irc']);
+			$name = mysqli_escape_string($cgi['alliance_name']);
+			$tag = mysqli_escape_string($cgi['alliance_tag']);
+			$url = mysqli_escape_string($cgi['alliance_url']);
+			$irc = mysqli_escape_string($cgi['alliance_irc']);
 			$tax = floatval($cgi['alliance_tax'] / 100);
-			$msg = mysql_escape_string($cgi['alliance_message']);
+			$msg = mysqli_escape_string($cgi['alliance_message']);
 			if ($tax > 0.05) {
 				$tax = 0.05;
 			}
 			if (strlen($name) <= 30 AND strlen($name) > 0 AND strlen($tag) <= 8 AND strlen($tag) > 0 AND strlen($irc) <= 10 AND strlen($msg) <= 500) {
-				$q = mysql_query("SELECT count(*) FROM alliances WHERE name LIKE \"%$name%\" OR irc LIKE \"%$irc%\" OR url LIKE \"%$url%\"") or die(mysql_error() . '1');
-				$a = mysql_fetch_array($q);
+				$q = mysqli_query($db, "SELECT count(*) FROM alliances WHERE name LIKE \"%$name%\" OR irc LIKE \"%$irc%\" OR url LIKE \"%$url%\"") or die(mysqli_error($db) . '1');
+				$a = mysqli_fetch_array($q);
 				if ($a[0] == 0) {
-					$q = mysql_query("INSERT INTO alliances (name,tag,leaderid1,url,irc,creationdate,message) VALUES (\"$name\",\"$tag\",{$user->ID},\"$url\",\"$irc\"," . (string)time() . ",\"$msg\")") or die(mysql_error() . '2');
-					$q = mysql_query("SELECT ID FROM alliances WHERE name=\"$name\"") or die(mysql_error() . '3');
-					$a = mysql_fetch_object($q);
-					mysql_query("UPDATE UserDetails SET alliance={$a->ID},aaccepted=1 WHERE id={$user->ID}") or die(mysql_error() . '4');
+					$q = mysqli_query($db, "INSERT INTO alliances (name,tag,leaderid1,url,irc,creationdate,message) VALUES (\"$name\",\"$tag\",{$user->ID},\"$url\",\"$irc\"," . (string)time() . ",\"$msg\")") or die(mysqli_error($db) . '2');
+					$q = mysqli_query($db, "SELECT ID FROM alliances WHERE name=\"$name\"") or die(mysqli_error($db) . '3');
+					$a = mysqli_fetch_object($q);
+					mysqli_query($db, "UPDATE UserDetails SET alliance={$a->ID},aaccepted=1 WHERE id={$user->ID}") or die(mysqli_error($db) . '4');
 					header("Location: alliance.php?strErr=Alliance Created");
 					exit;
 				} else {
@@ -284,9 +284,9 @@ switch ($cgi['leader']) {
 					$i.= ',' . intval($id);
 				}
 				$i.= ')';
-				$q = mysql_query("UPDATE UserDetails SET alliance=0 WHERE alliance=" . MEMBER . " AND id in $i") or die(mysql_error());
+				$q = mysqli_query($db, "UPDATE UserDetails SET alliance=0 WHERE alliance=" . MEMBER . " AND id in $i") or die(mysqli_error($db));
 			} else {
-				$q = mysql_query("UPDATE UserDetails SET alliance=0 WHERE alliance=" . MEMBER . " AND id =" . intval($cgi['ids'])) or die(mysql_error());
+				$q = mysqli_query($db, "UPDATE UserDetails SET alliance=0 WHERE alliance=" . MEMBER . " AND id =" . intval($cgi['ids'])) or die(mysqli_error($db));
 			}
 		} elseif ($cgi['aaccept_allow'] AND IS_LEADER == MEMBER) {
 			if (is_array($cgi['ids'])) {
@@ -295,9 +295,9 @@ switch ($cgi['leader']) {
 					$i.= ',' . intval($id);
 				}
 				$i.= ')';
-				$q = mysql_query("UPDATE UserDetails SET aaccepted=1 WHERE alliance=" . MEMBER . " AND id in $i") or die(mysql_error());
+				$q = mysqli_query($db, "UPDATE UserDetails SET aaccepted=1 WHERE alliance=" . MEMBER . " AND id in $i") or die(mysqli_error($db));
 			} else {
-				$q = mysql_query("UPDATE UserDetails SET aaccepted=1 WHERE alliance=" . MEMBER . " AND id =" . intval($cgi['ids'])) or die(mysql_error());
+				$q = mysqli_query($db, "UPDATE UserDetails SET aaccepted=1 WHERE alliance=" . MEMBER . " AND id =" . intval($cgi['ids'])) or die(mysqli_error($db));
 			}
 		}
 	break;
@@ -308,40 +308,40 @@ switch ($cgi['leader']) {
 				$i.= ',' . intval($id);
 			}
 			$i.= ')';
-			$q1 = mysql_query("SELECT ID FROM UserDetails WHERE alliance=" . MEMBER . " AND id in $i") or die(mysql_error());
-			mysql_query("UPDATE alliances, UserDetails set alliances.leaderid1=0 WHERE 
+			$q1 = mysqli_query($db, "SELECT ID FROM UserDetails WHERE alliance=" . MEMBER . " AND id in $i") or die(mysqli_error($db));
+			mysqli_query($db, "UPDATE alliances, UserDetails set alliances.leaderid1=0 WHERE 
 			alliances.leaderid1=UserDetails.ID AND 
-			UserDetails.alliance = " . MEMBER . " AND UserDetails.id in $i") or die(mysql_error());
-			mysql_query("UPDATE alliances, UserDetails set alliances.leaderid2=0 WHERE 
+			UserDetails.alliance = " . MEMBER . " AND UserDetails.id in $i") or die(mysqli_error($db));
+			mysqli_query($db, "UPDATE alliances, UserDetails set alliances.leaderid2=0 WHERE 
 			alliances.leaderid2=UserDetails.ID AND 
-			UserDetails.alliance = " . MEMBER . " AND UserDetails.id in $i") or die(mysql_error());
-			mysql_query("UPDATE alliances, UserDetails set alliances.leaderid3=0 WHERE 
+			UserDetails.alliance = " . MEMBER . " AND UserDetails.id in $i") or die(mysqli_error($db));
+			mysqli_query($db, "UPDATE alliances, UserDetails set alliances.leaderid3=0 WHERE 
 			alliances.leaderid3=UserDetails.ID AND 
-			UserDetails.alliance = " . MEMBER . " AND UserDetails.id in $i") or die(mysql_error());
-			mysql_query("UPDATE UserDetails SET alliance=0,aaccepted=0 where id in $i");
-			while ($a1 = mysql_fetch_object($q1)) {
-				//mysql_query("UPDATE alliances set leaderid1=0 WHERE leaderid1={$a1->ID}") or die(mysql_error());
-				//mysql_query("UPDATE alliances set leaderid2=0 WHERE leaderid2={$a1->ID}") or die(mysql_error());
-				//mysql_query("UPDATE alliances set leaderid3=0 WHERE leaderid3={$a1->ID}") or die(mysql_error());
-				$q = mysql_query("SELECT id FROM alliances WHERE leaderid1=0 AND leaderid2=0 AND leaderid3=0") or die(mysql_error());
-				while ($a = mysql_fetch_object($q)) {
-					mysql_query("UPDATE UserDetails SET alliance=0,aaccepted=0 WHERE alliance={$a->id}") or die(mysql_error());
-					mysql_query("DELETE FROM alliances where id={$a->id}") or die(mysql_error());
+			UserDetails.alliance = " . MEMBER . " AND UserDetails.id in $i") or die(mysqli_error($db));
+			mysqli_query($db, "UPDATE UserDetails SET alliance=0,aaccepted=0 where id in $i");
+			while ($a1 = mysqli_fetch_object($q1)) {
+				//mysqli_query($db, "UPDATE alliances set leaderid1=0 WHERE leaderid1={$a1->ID}") or die(mysqli_error($db));
+				//mysqli_query($db, "UPDATE alliances set leaderid2=0 WHERE leaderid2={$a1->ID}") or die(mysqli_error($db));
+				//mysqli_query($db, "UPDATE alliances set leaderid3=0 WHERE leaderid3={$a1->ID}") or die(mysqli_error($db));
+				$q = mysqli_query($db, "SELECT id FROM alliances WHERE leaderid1=0 AND leaderid2=0 AND leaderid3=0") or die(mysqli_error($db));
+				while ($a = mysqli_fetch_object($q)) {
+					mysqli_query($db, "UPDATE UserDetails SET alliance=0,aaccepted=0 WHERE alliance={$a->id}") or die(mysqli_error($db));
+					mysqli_query($db, "DELETE FROM alliances where id={$a->id}") or die(mysqli_error($db));
 				}
 			}
 		}
 	break;
 	case 'promote':
 		//print_r($cgi);
-		$q = mysql_query("SELECT alliance FROM UserDetails WHERE id=\"" . intval($cgi['ids']) . "\"") or die(mysql_error());
-		$a = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT alliance FROM UserDetails WHERE id=\"" . intval($cgi['ids']) . "\"") or die(mysqli_error($db));
+		$a = mysqli_fetch_object($q);
 		if ($a->alliance == MEMBER AND IS_LEADER == MEMBER) {
-			$q = mysql_query("SELECT leaderid2,leaderid3 FROM alliances WHERE id=" . MEMBER) or die(mysql_error());
-			$a = mysql_fetch_object($q);
+			$q = mysqli_query($db, "SELECT leaderid2,leaderid3 FROM alliances WHERE id=" . MEMBER) or die(mysqli_error($db));
+			$a = mysqli_fetch_object($q);
 			if ($a->leaderid2 == 0) {
-				$q = mysql_query("UPDATE alliances SET leaderid2=" . intval($cgi['ids']) . " WHERE id=" . MEMBER) or die(mysql_error());
+				$q = mysqli_query($db, "UPDATE alliances SET leaderid2=" . intval($cgi['ids']) . " WHERE id=" . MEMBER) or die(mysqli_error($db));
 			} elseif ($a->leaderid3 == 0) {
-				$q = mysql_query("UPDATE alliances SET leaderid3=" . intval($cgi['ids']) . " WHERE id=" . MEMBER) or die(mysql_error());
+				$q = mysqli_query($db, "UPDATE alliances SET leaderid3=" . intval($cgi['ids']) . " WHERE id=" . MEMBER) or die(mysqli_error($db));
 			} else {
 				header("Location: alliance.php?strErr=Your alliance has enough leaders");
 				exit;
@@ -349,13 +349,13 @@ switch ($cgi['leader']) {
 		}
 	break;
 	case 'demote':
-		//$q=mysql_query("UPDATE alliances SET subleader=0 WHERE id=".MEMBER) or die(mysql_error());
+		//$q=mysqli_query($db, "UPDATE alliances SET subleader=0 WHERE id=".MEMBER) or die(mysqli_error($db));
 		
 	break;
 		/*case 'memberbuy':
 		$pid=intval($cgi['pwho']);
-		$q=mysql_query("SELECT alliance FROM UserDetails WHERE id=$pid") or die(mysql_error().' 1');
-		$a=mysql_fetch_object($q);
+		$q=mysqli_query($db, "SELECT alliance FROM UserDetails WHERE id=$pid") or die(mysqli_error($db).' 1');
+		$a=mysqli_fetch_object($q);
 		if($a->alliance==MEMBER AND IS_LEADER==MEMBER){//see if user is in the alliance
 			switch($cgi['pwhat']){			
 				case 'da': $pw= 1;break;
@@ -369,11 +369,11 @@ switch ($cgi['leader']) {
 				case 'sa':	$pw=  0;break;
 			}
 			
-			$q=mysql_query("SELECT * FROM alliance_vote WHERE aid=".MEMBER." AND votetype=$pw AND mid=$pid") or die(mysql_error().' 2');
-			if(mysql_num_rows($q)==0){//see if there is already a vote of this type
+			$q=mysqli_query($db, "SELECT * FROM alliance_vote WHERE aid=".MEMBER." AND votetype=$pw AND mid=$pid") or die(mysqli_error($db).' 2');
+			if(mysqli_num_rows($q)==0){//see if there is already a vote of this type
 				$time=10*24*3;
 				//$varray=addslashes(serialize(array($pid=>array(0,array()))));
-				mysql_query("INSERT INTO alliance_vote (aid,mid,votetype,votes,time) VALUES (".MEMBER.",$pid,$pw,\"\",$time)") or die(mysql_error().' 3');
+				mysqli_query($db, "INSERT INTO alliance_vote (aid,mid,votetype,votes,time) VALUES (".MEMBER.",$pid,$pw,\"\",$time)") or die(mysqli_error($db).' 3');
 			}else{
 				header("Location: alliance.php?strErr=That user has already been nominated for that reward");exit;
 			
@@ -389,21 +389,21 @@ if ($cgi['leader'] AND IS_LEADER > 0) {
 if ($cgi['join']) {
 	if ($user->alliance == 0) {
 		$a = intval($cgi['join']);
-		mysql_query("UPDATE UserDetails SET alliance=$a where id={$user->ID}");
+		mysqli_query($db, "UPDATE UserDetails SET alliance=$a where id={$user->ID}");
 	} else {
 		header("Location: alliance.php?strErr=You must leave your alliance first");
 		exit;
 	}
 } elseif ($cgi['leave']) {
-	mysql_query("UPDATE alliances set leaderid1=0 WHERE leaderid1={$user->ID}") or die(mysql_error());
-	mysql_query("UPDATE alliances set leaderid2=0 WHERE leaderid2={$user->ID}") or die(mysql_error());
-	mysql_query("UPDATE alliances set leaderid3=0 WHERE leaderid3={$user->ID}") or die(mysql_error());
-	$q = mysql_query("SELECT id FROM alliances WHERE leaderid1=0 AND leaderid2=0 AND leaderid3=0") or die(mysql_error());
-	while ($a = mysql_fetch_object($q)) {
-		mysql_query("UPDATE UserDetails SET alliance=0,aaccepted=0 WHERE alliance={$a->id}") or die(mysql_error());
-		mysql_query("DELETE FROM alliances where id={$a->id}") or die(mysql_error());
+	mysqli_query($db, "UPDATE alliances set leaderid1=0 WHERE leaderid1={$user->ID}") or die(mysqli_error($db));
+	mysqli_query($db, "UPDATE alliances set leaderid2=0 WHERE leaderid2={$user->ID}") or die(mysqli_error($db));
+	mysqli_query($db, "UPDATE alliances set leaderid3=0 WHERE leaderid3={$user->ID}") or die(mysqli_error($db));
+	$q = mysqli_query($db, "SELECT id FROM alliances WHERE leaderid1=0 AND leaderid2=0 AND leaderid3=0") or die(mysqli_error($db));
+	while ($a = mysqli_fetch_object($q)) {
+		mysqli_query($db, "UPDATE UserDetails SET alliance=0,aaccepted=0 WHERE alliance={$a->id}") or die(mysqli_error($db));
+		mysqli_query($db, "DELETE FROM alliances where id={$a->id}") or die(mysqli_error($db));
 	}
-	mysql_query("UPDATE UserDetails SET alliance=0,aaccepted=0 where id={$user->ID}");
+	mysqli_query($db, "UPDATE UserDetails SET alliance=0,aaccepted=0 where id={$user->ID}");
 }
 if ($cgi['do']) {
 	switch ($cgi['do']) {
@@ -412,7 +412,7 @@ if ($cgi['do']) {
 			$exp = abs(intval($cgi['dexp']));
 			if ($gold > 0) {
 				if ($gold <= $user->gold and $gold > 0) {
-					mysql_query("UPDATE UserDetails u,alliances a SET u.gold=u.gold-$gold,a.gold=a.gold+$gold WHERE u.alliance=a.id AND u.id={$user->ID}") or die(mysql_error());
+					mysqli_query($db, "UPDATE UserDetails u,alliances a SET u.gold=u.gold-$gold,a.gold=a.gold+$gold WHERE u.alliance=a.id AND u.id={$user->ID}") or die(mysqli_error($db));
 				} else {
 					header('Location: alliance.php?strErr=You do not have enough gold');
 					exit;
@@ -420,7 +420,7 @@ if ($cgi['do']) {
 			}
 			if ($exp > 0) {
 				if ($exp <= $user->exp AND $exp > 0) {
-					mysql_query("UPDATE UserDetails u,alliances a SET u.exp=u.exp-$exp,a.exp=a.exp+$exp WHERE u.alliance=a.id AND u.id={$user->ID}") or die(mysql_error());
+					mysqli_query($db, "UPDATE UserDetails u,alliances a SET u.exp=u.exp-$exp,a.exp=a.exp+$exp WHERE u.alliance=a.id AND u.id={$user->ID}") or die(mysqli_error($db));
 				} else {
 					header('Location: alliance.php?strErr=You do not have enough experience');
 					exit;
@@ -440,7 +440,7 @@ if ($cgi['do']) {
 >
 <HTML>
 <HEAD>
-<TITLE><? echo $conf["sitename"]; ?>:: Alliances</TITLE>
+<TITLE><?php echo $conf["sitename"]; ?>:: Alliances</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <LINK href="css/common.css" type=text/css rel=stylesheet>
 <SCRIPT language=javascript type=text/javascript>
@@ -458,13 +458,13 @@ if ($cgi['do']) {
 </HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 				marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
   <TBODY>
     <TR>
-      <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140><?
+      <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140><?php
 include ("left.php");
 ?>
       </TD>
@@ -472,10 +472,10 @@ include ("left.php");
 				vAlign=top align=left><H3> Alliances </H3>
         <P> <strong>
           <center>
-            <font color=red><? echo $cgi["strErr"]; ?></font>
+            <font color=red><?php echo $cgi["strErr"]; ?></font>
           </center>
           </strong> </p>
-        <? include "islogined.php";
+        <?php include "islogined.php";
 if ($cgi['view'] == 'list') {
 	include ('alliance/list.php');
 } elseif (isset($cgi['leaderpage']) AND IS_LEADER > 0) {
@@ -526,5 +526,5 @@ include ("bottom.php");
 </TABLE>
 </BODY>
 </HTML>
-<? include "gzfooter.php";
+<?php include "gzfooter.php";
 ?>

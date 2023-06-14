@@ -29,42 +29,42 @@
 			<!-- The msg id that we're replying to -->
 			<input type="hidden" name="msg-id" value="<?= $this->msgId ?>" />
 		
-			<? if (!($this->alliance and $this->officers)) { ?>
+			<?php if (!($this->alliance and $this->officers)) { ?>
 				<div class="line">
 					<label>Quick Links</label>
 					<span>
 						<!-- 11 Nov, 09: make sure the user can't message the alliance when not accepted -->
-						<? if ($user->alliance and $user->aaccepted and !$this->alliance) { ?>
+						<?php if ($user->alliance and $user->aaccepted and !$this->alliance) { ?>
 							<input type="submit" value="Alliance" name="alliance" />
-						<? } ?>
-						<? if ($user->numofficers and !$this->officers) { ?>
+						<?php } ?>
+						<?php if ($user->numofficers and !$this->officers) { ?>
 							<input type="submit" value="Officers" name="officers" />
-						<? } ?>
+						<?php } ?>
 					</span>
 				</div>
-			<? } ?>
+			<?php } ?>
 			<div class="line" id="todiv">
 				<label>To:</label>
-				<? if ($this->alliance) { ?>
+				<?php if ($this->alliance) { ?>
 					<span>Alliance</span>
 					<input type="hidden" name="alliance" value="yes" />
-				<? } ?>
-				<? if ($this->officers) { ?>
+				<?php } ?>
+				<?php if ($this->officers) { ?>
 					<span>Officers</span>
 					<input type="hidden" name="officers" value="yes" />
-				<? } ?>
-				<? foreach ($this->targets as $t) { ?>
+				<?php } ?>
+				<?php foreach ($this->targets as $t) { ?>
 					<span><?= $t->getNameLink() ?></span>
 					<input type="hidden" name="to[]" value="<?= $t->id ?>" />
-				<? } ?>
+				<?php } ?>
 			</div>
 			<div class="line" style="position:relative;">
 				<label>Add user</label>
 				<input type="text" onkeypress="javascript:Message.ajaxSearch(this);" name="search-name" /><input type="submit" value="Search" name="user-search" />
 				<div id="search-users" style="<?= (count($this->searchUsers) > 0 ? '' : 'display:none') ?>" >
-					<? foreach ($this->searchUsers as $target) { ?>
+					<?php foreach ($this->searchUsers as $target) { ?>
 						<input type="checkbox" name="to[]" value="<?= $target->id?>" /><?= $target->getNameLink() ?>
-					<? } ?>
+					<?php } ?>
 					<input type="submit" name="add-search-user" value="Add Selected" />
 					<div class="clear flat"></div>
 				</div>
@@ -74,7 +74,7 @@
 				<input type="text" name="subject" value="<?= ($this->quote->subject ? $this->quote->subject : '') ?>" />
 			</div>
 			<div class="line">
-				<textarea id="msg-text" rows="15" cols="45" name="text"><?
+				<textarea id="msg-text" rows="15" cols="45" name="text"><?php
 					if ($this->quote->text) {
 						echo $this->quote->text;
 					}
@@ -82,9 +82,9 @@
 			</div>
 			<div class="line">
 				<input class="submit" type="submit" value="Send!" name="msg-submit" />
-				<? if ($user->admin) { ?>
+				<?php if ($user->admin) { ?>
 					<input type="checkbox" name="admin" value="1" /> 
-				<? } ?>
+				<?php } ?>
 			</div>
 		</form>
 	</div>

@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -55,36 +55,36 @@ class Transaction {
 		
 		
 	public function
-	create() {
+	create() { global $db;
 		$sql = "INSERT INTO Transaction set ";
 		$values = array();
 		foreach ((array)$this as $k => $value) {
 			if ($k != 'id') {
-				$value = mysql_real_escape_string($value);
+				$value = mysqli_real_escape_string($db, $value);
 				$values[] = "`$k` = \"$value\"";
 			}
 		}
 
 		$sql .= implode(', ', $values);
-		$q = mysql_query($sql) or die(mysql_error());
-		$this->id = mysql_insert_id();
+		$q = mysqli_query($db, $sql) or die(mysqli_error($db));
+		$this->id = mysqli_insert_id($db);
 		return $this->id;
 	}
 		
 	public function
-	get($id) {
-		$r = mysql_query("SELECT * FROM Transaction WHERE id = $id LIMIT 1") or die(mysql_error());
-		$a = mysql_fetch_array($r, MYSQL_ASSOC);
+	get($id) { global $db;
+		$r = mysqli_query($db, "SELECT * FROM Transaction WHERE id = $id LIMIT 1") or die(mysqli_error($db));
+		$a = mysqli_fetch_array($r, mysqli_ASSOC);
 		foreach ($a as $key => $value) {
 			$this->$key = $value;
 		}
 	}
 	
 	public function
-	getByToken($t) {
-		$t = mysql_real_escape_string($t);
-		$r = mysql_query("SELECT * FROM Transaction WHERE token = \"$t\" LIMIT 1") or die(mysql_error());
-		$a = mysql_fetch_array($r, MYSQL_ASSOC);
+	getByToken($t) { global $db;
+		$t = mysqli_real_escape_string($db, $t);
+		$r = mysqli_query($db, "SELECT * FROM Transaction WHERE token = \"$t\" LIMIT 1") or die(mysqli_error($db));
+		$a = mysqli_fetch_array($r, mysqli_ASSOC);
 		if ($a['id']) {
 			foreach ($a as $key => $value) {
 				$this->$key = $value;
@@ -93,19 +93,19 @@ class Transaction {
 	}
 	
 	public function
-	save() {
+	save() { global $db;
 		$sql = "UPDATE Transaction set ";
 		$values = array();
 		foreach ((array)$this as $k => $value) {
 			if ($k != 'id' and $k != '_cache' and !is_array($value)) {
-				$value = mysql_real_escape_string($value);
+				$value = mysqli_real_escape_string($db, $value);
 				$values[] = "`$k` = \"$value\"";
 			}
 		}
 
 		$sql .= implode(', ', $values);
 		$sql .= " where id =$this->id;";
-		mysql_query($sql) or die(mysql_error());
+		mysqli_query($db, $sql) or die(mysqli_error($db));
 	}
 		
 }

@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 // Repair weapons
 if ($user->supporter > 0 and $cgi['maxall']) {
@@ -413,26 +413,26 @@ if ($cgi[buybut] and ($user->gold >= 0)) {
     </HEAD>
     <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-        <?
+        <?php
 include "top.php";
 ?>
         <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
             <TBODY>
                 <TR>
                     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-                        <?
+                        <?php
 include ("left.php");
 ?>
                     </TD>
                     <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
-    vAlign=top align=left> <? include "islogined.php"; ?>
+    vAlign=top align=left> <?php include "islogined.php"; ?>
                         <BR>
                         <H3>
                              Armory
                         </H3>
                         <P>
                             <strong><center>
-                                <font color=red><? echo $cgi["strErr"]; ?></font>
+                                <font color=red><?php echo $cgi["strErr"]; ?></font>
                             </center></strong>
                         </p>
                         <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
@@ -459,17 +459,17 @@ include ("left.php");
                                          Scrap/Sell
                                     </TH>
                                 </TR>
-                                <? $wep = getUserWeapon($user);
+                                <?php $wep = getUserWeapon($user);
 $totalWCount = 0;
 for ($i = 0;$i < count($wep);$i++) {
 	$totalWCount+= $wep[$i]->weaponCount;
 	printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["weapon"][$wep[$i]->weaponID]["name"]);
 ?>
                                 <TD align=right>
-                                    <? numecho($wep[$i]->weaponCount)
+                                    <?php numecho($wep[$i]->weaponCount)
 ?>
                                 </TD>
-                                <? $x = $wep[$i]->weaponStrength;
+                                <?php $x = $wep[$i]->weaponStrength;
 	$y = $conf["weapon{$wep[$i]->weaponID}strength"];
 	$torepair = $torepairm = $y - $x;
 	$cost = $costm = round($conf["weapon{$wep[$i]->weaponID}pp"] * $wep[$i]->weaponCount * $torepair);
@@ -479,9 +479,9 @@ for ($i = 0;$i < count($wep);$i++) {
 	}
 ?>
                                 <TD align=middle>
-                                    <? numecho($x)
+                                    <?php numecho($x)
 ?>
-                                     /<? numecho($y)
+                                     /<?php numecho($y)
 ?>
                                 </TD>
                                 <FORM action=armory.php method=post>
@@ -490,17 +490,17 @@ for ($i = 0;$i < count($wep);$i++) {
                                         <TABLE cellSpacing=0 cellPadding=2 width="100%" border=0>
                                             <TBODY>
                                                 <TR>
-                                                    <? $rem = round($y) * $wep[$i]->weaponCount;
+                                                    <?php $rem = round($y) * $wep[$i]->weaponCount;
 	$id = $wep[$i]->weaponID;
 ?>
                                                     <TD style="BORDER-BOTTOM: medium none">
-                                                        <INPUT type=input value= "<? echo ($torepair); ?>" maxLength=6 size=4 value=0 name=atrepair<? echo $id; ?> >
+                                                        <INPUT type=input value= "<?php echo ($torepair); ?>" maxLength=6 size=4 value=0 name=atrepair<?php echo $id; ?> >
                                                     </TD>
                                                     <TD style="BORDER-BOTTOM: medium none" width="75%">
-                                                        <INPUT style="WIDTH: 100%" type=submit value="<? numecho($conf["weapon{$wep[$i]->weaponID}pp"] * $wep[$i]->weaponCount) ?> Gold/Point" name=doatrepair>
+                                                        <INPUT style="WIDTH: 100%" type=submit value="<?php numecho($conf["weapon{$wep[$i]->weaponID}pp"] * $wep[$i]->weaponCount) ?> Gold/Point" name=doatrepair>
                                                     </TD>
                                                     <TD colspan="2" style="BORDER-BOTTOM: medium none" width="25%">
-                                                        <input type=hidden name=doatrepairmax_points<? echo $id; ?> value='<?=$torepairm ?>'>
+                                                        <input type=hidden name=doatrepairmax_points<?php echo $id; ?> value='<?=$torepairm ?>'>
                                                         <INPUT style="WIDTH: 100%" type=submit value="Max" name=doatrepairmax>
                                                     </TD> 
                                                 </TR> 
@@ -514,10 +514,10 @@ for ($i = 0;$i < count($wep);$i++) {
                                             <TBODY>
                                                 <TR>
                                                     <TD style="BORDER-BOTTOM: medium none">
-                                                        <INPUT type=input maxLength=6 size=2 value=0 name=atscrapsell<? echo $id; ?> >
+                                                        <INPUT type=input maxLength=6 size=2 value=0 name=atscrapsell<?php echo $id; ?> >
                                                     </TD>
                                                     <TD style="BORDER-BOTTOM: medium none" width="100%">
-                                                        <INPUT style="WIDTH: 100%" type=submit value="<?
+                                                        <INPUT style="WIDTH: 100%" type=submit value="<?php
 	$pr = round(($conf["weapon{$wep[$i]->weaponID}price"] * (1 + ($user->weapper / 100)) * ($x / $y - 0.2)));
 	if ($pr > 0) {
 		echo "Sell for ";
@@ -531,10 +531,10 @@ for ($i = 0;$i < count($wep);$i++) {
                                     </TD>
                                 </FORM>
                                 </TR>
-                                <?
+                                <?php
 }
 ?>
-                                <tr><td></td><td>Total: <? numecho($totalWCount) ?></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td>Total: <?php numecho($totalWCount) ?></td><td></td><td></td><td></td></tr>
                                 <TR>
                                     <TH class=subh align=left>
                                          Defense Weapons
@@ -552,17 +552,17 @@ for ($i = 0;$i < count($wep);$i++) {
                                          Scrap/Sell
                                     </TH>
                                 </TR>
-                                <? $wep = getDefUserWeapon($user);
+                                <?php $wep = getDefUserWeapon($user);
 $totalWCount = 0;
 for ($i = 0;$i < count($wep);$i++) {
 	$totalWCount+= $wep[$i]->weaponCount;
 	printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["defenseweapon"][$wep[$i]->weaponID]["name"]);
 ?>
                                 <TD align=right>
-                                    <? numecho($wep[$i]->weaponCount)
+                                    <?php numecho($wep[$i]->weaponCount)
 ?>
                                 </TD>
-                                <? $x = $wep[$i]->weaponStrength;
+                                <?php $x = $wep[$i]->weaponStrength;
 	$y = $conf["weapon{$wep[$i]->weaponID}strength"];
 	$torepair2 = $torepair2m = $y - $x;
 	$cost = $costm = round($conf["weapon{$wep[$i]->weaponID}pp"] * $wep[$i]->weaponCount * $torepair2);
@@ -572,9 +572,9 @@ for ($i = 0;$i < count($wep);$i++) {
 	}
 ?>
                                 <TD align=middle>
-                                    <? numecho($x)
+                                    <?php numecho($x)
 ?>
-                                     /<? numecho($y)
+                                     /<?php numecho($y)
 ?>
                                 </TD>
                                 <FORM action=armory.php method=post>
@@ -583,18 +583,18 @@ for ($i = 0;$i < count($wep);$i++) {
                                         <TABLE cellSpacing=0 cellPadding=2 width="100%" border=0>
                                             <TBODY>
                                                 <TR>
-                                                    <? $rem = round($y) * $wep[$i]->weaponCount;
+                                                    <?php $rem = round($y) * $wep[$i]->weaponCount;
 	$id = $wep[$i]->weaponID;
 ?>
                                                     <TD style="BORDER-BOTTOM: medium none">
                                                         <INPUT type=input maxLength=6 size=4 value="<?=$torepair2
-?>" value=0 name=defrepair<? echo $id; ?> >
+?>" value=0 name=defrepair<?php echo $id; ?> >
                                                     </TD>
                                                     <TD style="BORDER-BOTTOM: medium none" width="75%">
-                                                        <INPUT style="WIDTH: 100%" type=submit value="<? numecho($conf["weapon{$wep[$i]->weaponID}pp"] * $wep[$i]->weaponCount); ?> Gold/Point" name=dodefrepair>
+                                                        <INPUT style="WIDTH: 100%" type=submit value="<?php numecho($conf["weapon{$wep[$i]->weaponID}pp"] * $wep[$i]->weaponCount); ?> Gold/Point" name=dodefrepair>
                                                     </TD>
                                                     <TD colspan="2" style="BORDER-BOTTOM: medium none" width="25%">
-                                                        <input type=hidden name=dodefrepairmax_points<? echo $id; ?> value='<?=$torepair2m ?>'>
+                                                        <input type=hidden name=dodefrepairmax_points<?php echo $id; ?> value='<?=$torepair2m ?>'>
                                                         <INPUT style="WIDTH: 100%" type=submit value="Max" name=dodefrepairmax>
                                                     </TD> 
                                                 </TR>
@@ -608,10 +608,10 @@ for ($i = 0;$i < count($wep);$i++) {
                                             <TBODY>
                                                 <TR>
                                                     <TD style="BORDER-BOTTOM: medium none">
-                                                        <INPUT type=input maxLength=6 size=2 value=0 name=defscrapsell<? echo $id; ?> >
+                                                        <INPUT type=input maxLength=6 size=2 value=0 name=defscrapsell<?php echo $id; ?> >
                                                     </TD>
                                                     <TD style="BORDER-BOTTOM: medium none" width="100%">
-                                                        <INPUT style="WIDTH: 100%" type=submit value="<?
+                                                        <INPUT style="WIDTH: 100%" type=submit value="<?php
 	$pr = round(($conf["weapon{$wep[$i]->weaponID}price"]) * (1 + ($user->weapper / 100)) * ($x / $y - 0.2));
 	if ($pr > 0) {
 		echo "Sell for ";
@@ -625,17 +625,17 @@ for ($i = 0;$i < count($wep);$i++) {
                                     </TD>
                                 </FORM>
                                 </TR>
-                                <?
+                                <?php
 }
 ?>
                                 <tr><td>
-                                <? if ($user->supporter > 0) { ?>
+                                <?php if ($user->supporter > 0) { ?>
                                 <form method="POST" action="armory.php">
                              
                                 <input type="submit" name="maxall" value="Repair All Weapons" />
-                                </form><?
+                                </form><?php
 } ?>
-                                </td><td>Total: <? numecho($totalWCount) ?></td><td></td><td></td><td></td></tr>
+                                </td><td>Total: <?php numecho($totalWCount) ?></td><td></td><td></td><td></td></tr>
                                 
                                 
                                 <!--<tr><td></td></tr>-->
@@ -659,11 +659,11 @@ for ($i = 0;$i < count($wep);$i++) {
                                                             <B>Strike Action</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->SA)
+                                                            <?php numecho($user->SA)
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                             Ranked&nbsp;<?
+                                                             Ranked&nbsp;<?php
 if ($userR->sarank) {
 	numecho($userR->sarank);
 } else echo "#unranked";
@@ -675,11 +675,11 @@ if ($userR->sarank) {
                                                             <B>Defensive Action</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->DA)
+                                                            <?php numecho($user->DA)
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                             Ranked&nbsp;<?
+                                                             Ranked&nbsp;<?php
 if ($userR->darank) {
 	numecho($userR->darank);
 } else echo "#unranked";
@@ -691,11 +691,11 @@ if ($userR->darank) {
                                                             <B>Covert Action</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->CA)
+                                                            <?php numecho($user->CA)
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                             Ranked&nbsp;<?
+                                                             Ranked&nbsp;<?php
 if ($userR->carank) {
 	numecho($userR->carank);
 } else echo "#unranked";
@@ -707,11 +707,11 @@ if ($userR->carank) {
                                                             <B>Retaliation Action</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->RA)
+                                                            <?php numecho($user->RA)
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                             Ranked&nbsp;<?
+                                                             Ranked&nbsp;<?php
 if ($userR->rarank) {
 	numecho($userR->rarank);
 } else echo "#unranked";
@@ -733,7 +733,7 @@ if ($userR->rarank) {
                                                             <B>Trained Attack Soldiers</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->sasoldiers)
+                                                            <?php numecho($user->sasoldiers)
 ?>
                                                         </TD>
                                                     </TR>
@@ -742,7 +742,7 @@ if ($userR->rarank) {
                                                             <B>Trained Attack Mercenaries</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->samercs)
+                                                            <?php numecho($user->samercs)
 ?>
                                                         </TD>
                                                     </TR>
@@ -751,7 +751,7 @@ if ($userR->rarank) {
                                                             <B>Trained Defense Soldiers</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->dasoldiers)
+                                                            <?php numecho($user->dasoldiers)
 ?>
                                                         </TD>
                                                     </TR>
@@ -760,7 +760,7 @@ if ($userR->rarank) {
                                                             <B>Trained Defense Mercenaries</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->damercs)
+                                                            <?php numecho($user->damercs)
 ?>
                                                         </TD>
                                                     </TR>
@@ -769,7 +769,7 @@ if ($userR->rarank) {
                                                             <B>Untrained Soldiers</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->uu)
+                                                            <?php numecho($user->uu)
 ?>
                                                         </TD>
                                                     </TR>
@@ -778,7 +778,7 @@ if ($userR->rarank) {
                                                             <B>Spies</B>
                                                         </TD>
                                                         <TD class=subh align=right>
-                                                            <? numecho($user->spies)
+                                                            <?php numecho($user->spies)
 ?>
                                                         </TD>
                                                     </TR>
@@ -787,7 +787,7 @@ if ($userR->rarank) {
                                                             <B>Special Forces</B>
                                                         </TD>
                                                         <TD class=subh align=right>
-                                                            <? numecho($user->specialforces)
+                                                            <?php numecho($user->specialforces)
 ?>
                                                         </TD>
                                                     </TR>                                                   
@@ -796,7 +796,7 @@ if ($userR->rarank) {
                                                             <B>Total Fighting Force</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho(getTotalFightingForce($user))
+                                                            <?php numecho(getTotalFightingForce($user))
 ?>
                                                         </TD>
                                                     </TR>
@@ -829,25 +829,25 @@ if ($userR->rarank) {
                                                                  Max
                                                             </Th>
                                                         </TR>
-                                                        <? for ($i = - 1;$i < $user->salevel;$i++) {
+                                                        <?php for ($i = - 1;$i < $user->salevel;$i++) {
 	if ($i < 8) {
 		printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["weapon"][$i + 1]["name"]);
 ?>
                                                         <TD align=right>
-                                                            <? numecho($conf["weapon" . ($i + 1) . "strength"]);
+                                                            <?php numecho($conf["weapon" . ($i + 1) . "strength"]);
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($conf["weapon" . ($i + 1) . "price"] * (($user->salevel / 2) + 1));
+                                                            <?php numecho($conf["weapon" . ($i + 1) . "price"] * (($user->salevel / 2) + 1));
 ?>
                                                              Gold
                                                         </TD>
-                                                        <? echo "<TD align=middle><INPUT size=3 value=0 id=buy_w" . ($i + 1) . " name=buy_w" . ($i + 1) . "></TD>";
+                                                        <?php echo "<TD align=middle><INPUT size=3 value=0 id=buy_w" . ($i + 1) . " name=buy_w" . ($i + 1) . "></TD>";
 ?>
                                                         <td>
-                                                            <input type=button value='Max'  onclick="document.getElementById('<? echo "buy_w" . ($i + 1); ?>').value='<?=floor($user->gold / ($conf["weapon" . ($i + 1) . "price"] * (($user->salevel / 2) + 1))) ?>'">
+                                                            <input type=button value='Max'  onclick="document.getElementById('<?php echo "buy_w" . ($i + 1); ?>').value='<?=floor($user->gold / ($conf["weapon" . ($i + 1) . "price"] * (($user->salevel / 2) + 1))) ?>'">
                                                         </td>
-                                                        <?
+                                                        <?php
 	}
 }
 ?>
@@ -868,25 +868,25 @@ if ($userR->rarank) {
                                                                  Max
                                                             </Th>
                                                         </TR>
-                                                        <? for ($i = - 1;$i < $user->dalevel;$i++) {
+                                                        <?php for ($i = - 1;$i < $user->dalevel;$i++) {
 	if ($i < 8) {
 		printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["defenseweapon"][$i + 1]["name"]);
 ?>
                                                         <TD align=right>
-                                                            <? numecho($conf["weapon" . ($i + 1) . "strength"]);
+                                                            <?php numecho($conf["weapon" . ($i + 1) . "strength"]);
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($conf["weapon" . ($i + 1) . "price"] * (($user->dalevel / 2) + 1));
+                                                            <?php numecho($conf["weapon" . ($i + 1) . "price"] * (($user->dalevel / 2) + 1));
 ?>
                                                              Gold
                                                         </TD>
-                                                        <? echo "<TD align=middle><INPUT size=3 value=0 id=buy_dw" . ($i + 1) . " name=buy_dw" . ($i + 1) . "></TD>";
+                                                        <?php echo "<TD align=middle><INPUT size=3 value=0 id=buy_dw" . ($i + 1) . " name=buy_dw" . ($i + 1) . "></TD>";
 ?>
                                                         <td>
-                                                            <input type=button value='Max'  onclick="document.getElementById('<? echo "buy_dw" . ($i + 1); ?>').value='<?=floor($user->gold / ($conf["weapon" . ($i + 1) . "price"] * (($user->dalevel / 2) + 1))) ?>'">
+                                                            <input type=button value='Max'  onclick="document.getElementById('<?php echo "buy_dw" . ($i + 1); ?>').value='<?=floor($user->gold / ($conf["weapon" . ($i + 1) . "price"] * (($user->dalevel / 2) + 1))) ?>'">
                                                         </td>
-                                                        <?
+                                                        <?php
 	}
 }
 ?>
@@ -903,7 +903,7 @@ if ($userR->rarank) {
                                     </TR>
                                 </TBODY>
                             </TABLE>
-                            <?
+                            <?php
 include ("bottom.php");
 ?>
                     </TD>
@@ -912,5 +912,5 @@ include ("bottom.php");
         </TABLE>
     </BODY>
 </HTML>
-<? include "gzfooter.php";
+<?php include "gzfooter.php";
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 if (IS_LEADER === true) {
 	echo "<a href=\"?leaderpage=main\">Alliance Leader Panel</a><br />";
 }
@@ -16,12 +16,12 @@ if ($cgi['showdetails'] and isset($alliances[$cgi['showdetails']])) {
 	
 	<TR><TD>Income Tax</TD><td><?=round($alliances[$cgi['showdetails']]->tax * 100, 2) ?>%</td></TR>
 	<TR><TD>Message</TD><td><?=htmlentities(stripslashes($alliances[$cgi['showdetails']]->message)) ?></td></TR>
-	<? if (NO_ALLIANCE) { ?>
+	<?php if (NO_ALLIANCE) { ?>
 	<tr><TD>Join</TD><td><a href="?join=<?=$cgi['showdetails'] ?>"><?=stripslashes($alliances[$cgi['showdetails']]->name) ?></a></td></tr>
-	<?
+	<?php
 	} ?>
 </table>
-<?
+<?php
 } ?>
 <table class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0 width="100%">
 	<TR>
@@ -33,27 +33,27 @@ if ($cgi['showdetails'] and isset($alliances[$cgi['showdetails']])) {
 		<th class="subh">IRC Channel</th>
 		<th class="subh" >&nbsp;</th>
 	</TR>
-	<? foreach ($alliances as $alliance) { ?>
+	<?php foreach ($alliances as $alliance) { ?>
 	<tr>
-		<TD><? echoURL($alliance->url, $alliance->name) ?></TD>
+		<TD><?php echoURL($alliance->url, $alliance->name) ?></TD>
 		<TD><?=stripslashes($alliance->tag) ?></TD>
-		<TD><a href="stats.php?id=<?=$alliance->leaderid1 ?>"><? $u = getUserDetails($alliance->leaderid1, 'username');
+		<TD><a href="stats.php?id=<?=$alliance->leaderid1 ?>"><?php $u = getUserDetails($alliance->leaderid1, 'username');
 	echo $u->username; ?></a></TD>
-		<TD><?
+		<TD><?php
 	if ($alliance->leaderid2) {
 ?><a href="stats.php?id=<?=$alliance->leaderid2
-?>"><? $u = getUserDetails($alliance->leaderid2, 'username');
+?>"><?php $u = getUserDetails($alliance->leaderid2, 'username');
 		echo $u->username; ?></a>
-			<?
+			<?php
 	} else {
 		echo "(none)";
 	} ?></TD>
-			<TD><?
+			<TD><?php
 	if ($alliance->leaderid3) {
 ?><a href="stats.php?id=<?=$alliance->leaderid3
-?>"><? $u = getUserDetails($alliance->leaderid3, 'username');
+?>"><?php $u = getUserDetails($alliance->leaderid3, 'username');
 		echo $u->username; ?></a>
-			<?
+			<?php
 	} else {
 		echo "(none)";
 	} ?></TD>
@@ -62,7 +62,7 @@ if ($cgi['showdetails'] and isset($alliances[$cgi['showdetails']])) {
 			<a href="?showdetails=<?=$alliance->ID ?>&amp;view=list">View Details</a>
 		</td>
 	</tr>
-	<?
+	<?php
 } ?>
 </table>
 <a href="?do=create">Create an Alliance</a>

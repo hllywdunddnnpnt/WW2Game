@@ -1,4 +1,4 @@
-<?
+<?php
 include "gzheader.php";
 include "scripts/vsys.php";
 ?>
@@ -6,7 +6,7 @@ include "scripts/vsys.php";
 >
 <HTML>
   <HEAD>
-    <TITLE><? echo $conf["sitename"]; ?> :: Send Message </TITLE>
+    <TITLE><?php echo $conf["sitename"]; ?> :: Send Message </TITLE>
     <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
     <LINK href="css/common.css" type=text/css rel=stylesheet>
     <SCRIPT language=javascript type=text/javascript>
@@ -24,21 +24,21 @@ include "scripts/vsys.php";
   </HEAD>
   <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-    <?
+    <?php
 include "top.php";
 ?>
     <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
       <TBODY>
         <TR>
           <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-            <?
+            <?php
 include ("left.php");
 ?>
           </TD>
           <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
 	vAlign=top align=left>
             <BR>
-            <?
+            <?php
 include "islogined.php";
 if ($cgi['send'] AND $cgi['message']) {
 	if (!$cgi['subject']) {
@@ -49,8 +49,8 @@ if ($cgi['send'] AND $cgi['message']) {
 		if (!$user->alliance) {
 			echo "You are not part of an alliance";
 		} else {
-			$q = mysql_query("SELECT leaderid1,leaderid2,leaderid3 FROM alliances where id={$user->alliance}") or die(mysql_error());
-			$a = mysql_fetch_object($q);
+			$q = mysqli_query($db, "SELECT leaderid1,leaderid2,leaderid3 FROM alliances where id={$user->alliance}") or die(mysqli_error($db));
+			$a = mysqli_fetch_object($q);
 			if ($a->leaderid1 == $user->ID OR $a->leaderid2 == $user->ID OR $a->leaderid3 == $user->ID) {
 				if (sendMessage($_SESSION['isLogined'], $cgi['to'], $cgi['subject'], $cgi['message'])) {
 					echo "Messages sent successfully";
@@ -83,7 +83,7 @@ if ($cgi['send'] AND $cgi['message']) {
                 </tr>
                 <tr>
                   <th align="left">
-                    <b>To:</b> <?
+                    <b>To:</b> <?php
 if ($cgi['to'] != "msgoff" AND $cgi['to'] != "msgall") {
 	$user1 = getUserDetails($cgi['to'], "userName,ID");
 	echo $user1->userName;
@@ -103,7 +103,7 @@ if ($cgi['to'] != "msgoff" AND $cgi['to'] != "msgall") {
                 </tr>
                 <tr>
                   <td colspan="2" style="border: #666666 1px solid;" bgcolor="#121212" align="center">
-                    <textarea id="message" name="message" rows="20" cols="77"><? if (isset($cgi['repmsg'])) {
+                    <textarea id="message" name="message" rows="20" cols="77"><?php if (isset($cgi['repmsg'])) {
 	echo "[quote]" . str_replace("<br />", "\n", stripslashes($cgi['repmsg'])) . "[/quote]\n\n";
 } ?></textarea>
                   </td>
@@ -121,7 +121,7 @@ if ($cgi['to'] != "msgoff" AND $cgi['to'] != "msgall") {
               </table>
             </form>
             <P>
-              <?
+              <?php
 include ("bottom.php");
 ?>
           </TD>
@@ -130,5 +130,5 @@ include ("bottom.php");
     </TABLE>
   </BODY>
 </HTML>
-<? include "gzfooter.php";
+<?php include "gzfooter.php";
 ?>

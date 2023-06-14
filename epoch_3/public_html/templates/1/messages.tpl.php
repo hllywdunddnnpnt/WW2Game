@@ -21,24 +21,24 @@
 <!-- Begin Messages page -->
 <div id="messages-container">
 	<div class="panel">
-		<? if ($this->messages) { ?>
+		<?php if ($this->messages) { ?>
 			<div class="panel-title">
 				Messages&nbsp;<span class="no-hl">(<a href="messages.php?view=0">Inbox</a> || <a href="messages.php?view=1">Outbox</a> || <a href="writemail.php">New</a> || <a href="message-ignore.php">Ignore List</a>)</span><br />
 				Age: <?global $current_age, $first_age;
 				for ($i = $first_age; $i <= $current_age; $i++) { ?>
-					<? if ($this->age == $i) { ?>
+					<?php if ($this->age == $i) { ?>
 						<span><?= $i ?></span>
-					<? }
+					<?php }
 					else { ?>
 						<a href="messages.php?age=<?= $i ?>&amp;v=<?= $this->view ?>"><?= $i ?></a>
-					<? } ?> |
-				<? } ?>
-				<? if ($this->age == -1) { ?>
+					<?php } ?> |
+				<?php } ?>
+				<?php if ($this->age == -1) { ?>
 					<span>All</span>
-				<? }
+				<?php }
 				else { ?>
 					<a href="messages.php?age=-1&amp;view=<?= $this->view ?>">All</a>
-				<? } ?>
+				<?php } ?>
 			</div>
 			<form id="message-list-form" method="post" class="large">
 				<input type="hidden" name="view" value="<?= $this->view ?>" />
@@ -50,8 +50,8 @@
 						<th><input type="submit" value="Delete" name="delete-button" /><button onclick="return Message.selectAll(this);">Select All</button></th>
 					</tr>
 					<!-- TODO: and user caching -->
-					<? foreach ($this->messages as $msg) { ?>
-						<? 
+					<?php foreach ($this->messages as $msg) { ?>
+						<?php 
 							$s     = ($this->view == 1 ? $msg->senderStatus : $msg->targetStatus);
 							$class = ($s == MSG_STATUS_UNREAD ? 'unread' : '');
 						?>
@@ -63,20 +63,20 @@
 								<a href="messages.php?id=<?= $msg->id ?>">
 									<?= $msg->subject ?>
 								</a>
-								<? if ($msg->fromadmin) { ?>
+								<?php if ($msg->fromadmin) { ?>
 									<span style="color:red">[From Admin]</span>
-								<? } ?>
+								<?php } ?>
 							</td>
 							<td>
 								<input type="checkbox" value="<?= $msg->id ?>" name="delete[]" />
 							</td>
 						</tr>
-					<? } ?>
+					<?php } ?>
 				</table>
 			</form>
-		<? }
+		<?php }
 			else if ($this->message) { ?>
-			<? $a = new User(); $a->get($this->message->senderId) ?>
+			<?php $a = new User(); $a->get($this->message->senderId) ?>
 			<div class="panel-title">
 				<?= $this->message->subject ?><br />
 				<span class="no-hl">(<a href="messages.php?view=0">Inbox</a> || <a href="messages.php?view=1">Outbox</a> || <a href="writemail.php">New</a> || <a href="message-ignore.php">Ignore List</a>)</span>
@@ -106,28 +106,28 @@
 				<input type="hidden" name="ignore-username" value="<?= addslashes($a->username) ?>" />
 				<input type="submit" name="ignore-add-submit" value="Ignore <?= $a->getNameHTML() ?>" />
 			</form>
-		<? } 
+		<?php } 
 			else { ?>
 			<div class="panel-title">
 				Messages&nbsp;<span class="no-hl">(<a href="messages.php?view=0">Inbox</a> || <a href="messages.php?view=1">Outbox</a> || <a href="writemail.php">New</a> || <a href="message-ignore.php">Ignore List</a>)</span><br />
 				Age: <?global $current_age, $first_age;
 				for ($i = $first_age; $i <= $current_age; $i++) { ?>
-					<? if ($this->age == $i) { ?>
+					<?php if ($this->age == $i) { ?>
 						<span><?= $i ?></span>
-					<? }
+					<?php }
 					else { ?>
 						<a href="messages.php?age=<?= $i ?>&amp;v=<?= $this->view ?>"><?= $i ?></a>
-					<? } ?> |
-				<? } ?>
-				<? if ($this->age == -1) { ?>
+					<?php } ?> |
+				<?php } ?>
+				<?php if ($this->age == -1) { ?>
 					<span>All</span>
-				<? }
+				<?php }
 				else { ?>
 					<a href="messages.php?age=-1&amp;view=<?= $this->view ?>">All</a>
-				<? } ?>
+				<?php } ?>
 			</div>
 			<p>You have no messages</p>
-		<? } ?>
+		<?php } ?>
 	</div>
 </div>
 <!-- End Message page -->

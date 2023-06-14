@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -33,10 +33,10 @@ class Activation extends BaseClass {
 		$time       = 0;
 
 	public function
-	getByEmail($email) {
-		$email = mysql_real_escape_string($email);
-		$r = mysql_query("SELECT * FROM Activation WHERE email = \"$email\" LIMIT 1") or die(mysql_error());
-		$a = mysql_fetch_array($r, MYSQL_ASSOC);
+	getByEmail($email) { global $db;
+		$email = mysqli_real_escape_string($db, $email);
+		$r = mysqli_query($db, "SELECT * FROM Activation WHERE email = \"$email\" LIMIT 1") or die(mysqli_error($db));
+		$a = mysqli_fetch_array($r, mysqli_ASSOC);
 		if ($a['id']) {
 			foreach ($a as $key => $value) {
 				$this->$key = $value;
@@ -46,7 +46,7 @@ class Activation extends BaseClass {
 	}
 	
 	public static function
-	getByUsernamePassword($username, $password, $md5 = 0) {
+	getByUsernamePassword($username, $password, $md5 = 0) { global $db;
 		$ret->id = false;
 		$ret->success = 0;
 		if ($md5) {
@@ -55,10 +55,10 @@ class Activation extends BaseClass {
 		$l = strlen($username);
 		
 		if ($l >= 2 and $l <= 25) {
-			$username = mysql_real_escape_string($username);
+			$username = mysqli_real_escape_string($db, $username);
 
-			$r = mysql_query("select * from Activation where username LIKE \"$username\" and password = \"$password\";") or die(mysql_error());
-			$ret = mysql_fetch_object($r, 'Activation');
+			$r = mysqli_query($db, "select * from Activation where username LIKE \"$username\" and password = \"$password\";") or die(mysqli_error($db));
+			$ret = mysqli_fetch_object($r, 'Activation');
 			if (!$ret) {
 				$ret->id = false;
 			}
@@ -69,11 +69,11 @@ class Activation extends BaseClass {
 	}
 	
 	public static function
-	getByUsernameEmailCount($username, $email) {
-		$username = mysql_real_escape_string($username);
-		$email = mysql_real_escape_string($email);
-		$r = mysql_query("select count(*) as retCode from Activation where (username LIKE \"$username\" or email LIKE \"$email\") and success = 0") or die(mysql_error());
-		$ret = mysql_fetch_object($r);
+	getByUsernameEmailCount($username, $email) { global $db;
+		$username = mysqli_real_escape_string($db, $username);
+		$email = mysqli_real_escape_string($db, $email);
+		$r = mysqli_query($db, "select count(*) as retCode from Activation where (username LIKE \"$username\" or email LIKE \"$email\") and success = 0") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($r);
 		return $ret->retCode;
 	}
 	
@@ -81,24 +81,24 @@ class Activation extends BaseClass {
 		Have to check to see if OTHER people have the username or email and not me
 	*/
 	public static function
-	checkUsernameEmailAndNotMe($userId, $username, $email) {
-		$username = mysql_real_escape_string($username);
-		$email = mysql_real_escape_string($email);
-		$r = mysql_query("select count(*) as retCode from Activation where (username LIKE \"$username\" or email LIKE \"$email\") and userId != $userId") or die(mysql_error());
-		$ret = mysql_fetch_object($r);
+	checkUsernameEmailAndNotMe($userId, $username, $email) { global $db;
+		$username = mysqli_real_escape_string($db, $username);
+		$email = mysqli_real_escape_string($db, $email);
+		$r = mysqli_query($db, "select count(*) as retCode from Activation where (username LIKE \"$username\" or email LIKE \"$email\") and userId != $userId") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($r);
 		return $ret->retCode;
 	}
 	
 	public static function
-	searchUsernameEmailIp($username, $email, $ip, $oa = 'AND') {
+	searchUsernameEmailIp($username, $email, $ip, $oa = 'AND') { global $db;
 		$ret = array();
 	
-		$username = mysql_real_escape_string($username);
-		$email    = mysql_real_escape_string($email);
-		$ip       = mysql_real_escape_string($ip);
+		$username = mysqli_real_escape_string($db, $username);
+		$email    = mysqli_real_escape_string($db, $email);
+		$ip       = mysqli_real_escape_string($db, $ip);
 		
-		$q = mysql_query("SELECT * FROM Activation WHERE username LIKE \"$username\" $oa email LIKE \"$email\" $oa ip LIKE \"$ip\" ORDER BY id asc") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'Activation')) {
+		$q = mysqli_query($db, "SELECT * FROM Activation WHERE username LIKE \"$username\" $oa email LIKE \"$email\" $oa ip LIKE \"$ip\" ORDER BY id asc") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'Activation')) {
 			$ret[] = $r;
 		}	
 		

@@ -1,4 +1,4 @@
-<? if (!$_SESSION['isLogined']) {
+<?php if (!$_SESSION['isLogined']) {
 	die("no access");
 } ?>
 <h3>Outbox</h3>
@@ -9,7 +9,7 @@
         messages of <font size="3" color="RED"><?=getMessagesCount($user->ID) ?></font> Messages
       <p>
 	  
-	  <?
+	  <?php
 if ($cgi['type'] == 'delete') {
 	deleteOutMessage($cgi['id']);
 }
@@ -31,7 +31,7 @@ if ($cgi['type'] == 'view') {
           <th>Sent</th>
           <th>Delete</th>
         </tr>
-        <?
+        <?php
 	$messagesC = getOutMessagesCount($user->ID);
 	if ($messagesC) {
 		$pCount = $messagesC / $conf["users_per_page"];
@@ -44,12 +44,12 @@ if ($cgi['type'] == 'view') {
 		for ($i = 0;$i < count($messages);$i++) {
 ?>
         <tr align="center"> 
-          <td><? if ($messages[$i]->toID > 0) { ?>
+          <td><?php if ($messages[$i]->toID > 0) { ?>
            <a href="stats.php?id=<?=$messages[$i]->toID ?>">
-            <? $sentUser = getUserDetails($messages[$i]->toID, "userName");
+            <?php $sentUser = getUserDetails($messages[$i]->toID, "userName");
 				echo $sentUser->userName; ?>
             </a>             
-            <?
+            <?php
 			} else {
 				echo "All Officers";
 			} ?></td>
@@ -59,16 +59,16 @@ if ($cgi['type'] == 'view') {
           <td><?=vDate($messages[$i]->date) ?></td>
           <td><a href="messages.php?box=outbox&amp;id=<?=$messages[$i]->ID ?>&amp;type=delete">delete</a></td>
         </tr>
-        <?
+        <?php
 		}
 	} else {
 ?>
         <tr> 
           <td colspan="3" align="center">No Messages</td>
         </tr>
-        <?
+        <?php
 	} ?>
       </table>
-	  <?
+	  <?php
 } ?>
 

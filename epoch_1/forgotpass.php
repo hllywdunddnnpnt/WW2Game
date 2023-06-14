@@ -1,11 +1,11 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
 
-		<title><? echo $conf["sitename"]; ?> :: Massively Multiplayer Online Role Playing Game</title>
+		<title><?php echo $conf["sitename"]; ?> :: Massively Multiplayer Online Role Playing Game</title>
 		<LINK href="css/common.css" rel="stylesheet" type="text/css">
 		
 		<SCRIPT language=javascript src="js/js"></SCRIPT>
@@ -23,13 +23,13 @@ include "scripts/vsys.php";
 		</script>
 	</head>
 <body bgcolor="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" text="#FFFFFF">
-<?
+<?php
 include "top.php";
 ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="5">
   <tr> 
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
     </td>
@@ -39,18 +39,18 @@ include ("left.php");
 <p>
 Enter your e-mail address or username to retrieve your login details.
 <p>
-<font color="RED"><?
+<font color="RED"><?php
 if ($cgi['email']) {
 	$cgi['email'] = addslashes($cgi['email']);
-	$q = mysql_query("SELECT userName,admin FROM UserDetails WHERE email LIKE '%$cgi[email]%' LIMIT 0,1") or die(mysql_error());
-	$a = mysql_fetch_array($q, MYSQL_ASSOC);
+	$q = mysqli_query($db, "SELECT userName,admin FROM UserDetails WHERE email LIKE '%$cgi[email]%' LIMIT 0,1") or die(mysqli_error($db));
+	$a = mysqli_fetch_array($q, mysqli_ASSOC);
 	if ($a[admin] == 1) {
 		$strErr.= "You are not allowed to change an admin's password<br />";
 	}
 	if ($a['userName'] and $cgi[admin] == 0) {
 		$newpass = genRandomPas();
 		$str = "<html><body>Your login: {$a[userName]} \n password: $newpass </body></html>";
-		mysql_query("UPDATE UserDetails SET password='" . md5($newpass) . "' WHERE userName='$a[userName]'") or die(mysql_error());
+		mysqli_query($db, "UPDATE UserDetails SET password='" . md5($newpass) . "' WHERE userName='$a[userName]'") or die(mysqli_error($db));
 		//echo $str;
 		//change this:
 		$subject = rand(0, 1) ? $a['userName'] : (rand(0, 1) ? "$a[userName]'s password" : "WW2: $a[userName]");
@@ -81,7 +81,7 @@ echo $strErr;
 		</tr>		
 	</table>
 </form>
-<?
+<?php
 include ("bottom.php");
 ?>		</td>
 	</tr>
@@ -89,4 +89,4 @@ include ("bottom.php");
 </body>
 </html>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

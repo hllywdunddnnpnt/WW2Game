@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG

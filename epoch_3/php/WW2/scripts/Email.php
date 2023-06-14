@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -27,7 +27,8 @@ class Email {
 		'Reply-To' => "\"Admin\" <admin@example.net>",
 		'MIME-Version' => '1.1',
 		"Return-Path" => "<admin@example.net>",
-		"Organization" => "game"
+		"Organization" => "game",
+		//"Host" => "smtp.gmail.com",
 	);
 
 	private $boundary = '';
@@ -41,20 +42,20 @@ class Email {
 	public function 
 	__construct($to, $subject, $html, $plain) {
 		$this->mailer = new PHPMailer();
-		$this->mailer->Mailer = 'smtp';
+		//$this->mailer->Mailer = 'smtp';
 		$this->mailer->IsSMTP();
-//		$this->mailer->SMTPDebug = true;
+		$this->mailer->SMTPDebug = true;
 		$this->mailer->Host = 'smtp.gmail.com';
-		$this->mailer->Port = 465;
-		$this->mailer->SMTPSecure = 'ssl';
-		$this->mailer->Timeout = 30;
-		$this->mailer->SMTPAuth = true;
+		$this->mailer->Port = 587;//465;
+		$this->mailer->SMTPSecure = 'tls';//'ssl';
+		$this->mailer->Timeout = 10;
+		$this->mailer->SMTPAuth = false;
 		$this->mailer->Username = 'admin@example.net';
 		$this->mailer->Password = 'password';
 		
 		$this->mailer->From     = 'admin@example.net';
 		$this->mailer->FromName = 'Admin';
-		$this->mailer->AddReplyTo('admin@example.net', 'Admin');
+		//$this->mailer->AddReplyTo('admin@example.net', 'Admin');
 		$this->mailer->WordWrap = 70;
 		
 		$this->mailer->AddAddress($to);
@@ -307,7 +308,7 @@ function validateEmail($email, $domainCheck = false, $verify = false, $probe_add
 }
 
 function verifyEmail($input) {
-	list($email, $domain) = split('@', $input, 2);
+	list($email, $domain) = explode('@', $input, 2);
 	$mxhosts = array();
 	if (!getmxrr($domain, $mxhosts)) {
 		return false;

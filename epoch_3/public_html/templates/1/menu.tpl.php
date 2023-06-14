@@ -37,13 +37,13 @@
 							<li>Next turn: <span id="menu-next-turn-min"></span>:<span id="menu-next-turn-sec"></span></li>
 							<li>Rank: <?= numecho($user->rank)         ?></li>
 							<li>Turns: <?= numecho($user->attackturns) ?> / <?= numecho($conf['attackturn-cap']) ?></li>
-							<? if ($user->getSupport('combined-gold')) { ?>
-								<? $user->primary = 2; ?>
+							<?php if ($user->getSupport('combined-gold')) { ?>
+								<?php $user->primary = 2; ?>
 								<li class="primary">Total: <?= numecho($user->getPrimary()) ?></li>						
-							<? }
+							<?php }
 								else { ?>
 								<li><a href="?switch-primary=<?= $this->templateName ?>&amp;<?= http_build_query($_GET) ?>" title="Switch Your Primary Gold Source">Switch Primary</a></li>
-							<? } ?>
+							<?php } ?>
 							
 							<li <?= ($user->primary == 0 ? 'class="primary"' : '' ) ?>>Gold: <?= numecho($user->gold)?></li>
 							<li <?= ($user->primary == 1 ? 'class="primary"' : '' ) ?>>Bank: <?= numecho($user->bank)?></li>

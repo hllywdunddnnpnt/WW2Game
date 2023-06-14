@@ -22,7 +22,7 @@
 <div id="alliancecreate-container">
 	<div class="panel">
 		<div class="panel-title">
-			Create an Alliance <? $this->load('alliance-header') ?>
+			Create an Alliance <?php $this->load('alliance-header') ?>
 		</div>
 		<form class="large" method="post">
 			<div class="line">
@@ -41,12 +41,12 @@
 			</div>
 			<div class="line">
 				<label>Tag:</label>
-				<? if ($user->alliance) { ?>
+				<?php if ($user->alliance) { ?>
 					<span><?= $this->alliance->getTag() ?></span>
-				<? } 
+				<?php } 
 					else { ?>
 					<input type="text" name="alliance-tag" maxlength="6" />
-				<? } ?>
+				<?php } ?>
 			</div>
 			<div class="line">
 				<label>Alliance URL:</label>

@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `alliances` (
   `bunkers` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `password` (`password`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `AttackLog` (
   `raeff` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `type` (`type`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 -- --------------------------------------------------------
 
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `IPs` (
   PRIMARY KEY (`ID`),
   KEY `userID` (`userID`),
   KEY `ip` (`ip`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `log_A` (
   `uid` int(11) NOT NULL,
   `ip` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM COMMENT='Basic indexing for the logging system' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM COMMENT='Basic indexing for the logging system' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `Mercenaries` (
   `avgra` bigint(15) NOT NULL DEFAULT '0',
   `avgca` bigint(15) NOT NULL DEFAULT '0',
   `avghit` int(11) NOT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `Mercenaries` (`lastturntime`) VALUES (UNIX_TIMESTAMP());
 
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `Messages` (
   KEY `age` (`age`),
   FULLTEXT KEY `subject` (`subject`),
   FULLTEXT KEY `text` (`text`)
-) TYPE=MyISAM  PACK_KEYS=0;
+) ENGINE=MyISAM  PACK_KEYS=0;
 
 -- --------------------------------------------------------
 
@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `outbox` (
   KEY `age` (`age`),
   FULLTEXT KEY `subject` (`subject`),
   FULLTEXT KEY `text` (`text`)
-) TYPE=MyISAM  PACK_KEYS=0 ;
+) ENGINE=MyISAM  PACK_KEYS=0 ;
 
 -- --------------------------------------------------------
 
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `proxylist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM COMMENT='List of IPs known to be proxy servers' ;
+) ENGINE=MyISAM COMMENT='List of IPs known to be proxy servers' ;
 
 -- --------------------------------------------------------
 
@@ -227,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `Ranks` (
   `rarank` int(11) NOT NULL,
   PRIMARY KEY (`userID`),
   KEY `rank` (`rank`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `SpyLog` (
   `weapontype2` int(11) NOT NULL,
   `weaponamount` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 -- --------------------------------------------------------
 
@@ -366,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `UserDetails` (
   PRIMARY KEY (`ID`),
   KEY `alliance` (`alliance`),
   KEY `referrer` (`referrer`)
-) TYPE=InnoDB  PACK_KEYS=0;
+) ENGINE=InnoDB  PACK_KEYS=0;
 
 -- --------------------------------------------------------
 
@@ -383,4 +383,4 @@ CREATE TABLE IF NOT EXISTS `Weapon` (
   `weaponCount` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `weaponID` (`weaponID`,`userID`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;

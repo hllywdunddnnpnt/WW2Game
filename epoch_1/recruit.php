@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 if (isset($_SESSION['number1'])) {
 	unset($_SESSION['number1']);
@@ -10,15 +10,15 @@ $us = getUserDetails($cgi['uniqid'], "*");
 $ip = $_SERVER['REMOTE_ADDR'];
 $time = $conf["hours_to_block_same_user_recruiting"] * 60 * 60;
 $ttt = time() - $time;
-$a = mysql_query("SELECT * FROM click WHERE ip='$ip' AND uid='" . $us->ID . "' AND time>'$ttt'") or die(mysql_error());
-$ar = mysql_fetch_array($a);
-$acount = mysql_num_rows($a);
+$a = mysqli_query($db, "SELECT * FROM click WHERE ip='$ip' AND uid='" . $us->ID . "' AND time>'$ttt'") or die(mysqli_error($db));
+$ar = mysqli_fetch_array($a);
+$acount = mysqli_num_rows($a);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
 >
 <HTML>
     <HEAD>
-        <TITLE><? echo $conf["sitename"]; ?> :: Massively Multiplayer Online Role Playing Game</TITLE>
+        <TITLE><?php echo $conf["sitename"]; ?> :: Massively Multiplayer Online Role Playing Game</TITLE>
         <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
         <LINK href="css/common.css" type=text/css rel=stylesheet>
         <SCRIPT language=javascript type=text/javascript>
@@ -35,14 +35,14 @@ $acount = mysql_num_rows($a);
     </HEAD>
     <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-        <?
+        <?php
 include ("top.php");
 ?>
         <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
             <TBODY>
                 <TR>
                     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-                        <?
+                        <?php
 include ("left.php");
 ?>
                     </TD>
@@ -50,7 +50,7 @@ include ("left.php");
                     <!--Recruiter: username (<?=$us->userName
 ?>)-->
                     
-                        <?
+                        <?php
 if ($us->active != 1 OR !is_numeric($cgi['uniqid'])) {
 	echo "<!--Recruiter: INVALID-->";
 }
@@ -72,7 +72,7 @@ if ($cgi['image_click_value']) {
                                 <center>
                                     <font style="font-size: 16pt"> <a href="register.php?join=<?=$conf['race'][$us->race]['name'] ?>&amp;uniqid=<?=$us->ID ?>"><font style="font-size: 16pt">Join The War</font></a>!</font>
                                 </center>   
-                  <?
+                  <?php
 	} elseif (strstr($alert, "proxy")) {
 ?>
                         <!--Recruiter: PROXY <?=$us->ID ?>-->
@@ -83,7 +83,7 @@ if ($cgi['image_click_value']) {
                                 <center>
                                     <font style="font-size: 16pt"> <a href="register.php?join=<?=$conf['race'][$us->race]['name'] ?>&amp;uniqid=<?=$us->ID ?>"><font style="font-size: 16pt">Join The War</font></a>!</font>
                                 </center>  
-                    <?
+                    <?php
 	} elseif ($cgi['image_click_value'] == $_SESSION['number']) {
 		//$_SESSION['number']=0;
 		if (time() < ($ar[time] + $time) and $acount > 0) {
@@ -112,7 +112,7 @@ if ($cgi['image_click_value']) {
 ?>
                          minutes and&nbsp;<?=$timeA['tm_sec']
 ?>
-                         seconds&nbsp;<?
+                         seconds&nbsp;<?php
 		} else {
 			if (!isset($_SESSION['isLogined'])) {
 				$s_id = 0;
@@ -120,7 +120,7 @@ if ($cgi['image_click_value']) {
 				$s_id = $_SESSION['isLogined'];
 			}
 			recruitSoldier($us->ID);
-			mysql_query("INSERT INTO click (`ip`,`uid`,`time`,`sid`) VALUES ('$ip','" . $us->ID . "','" . time() . "','$s_id');") or die(mysql_error());
+			mysqli_query($db, "INSERT INTO click (`ip`,`uid`,`time`,`sid`) VALUES ('$ip','" . $us->ID . "','" . time() . "','$s_id');") or die(mysqli_error($db));
 ?>
                         <center>
                             <!--Recruiter: OK <?=$us->ID ?>-->
@@ -145,7 +145,7 @@ if ($cgi['image_click_value']) {
                                     <font style="font-size: 16pt"> <a href="register.php?join=<?=$conf['race'][$us->race]['name'] ?>&uniqid=<?=$us->ID ?>"><font style="font-size: 16pt">Join The War</font></a>!</font>
                                 </center>
                                 </center>
-                                <?
+                                <?php
 		}
 	} else {
 ?>
@@ -154,7 +154,7 @@ if ($cgi['image_click_value']) {
                                      Please Wait...
                                 </h1>
                                  You failed to correctly match the image! For your sanity, there is a mandatory "cooling down" period that you must go through before trying again. Please try again in a <b>few minutes</b>.
-                                 <?
+                                 <?php
 		$_SESSION[hash2] = md5($_SERVER['REMOTE_ADDR'] . time());
 	}
 } elseif ($cgi['uniqid']) {
@@ -188,7 +188,7 @@ if ($cgi['image_click_value']) {
                                             <!--Recruiter: CLICKY <?=$us->ID ?>-->
                                                  Click on the number shown in the image to proceed to&nbsp;<a href="stats.php?id=<?=$us->ID ?>"><?=$us->userName ?></a>'s Recruitment Center
                                             <p>
-                                                <img src="imageclick.php?<? $SID = session_name() . "=" . session_id();
+                                                <img src="imageclick.php?<?php $SID = session_name() . "=" . session_id();
 	echo $SID;
 	$number = rand(1, 15);
 	unset($_SESSION['number']);
@@ -254,21 +254,21 @@ if ($cgi['image_click_value']) {
                                                 </SCRIPT>
                                                 <SCRIPT LANGUAGE="JavaScript" SRC="http://www.drumcash.com/drumcash.dc">
                                                 </SCRIPT>
-                                                <input type="hidden" name="hash2" value="<? $_SESSION[hash2] = md5($_SERVER['REMOTE_ADDR'] . time());
+                                                <input type="hidden" name="hash2" value="<?php $_SESSION[hash2] = md5($_SERVER['REMOTE_ADDR'] . time());
 	echo $_SESSION[hash2]; ?>">
                                                 <input type="hidden" name="uniqid" value="<?=$cgi['uniqid'] ?>">
                                                 </form>
                                             <p>
                                                 <center>
                                                 </center>
-                                                <?
+                                                <?php
 }
 ?>
                                                 </center>
                                             <P>
                                             
                                             <P>
-                                                <?
+                                                <?php
 include ("bottom.php");
 ?>
                                                 </CENTER>
@@ -278,7 +278,7 @@ include ("bottom.php");
                                             </TABLE>
                                             </BODY>
                                             </HTML>
-                                            <? include "gzfooter.php"; ?>
+                                            <?php include "gzfooter.php"; ?>
 
 
 

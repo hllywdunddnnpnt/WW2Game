@@ -26,13 +26,13 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title><?= $this->pageTitle  ?></title>
 		<link href="<?= $this->css('common') ?>" rel="stylesheet" type="text/css" >
-		<? if ($this->css) { ?>
+		<?php if (isset($this->css)) { ?>
 			<link href="<?= $this->css($this->templateName) ?>" rel="stylesheet" type="text/css" >
-		<? } ?>
+		<?php } ?>
 		<script language="JavaScript" type="text/javascript" src="<?= $this->js('common') ?>?v=<?= VERSION ?>"></script>
-		<? if ($this->js) { ?>
+		<?php if (isset($this->js)) { ?>
 			<script language="JavaScript" type="text/javascript" src="<?= $this->js($this->templateName) ?>?v=<?= VERSION ?>"></script>
-		<? } ?>
+		<?php } ?>
 		<script language="JavaScript" type="text/javascript">
 			var serverTime = <?= time(); ?>;
 			var ageEnd = <?= ($this->ageEnd ? $this->ageEnd : 0)  ?>;
@@ -62,7 +62,7 @@
 
 			
 			
-			<? if ($user) { ?>
+			<?php if ($user) { ?>
 			
 			var user = {
 				id : <?= $user->id ?>,
@@ -73,12 +73,12 @@
 				commander: <?= intval($user->commander) ?>
 			};
 			
-			<? } ?>
+			<?php } ?>
 
 			function loadComplete() {
-				<? if ($user) { ?>
+				<?php if ($user) { ?>
 				startTimer();
-				<? } ?>
+				<?php } ?>
 				
 				<?= $this->onload ?>
 			
@@ -107,16 +107,16 @@
 						 />
 					</a>
 				</div>
-				<? if (!$user or ($user and !$user->supporter and !$_SESSION['admin'])) { ?>
+				<?php if (!$user or ($user and !$user->supporter and !$_SESSION['admin'])) { ?>
 					<div style="height:60px;width:468px">
 						
 					</div>
-				 <? } ?>
+				 <?php } ?>
 
 				<div id="nav-icons">
 					<a href="/irc/" target="_blank">Chat</a><br />
 					<a href="/forum" target="_blank">Forum</a><br />
-					<a href="online<?= ($user ? '' : '-offline') ?>.php">Online (<?= $conf['online-now'] ?>)</a>
+					<a href="online<?= ($user ? '' : '-offline') ?>.php">Online (<?= isset($conf['online-now']) ? $conf['online-now'] : '' ?>)</a>
 				</div>
 			</div>
 			<!-- End of top navbar -->
@@ -125,13 +125,13 @@
 			<div id="main-content-panel">
 				<div id="main-announce-bar" class="layer2">
 					<?= $this->announcement ?>
-					<? if ($user and $user->admin) { ?>
+					<?php if ($user and $user->admin) { ?>
 						|| <a href="?admin-key=<?= ($_SESSION['admin'] ? 'off&amp;' : 'on&amp;') .  http_build_query($_GET) ?>" >Admin <?= ($_SESSION['admin'] ? 'off' : 'on') ?></a>
-						<? if ($_SESSION['admin']) { ?>
+						<?php if ($_SESSION['admin']) { ?>
 							|| <a href="admin.php">Admin Panel</a>
 							|| <a href="admin-contact.php">Contact Manager</a>
-						<? } ?>
-					<? } ?>
+						<?php } ?>
+					<?php } ?>
 				</div>
 
 					<div id="left-panel">
@@ -139,8 +139,8 @@
 						<!-- Start of Left panel -->
 						<div id="main-left-container" class="layer3">
 							<!-- only show left if not offline -->
-							<? if (!$this->offline) { ?>
-							<?
+							<?php if (!$this->offline) { ?>
+							<?php
 								if (Privacy::isIn() and $user) {
 									$this->load('menu');
 								}
@@ -149,11 +149,11 @@
 								}
 							?>
 							
-							<? } ?>
+							<?php } ?>
 							<ul id="common-menu-items">
-								<li><a href="online<?= ($user ? '' : '-offline') ?>.php">Online Now: <?= $conf['online-now'] ?></a></li>
-								<li>Online Today: <span><?= $conf['online-today'] ?></span></li>
-								<li>Attacks Today: <span><?= $conf['attacks-today'] ?></span></li>
+								<li><a href="online<?= ($user ? '' : '-offline') ?>.php">Online Now: <?= isset($conf['online-now']) ? $conf['online-now'] : '' ?></a></li>
+								<li>Online Today: <span><?= isset($conf['online-today']) ? $conf['online-today'] : '' ?></span></li>
+								<li>Attacks Today: <span><?= isset($conf['attacks-today']) ? $conf['attacks-today'] : '' ?></span></li>
 								<li>Server Time: <span><?= date ('H:i', time() + (60*60*13)) ?></span></li>
 							</ul>
 							<ul id="menu-links">
@@ -166,28 +166,28 @@
 							</ul>
 
 							
-							<? if (!$user or ($user and !$user->supporter)) { ?>
+							<?php if (!$user or ($user and !$user->supporter)) { ?>
 								<ul id="ad-list">
 									<li id="google-ad1">
 										
 									</li>
 								</ul>
-							<? } ?>
+							<?php } ?>
 
 						</div>
 						<!-- End of Left panel -->
 						<div class="clear flat"></div>
 					</div>
 					<!-- Start of Main page content panel -->
-					<? if ($this->err) { ?>
+					<?php if (isset($this->err)) { ?>
 						<div id="main-error-bar" class="layer2"><?= $this->err ?></div>
-					<? } ?>
-					<? if ($this->msg) { ?>
+					<?php } ?>
+					<?php if (isset($this->msg)) { ?>
 						<div id="main-msg-bar" class="layer2"><?= $this->msg ?></div>
-					<? } ?>
+					<?php } ?>
 					<div id="page-content">
 
-						<? $this->load($this->templateName) ?>
+						<?php $this->load($this->templateName) ?>
 
 					</div>
 					<!-- End of main page content panel -->
@@ -224,4 +224,4 @@
 		
 	</body>
 </html>
-<? require_once('logger.php') ?>
+<?php require_once('logger.php') ?>

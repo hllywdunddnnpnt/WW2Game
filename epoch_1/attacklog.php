@@ -1,9 +1,9 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?>:: Attack Log</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?>:: Attack Log</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><!-- ZoneLabs Privacy Insertion -->
 <SCRIPT language=javascript src="js/js"></SCRIPT>
 <LINK href="css/common.css" type=text/css rel=stylesheet>
@@ -22,14 +22,14 @@ include "scripts/vsys.php";
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 	</TD>
@@ -51,7 +51,7 @@ include ("left.php");
             <th class="subh" align="right">Your Damage</th>
             <th class="subh" align="center">Report</th>
           </tr>
-          <?
+          <?php
 if (!$cgi['page1']) {
 	$cgi['page1'] = 1;
 }
@@ -59,9 +59,9 @@ $atackA1 = getAttackByDefender($user->ID, $cgi['page1']);
 for ($i = 0;$i < count($atackA1);$i++) {
 ?>
           <tr> 
-            <td colspan="2" align="left"><? echo vDate($atackA1[$i]->time); ?></td>
+            <td colspan="2" align="left"><?php echo vDate($atackA1[$i]->time); ?></td>
             <td align="left"> 
-              <?
+              <?php
 	$tus = getUserDetails($atackA1[$i]->userID, "userName,active");
 	if ($tus->active == 1) {
 		echo "<a href='stats.php?id={$atackA1[$i]->userID}'>" . $tus->userName . "</a>";
@@ -70,7 +70,7 @@ for ($i = 0;$i < count($atackA1);$i++) {
 	}
 ?>
             </td>
-            <td align="right"><?
+            <td align="right"><?php
 	if ($atackA1[$i]->type == 1) {
 		echo "<b>Nuke</b>";
 	} else {
@@ -90,32 +90,32 @@ for ($i = 0;$i < count($atackA1);$i++) {
               <?=$atackA1[$i]->defUsersKilled; ?>  
             </td>
             <td align="right">
-              <? numecho($atackA1[$i]->attackStrength); ?>
+              <?php numecho($atackA1[$i]->attackStrength); ?>
             </td>
             <td align="right">
-              <? numecho($atackA1[$i]->defStrength); ?>
+              <?php numecho($atackA1[$i]->defStrength); ?>
             </td>
             <td align="center"><a href="battlelog.php?id=<?=$atackA1[$i]->ID ?>&isview=1">details</a></td>
           </tr>
-          <?
+          <?php
 }
 ?>
           <tr> 
-            <td><? if ($cgi['page1'] > 1) {
+            <td><?php if ($cgi['page1'] > 1) {
 	echo "<nobr><A href='attacklog.php?page1=" . ($cgi['page1'] - 1) . "'>&lt;&lt; Prev</A></nobr>";
 } else {
 	echo "&nbsp;";
 }
 ?></td>
-            <td colspan="8" align="center"><?
+            <td colspan="8" align="center"><?php
 $atacks1C = getAttackByDefenderCount($user->ID);
 $pCount1 = $atacks1C / $conf["users_per_page_on_attack_log"];;
 $pCountF1 = floor($pCount1);
 $pCountF1+= (($pCount1 > $pCountF1) ? 1 : 0);
 numecho($atacks1C);
-?> attacks total | page <? numecho($cgi['page1']); ?> of <? numecho($pCountF1); ?></td>
+?> attacks total | page <?php numecho($cgi['page1']); ?> of <?php numecho($pCountF1); ?></td>
             <td> 
-              <? if ($cgi['page1'] < $pCountF1) {
+              <?php if ($cgi['page1'] < $pCountF1) {
 	echo "<nobr><A href='attacklog.php?page1=" . ($cgi['page1'] + 1) . "'>Next &gt;&gt;</A></nobr>";
 } else {
 	echo "&nbsp;";
@@ -141,7 +141,7 @@ numecho($atacks1C);
             <th width="14%" align="right" class="subh">Your Damage</th>
             <th width="9%" align="center" class="subh">Report</th>
           </tr>
-          <?
+          <?php
 if (!$cgi['page2']) {
 	$cgi['page2'] = 1;
 }
@@ -149,9 +149,9 @@ $atackA2 = getAttackByAttacker($user->ID, $cgi['page2']);
 for ($i = 0;$i < count($atackA2);$i++) {
 ?>
           <tr> 
-            <td colspan="2" align="right"><? echo vDate($atackA2[$i]->time); ?></td>
+            <td colspan="2" align="right"><?php echo vDate($atackA2[$i]->time); ?></td>
             <td align="left"> 
-              <?
+              <?php
 	$tus = getUserDetails($atackA2[$i]->toUserID, "userName,active");
 	if ($tus->active == 1) {
 		echo "<a href='stats.php?id={$atackA2[$i]->toUserID}'>" . $tus->userName . "</a>";
@@ -161,7 +161,7 @@ for ($i = 0;$i < count($atackA2);$i++) {
 ?>
             </td>
             <td align="right"> 
-              <?
+              <?php
 	if ($atackA2[$i]->type == 1) {
 		echo "<b>Nuke</b>";
 	} else {
@@ -184,18 +184,18 @@ for ($i = 0;$i < count($atackA2);$i++) {
               <?=$atackA2[$i]->attackUsersKilled; ?>
             </td>             
             <td align="right"> 
-               <? numecho($atackA2[$i]->defStrength); ?> 
+               <?php numecho($atackA2[$i]->defStrength); ?> 
             </td>
             <td align="right"> 
-            <? numecho($atackA2[$i]->attackStrength); ?>
+            <?php numecho($atackA2[$i]->attackStrength); ?>
             </td>
             <td align="center"><a href="battlelog.php?id=<?=$atackA2[$i]->ID ?>&amp;isview=1">details</a></td>
           </tr>
-          <?
+          <?php
 } ?>
           <tr> 
             <td> 
-              <? if ($cgi['page2'] > 1) {
+              <?php if ($cgi['page2'] > 1) {
 	echo "<nobr><A href='attacklog.php?page2=" . ($cgi['page2'] - 1) . "'>&lt;&lt; Prev</A></nobr>";
 } else {
 	echo "&nbsp;";
@@ -203,7 +203,7 @@ for ($i = 0;$i < count($atackA2);$i++) {
 ?>
             </td>
             <td colspan="8" align="center"> 
-              <?
+              <?php
 $atacks2C = getAttackByAttackerCount($user->ID);
 $pCount2 = $atacks2C / $conf["users_per_page_on_attack_log"];
 $pCountF2 = floor($pCount2);
@@ -211,12 +211,12 @@ $pCountF2+= (($pCount2 > $pCountF2) ? 1 : 0);
 numecho($atacks2C);
 ?>
               attacks total | page 
-              <? numecho($cgi['page2']); ?>
+              <?php numecho($cgi['page2']); ?>
               of 
-              <? numecho($pCountF2); ?>
+              <?php numecho($pCountF2); ?>
             </td>
             <td>
-              <? if ($cgi['page2'] < $pCountF2) {
+              <?php if ($cgi['page2'] < $pCountF2) {
 	echo "<nobr><A href='attacklog.php?page2=" . ($cgi['page2'] + 1) . "'>Next &gt;&gt;</A></nobr>";
 } else {
 	echo "&nbsp;";
@@ -226,10 +226,10 @@ numecho($atacks2C);
           </tr>
         </table>
 
-<?
+<?php
 include ("bottom.php");
 ?>	
      </TD></TR></TBODY></TABLE>
 </BODY></HTML>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

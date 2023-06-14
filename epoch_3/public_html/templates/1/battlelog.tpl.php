@@ -30,16 +30,16 @@
 	</p>
 
 	<p id="result">
-		<? if ($this->b->getSuccess()) { ?>
-			<? if ($this->b->attackType == 6) { ?>
+		<?php if ($this->b->getSuccess()) { ?>
+			<?php if ($this->b->attackType == 6) { ?>
 				The forces of <?= $this->attacker->getNameLink() ?> overwhelmed those of <?= $this->target->getNameLink() ?>.<br />
 				<?= $this->attacker->getNameLink() ?>  stole <span class="gold"><?= numecho($this->b->goldStolen) ?></span> gold, which was <?= $this->b->percentStolen ?>% of the total.
-			<? } ?>
-		<? }
+			<?php } ?>
+		<?php }
 			else {?>
 			The forces of <?= $this->target->getNameLink() ?> <span style="font-weight:bold;">defended</span> those 
 			of <?= $this->attacker->getNameLink() ?>.
-		<? } ?>
+		<?php } ?>
 	</p>
 	
 	<p id="damage">
@@ -110,16 +110,16 @@
 	<p id="ra">
 		<?= $this->attacker->getNameLink() ?> had a retaliation strength of <?= numecho($this->b->attackerRA) ?> (<?= $this->b->attackerRAPercentage ?>%). <br />
 		<?= $this->target->getNameLink() ?> had a retaliation strength of <?= numecho($this->b->targetRA) ?> (<?= $this->b->targetRAPercentage ?>%). <br />
-		<? if ($this->b->attackerRA > $this->b->targetRA) { ?>
+		<?php if ($this->b->attackerRA > $this->b->targetRA) { ?>
 			<?= $this->attacker->getNameLink() ?> did <?= numecho($this->RADamage) ?> damage to <?= $this->target->getNameLink() ?>'s attack weapons.<br />
-		<? }
+		<?php }
 			else { ?>
 			<?= $this->target->getNameLink() ?> did <?= numecho($this->RADamage) ?> damage to <?= $this->attacker->getNameLink() ?>'s defense weapons.<br />
-		<? } ?>
+		<?php } ?>
 	</p>
 	<br />
-	<? if ($user->getSupport('quick-attack')) { ?>
-		<? if ($this->attacker->id == $user->id) {
+	<?php if ($user->getSupport('quick-attack')) { ?>
+		<?php if ($this->attacker->id == $user->id) {
 			$target = $this->target;
 		}
 		else {
@@ -129,7 +129,7 @@
 			<a href="attack.php?uid=<?= $target->id ?>&amp;raid=Raid">Attack <?= $target->getNameHTML() ?></a>&nbsp;||&nbsp;
 			<a href="spy.php?uid=<?= $target->id ?>&amp;spy=Spy">Spy on <?= $target->getNameHTML() ?></a>
 		</p>
-	<? } ?>
+	<?php } ?>
 	
 </div>
 <!-- End Battle log -->

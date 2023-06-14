@@ -1,38 +1,38 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 //==== vote stuff
 if ($cgi['vote'] AND $user->voted == 0) {
 	$v = ($cgi['vote'] == 'no' ? '0' : '1');
-	mysql_query("UPDATE UserDetails SET voted=1,vote=$v WHERE ID={$user->ID}") or die(mysql_error());
+	mysqli_query($db, "UPDATE UserDetails SET voted=1,vote=$v WHERE ID={$user->ID}") or die(mysqli_error($db));
 	$user->voted = 1;
 }
 if ($user->voted) {
 	$t = time() - 259200;
-	$voteq = mysql_query("SELECT count(*) FROM UserDetails WHERE vote=1 and lastturntime>$t;") or die(mysql_error());
-	$votea = mysql_fetch_array($voteq);
-	mysql_free_result($voteq);
+	$voteq = mysqli_query($db, "SELECT count(*) FROM UserDetails WHERE vote=1 and lastturntime>$t;") or die(mysqli_error($db));
+	$votea = mysqli_fetch_array($voteq);
+	mysqli_free_result($voteq);
 	$yesvotes = $votea[0];
-	$voteq = mysql_query("SELECT count(*) FROM UserDetails WHERE vote=0 AND voted=1 and lastturntime>$t;") or die(mysql_error());
-	$votea = mysql_fetch_array($voteq);
-	mysql_free_result($voteq);
+	$voteq = mysqli_query($db, "SELECT count(*) FROM UserDetails WHERE vote=0 AND voted=1 and lastturntime>$t;") or die(mysqli_error($db));
+	$votea = mysqli_fetch_array($voteq);
+	mysqli_free_result($voteq);
 	$novotes = $votea[0];
-	$voteq = mysql_query("SELECT count(*) FROM UserDetails WHERE lastturntime>$t;") or die(mysql_error());
-	$votea = mysql_fetch_array($voteq);
-	mysql_free_result($voteq);
+	$voteq = mysqli_query($db, "SELECT count(*) FROM UserDetails WHERE lastturntime>$t;") or die(mysqli_error($db));
+	$votea = mysqli_fetch_array($voteq);
+	mysqli_free_result($voteq);
 	$activevotes = $votea[0];
 }
 //======end vote
 if ($cgi['kick'] == 'Kick' and (int)$cgi['ofid'] > 0) {
-	mysql_query("UPDATE UserDetails SET commander=0,accepted=0 WHERE ID=$cgi[ofid]") or die(mysql_error());
+	mysqli_query($db, "UPDATE UserDetails SET commander=0,accepted=0 WHERE ID=$cgi[ofid]") or die(mysqli_error($db));
 }
 //print_r($cgi); // dont show that many info to the users plz :)   I only have these turned on in dev
 if ($cgi['accept'] == 'Accept' and (int)$cgi['ofid'] > 0) {
 	//echo "here";
-	mysql_query("UPDATE UserDetails SET accepted=1 WHERE ID=$cgi[ofid]") or die(mysql_error());
+	mysqli_query($db, "UPDATE UserDetails SET accepted=1 WHERE ID=$cgi[ofid]") or die(mysqli_error($db));
 }
 if ($cgi['clickall'] AND $user->clickall == 0 AND $_SESSION['isLogined']) {
 	$user->clickall = 1;
-	mysql_query("UPDATE UserDetails SET uu=uu+10,gclick=gclick-1 WHERE gclick>0 AND active=1 AND id!=$_SESSION[isLogined]");
+	mysqli_query($db, "UPDATE UserDetails SET uu=uu+10,gclick=gclick-1 WHERE gclick>0 AND active=1 AND id!=$_SESSION[isLogined]");
 	$gc = ($user->gclick >= 15) ? 0 : 1;
 	updateUser($user->ID, "clickall=1,gclick=gclick+$gc");
 }
@@ -47,7 +47,7 @@ if ($cgi['cd'] and checkD($user->email)) {
 >
 <HTML>
     <HEAD>
-        <TITLE><? echo $conf["sitename"]; ?> ::<? echo $user->userName; ?>'s Camp</TITLE>
+        <TITLE><?php echo $conf["sitename"]; ?> ::<?php echo $user->userName; ?>'s Camp</TITLE>
         <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
         <LINK href="css/common.css" type=text/css rel=stylesheet>
         <script language="javascript" type="text/javascript" src="prototype.js"></script>
@@ -75,7 +75,7 @@ if ($cgi['cd'] and checkD($user->email)) {
     </HEAD>
     <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0" onload="gm(<?=$user->ID ?>);">
-        <?
+        <?php
 include "top.php";
 ?>
         <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
@@ -83,14 +83,14 @@ include "top.php";
             
                 <TR>
                     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-                        <?
+                        <?php
 include ("left.php");
 ?>
                     </TD>
                     <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
     vAlign=top align=left>
                         <BR>
-                        <?
+                        <?php
 include "islogined.php";
 ?>
                         <TABLE width="100%">
@@ -114,12 +114,12 @@ include "islogined.php";
                                                     <TD>
                                                         <?=$user->userName
 ?>
-                                                         <? if ($user->supporter > 0) {
+                                                         <?php if ($user->supporter > 0) {
 	echo "{Supporter}";
 } ?>
                                                     </TD>
                                                 </TR>
-                                                <?
+                                                <?php
 //                                                 if($user->voted!=1 AND false==true){
 //
  ?>
@@ -133,28 +133,28 @@ include "islogined.php";
 //                                                 		<input type="submit" value="Vote" />
 //                                                 	</form></td>
 //                                                 </tr>-->
-                                                <?
+                                                <?php
 //}else{
 
 ?>
                                                 	<!--<tr>
                                                		<td>Vote Results</td>
-                                                		<td>Yes: <? //$yesvotes
- ?>/<? //$activevotes
- ?>&nbsp;&nbsp;No: <? //$novotes
- ?>/<? //$activevotes
+                                                		<td>Yes: <?php //$yesvotes
+ ?>/<?php //$activevotes
+ ?>&nbsp;&nbsp;No: <?php //$novotes
+ ?>/<?php //$activevotes
  ?></td>
                                                	</tr>-->
-                                                <?
+                                                <?php
 //}
 
 ?>
                                                 <tr><td><b>Alliance</b></td>
                                                 <td><a href="alliance.php">
-                                                <?
+                                                <?php
 if ($user->alliance > 0) {
-	$qal = mysql_query("SELECT name,up,bunkers FROM alliances WHERE ID='" . $user->alliance . "'") or die(mysql_error());
-	$alliance_stuff = mysql_fetch_array($qal, MYSQL_ASSOC);
+	$qal = mysqli_query($db, "SELECT name,up,bunkers FROM alliances WHERE ID='" . $user->alliance . "'") or die(mysqli_error($db));
+	$alliance_stuff = mysqli_fetch_array($qal, mysqli_ASSOC);
 	echo (($alliance_stuff['name'] != '') ? $alliance_stuff['name'] . ($user->aaccepted == 0 ? '&nbsp;<a href="alliance.php?leave=true"">Leave<a>' : '') : "None");
 } else {
 	echo "None";
@@ -185,8 +185,8 @@ if ($user->alliance > 0) {
                                                         <B>Rank</B>
                                                     </TD>
                                                     <TD>
-                                                        <? numecho($userR->rank)
-?><!--&nbsp;in&nbsp;<?
+                                                        <?php numecho($userR->rank)
+?><!--&nbsp;in&nbsp;<?php
 //echo getarea($user->area);
 
 ?>-->
@@ -197,7 +197,7 @@ if ($user->alliance > 0) {
                                                         <B>Commander</B>
                                                     </TD>
                                                     <TD>
-                                                        <?
+                                                        <?php
 if ($user->commander) {
 	$userC = getUserDetails($user->commander, 'userName,active');
 	if ($userC->active == 1) {
@@ -256,8 +256,8 @@ if ($user->commander) {
                                                         <B>Unit Production</B>
                                                     </TD>
                                                     <TD>
-                                                        <? numecho($user->up)
-?> per turn (+ <? numecho(($user->accepted ? $user->officerup : 0));
+                                                        <?php numecho($user->up)
+?> per turn (+ <?php numecho(($user->accepted ? $user->officerup : 0));
 echo " +";
 numecho(($user->aaccepted ? $alliance_stuff['up'] : 0));
 ?>
@@ -269,7 +269,7 @@ numecho(($user->aaccepted ? $alliance_stuff['up'] : 0));
                                                         <B>Available Funds</B>
                                                     </TD>
                                                     <TD>
-                                                        <? numecho($user->gold);
+                                                        <?php numecho($user->gold);
 ?>
                                                          Gold
                                                     </TD>
@@ -279,7 +279,7 @@ numecho(($user->aaccepted ? $alliance_stuff['up'] : 0));
                                                         <B>Experience</B>
                                                     </TD>
                                                     <TD>
-                                                        <? numecho($user->exp);
+                                                        <?php numecho($user->exp);
 ?>
                                                     </TD>
                                                 </TR>
@@ -289,11 +289,11 @@ numecho(($user->aaccepted ? $alliance_stuff['up'] : 0));
                                                         <B>Projected Income Next Turn</B>
                                                     </TD>
                                                     <TD>
-                                                        <? numecho(getUserIncome($user));
+                                                        <?php numecho(getUserIncome($user));
 ?>
-                                                         (+<? numecho($user->commandergold);
+                                                         (+<?php numecho($user->commandergold);
 ?>
-                                                         ) Gold (in&nbsp;<?
+                                                         ) Gold (in&nbsp;<?php
 $temp = explode(":", $nextTurnMin = getNextTurn($user));
 echo $min = $temp[0];
 ?>
@@ -305,7 +305,7 @@ echo $min = $temp[0];
                                                         <B>Attack Turns</B>
                                                     </TD>
                                                     <TD>
-                                                        <? numecho($user->attackturns)
+                                                        <?php numecho($user->attackturns)
 ?>
                                                     </TD>
                                                 </TR>
@@ -327,10 +327,10 @@ echo $min = $temp[0];
                                             <TBODY>
                                                 <TR>
                                                     <TH class=subh align=middle colSpan=6>
-                                                         Officers <? $officersC = getOfficersCount($user->ID); ?>
+                                                         Officers <?php $officersC = getOfficersCount($user->ID); ?>
                                                     </TH>
                                                 </TR>
-                                                <? if ($officersC) { ?>
+                                                <?php if ($officersC) { ?>
                                                 <tr>
                                                     <TD>
                                                         <form action="writemail.php" method="POST">
@@ -339,7 +339,7 @@ echo $min = $temp[0];
                                                         </form>
                                                     </TD>
                                                </tr>
-                                               <?
+                                               <?php
 } ?>
                                                 <TR>
                                                     <TH align=left>
@@ -361,7 +361,7 @@ echo $min = $temp[0];
                                                          Kick/Accept
                                                     </th>
                                                 </TR>
-                                                <?
+                                                <?php
 if ($officersC) {
 	$pCount = $officersC / $conf["users_per_page"];
 	$pCountF = floor($pCount);
@@ -378,7 +378,7 @@ if ($officersC) {
                                                         </a>
                                                     </td>
                                                     <td align="right">
-                                                        <? numecho(getTotalFightingForce($officers[$i]));
+                                                        <?php numecho(getTotalFightingForce($officers[$i]));
 ?>
                                                     </td>
                                                     <td align="left">
@@ -386,25 +386,25 @@ if ($officersC) {
 ?>
                                                     </td>
                                                     <td align="right">
-                                                        <? numecho($officers[$i]->rank);
+                                                        <?php numecho($officers[$i]->rank);
 ?>
                                                     </td>
                                                       <td align="right">
                                                     <?=duration(time() - $officers[$i]->lastturntime) ?>
                                                     </td>
                                                     <td align="right">
-                                                        <?
+                                                        <?php
 		if ($officers[$i]->accepted == 0) {
 ?>
                                                         <form action="base.php" method="POST" >
                                                             <input type=hidden name=ofid value="<?=$officers[$i]->userID ?>" />
                                                             <input type=submit name='accept' value='Accept' />
                                                         </form>
-                                                        <?
+                                                        <?php
 		}
 ?>
                                                         <form action="base.php" method="POST" onSubmit="return Confoff('<?=$officers[$i]->userName ?>');">
-                                                            <?
+                                                            <?php
 		//$officers[$i]->userName
 		
 ?>
@@ -413,7 +413,7 @@ if ($officersC) {
                                                         </form>
                                                     </td>
                                                 </tr>
-                                                <?
+                                                <?php
 	}
 } else {
 ?>
@@ -422,12 +422,12 @@ if ($officersC) {
                                                          No Officers
                                                     </TD>
                                                 </TR>
-                                                <?
+                                                <?php
 }
 ?>
                                                 <TR>
                                                     <TD>
-                                                        <?
+                                                        <?php
 if ($cgi['page'] > 1) {
 	echo "<A href='base.php?page=" . ($cgi['page'] - 1) . "&id=" . $user->ID . "'>&lt;&lt; Prev</A>";
 } else {
@@ -436,15 +436,15 @@ if ($cgi['page'] > 1) {
 ?>
                                                     </TD>
                                                     <TD align=middle colSpan=4>
-                                                        <? numecho($officersC)
+                                                        <?php numecho($officersC)
 ?>
                                                          officers total | page&nbsp;<?=$cgi['page']
 ?>
-                                                         of&nbsp;<? numecho($pCountF);
+                                                         of&nbsp;<?php numecho($pCountF);
 ?>
                                                     </TD>
                                                     <TD>
-                                                        <?
+                                                        <?php
 if ($cgi['page'] < $pCountF) {
 	echo '<A href="base.php?page=' . ($cgi['page'] + 1) . '&id=' . $user->ID . '">Next &gt;&gt;</A>';
 } else {
@@ -469,11 +469,11 @@ if ($cgi['page'] < $pCountF) {
                                                         <B>Strike Action</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho($user->SA)
+                                                        <?php numecho($user->SA)
 ?>
                                                     </TD>
                                                     <TD align=left>
-                                                         Ranked <?
+                                                         Ranked <?php
 if ($userR->sarank) {
 	numecho($userR->sarank);
 } else echo "#unranked";
@@ -485,11 +485,11 @@ if ($userR->sarank) {
                                                         <B>Defensive Action</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho($user->DA)
+                                                        <?php numecho($user->DA)
 ?>
                                                     </TD>
                                                     <TD align=left>
-                                                         Ranked <?
+                                                         Ranked <?php
 if ($userR->darank) {
 	numecho($userR->darank);
 } else echo "#unranked";
@@ -501,11 +501,11 @@ if ($userR->darank) {
                                                         <B>Covert Action</B>
                                                     </TD>
                                                     <TD align='right'>
-                                                        <? numecho($user->CA)
+                                                        <?php numecho($user->CA)
 ?>
                                                     </TD>
                                                     <TD align='left'>
-                                                         Ranked <?
+                                                         Ranked <?php
 if ($userR->carank) {
 	numecho($userR->carank);
 } else echo "#unranked";
@@ -517,11 +517,11 @@ if ($userR->carank) {
                                                         <B>Retaliation Action</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho($user->RA)
+                                                        <?php numecho($user->RA)
 ?>
                                                     </TD>
                                                     <TD align=left>
-                                                         Ranked <?
+                                                         Ranked <?php
 if ($userR->rarank) {
 	numecho($userR->rarank);
 } else echo "#unranked";
@@ -545,7 +545,7 @@ if ($userR->rarank) {
                                                         <B>Trained Attack Soldiers</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho($user->sasoldiers)
+                                                        <?php numecho($user->sasoldiers)
 ?>
                                                     </TD>
                                                 </TR>
@@ -554,7 +554,7 @@ if ($userR->rarank) {
                                                         <B>Trained Attack Mercenaries</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho($user->samercs)
+                                                        <?php numecho($user->samercs)
 ?>
                                                     </TD>
                                                 </TR>
@@ -563,7 +563,7 @@ if ($userR->rarank) {
                                                         <B>Trained Defense Soldiers</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho($user->dasoldiers)
+                                                        <?php numecho($user->dasoldiers)
 ?>
                                                     </TD>
                                                 </TR>
@@ -572,7 +572,7 @@ if ($userR->rarank) {
                                                         <B>Trained Defense Mercenaries</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho($user->damercs)
+                                                        <?php numecho($user->damercs)
 ?>
                                                     </TD>
                                                 </TR>
@@ -581,7 +581,7 @@ if ($userR->rarank) {
                                                         <B>Untrained Soldiers</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho($user->uu)
+                                                        <?php numecho($user->uu)
 ?>
                                                     </TD>
                                                 </TR>                                                
@@ -590,7 +590,7 @@ if ($userR->rarank) {
                                                         <B>Spies</B>
                                                     </TD>
                                                     <TD class=subh align=right>
-                                                        <? numecho($user->spies)
+                                                        <?php numecho($user->spies)
 ?>
                                                     </TD>
                                                 </TR>
@@ -599,7 +599,7 @@ if ($userR->rarank) {
                                                         <B>Special Forces</B>
                                                     </TD>
                                                     <TD class=subh align=right>
-                                                        <? numecho($user->specialforces)
+                                                        <?php numecho($user->specialforces)
 ?>
                                                     </TD>
                                                 </TR>
@@ -608,7 +608,7 @@ if ($userR->rarank) {
                                                         <B>Total Fighting Force</B>
                                                     </TD>
                                                     <TD align=right>
-                                                        <? numecho(getTotalFightingForce($user))
+                                                        <?php numecho(getTotalFightingForce($user))
 ?>
                                                     </TD>
                                                 </TR>
@@ -661,10 +661,10 @@ if ($userR->rarank) {
                   href="javascript:deleteAccount();" >Delete Account</A>
                                                     </TD>
                                                 </TR>
-                                                <? if ($_SESSION['admin']) {
+                                                <?php if ($_SESSION['admin']) {
 	if ($cgi['adminbtn']) {
 		$act = 0;
-		$r = mysql_real_escape_string($cgi['reason']);
+		$r = mysqli_real_escape_string($db, $cgi['reason']);
 		switch ($cgi['btype']) {
 			default:
 			case 'unban':
@@ -681,7 +681,7 @@ if ($userR->rarank) {
 				$act = 2;
 			break;
 		}
-		mysql_query("UPDATE UserDetails SET reason=\"$r\",active=$act WHERE id={$user->ID}") or die(mysql_error());
+		mysqli_query($db, "UPDATE UserDetails SET reason=\"$r\",active=$act WHERE id={$user->ID}") or die(mysqli_error($db));
 	}
 ?>
                                                   <tr><td>
@@ -700,7 +700,7 @@ if ($userR->rarank) {
 ?><br />
 													Reason:<?=$user->reason
 ?>
-                                                <?
+                                                <?php
 } ?>
                                             </TBODY>
                                         </TABLE>
@@ -730,25 +730,25 @@ border=0>
                                         <TD align=middle>
                                             <A 
                                             
-            href="http://ww2game.net/recruit.php?uniqid=<?
+            href="http://ww2game.net/recruit.php?uniqid=<?php
 //$user->ID
 
-?>">http://ww2game.net/recruit.php?uniqid=<?
+?>">http://ww2game.net/recruit.php?uniqid=<?php
 //$user->ID
 
 ?></A>
                                         </TD>
                                     </TR>-->
-                                    <? if ($user->clickall == 0) { ?>
+                                    <?php if ($user->clickall == 0) { ?>
                                     <tr><td><form method="POST">
                                     <input type="submit" name="clickall" value="Global Click" /><br>
                                     <small>Adds 10 soldiers to everyone.</small>
                                     </form></td></tr>
-                                    <?
+                                    <?php
 } ?>
                                 </TBODY>
                             </TABLE>
-                            <?
+                            <?php
 include ("bottom.php");
 ?>
                     </TD>
@@ -758,4 +758,4 @@ include ("bottom.php");
     </BODY>
 </HTML>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

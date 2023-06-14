@@ -1,4 +1,4 @@
-<?
+<?php
 
 /***
 
@@ -54,11 +54,11 @@ if ($area and $age >= 15) {
 }
 
 
-$q = mysql_query("SELECT *, (sarank+darank+carank+rarank) as rave FROM hof$age $WHERE order by rave ASC") or die(mysql_error());
+$q = mysqli_query($db, "SELECT *, (sarank+darank+carank+rarank) as rave FROM hof$age $WHERE order by rave ASC") or die(mysqli_error($db));
 
 $t->u = null;
 $t->ranks = array();
-while ($r = mysql_fetch_object($q)) {
+while ($r = mysqli_fetch_object($q)) {
 	$t->ranks[] = $r;
 	if ($uid and $uid == $r->id) {
 		$t->u = $r;

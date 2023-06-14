@@ -23,19 +23,19 @@
 	<div class="panel">
 		<div class="panel-title">
 			<?= $this->alliance->getNameHTML() ?> Alliance
-			<? $this->load('alliance-header') ?>
+			<?php $this->load('alliance-header') ?>
 		</div>
 		<div class="large">
 			<div class="line">
 				<label>View Members</label>
 				<span><a href="alliance-members.php">View</a><span>
 			</div>
-			<? if ($this->alliance->isLeader($user)) { ?>
+			<?php if ($this->alliance->isLeader($user)) { ?>
 				<div class="line">
 					<label>Banned Users</label>
 					<span><a href="alliance-banlist.php">View</a></span>
 				</div>
-			<? } ?>
+			<?php } ?>
 			<div class="line">
 				<label>URL:</label>
 				<span><?= $this->alliance->getURLLink() ?><span>
@@ -47,12 +47,12 @@
 		
 			<div class="line">
 				<p class="info">	
-					<? if ($user->aaccepted) { ?>
+					<?php if ($user->aaccepted) { ?>
 						<?= $this->alliance->getNews() ?>
-					<? }
+					<?php }
 					else { ?>
 						<?= $this->alliance->getWelcome() ?>
-					<? } ?>
+					<?php } ?>
 				</p>
 			</div>
 		</div>
@@ -64,7 +64,7 @@
 			<div class="line">
 				<input type="submit" class="submit" value="Shout!" name="alliance-shout-submit" />
 			</div>
-			<? foreach($this->shouts as $shout) { ?>
+			<?php foreach($this->shouts as $shout) { ?>
 				<div class="line">
 					<label class="shout-left">
 						<?= $shout->getUser()->getNameLink() ?><br />
@@ -75,7 +75,7 @@
 						<?= $shout->getText() ?>
 					</div>					
 				</div>
-			<? } ?>
+			<?php } ?>
 		</form>
 	</div>
 </div>

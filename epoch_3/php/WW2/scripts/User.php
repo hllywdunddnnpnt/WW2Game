@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -100,20 +100,20 @@ class User extends BaseClass {
 		
 	
 	public function
-	getByKey($id, $k) {
-		$k   = mysql_real_escape_string($k);
+	getByKey($id, $k) { global $db;
+		$k   = mysqli_real_escape_string($db, $k);
 		$id  = intval($id);
 		
-		$r   = mysql_query("SELECT * FROM User WHERE id='$id' and `key`=\"$k\" limit 1") or die(mysql_error());
-		$obj = mysql_fetch_object($r, 'User');
+		$r   = mysqli_query($db, "SELECT * FROM User WHERE id='$id' and `key`=\"$k\" limit 1") or die(mysqli_error($db));
+		$obj = mysqli_fetch_object($r, 'User');
 		return $obj;
 	}
 
 	public function
-	getByEmail($email) {
-		$email = mysql_real_escape_string($email);
-		$r = mysql_query("SELECT * FROM User WHERE email = \"$email\" LIMIT 1") or die(mysql_error());
-		$a = mysql_fetch_array($r, MYSQL_ASSOC);
+	getByEmail($email) { global $db;
+		$email = mysqli_real_escape_string($db, $email);
+		$r = mysqli_query($db, "SELECT * FROM User WHERE email = \"$email\" LIMIT 1") or die(mysqli_error($db));
+		$a = mysqli_fetch_array($r, mysqli_ASSOC);
 		if ($a['id']) {
 			foreach ($a as $key => $value) {
 				$this->$key = $value;
@@ -432,15 +432,15 @@ class User extends BaseClass {
 	}
 
 	public function
-	getOfficersCount() {
-		$q = mysql_query("SELECT count(*) as retCode FROM User where commander = $this->id") or die(mysql_error());
-		$r = mysql_fetch_object($q);
+	getOfficersCount() { global $db;
+		$q = mysqli_query($db, "SELECT count(*) as retCode FROM User where commander = $this->id") or die(mysqli_error($db));
+		$r = mysqli_fetch_object($q);
 
 		return $r->retCode;
 	}
 
 	public function
-	getOfficers($page = 0) {
+	getOfficers($page = 0) { global $db;
 		global $conf;
 		$ret = array();
 
@@ -456,8 +456,8 @@ class User extends BaseClass {
 				$pageSQL = " LIMIT $page, $limit ";
 			}
 
-			$q = mysql_query("SELECT * FROM User where commander = $this->id ORDER BY RANK ASC  $pageSQL") or die(mysql_error());
-			while ($u = mysql_fetch_object($q, 'User')) {
+			$q = mysqli_query($db, "SELECT * FROM User where commander = $this->id ORDER BY RANK ASC  $pageSQL") or die(mysqli_error($db));
+			while ($u = mysqli_fetch_object($q, 'User')) {
 				$ret[] = $u;
 			}
 			$this->_cache['officers'] = $ret;
@@ -667,16 +667,16 @@ class User extends BaseClass {
 	// ==== Statics
 	
 	public static function
-	login($username, $password) {
+	login($username, $password) { global $db;
 		$ret->id = false;
 		$password = md5($password);
 		$ori_username = $username;
 
 		if (strlen($username) <= 25 and strlen($username) >= 3) {
 
-			$username = mysql_real_escape_string($username);
-			$r = mysql_query("select * from User where username LIKE \"$username\" and password =\"$password\";") or die(mysql_error());
-			$ret = mysql_fetch_object($r, 'User');
+			$username = mysqli_real_escape_string($db, $username);
+			$r = mysqli_query($db, "select * from User where username LIKE \"$username\" and password =\"$password\";") or die(mysqli_error($db));
+			$ret = mysqli_fetch_object($r, 'User');
 			if (!$ret) {
 				require_once('Activation.php');
 				
@@ -695,7 +695,7 @@ class User extends BaseClass {
 	}
 	
 	public static function
-	getActiveUsers($page = NULL, $allowUnranked = true, $search = NULL, $searchType = NULL, $area = NULL) {
+	getActiveUsers($page = NULL, $allowUnranked = true, $search = NULL, $searchType = NULL, $area = NULL) { global $db;
 		global $conf;
 		$ret = array();
 
@@ -713,7 +713,7 @@ class User extends BaseClass {
 		}
 		
 		if ($search and $searchType) {
-			$search = mysql_real_escape_string($search);
+			$search = mysqli_real_escape_string($db, $search);
 			switch ($searchType) {
 				case 1:
 					$where .= " AND username LIKE \"$search%\" ";
@@ -732,8 +732,8 @@ class User extends BaseClass {
 			$where .= " AND area = $area ";
 		}
 		
-		$q = mysql_query("SELECT * FROM User WHERE active = 1 $where ORDER BY rank ASC $pageSQL") or die(mysql_error());
-		while ($u = mysql_fetch_object($q, 'User')) {
+		$q = mysqli_query($db, "SELECT * FROM User WHERE active = 1 $where ORDER BY rank ASC $pageSQL") or die(mysqli_error($db));
+		while ($u = mysqli_fetch_object($q, 'User')) {
 			$ret[] = $u;
 		}
 
@@ -741,7 +741,7 @@ class User extends BaseClass {
 	}
 
 	public static function
-	getActiveUsersCount($allowUnranked = true, $search = NULL, $searchType = NULL, $area = NULL) {
+	getActiveUsersCount($allowUnranked = true, $search = NULL, $searchType = NULL, $area = NULL) { global $db;
 		global $conf;
 		$ret = 0;
 
@@ -752,7 +752,7 @@ class User extends BaseClass {
 		}
 		
 		if ($search and $searchType) {
-			$search = mysql_real_escape_string($search);
+			$search = mysqli_real_escape_string($db, $search);
 			switch ($searchType) {
 				case 1:
 					$where .= " AND username LIKE \"$search%\" ";
@@ -771,13 +771,13 @@ class User extends BaseClass {
 			$where .= " AND area = $area ";
 		}
 
-		$q = mysql_query("SELECT count(*) as retCode FROM User WHERE active = 1 $where ORDER BY rank ASC") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT count(*) as retCode FROM User WHERE active = 1 $where ORDER BY rank ASC") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 
 	public static function
-	getOnlineUsersCount($allowUnranked = true) {
+	getOnlineUsersCount($allowUnranked = true) { global $db;
 		global $conf;
 		$time = time() - $conf["minutes_per_turn"] * 60;
 
@@ -789,9 +789,9 @@ class User extends BaseClass {
 
 		$str = "SELECT COUNT(*) as retCode FROM `User` where lastturntime>'$time' and active='1' $where";
 
-		$q = @mysql_query($str) or die(mysql_error());
+		$q = @mysqli_query($db, $str) or die(mysqli_error($db));
 		if ($q) {
-			$st = mysql_fetch_object($q);
+			$st = mysqli_fetch_object($q);
 			return $st->retCode;
 		}
 		
@@ -799,7 +799,7 @@ class User extends BaseClass {
 	}
 	
 	public static function
-	getOnlineUsers($areaSort = false){
+	getOnlineUsers($areaSort = false){ global $db;
 		global $conf;
 		$ret = array();
 
@@ -811,24 +811,24 @@ class User extends BaseClass {
 		else {
 			$str = "SELECT * FROM User where lastturntime>'$time' and active='1' ORDER BY rank ASC";
 		}
-		$q = @mysql_query($str) or die(mysql_error());
-		while ($u = mysql_fetch_object($q, 'User')) {
+		$q = @mysqli_query($db, $str) or die(mysqli_error($db));
+		while ($u = mysqli_fetch_object($q, 'User')) {
 			$ret[] = $u;
 		}
 		return $ret;
 	}
 
 	public static function
-	setActive($userId, $active) {
-		mysql_query("update User set active=$active where id = $userId LIMIT 1") or die(mysql_error());
+	setActive($userId, $active) { global $db;
+		mysqli_query($db, "update User set active=$active where id = $userId LIMIT 1") or die(mysqli_error($db));
 	}
 	
 	public static function
-	getByUsernameEmailCount($username, $email) {
-		$username = mysql_real_escape_string($username);
-		$email    = mysql_real_escape_string($email);
-		$r = mysql_query("select count(*) as retCode from User where (username LIKE \"$username\" or email LIKE \"$email\")") or die(mysql_error());
-		$ret = mysql_fetch_object($r);
+	getByUsernameEmailCount($username, $email) { global $db;
+		$username = mysqli_real_escape_string($db, $username);
+		$email    = mysqli_real_escape_string($db, $email);
+		$r = mysqli_query($db, "select count(*) as retCode from User where (username LIKE \"$username\" or email LIKE \"$email\")") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($r);
 		return $ret->retCode;
 	}
 	
@@ -840,56 +840,56 @@ class User extends BaseClass {
 	}
 	
 	public static function
-	incrMailForIds(array $ids = array()) {
+	incrMailForIds(array $ids = array()) { global $db;
 		if (count($ids) > 0) {
 			$ids = implode(',', array_unique($ids));
-			mysql_query("UPDATE User set msgCount = msgCount + 1, unreadMsg = unreadMsg + 1 WHERE id in ($ids)") or die(mysql_error());
+			mysqli_query($db, "UPDATE User set msgCount = msgCount + 1, unreadMsg = unreadMsg + 1 WHERE id in ($ids)") or die(mysqli_error($db));
 		}
 	}
 	
 	public static function
-	queryIDByUsername($username) {
-		$username = mysql_real_escape_string($username);
-		$q = mysql_query("SELECT * from User WHERE active = 1 and username like \"$username%\" ORDER BY username ASC LIMIT 5") or die(mysql_error());
+	queryIDByUsername($username) { global $db;
+		$username = mysqli_real_escape_string($db, $username);
+		$q = mysqli_query($db, "SELECT * from User WHERE active = 1 and username like \"$username%\" ORDER BY username ASC LIMIT 5") or die(mysqli_error($db));
 		$ret = array();
-		while ($r = mysql_fetch_object($q, 'User')) {
+		while ($r = mysqli_fetch_object($q, 'User')) {
 			$ret [] = $r;
 		}
 		return $ret;
 	}
 	
 	public static function
-	queryIDByAlliance($alliance) {
-		$alliance = mysql_real_escape_string($alliance);
-		$q = mysql_query("SELECT * from User WHERE active = 1 and alliance = $alliance ORDER BY id ASC") or die(mysql_error());
+	queryIDByAlliance($alliance) { global $db;
+		$alliance = mysqli_real_escape_string($db, $alliance);
+		$q = mysqli_query($db, "SELECT * from User WHERE active = 1 and alliance = $alliance ORDER BY id ASC") or die(mysqli_error($db));
 		$ret = array();
-		while ($r = mysql_fetch_object($q, 'User')) {
+		while ($r = mysqli_fetch_object($q, 'User')) {
 			$ret [] = $r;
 		}
 		return $ret;
 	}
 	
 	public static function
-	queryIDByCommanderId($id) {
-		$id = mysql_real_escape_string($id);
-		$q = mysql_query("SELECT * from User WHERE active = 1 and commander = $id ORDER BY id ASC") or die(mysql_error());
+	queryIDByCommanderId($id) { global $db;
+		$id = mysqli_real_escape_string($db, $id);
+		$q = mysqli_query($db, "SELECT * from User WHERE active = 1 and commander = $id ORDER BY id ASC") or die(mysqli_error($db));
 		$ret = array();
-		while ($r = mysql_fetch_object($q, 'User')) {
+		while ($r = mysqli_fetch_object($q, 'User')) {
 			$ret [] = $r;
 		}
 		return $ret;
 	}
 	
 	public static function
-	searchUsernameEmailIP($username, $email, $ip, $oa = 'and') {
+	searchUsernameEmailIP($username, $email, $ip, $oa = 'and') { global $db;
 		$ret = array();
 		
-		$username = mysql_real_escape_string($username);
-		$email    = mysql_real_escape_string($email);
-		$ip       = mysql_real_escape_string($ip);
+		$username = mysqli_real_escape_string($db, $username);
+		$email    = mysqli_real_escape_string($db, $email);
+		$ip       = mysqli_real_escape_string($db, $ip);
 		
-		$q = mysql_query("SELECT * FROM User WHERE username LIKE \"$username\" $oa email LIKE \"$email\" $oa currentip LIKE \"$ip\" ORDER BY id asc") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'User')) {
+		$q = mysqli_query($db, "SELECT * FROM User WHERE username LIKE \"$username\" $oa email LIKE \"$email\" $oa currentip LIKE \"$ip\" ORDER BY id asc") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'User')) {
 			$ret[] = $r;
 		}	
 		

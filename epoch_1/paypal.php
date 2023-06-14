@@ -35,7 +35,7 @@ switch ($_GET['action']) {
 ?>
    
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: 
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: 
 PayPal Donate</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <LINK href="css/common.css" type=text/css rel=stylesheet>
@@ -63,7 +63,7 @@ PayPal Donate</TITLE>
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 		include "top.php";
 ?>
 
@@ -71,13 +71,13 @@ marginwidth="0">
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 		include ("left.php");
 ?>
 </TD>
 	
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
-    vAlign=top align=left><? include "islogined.php";
+    vAlign=top align=left><?php include "islogined.php";
 		if ($_GET['strErr']) {
 			echo "<font color=red><b>$_GET[strErr]</b></font>";
 		} ?> <BR>
@@ -94,7 +94,7 @@ marginwidth="0">
 	<p>We will accept a minimum donation of $1USD for supporter bonuses, but because of paypal's fee $1.30 would be better.</p>
 	<form action="paypal.php" method="GET" onsubmit="return checkpaypal(document.getElementById('forId').value);">
 		<input type="hidden" name="action" value="process" />
-		User ID:<input type="text" id="forId" name="forID" <? if ($cgi['ad']) {
+		User ID:<input type="text" id="forId" name="forID" <?php if ($cgi['ad']) {
 			echo "value='ad'";
 		} ?> />(Your ID is <?=$_SESSION['isLogined'] ?>)<br />
 		
@@ -107,13 +107,13 @@ marginwidth="0">
 	</form>
         
 	
-	<?
+	<?php
 		include ("bottom.php");
 ?>	
 	 </TD></TR></TBODY></TABLE>
 </BODY></HTML>
 
-   <?
+   <?php
 	break;
 	case 'process': // Process and order...
 		// There should be no output at this point.  To process the POST data,
@@ -131,13 +131,13 @@ marginwidth="0">
 		// $p->add_field('last_name', $_POST['last_name']);
 		if (is_numeric($_GET['forID'])) {
 			$uid = $_GET['forID'];
-			$q = mysql_query("SELECT userName FROM UserDetails WHERE id={$uid}") or die(mysql_error());
-			$a = mysql_fetch_object($q);
+			$q = mysqli_query($db, "SELECT userName FROM UserDetails WHERE id={$uid}") or die(mysqli_error($db));
+			$a = mysqli_fetch_object($q);
 			$aname = str_replace(':', '_', $a->userName);
 		} elseif ($_GET['forID'] == 'ad' OR $_GET['forID'] == '"ad"') {
 			$ad = true;
-			$q = mysql_query("SELECT u.alliance,a.name FROM UserDetails u,alliances a WHERE a.id=u.alliance AND u.id={$_SESSION[isLogined]}") or die(mysql_error());
-			$a = mysql_fetch_object($q);
+			$q = mysqli_query($db, "SELECT u.alliance,a.name FROM UserDetails u,alliances a WHERE a.id=u.alliance AND u.id={$_SESSION[isLogined]}") or die(mysqli_error($db));
+			$a = mysqli_fetch_object($q);
 			$allid = $a->alliance;
 			if ($allid == 0) {
 				header("Location: $this_script?strErr=You do not belong to an alliance!");
@@ -187,7 +187,7 @@ marginwidth="0">
 		// order status page which presents the user with the status of their
 		// order based on a database (which can be modified with the IPN code
 		// below).
-		//mysql_query("INSERT INTO donations SET date='$_POST[payment_date]',
+		//mysqli_query($db, "INSERT INTO donations SET date='$_POST[payment_date]',
 		//amount='$_POST[payment_gross]',uid='$uid',details='".(addslashes(serialize($_POST)))."'");
 		//if($_POST['payment_gross']>=1){
 		//	UpdateUser($uid,"supporter=supporter+1,exp=exp+500");
@@ -228,14 +228,14 @@ marginwidth="0">
 			$uname = $unid[1];
 			$email.= "uid=$uid.\n";
 			$email.= "uname=$uname.\n";
-			mysql_query("INSERT INTO donations SET date='{$p->ipn_data[payment_date]}',
+			mysqli_query($db, "INSERT INTO donations SET date='{$p->ipn_data[payment_date]}',
  		amount='$p->ipn_data[payment_gross]',uid='$uid',details='" . (addslashes(serialize($_POST))) . "'");
 			if ($p->ipn_data['payment_gross'] >= 1 AND !$isall) {
 				UpdateUser($uid, "supporter=supporter+1,exp=exp+500");
 			} elseif ($p->ipn_data['payment_gross'] >= 1 AND $isall) {
 				$all = "UPDATE alliances SET donated=donated+" . floatval($p->ipn_data['payment_gross']) . " WHERE id=$uid";
 				$email.= $all . "\n";
-				@mysql_query($all);
+				@mysqli_query($db, $all);
 			}
 			$s = '';
 			$vs = array();
@@ -247,7 +247,7 @@ marginwidth="0">
 			}
 			$sales = "INSERT INTO sales SET (" . implode(',', $ks) . ") VALUES(" . implode(',', $vs) . ")";
 			$email.= $sales;
-			@mysql_query($sales);
+			@mysqli_query($db, $sales);
 			// Payment has been recieved and IPN is verified.  This is where you
 			// update your database to activate or process the order, or setup
 			// the database with the user's order details, email an administrator,

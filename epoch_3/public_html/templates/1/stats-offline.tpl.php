@@ -26,7 +26,7 @@
 			User Info
 		</div>
 		<div class="large">
-			<?
+			<?php
 				$tag = '';
 				if ($this->target->alliance) {
 					$tag = '&nbsp;' . $this->target->getAlliance()->getTag();
@@ -39,12 +39,12 @@
 			<div class="line">
 				<label>Commander</label>
 				<span>
-					<? if($this->target->commander) { ?>
+					<?php if($this->target->commander) { ?>
 						<?= $this->target->getCommander()->getNameLink('', true) ?>
-					<? }
+					<?php }
 						else { ?>
 						None
-					<? } ?>
+					<?php } ?>
 				</span>
 			</div>
 			<div class="line">
@@ -67,7 +67,7 @@
 		</div>
 	</div>
 
-	<?
+	<?php
 		$tmp = $user;
 		$this->offargs = 'uid=' . $this->target->id;
 		$this->user = $this->target;

@@ -23,7 +23,7 @@
 	<div class="panel">
 		<div class="panel-title">
 			<?= $this->alliance->getNameHTML() ?> Alliance
-			<? $this->load('alliance-header') ?>
+			<?php $this->load('alliance-header') ?>
 		</div>
 		<div class="large">
 			<div class="line">

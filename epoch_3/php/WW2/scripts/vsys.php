@@ -1,4 +1,5 @@
-<?
+<?php
+
 /***
 
     World War II MMORPG
@@ -42,7 +43,7 @@ require_once('BaseClass.php');
 
 require_once('User.php');
 //require_once('Weapon.php');
-require_once('gen-stats.php');
+														// require_once('gen-stats.php');
 require_once('Privacy.php');
 require_once('IP.php');
 
@@ -209,13 +210,13 @@ function duration($time, $N = 1) {
 	return $output;
 }
 
-function getMercs() {
-	$q = mysql_query('SELECT attackSpecCount as samercs, defSpecCount as damercs FROM Mercenaries limit 1') or die(mysql_error());
-	$ret = mysql_fetch_object($q);
+function getMercs() { global $db;
+	$q = mysqli_query($db, 'SELECT attackSpecCount as samercs, defSpecCount as damercs FROM Mercenaries limit 1') or die(mysqli_error($db));
+	$ret = mysqli_fetch_object($q);
 	return $ret;
 }
-function saveMercs($samercs, $damercs) {
-	mysql_query("UPDATE Mercenaries set attackSpecCount = $samercs, defSpecCount = $damercs") or die(mysql_error());
+function saveMercs($samercs, $damercs) { global $db;
+	mysqli_query($db, "UPDATE Mercenaries set attackSpecCount = $samercs, defSpecCount = $damercs") or die(mysqli_error($db));
 }
 
 if (Privacy::isIn()){

@@ -1,9 +1,9 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Spy Log</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Spy Log</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><!-- ZoneLabs Privacy Insertion -->
 <SCRIPT language=javascript src="js/js"></SCRIPT>
 <LINK href="css/common.css" type=text/css rel=stylesheet>
@@ -22,7 +22,7 @@ include "scripts/vsys.php";
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0"
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 
@@ -30,13 +30,13 @@ include "top.php";
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 </TD>
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px"
     vAlign=top align=left> <p><BR>
-          <?
+          <?php
 include "islogined.php";
 if (!isset($cgi['id']) OR !is_numeric($cgi['id'])) {
 	die("Spy Log cannot be found");
@@ -55,9 +55,9 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
             </p>
             <h3>Covert Mission Report</h3>
             Under the cover of night, your
-            <? numecho($spyL->spies); ?>
+            <?php numecho($spyL->spies); ?>
             spies sneak <?=$tus->userName ?>'s camp.
-            <?
+            <?php
 		if ($spyL->isSuccess) {
 ?>
             <p> Your spies move stealthily through
@@ -80,9 +80,9 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
                 </tr>
                 <tr>
                     <td>Mercenaries</td>
-                    <td><? numecho($spyL->samercs); ?></td>
+                    <td><?php numecho($spyL->samercs); ?></td>
                     <td>
-                     <? numecho($spyL->damercs); ?>
+                     <?php numecho($spyL->damercs); ?>
                     </td>
                     <td>
               --
@@ -91,13 +91,13 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
           <tr>
             <td>Soldiers</td>
             <td>
-              <? numecho($spyL->sasoldiers); ?>
+              <?php numecho($spyL->sasoldiers); ?>
             </td>
             <td>
-              <? numecho($spyL->dasoldiers); ?>
+              <?php numecho($spyL->dasoldiers); ?>
             </td>
             <td>
-              <? numecho($spyL->uu); ?>
+              <?php numecho($spyL->uu); ?>
             </td>
           </tr>
         </table>
@@ -109,37 +109,37 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
           <tr>
             <td>Strike Action:</td>
             <td>
-              <? numecho($spyL->strikeAction); ?>
+              <?php numecho($spyL->strikeAction); ?>
             </td>
           </tr>
           <tr>
             <td>Defensive Action</td>
             <td>
-              <? numecho($spyL->defenceAction); ?>
+              <?php numecho($spyL->defenceAction); ?>
             </td>
           </tr>
           <tr>
             <td>Covert Skill:</td>
             <td>
-              <? numecho($spyL->covertSkill); ?>
+              <?php numecho($spyL->covertSkill); ?>
             </td>
           </tr>
           <tr>
             <td>Covert Operatives:</td>
             <td>
-              <? numecho($spyL->covertOperatives); ?>
+              <?php numecho($spyL->covertOperatives); ?>
             </td>
           </tr>
            <tr>
             <td>Special Forces Level:</td>
             <td>
-              <? numecho($spyL->sflevel); ?>
+              <?php numecho($spyL->sflevel); ?>
             </td>
           </tr>
           <tr>
             <td>Special Forces Operatives:</td>
             <td>
-              <? numecho($spyL->sf); ?>
+              <?php numecho($spyL->sf); ?>
             </td>
           </tr>
           <tr>
@@ -152,13 +152,13 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
           <tr>
             <td>Attack Turns:</td>
             <td>
-              <? numecho($spyL->attackTurns); ?>
+              <?php numecho($spyL->attackTurns); ?>
             </td>
           </tr>
           <!--<tr>
             <td>Treasury:</td>
             <td>
-              <?
+              <?php
 			//numecho($spyL->gold2);
 			 ?>
             </td>
@@ -166,7 +166,7 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
           <tr>
             <td>Unit Production:</td>
             <td>
-              <? numecho($spyL->unitProduction); ?>
+              <?php numecho($spyL->unitProduction); ?>
             </td>
           </tr>
         </table>
@@ -181,7 +181,7 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
             <th class="subh">Quantity</th>
             <th class="subh">Strength</th>
           </tr>
-          <?
+          <?php
 			$weaponA = explode(";", $spyL->weapons);
 			$typesA = explode(";", $spyL->types);
 			$types2A = explode(";", $spyL->types2);
@@ -192,27 +192,27 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
 				for ($i = 0;$i < count($weaponA);$i++) {
 ?>
 		          <tr>
-                            <td><?
+                            <td><?php
 					if ($weaponA[$i] == '???') echo $weaponA[$i];
 					else echo $conf["race"][$spyL->race][(($types2A[$i]) ? "weapon" : "defenseweapon") ][$weaponA[$i]]["name"];
 ?></td>
-                                <td><?
+                                <td><?php
 					if ($typesA[$i] == '???') echo $typesA[$i];
 					else echo (($typesA[$i]) ? "Attack" : "Defense");
 ?></td>
-                                <td><? numecho($quantitiesA[$i]); ?></td>
-                                <td><? numecho($strengthsA[$i]);
+                                <td><?php numecho($quantitiesA[$i]); ?></td>
+                                <td><?php numecho($strengthsA[$i]);
 					echo "/";
 					numecho($allStrengthsA[$i]); ?></td>
                             </tr>
-		      <?
+		      <?php
 				}
 			} ?>
             </table>
              </p>
 
 
-        <?
+        <?php
 		} else { ?>
         <P>As they approach the enemy armory, an alarm is cried out by an alert
           sentinel. Your spies are quickly rounded up and executed.
@@ -224,16 +224,16 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
 ?>
           .<BR>
           <BR>
-          <?
+          <?php
 		} ?>
           <br>
-		  <? if (!$cgi['isview']) { ?>
+		  <?php if (!$cgi['isview']) { ?>
         <form method="get" action="attack.php">
           <input type="hidden" name="id" value="<?=$spyL->toUserID
 ?>">
           <input name="submit" type="submit" value="Attack / Spy Again">
         </form>
-		<?
+		<?php
 		}
 		if (!$cgi['isview'] && $user->supporter > 0) {
 ?>
@@ -267,11 +267,11 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
             type=hidden value="<?=$spyL->toUserID
 ?>" name="defender_id2">
                                             </FORM>
-		<?
+		<?php
 		} ?>
         <p>&nbsp; </p>
         <P>
-          <?
+          <?php
 		//}
 		
 	} else {
@@ -279,34 +279,34 @@ if ($spyL->toUserID == $_SESSION['isLogined'] OR $_SESSION['isLogined'] == $spyL
 
 
                                             <p>Under the cover of night, <?=$user->userName ?>'s
-                                            <? numecho($spyL->spies);
+                                            <?php numecho($spyL->spies);
 			echo (($spyL->spies == 1) ? " spy sneaks" : " spies sneak"); ?>
                                               into&nbsp;<?=$tus->userName
 ?>'s camp.<br>
                                             They are able to steal<font color="green">
-                                            <?
+                                            <?php
 			$name = $conf["race"][$spyL->race][(($spyL->weapontype) ? "weapon" : "defenseweapon") ][$spyL->weapontype2]["name"];
 			echo $spyL->weaponamount;
 			echo "</font>  $name's from the enemy's camp";
-?><? if ($spyL->uu) { ?> <br>While <?=$user->userName ?>'s <? echo (($spyL->spies == 1) ? "spy was" : "spies were"); ?>  stealing weapons they had to take <font color=red><b><? numecho($spyL->uu); ?></b></font> hostages, after hearing of <?=$user->userName ?>'s nation these hostages agreed to join <?=$user->userName ?>'s forces.
-                                            <?
+?><?php if ($spyL->uu) { ?> <br>While <?=$user->userName ?>'s <?php echo (($spyL->spies == 1) ? "spy was" : "spies were"); ?>  stealing weapons they had to take <font color=red><b><?php numecho($spyL->uu); ?></b></font> hostages, after hearing of <?=$user->userName ?>'s nation these hostages agreed to join <?=$user->userName ?>'s forces.
+                                            <?php
 			} elseif ($spyL->gold) { ?>
-                                               <br> While <?=$user->userName ?>'s <? echo (($spyL->spies == 1) ? "spy was" : "spies were"); ?>  stealing weapons, <? echo (($spyL->spies == 1) ? "the spy" : "a few spies"); ?>  managed to steal&nbsp;<b><font color=red><? numecho($spyL->gold); ?></font></b>&nbsp;gold from <?=$tus->userName ?>.
-                                            <?
+                                               <br> While <?=$user->userName ?>'s <?php echo (($spyL->spies == 1) ? "spy was" : "spies were"); ?>  stealing weapons, <?php echo (($spyL->spies == 1) ? "the spy" : "a few spies"); ?>  managed to steal&nbsp;<b><font color=red><?php numecho($spyL->gold); ?></font></b>&nbsp;gold from <?=$tus->userName ?>.
+                                            <?php
 			} ?>
                                             </p>
 
 
-                                        <?
+                                        <?php
 		} else {
 ?>
                                               <p>
                                               <?=$user->userName
-?>'s <? numecho($spyL->spies);
+?>'s <?php numecho($spyL->spies);
 			echo (($spyL->spies == 1) ? " spy" : " spies"); ?> tried to steal weapons from <?=$tus->userName ?> but failed.<br>
-                                             <font color=red> <? numecho($spyL->uu); ?> </font>spies died trying and the rest escaped.<br>
+                                             <font color=red> <?php numecho($spyL->uu); ?> </font>spies died trying and the rest escaped.<br>
                                             </p>
-                                            <?
+                                            <?php
 		}
 	}
 } else {

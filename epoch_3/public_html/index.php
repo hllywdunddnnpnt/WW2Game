@@ -1,4 +1,4 @@
-<?
+<?php
 
 /***
 
@@ -26,9 +26,9 @@ require_once('scripts/Template.php');
 $t = new Template('index', intval($cgi['t']));
 
 $filters = array(
-	'login-username' => FILTER_VALIDATE_STRING,
+	'login-username' => FILTER_SANITIZE_STRING,//FILTER_VALIDATE_STRING,
 	'login-password' => FILTER_UNSAFE_RAW,
-	'login-submit' => FILTER_VALIDATE_STRING,
+	'login-submit' => FILTER_SANITIZE_STRING,//FILTER_VALIDATE_STRING,
 	'e' => FILTER_VALIDATE_INT | FILTER_SANITIZE_NUMBER_INT
 );
 

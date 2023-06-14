@@ -35,18 +35,18 @@
 				<tr>
 					<td>Username</td>
 					<td>	
-						<? /* Can this be exploited somehow? */ ?>						
-						<? if (!$this->activationId) { ?>
+						<?php /* Can this be exploited somehow? */ ?>						
+						<?php if (!$this->activationId) { ?>
 							<input type="text" maxlength="25" name="activation-username" />							
-						<? }
+						<?php }
 							else { ?>
 							<?= $this->username ?>
-						<? } ?>
+						<?php } ?>
 					</td>
 				</tr>
-				<? if ($this->activationPassword) { ?>
+				<?php if ($this->activationPassword) { ?>
 					<input type="hidden" name="activation-apassword" value="<?= $this->activationPassword ?>" />
-				<? }
+				<?php }
 				else { ?>
 					<tr>
 						<td>Activation Password</td>
@@ -54,7 +54,7 @@
 							<input type="password" maxlength="100" name="activation-apassword" />
 						</td>
 					</tr>
-				<? } ?>
+				<?php } ?>
 				<tr>
 					<td>
 						New Password

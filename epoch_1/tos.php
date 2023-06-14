@@ -1,8 +1,8 @@
-<?
+<?php
 include "scripts/vsys.php";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Terms of Service</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Terms of Service</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=koi8-r">
 <SCRIPT language=javascript src="js/js"></SCRIPT>
 <LINK href="css/common.css" type=text/css rel=stylesheet>
@@ -21,14 +21,14 @@ include "scripts/vsys.php";
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 	</TD>
@@ -44,7 +44,7 @@ include ("left.php");
       such service. 
       <P>World War II reserves the right to ban, suspend, delete, or modify 
       accounts at any time for any or no reason. 
-      <?
+      <?php
 include ("bottom.php");
 ?>	
 	  </P></TD></TR></TBODY></TABLE></BODY></HTML>

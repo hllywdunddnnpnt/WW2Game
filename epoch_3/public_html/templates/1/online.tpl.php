@@ -30,36 +30,36 @@
 				<th>Nation</th>
 				<th>Name</th>
 				<th>Army Size</th>
-				<? if (Privacy::isAdmin()) { ?>
+				<?php if (Privacy::isAdmin()) { ?>
 					<th>IP</td>
-				<? } ?>
+				<?php } ?>
 			</tr>
-			<? $area = 0; ?>
-			<? foreach($this->users as $target) { ?>
-				<? if ($area != $target->area) { $area = $target->area;?>
+			<?php $area = 0; ?>
+			<?php foreach($this->users as $target) { ?>
+				<?php if ($area != $target->area) { $area = $target->area;?>
 					<tr><td colspan="4"><?= $conf['area'][$area]['name'] ?></td></tr>
-				<? } ?>
+				<?php } ?>
 				<tr>
-					<? if ($target->rank == 0) { ?>
+					<?php if ($target->rank == 0) { ?>
 						<td>Unranked</td>
 						<td><img title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" /></td>
 						<td><?= $target->getNameHTML() ?></td>
 						<td><?= numecho($target->getTFF()) ?></td>
-					<? }
+					<?php }
 						else { ?>
 						<td><?= numecho($target->rank) ?></td>
 						<td><img title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" /></td>
 						<td style="text-align:left;">
 							<?= $target->getNameLink() ?>
-							<? if ($target->alliance) { echo $target->getAlliance()->getTag(); } ?>
+							<?php if ($target->alliance) { echo $target->getAlliance()->getTag(); } ?>
 						</td>
 						<td><?= numecho($target->getTFF()) ?></td>
-					<? } ?>
-					<? if (Privacy::isAdmin()) { ?>
+					<?php } ?>
+					<?php if (Privacy::isAdmin()) { ?>
 						<td><?= $target->currentIP ?> <br /> (<?= gethostbyaddr($target->currentIP) ?>)</td>
-					<? } ?>
+					<?php } ?>
 				</tr>
-			<? } ?>
+			<?php } ?>
 			<tr><td colspan="4"><?= numecho($this->usersCount) ?> online players</td></tr>
 		</table>
 	</div>

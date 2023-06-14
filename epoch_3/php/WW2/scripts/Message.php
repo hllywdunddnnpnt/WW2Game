@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -70,7 +70,7 @@ class Message extends BaseClass {
 	
 	public static function
 	getInbox($userId = 0, $age = -1) {
-		global $current_age, $first_age;
+		global $current_age, $first_age, $db;
 		$ret = array();
 		
 		$where = '';
@@ -79,8 +79,8 @@ class Message extends BaseClass {
 		}
 		
 		
-		$q = mysql_query("SELECT * FROM Message WHERE targetId = $userId and targetstatus < 3 $where order by date desc") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'Message')) {
+		$q = mysqli_query($db, "SELECT * FROM Message WHERE targetId = $userId and targetstatus < 3 $where order by date desc") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'Message')) {
 			$ret[] = $r;
 		}
 		
@@ -89,7 +89,7 @@ class Message extends BaseClass {
 	
 	public static function
 	getOutbox($userId = 0, $age = -1) {
-		global $current_age, $first_age;
+		global $current_age, $first_age, $db;
 		$ret = array();
 		
 		$where = '';
@@ -97,8 +97,8 @@ class Message extends BaseClass {
 			$where = " AND age = $age ";
 		}
 		
-		$q = mysql_query("SELECT * FROM Message WHERE senderId = $userId and senderstatus < 3 $where order by date desc") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'Message')) {
+		$q = mysqli_query($db, "SELECT * FROM Message WHERE senderId = $userId and senderstatus < 3 $where order by date desc") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'Message')) {
 			$ret[] = $r;
 		}
 		
@@ -106,12 +106,12 @@ class Message extends BaseClass {
 	}
 
 	public static function
-	deleteSenderMulti($senderId, array $msgIds) {
+	deleteSenderMulti($senderId, array $msgIds) { global $db;
 		if (!count($msgIds)) {
 			return;
 		}
 		$ids = implode(', ', $msgIds);
-		$q = mysql_query("
+		$q = mysqli_query($db, "
 			UPDATE
 				Message
 			SET
@@ -119,18 +119,18 @@ class Message extends BaseClass {
 			WHERE
 				senderId = $senderId AND
 				id in ($ids);
-		") or die(mysql_error());
+		") or die(mysqli_error($db));
 		
 		return;
 	}
 	
 	public static function
-	deleteTargetMulti($targetId, array $msgIds) {
+	deleteTargetMulti($targetId, array $msgIds) { global $db;
 		if (!count($msgIds)) {
 			return;
 		}
 		$ids = implode(', ', $msgIds);
-		$q = mysql_query("
+		$q = mysqli_query($db, "
 			UPDATE
 				Message
 			SET
@@ -138,15 +138,15 @@ class Message extends BaseClass {
 			WHERE
 				targetId = $targetId AND
 				id in ($ids);
-		") or die(mysql_error());
+		") or die(mysqli_error($db));
 		
 		return;
 	}
 	
 	public static function
-	getNewCount($userId) {
-		$q = mysql_query("SELECT count(*) as retCode FROM Message WHERE targetId = $userId and targetStatus = " . MSG_STATUS_UNREAD) or die(mysql_error());
-		$r = mysql_fetch_object($q);
+	getNewCount($userId) { global $db;
+		$q = mysqli_query($db, "SELECT count(*) as retCode FROM Message WHERE targetId = $userId and targetStatus = " . MSG_STATUS_UNREAD) or die(mysqli_error($db));
+		$r = mysqli_fetch_object($q);
 		if ($r->retCode > 0) {
 			return $r->retCode;
 		}
@@ -154,9 +154,9 @@ class Message extends BaseClass {
 	}
 	
 	public static function
-	getCount($userId) {
-		$q = mysql_query("SELECT count(*) as retCode FROM Message WHERE targetId = $userId and targetStatus < " . MSG_STATUS_DELETED) or die(mysql_error());
-		$r = mysql_fetch_object($q);
+	getCount($userId) { global $db;
+		$q = mysqli_query($db, "SELECT count(*) as retCode FROM Message WHERE targetId = $userId and targetStatus < " . MSG_STATUS_DELETED) or die(mysqli_error($db));
+		$r = mysqli_fetch_object($q);
 		if ($r->retCode > 0) {
 			return $r->retCode;
 		}

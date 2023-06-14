@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -30,11 +30,11 @@ class AllianceBan extends BaseClass {
 
 	//statics
 	public static function
-	getByPair(Alliance $a, User $target) {
+	getByPair(Alliance $a, User $target) { global $db;
 		$ret = null;
 		
-		$q = mysql_query("SELECT * FROM `AllianceBan` WHERE allianceId = $a->id and targetId = $target->id") or die(mysql_error());
-		$r = mysql_fetch_object($q, 'AllianceBan');
+		$q = mysqli_query($db, "SELECT * FROM `AllianceBan` WHERE allianceId = $a->id and targetId = $target->id") or die(mysqli_error($db));
+		$r = mysqli_fetch_object($q, 'AllianceBan');
 		if ($r) {
 			$ret = $r;
 		}
@@ -43,11 +43,11 @@ class AllianceBan extends BaseClass {
 	}
 	
 	public static function
-	isBlocked(Alliance $a, User $target) {
+	isBlocked(Alliance $a, User $target) { global $db;
 		$ret = false;
 		
-		$q = mysql_query("SELECT count(*) as retCode FROM `AllianceBan` WHERE allianceId = $a->id and targetId = $target->id") or die(mysql_error());
-		$r = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT count(*) as retCode FROM `AllianceBan` WHERE allianceId = $a->id and targetId = $target->id") or die(mysqli_error($db));
+		$r = mysqli_fetch_object($q);
 		if ($r->retCode > 0) {
 			$ret = true;
 		}	
@@ -57,11 +57,11 @@ class AllianceBan extends BaseClass {
 	
 
 	public static function
-	getAll(Alliance $a) {
+	getAll(Alliance $a) { global $db;
 		$ret = array();
 		
-		$q = mysql_query("SELECT * FROM `AllianceBan` WHERE allianceId = $a->id ORDER BY id DESC") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'AllianceBan')) {
+		$q = mysqli_query($db, "SELECT * FROM `AllianceBan` WHERE allianceId = $a->id ORDER BY id DESC") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'AllianceBan')) {
 			$ret[] = $r;
 		}
 		
@@ -69,11 +69,11 @@ class AllianceBan extends BaseClass {
 	}
 	
 	public static function
-	getAllianceIdsWhoBlockedUser(User $u) {
+	getAllianceIdsWhoBlockedUser(User $u) { global $db;
 		$ret = array();
 		
-		$q = mysql_query("SELECT allianceId FROM `AllianceBan` WHERE targetId = $u->id ORDER BY id DESC") or die(mysql_error());
-		while ($r = mysql_fetch_object($q)) {
+		$q = mysqli_query($db, "SELECT allianceId FROM `AllianceBan` WHERE targetId = $u->id ORDER BY id DESC") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q)) {
 			$ret[$r->allianceId] = true;
 		}
 		
@@ -81,11 +81,11 @@ class AllianceBan extends BaseClass {
 	}
 	
 	public static function
-	removeIds(Alliance $a, array $ids) {
+	removeIds(Alliance $a, array $ids) { global $db;
 		if (!count($ids)) return;
 		
 		$ids = implode(',', $ids);
-		mysql_query("DELETE FROM `AllianceBan` WHERE allianceId = $a->id and id in ($ids)") or die(mysql_error());
+		mysqli_query($db, "DELETE FROM `AllianceBan` WHERE allianceId = $a->id and id in ($ids)") or die(mysqli_error($db));
 	}
 }
 ?>

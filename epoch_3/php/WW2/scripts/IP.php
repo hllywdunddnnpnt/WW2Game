@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -46,11 +46,11 @@ class IP extends BaseClass {
 	}
 
 	public static function
-	getCount(User $user, $ip) {
-		$userIP = mysql_real_escape_string($ip);
+	getCount(User $user, $ip) { global $db;
+		$userIP = mysqli_real_escape_string($db, $ip);
 		
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM IP WHERE IP =\"$userIP\" and uid = $user->id") or die (mysql_error());
-		$r = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM IP WHERE IP =\"$userIP\" and uid = $user->id") or die (mysqli_error($db));
+		$r = mysqli_fetch_object($q);
 
 		return $r->retCode;
 	}

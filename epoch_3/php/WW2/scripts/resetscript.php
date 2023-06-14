@@ -1,4 +1,4 @@
-<?
+<?php
 
 /***
 
@@ -73,9 +73,9 @@ $tableList = array(
 foreach ($tableList as $table) {
 	// Copy the tables
 	echo "resetscript: dropping $table$hof if exists\n";
-	@mysql_query("drop table if exists hof$hof");
+	@mysqli_query($db, "drop table if exists hof$hof");
 	echo "resetscript: backing up table $table as $table$hof\n";
-	$q = mysql_query("CREATE TABLE IF NOT EXISTS $table$hof SELECT * FROM $table") or die(mysql_error());
+	$q = mysqli_query($db, "CREATE TABLE IF NOT EXISTS $table$hof SELECT * FROM $table") or die(mysqli_error($db));
 }
 
 // TODO: update for table column names.
@@ -128,13 +128,13 @@ $hofTable = "CREATE TABLE IF NOT EXISTS `hof{$hof}` (
 	)
 ) TYPE = MYISAM ;";
 
-mysql_query($hofTable) or die("2:".mysql_error());
+mysqli_query($db, $hofTable) or die("2:".mysqli_error($db));
 
-mysql_query("truncate hof$hof") or die(mysql_error());
+mysqli_query($db, "truncate hof$hof") or die(mysqli_error($db));
 
 echo "resetscript: inserting primary values into hof$hof\n";
 // insert the basic values
-$hofq = mysql_query("
+$hofq = mysqli_query($db, "
 	INSERT INTO
 		hof$hof
 	(
@@ -200,7 +200,7 @@ $hofq = mysql_query("
 		User
 	WHERE
 		active = 1;
-") or die("1:".mysql_error());
+") or die("1:".mysqli_error($db));
 
 $users = User::getActiveUsers(false, false);
 
@@ -211,61 +211,61 @@ foreach($users as $user) {
 	$i++;
 	$ret = null;
 	
-	$q = mysql_query("select sum(goldStolen) as retCode from BattleLog where attackerId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select sum(goldStolen) as retCode from BattleLog where attackerId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->goldTaken = (float)$a->retCode;
 	
-	$q = mysql_query("select sum(goldStolen) as retCode from BattleLog where targetId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select sum(goldStolen) as retCode from BattleLog where targetId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->goldLost = (float)$a->retCode;
 	
-	$q = mysql_query("select count(*) as retCode from BattleLog where isSuccess = 1 and attackerId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 1 and attackerId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->battlesWon = (float)$a->retCode;
 	
-	$q = mysql_query("select count(*) as retCode from BattleLog where isSuccess = 1 and targetId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 1 and targetId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->battlesDefended = (float)$a->retCode;
 	
-	$q = mysql_query("select count(*) as retCode from BattleLog where isSuccess = 0 and attackerId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 0 and attackerId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->battlesLost = (float)$a->retCode;
 	
-	$q = mysql_query("select count(*) as retCode from BattleLog where isSuccess = 0 and targetId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 0 and targetId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->battlesNotDefended = (float)$a->retCode;
 	
-	$q = mysql_query("select sum(attackerHostages) as retCode from BattleLog where attackerId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select sum(attackerHostages) as retCode from BattleLog where attackerId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->powTaken = (float)$a->retCode;
 	
-	$q = mysql_query("select sum(targetHostages) as retCode from BattleLog where targetId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select sum(targetHostages) as retCode from BattleLog where targetId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->powTaken += (float)$a->retCode;
 	
-	$q = mysql_query("select sum(attackerHostages) as retCode from BattleLog where  targetId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select sum(attackerHostages) as retCode from BattleLog where  targetId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->powLost = (float)$a->retCode;
 	
-	$q = mysql_query("select sum(targetHostages) as retCode from BattleLog where attackerId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select sum(targetHostages) as retCode from BattleLog where attackerId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->powLost += (float)$a->retCode;
 	
 	
 	$ret->income = $user->getIncome();
 	
 	$ret->theftScore = 0;
-	$q = mysql_query("select * from SpyLog where type=1 and attackerId = $user->id and isSuccess = 1 and weaponamount > 0") or die(mysql_error());
-	while ($r = mysql_fetch_object($q)) {
+	$q = mysqli_query($db, "select * from SpyLog where type=1 and attackerId = $user->id and isSuccess = 1 and weaponamount > 0") or die(mysqli_error($db));
+	while ($r = mysqli_fetch_object($q)) {
 		$ret->theftScore += ($r->weaponamount * $conf['weapon' . $r->weapontype2 . 'strength']);
 	}
 	
-	$q = mysql_query("select sum(goldStolen) as retCode from SpyLog where type=2 and attackerId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select sum(goldStolen) as retCode from SpyLog where type=2 and attackerId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->theftGold = (float)$a->retCode;
 	
-	$q = mysql_query("select sum(hostages) as retCode from SpyLog where type > 0 and attackerId = $user->id") or die(mysql_error());
-	$a = mysql_fetch_object($q);
+	$q = mysqli_query($db, "select sum(hostages) as retCode from SpyLog where type > 0 and attackerId = $user->id") or die(mysqli_error($db));
+	$a = mysqli_fetch_object($q);
 	$ret->theftUU = (float)$a->retCode;
 	
 	$sql = "
@@ -285,7 +285,7 @@ foreach($users as $user) {
 		where
 			uid = $user->id
 	";
-	mysql_query($sql) or die(mysql_error());
+	mysqli_query($db, $sql) or die(mysqli_error($db));
 }
 
 // Tables to Truncate
@@ -299,7 +299,7 @@ $clean = array(
 foreach ($clean as $tbl) {
 	echo "resetscript: truncating table $tbl\n";
 	$sql = "TRUNCATE $tbl";
-	mysql_query($sql) or die(mysql_error());
+	mysqli_query($db, $sql) or die(mysqli_error($db));
 }
 
 // Now reset the Mercenaries table
@@ -311,7 +311,7 @@ set
 	defspeccount    = 0,
 	untrainedcount  = 0;
 ";
-mysql_query($sql) or die(mysql_error());
+mysqli_query($db, $sql) or die(mysqli_error($db));
 
 echo "resetscript: resetting User\n";
 // reset User
@@ -348,6 +348,6 @@ set
 	clickall      = 0,
 	bankimg       = 0	
 ";
-mysql_query($sql) or die(mysql_error());
+mysqli_query($db, $sql) or die(mysqli_error($db));
 
 ?>

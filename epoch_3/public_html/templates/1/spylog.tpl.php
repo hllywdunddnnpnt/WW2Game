@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<?
+<?php
 	$pngt = pngt('%s spy', '%s spies', $this->s->spies);
 	
 ?>
@@ -26,7 +26,7 @@
 <!-- Begin Spy log page -->
 <div id="spylog-container">	
 	<div class="panel">
-		<? if ($this->s->isSuccess == 0) { ?>
+		<?php if ($this->s->isSuccess == 0) { ?>
 			<!-- failed log -->
 			<div class="panel-title">
 				Failed Covert Mission Report
@@ -38,13 +38,13 @@
 					camp of <?= $this->target->getNameLink() ?>.
 				</p>
 				<p>As they approach an alarm is triggered. <?= pngt('%s spy', '%s spies', $this->s->uu) ?> are quickly rounded up and executed</p>
-				<? if ($user->admin) { ?>
+				<?php if ($user->admin) { ?>
 					<p><?= $this->s->SA ?></p>
-				<? } ?>
+				<?php } ?>
 			</div> 
-		<? }
+		<?php }
 			else { ?>
-			<? if ($this->s->type == 0) { ?>
+			<?php if ($this->s->type == 0) { ?>
 				<!-- spy log -->
 				<div class="panel-title">
 					Covert Mission Report
@@ -151,19 +151,19 @@
 							<th class="subh">Quantity</th>
 							<th class="subh">Strength</th>
 						</tr>
-						<?
-							$weaponA = split(";", $this->s->weapons);
-							$typesA = split(";", $this->s->types);
-							$types2A = split(";", $this->s->types2);
-							$quantitiesA = split(";", $this->s->quantities );
-							$strengthsA = split(";", $this->s->strengths );
-							$allStrengthsA = split(";", $this->s->allStrengths );
+						<?php
+							$weaponA = explode(";", $this->s->weapons);
+							$typesA = explode(";", $this->s->types);
+							$types2A = explode(";", $this->s->types2);
+							$quantitiesA = explode(";", $this->s->quantities );
+							$strengthsA = explode(";", $this->s->strengths );
+							$allStrengthsA = explode(";", $this->s->allStrengths );
 						?>
-						<? if ($this->s->weapons) { ?>
-							<? for ($i = 0; $i < count($weaponA); $i++){ ?>
+						<?php if ($this->s->weapons) { ?>
+							<?php for ($i = 0; $i < count($weaponA); $i++){ ?>
 								<tr>
 									<td>
-										<? if ($weaponA[$i] == '???') {
+										<?php if ($weaponA[$i] == '???') {
 											echo $weaponA[$i];
 										}
 										else {
@@ -171,7 +171,7 @@
 										}?>
 									</td>
 									<td>
-										<? if ($typesA[$i] == '???') {
+										<?php if ($typesA[$i] == '???') {
 											echo $typesA[$i];
 										}
 										else {
@@ -181,14 +181,14 @@
 									<td><?= $quantitiesA[$i] ?></td>
 									<td><?= $strengthsA[$i] ?> / <?= $allStrengthsA[$i] ?></td>
 								</tr>
-							<? } ?>
-						<? }
+							<?php } ?>
+						<?php }
 						else {?>
 							<tr><td align="center" colspan="4">No Weapons</td></tr>
-						<? } ?>
+						<?php } ?>
 					</table>
 				</div> 
-			<? }
+			<?php }
 				else { ?>
 				<!-- theft log -->
 				<div class="panel-title">
@@ -201,27 +201,27 @@
 						camp of <?= $this->target->getNameLink() ?>.
 					</p>
 					<p>The <?= $pngt ?> were able to steal:</p>
-					<? if ($this->s->type == 2) { ?>
+					<?php if ($this->s->type == 2) { ?>
 						<p style="color:<?= ($this->s->goldStolen > 0 ? 'green' : 'red') ?>"><?= numecho($this->s->goldStolen) ?> Gold</p>
-					<? }
+					<?php }
 						else { ?>
 						<p style="color:<?= ($this->s->weaponamount > 0 ? 'green' : 'red') ?>">
-						<?
+						<?php
 						numecho($this->s->weaponamount); echo ' ';
 						$w = new Weapon();
 						$w->weaponId = $this->s->weapontype2;
 						$w->isAttack = $this->s->weapontype;
 						echo $w->getName(); 
 						?></p>
-					<? } ?>
+					<?php } ?>
 					<p>While on this mission, the <?= $pngt ?> had to take 
-						<span style="color:<?= ($this->s->hostages > 0 ? 'green' : 'red') ?>"><? numecho($this->s->hostages) ?></span>
+						<span style="color:<?= ($this->s->hostages > 0 ? 'green' : 'red') ?>"><?php numecho($this->s->hostages) ?></span>
 						<?= ngt('hostage', 'hostages', $this->s->hostages) ?>
 					</p>
 
 				</div> 
-			<? } ?>
-		<? } ?>
+			<?php } ?>
+		<?php } ?>
 	</div>
 </div>
 <!-- End Spy log page -->
