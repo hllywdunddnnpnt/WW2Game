@@ -27,7 +27,7 @@ $offline_message = 'We are resetting the game, please come back in a few hours';
 $endtime   = str_replace('@', '', $_END_TIME[$_AGE]); //mktime(23,59,59,6,25,2010) + (60*60*13);
 $starttime = str_replace('@', '', $_START_TIME[$_AGE]); //mktime(2,0,0,5,30,2010) + (60*60*13);
 
-$conf['minutes_per_turn'] = 20;
+$conf['minutes_per_turn'] = 1;
 $current_age = $_AGE;
 $first_age   = 7;
 
