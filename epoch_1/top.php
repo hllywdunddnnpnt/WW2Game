@@ -23,7 +23,7 @@
   </table>  
 
 </center>
-<?
+<?php
 if ($offline == true) {
 } else {
 	$user = getUserDetails($_SESSION['isLogined']);

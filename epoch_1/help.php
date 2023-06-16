@@ -1,9 +1,9 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Help</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Help</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <LINK href="css/common.css" type=text/css rel=stylesheet>
 
@@ -21,14 +21,14 @@ include "scripts/vsys.php";
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-	<?
+	<?php
 include "left.php";
 ?>
 	</TD>
@@ -152,14 +152,14 @@ include "left.php";
       <P><b>These rules can be changed at ANY time.</b><BR>Please keep in mind that all 
       accounts are closely monitored, and we do catch the cheaters. 
       <P><STRONG>Legal: </STRONG>
-      <LI>Clicking on your own link once per <? echo $conf["hours_to_block_same_user_recruiting"]; ?> Hours 
-      <LI>Clicking on your officers' links once per <? echo $conf["hours_to_block_same_user_recruiting"]; ?> Hours 
-      <LI>Clicking ANY OTHER link once per <? echo $conf["hours_to_block_same_user_recruiting"]; ?> Hours
+      <LI>Clicking on your own link once per <?php echo $conf["hours_to_block_same_user_recruiting"]; ?> Hours 
+      <LI>Clicking on your officers' links once per <?php echo $conf["hours_to_block_same_user_recruiting"]; ?> Hours 
+      <LI>Clicking ANY OTHER link once per <?php echo $conf["hours_to_block_same_user_recruiting"]; ?> Hours
       <LI>Posting your link on message boards where it is allowed and is 
       on-topic. 
       <LI>Emailing your link to your friends or sending it to them on instant 
       messenger. 
-      <LI>Having people click your link more than once (but not within <? echo $conf["hours_to_block_same_user_recruiting"]; ?> hours) 
+      <LI>Having people click your link more than once (but not within <?php echo $conf["hours_to_block_same_user_recruiting"]; ?> hours) 
       . 
       <LI>Having an Alliance of WW2 players. 
       <LI>Having your link in your AIM/MSN/ICQ etc. profile. 
@@ -498,10 +498,10 @@ include "left.php";
       bonuses, which help you when you attack or defend. </P>
       <P style="TEXT-ALIGN: center">[ <A 
       href="#top">return to top</A> ] </P>
-      <?
+      <?php
 include ("bottom.php");
 ?>
         </LI></TD></TR></TBODY></TABLE>
 </BODY></HTML>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

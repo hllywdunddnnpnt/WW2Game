@@ -22,21 +22,21 @@
 <div id="hof-container">
 	<form method="get">
 		<select name="age">
-			<? for ($i = 1; $i < $this->current_age; $i++) { ?>
+			<?php for ($i = 1; $i < $this->current_age; $i++) { ?>
 				<option value="<?= $i ?>" <?= ($i == $this->age ? 'selected="selected"' : '') ?>>Age <?= $i ?></option>
-			<? } ?>
+			<?php } ?>
 		</select>
-		<? if ($this->age >= 15) { ?>
+		<?php if ($this->age >= 15) { ?>
 			<select name="area">
-				<? for ($i = 1; $i <= 3; $i++) { ?>
+				<?php for ($i = 1; $i <= 3; $i++) { ?>
 					<option value="<?= $i ?>" <?= ($this->area == $i ? 'selected="selected"' : '') ?>><?= $conf['area'][$i]['name'] ?></option>
-				<? } ?>
+				<?php } ?>
 			</select>
-		<? } ?>
+		<?php } ?>
 		<input type="submit" value="Change Age" />
 	</form>
 	<br />
-	<? if ($this->u) { ?>
+	<?php if ($this->u) { ?>
 		<div class="panel">
 			<div class="panel-title">
 				<?= $this->u->username ?>'s Stats
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 		</div>
-	<? } ?>
+	<?php } ?>
 
 	<div class="panel">
 		<div class="panel-title">
@@ -81,10 +81,10 @@
 				<th>RA Rank</th>
 				<th>Rank Average</th>
 			</tr>
-			<? $rank = 0; $lastR = 0; ?>
-			<? foreach ($this->ranks as $r) { ?>
-				<? if ($r->rave > $lastR) { $rank++; }  ?>
-				<!--<? var_dump($r) ?>-->
+			<?php $rank = 0; $lastR = 0; ?>
+			<?php foreach ($this->ranks as $r) { ?>
+				<?php if ($r->rave > $lastR) { $rank++; }  ?>
+				<!--<?php var_dump($r) ?>-->
 				<tr>
 					<td><?= $rank ?></td>
 					<td><img src="<?= $this->image('nation' . $r->nation . '.gif')?>" /></td>
@@ -95,8 +95,8 @@
 					<td><?= numecho($r->rarank) ?></td>
 					<td><?= number_format($r->rave * 0.25, 2) ?></td>
 				</tr>
-				<? $lastR = $r->rave; if ($rank == 100) { break; }?>
-			<? } ?>
+				<?php $lastR = $r->rave; if ($rank == 100) { break; }?>
+			<?php } ?>
 		</table>
 	</div>
 </div>

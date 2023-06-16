@@ -21,18 +21,18 @@ a few days.
 
 Here is your information:
 
-<? if ($this->username) { ?>
+<?php if ($this->username) { ?>
 Username: <?= $this->username ?>
 
-<? } ?>
-<? if ($this->email) { ?>
+<?php } ?>
+<?php if ($this->email) { ?>
 Email: <?= $this->email ?>
 
-<? } ?>
-<? if ($this->password) { ?>
+<?php } ?>
+<?php if ($this->password) { ?>
 Password: <?= $this->password ?>
 
-<? } ?>
+<?php } ?>
 
 Alternately, go to 
 http://www.ww2game.net/loginverify.php?id=<?= $this->user->id ?>&key=<?= $this->key ?>

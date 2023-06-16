@@ -22,7 +22,7 @@
 <div id="alliancemembers-container">
 	<div class="panel">
 		<div class="panel-title">
-			Baned Users <? $this->load('alliance-header') ?>
+			Baned Users <?php $this->load('alliance-header') ?>
 		</div>
 		<form method="post" class="large">
 			<table class="large">
@@ -31,24 +31,24 @@
 					<th>Name</th>
 					<th>Area</th>
 					<th>Rank</th>
-					<? if ($this->alliance->isLeader($user)) { ?>
+					<?php if ($this->alliance->isLeader($user)) { ?>
 						<th>Remove</th>
-					<? } ?>
+					<?php } ?>
 				</tr>
-				<? foreach ($this->banned as $b) { ?>
-					<? $member = getCachedUser($b->targetId); ?>
+				<?php foreach ($this->banned as $b) { ?>
+					<?php $member = getCachedUser($b->targetId); ?>
 					<tr>
 						<td><?= date('H:i d/M', $b->date) ?></td>
 						<td><?= $member->getNameLink() ?></td>
 						<td><?= $member->getAreaName() ?></td>
 						<td><?= numecho($member->rank) ?></td>
-						<? if ($this->alliance->isLeader($user)) { ?>
+						<?php if ($this->alliance->isLeader($user)) { ?>
 							<td>
 								 <input type="checkbox" name="remove[]" value="<?= $b->id ?>" />
 							</td>
-						<? } ?>
+						<?php } ?>
 					</tr>
-				<? } ?>
+				<?php } ?>
 			</table>
 			<div class="line">
 				<input type="submit" value="Update" name="alliance-submit" class="submit" />

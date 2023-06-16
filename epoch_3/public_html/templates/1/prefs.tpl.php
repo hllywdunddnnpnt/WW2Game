@@ -28,13 +28,13 @@
 		
 			<div class="line">
 				<label for="prefs-username">Username:</label>
-					<? if (!$user->changenick) { ?>
+					<?php if (!$user->changenick) { ?>
 						<input type="text" name="prefs-username" maxlength="25" value="<?= $user->username ?>" />
 						<small>Limited to one change per age</small>
-					<? } 
+					<?php } 
 						else { ?>
 						<span>You have already changed your name this age</span>
-					<? } ?>
+					<?php } ?>
 			</div>
 			
 			<div class="line">
@@ -67,7 +67,7 @@
 			<div class="line">
 				<label for="prefs-nation">Nation:</label>
 					
-				<? if ($conf['can-change-nation']) { ?>
+				<?php if ($conf['can-change-nation']) { ?>
 					<select name="prefs-nation">
 						<option value="0" <?= ($user->nation == 0 ? 'selected="selected"': '') ?>>USA</option>
 						<option value="1" <?= ($user->nation == 1 ? 'selected="selected"': '') ?>>UK</option>
@@ -76,27 +76,27 @@
 						<option value="4" <?= ($user->nation == 4 ? 'selected="selected"': '') ?>>USSR</option>
 					</select>
 					<small>Please read <a href="changenation.php" target="_blank">About Changing Nations</a> before changing!</small>
-				<? }
+				<?php }
 					else { ?>
 					<input type="hidden" name="prefs-nation" value="<?= $user->nation ?>" />
 					<span>[ You cannot change nation this late into the age ]</span>	
-				<? } ?>
+				<?php } ?>
 			</div>
 			
-			<? if ($user->getSupport('minhit')) { ?>
+			<?php if ($user->getSupport('minhit')) { ?>
 				<div class="line">
 					<label for="prefs-minhit">Minimum Hit:</label>
 					<input type="text" name="prefs-minhit" value="<?= numecho($user->minattack) ?>" />
 				</div>
-			<? } ?>
+			<?php } ?>
 			
-			<? if ($this->allow_vacation) { ?>
+			<?php if ($this->allow_vacation) { ?>
 				<div class="line">
 					<label for="prefs-vacation">Vacation Mode:</label>
 					<input type="checkbox" name="prefs-vacation" value="yes">&nbsp;Enter Vacation Mode</input>
 					<small>You will remain in vacation mode for at least 2 days</small>
 				</div>
-			<? } ?>
+			<?php } ?>
 			
 			<div class="line">
 				<input type="submit" name="prefs-submit" class="submit" value="Save!" />

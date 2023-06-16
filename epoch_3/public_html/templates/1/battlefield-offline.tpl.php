@@ -24,14 +24,14 @@
 		<div class="panel-title">
 			Ranking 
 			<span class="small">(
-				<? foreach ($conf['area'] as $n => $a) { ?>
-					<? if ($this->area == $n) { ?>
+				<?php foreach ($conf['area'] as $n => $a) { ?>
+					<?php if ($this->area == $n) { ?>
 						<?= $conf['area'][$n]['name'] ?>		
-					<? }
+					<?php }
 						else { ?>
 						<a href="?area=<?= $n ?>"><?= $conf['area'][$n]['name'] ?></a>
-					<? } ?>
-				<? } ?>
+					<?php } ?>
+				<?php } ?>
 			)</span>
 		</div>
 		<table class="odd-even large">
@@ -41,33 +41,33 @@
 				<th>Name</th>
 				<th>Army Size</th>
 			</tr>
-			<? foreach($this->users as $target) { ?>
+			<?php foreach($this->users as $target) { ?>
 				<tr>
 					<td><?= numecho($target->rank) ?></td>
 					<td><img title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" /></td>
 
 					<td class="<?= $class ?>" style="text-align: left;">
 						<?= $target->getNameLink('', true) ?>
-						<? if ($target->alliance) { echo $target->getAlliance()->getTag(); } ?>
+						<?php if ($target->alliance) { echo $target->getAlliance()->getTag(); } ?>
 					</td>
 					<td><?= numecho($target->getTFF()) ?></td>
 				</tr>
-			<? } ?>
+			<?php } ?>
 			<tr>
 				<td>
-					<? if ($this->page > 1) { ?>
+					<?php if ($this->page > 1) { ?>
 						<a href="?page=<?= $this->page - 1?>&amp;search=<?= urlencode($this->search) ?>&amp;search-type=<?= $this->searchType ?>&amp;area=<?= $this->area ?>">&lt;&lt;</a>&nbsp;
-					<? } else { echo "<<"; } ?>
+					<?php } else { echo "<<"; } ?>
 				</td>
 				<td colspan="<?= ($quickAttack ? 3 : 2) ?>">
-					<? for($i = 1; $i <= $this->totalPages; $i++) { ?>
+					<?php for($i = 1; $i <= $this->totalPages; $i++) { ?>
 						<a <?= ($i == $this->page ? 'class="selected"' : '') ?> href="?page=<?= $i ?>&amp;search=<?= urlencode($this->search) ?>&amp;search-type=<?= $this->searchType ?>&amp;area=<?= $this->area ?>"><?= numecho($i) ?></a>&nbsp;
-					<? } ?>
+					<?php } ?>
 				</td>
 				<td>
-					<? if ($this->page < $this->totalPages) { ?>
+					<?php if ($this->page < $this->totalPages) { ?>
 						&nbsp;<a href="?page=<?= $this->page + 1?>&amp;search=<?= urlencode($this->search) ?>&amp;search-type=<?= $this->searchType ?>&amp;area=<?= $this->area ?>">&gt;&gt;</a>&nbsp;
-					<? } else { echo ">>"; } ?>
+					<?php } else { echo ">>"; } ?>
 				</td>
 			</tr>
 			<tr>
@@ -80,9 +80,9 @@
 				<label>Area</label>
 				<select name="area">
 					<option <?= (!$this->area  ? 'selected="selected"' : '') ?> value="<?= $conf['area-count'] + 1 ?>">All</option>
-					<? foreach ($conf['area'] as $n => $a) { ?>
+					<?php foreach ($conf['area'] as $n => $a) { ?>
 						<option <?= ($this->area == $n ? 'selected="selected"' : '') ?> value="<?= $n ?>"><?= $a['name'] ?></option>
-					<? } ?>
+					<?php } ?>
 				</select>
 			</div>
 			<div class="line">

@@ -1,4 +1,4 @@
-<? if (!$_SESSION['isLogined']) {
+<?php if (!$_SESSION['isLogined']) {
 	die("No Access");
 } ?>
 <h3>Inbox</h3>
@@ -10,10 +10,10 @@
         messages of <font size="3" color="RED"><?=getMessagesCount($_SESSION['isLogined']) ?></font> Messages
       <p>
 	  
-	  <?
+	  <?php
 if ($cgi['delallmsg']) {
 	$str = "UPDATE `Messages` SET `read`=2 WHERE userID='$_SESSION[isLogined]'";
-	mysql_query($str) or die(mysql_error());
+	mysqli_query($db, $str) or die(mysqli_error($db));
 }
 if ($cgi['type'] == 'delete') {
 	deleteMessage($cgi['id']);
@@ -40,7 +40,7 @@ if ($cgi['type'] == 'view') {
 ?>" />
 			<input type="hidden" name="repmsg" value="<?=$mes->text
 ?>" />
-			<input type="submit" name="rep" value="Reply to: <?
+			<input type="submit" name="rep" value="Reply to: <?php
 		$sentUser = getUserDetails($mes->fromID, "userName");
 		echo $sentUser->userName;
 ?>" />
@@ -52,7 +52,7 @@ if ($cgi['type'] == 'view') {
 			</form></td></tr></table>
 			</center><hr />
 			
-			<?
+			<?php
 	}
 } else {
 ?>
@@ -69,7 +69,7 @@ if ($cgi['type'] == 'view') {
           <th><form name='selmess' action="messages.php" method="POST"><input type="submit" name="delallmsg" value="Delete all"></form><form name='selmess' action="messages.php" method="POST"><input type="submit" name="delsel" value="Delete Selected"></th>
         	
         </tr>
-        <?
+        <?php
 	$messagesC = getMessagesCount($user->ID);
 	if ($messagesC) {
 		$pCount = $messagesC / $conf["users_per_page"];
@@ -83,13 +83,13 @@ if ($cgi['type'] == 'view') {
 ?>
         <tr align="center"> 
           <td> <a href="stats.php?id=<?=$messages[$i]->fromID ?>"> 
-            <? $sentUser = getUserDetails($messages[$i]->fromID, "userName");
+            <?php $sentUser = getUserDetails($messages[$i]->fromID, "userName");
 			echo $sentUser->userName; ?>
             </a> </td>
           <td> <a href="messages.php?id=<?=$messages[$i]->ID ?>&amp;type=view" title="view message">
             <?=$messages[$i]->subject ?>
             </a>
-	    <?
+	    <?php
 			if ($messages[$i]->read == 0) {
 				echo "<font color=red>!</font>";
 			}
@@ -103,16 +103,16 @@ if ($cgi['type'] == 'view') {
           <td><input type="checkbox" name="delarr[]" value="<?=$messages[$i]->ID ?>"> </td>
         	
         </tr>
-        <?
+        <?php
 		}
 	} else {
 ?>
         <tr> 
           <td colspan="3" align="center">No Messages</td>
         </tr>
-        <?
+        <?php
 	} ?>
       </table></form>
-	  <?
+	  <?php
 } ?>
 

@@ -19,6 +19,12 @@
 
 -->
 <!-- Begin register page -->
+<?php
+$this->username = "Johnny_3_Tears";
+$this->email = "night_train_247@hotmail.com";
+$this->emailv = "night_train_247@hotmail.com";
+
+?>
 <div id="register-container">
 	<div class="panel">
 		<div class="panel-title">
@@ -66,18 +72,18 @@
 			
 			<div class="register-line">							
 				<label class="lbl-chkbox" for="register-rules">
-					<input class="input-chkbox" type="checkbox" name="register-rules" value="true" <?= ($this->rules ? 'checked="checked"' : '') ?>/>
+					<input class="input-chkbox" type="checkbox" name="register-rules" value="true" <?= ($this->rules ? 'checked="checked"' : '') ?> checked />
 					I have read and agree to the <a href="rules.php">rules</a> and <a href="tos.php">Terms of Service</a>
 				</label>				
 			</div>
 			
-			<? if ($this->referrer) { ?>
+			<?php if ($this->referrer) { ?>
 			<div class="register-line">
 				<label for="register-referrer">Referrer</label>
 				<input type="hidden" name="register-referrer" value="<?= $this->referrer->id ?>" />
 				<span><?= $this->referrer->getNameLink('', true) ?></span>
 			</div?
-			<? } ?>
+			<?php } ?>
 			
 			<div class="register-line">
 				<label for="captcha-image">Picture</label>

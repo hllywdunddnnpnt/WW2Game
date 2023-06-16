@@ -1,11 +1,19 @@
-<?
+<?php
 define('GAME', 'game');
 define('VERSION', '2.0.1-ww2-2');
 
 define('BASEURL', 'http://www.ww2game.net/');
-define('BASEDIR', '/home/ww2game/public_html/');
-define('INCDIR', '/home/ww2game/php/WW2/');
-define('CACHEDIR', '/home/ww2game/php/WW2/cache/');
+#define('BASEDIR', '/home/ww2game/public_html/');
+#define('INCDIR', '/home/ww2game/php/WW2/');
+#define('CACHEDIR', '/home/ww2game/php/WW2/cache/');
+
+define('BASEDIR', '/public_html/');
+define('INCDIR', '/');
+define('CACHEDIR', 'cache/');
+define('SCRIPTSDIR', 'scripts/');
+define("DIRSCR", "../php/WW2/scripts/");
+
+define('Inf', null);
 
 
 define('SESS_NAME', 'ww2game');
@@ -58,8 +66,8 @@ function updateAgefiles($nextage) {
 	$second = false;
 	//return false;
 	$nextage = intval($nextage);
-	
-	$fp = fopen(CACHEDIR . 'age.txt', 'w+');
+	/*
+	$fp = fopen('age.txt', 'w+');
 	if ($fp) {
 		if (flock($fp, LOCK_EX)) {
 			ftruncate($fp, 0);
@@ -76,14 +84,14 @@ function updateAgefiles($nextage) {
 	if ($fp) {
 		if (flock($fp, LOCK_EX)) {
 			ftruncate($fp, 0);
-			if (fwrite($fp, "<? \$_AGE = $nextage; ?>\n") > 0 and fflush($fp)) {
+			if (fwrite($fp, "<?php \$_AGE = $nextage; ?>\n") > 0 and fflush($fp)) {
 				$second = true;
 			}
 			flock($fp,  LOCK_UN);
 			
 		}
 		fclose($fp);
-	}
+	}*/
 	
 	return $first && $second;
 }

@@ -1,9 +1,9 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Reset</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Reset</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><!-- ZoneLabs Privacy Insertion -->
 <SCRIPT language=javascript src="js/js"></SCRIPT>
 <LINK href="css/common.css" type=text/css rel=stylesheet>
@@ -22,7 +22,7 @@ include "scripts/vsys.php";
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 
@@ -30,18 +30,18 @@ include "top.php";
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 </TD>
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
     vAlign=top align=left> <BR>
-        <?
+        <?php
 include "islogined.php";
-$q = mysql_query("SELECT count(*) FROM UserDetails WHERE race=4 and active=1") or die(mysql_error());
-$a = mysql_fetch_array($q);
-$q = mysql_query("SELECT count(*) FROM UserDetails WHERE active=1") or die(mysql_error());
-$b = mysql_fetch_array($q);
+$q = mysqli_query($db, "SELECT count(*) FROM UserDetails WHERE race=4 and active=1") or die(mysqli_error($db));
+$a = mysqli_fetch_array($q);
+$q = mysqli_query($db, "SELECT count(*) FROM UserDetails WHERE active=1") or die(mysqli_error($db));
+$b = mysqli_fetch_array($q);
 $ussrpercent = round($a[0] / $b[0] * 100);
 if ($cgi['submit']) {
 	echo "<center><font color=red>";
@@ -126,7 +126,7 @@ if ($cgi['submit']) {
                   <tr> 
                     <td> Race: </td>
                     <td> <select name="race">
-                        <?
+                        <?php
 for ($i = 0;$i < count($conf["race"]);$i++) {
 	echo "<option value=$i ";
 	if ($user->race == $i) {
@@ -153,10 +153,10 @@ for ($i = 0;$i < count($conf["race"]);$i++) {
             </tr>
           </table>
         </form>
-        <?
+        <?php
 include ("bottom.php");
 ?>	
 	 </TD></TR></TBODY></TABLE>
 </BODY></HTML>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

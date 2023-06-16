@@ -1,4 +1,4 @@
-<? class clsMAIL {
+<?php class clsMAIL {
 	var $headers = array('From' => "\"Admin\" <admin@example.net>", 'Reply-To' => "\"Admin\" <admin@example.net>", 'MIME-Version' => '1.1', "Return-Path" => "<admin@example.net>", "Organization" => "WW2game");
 	var $boundary = '';
 	var $message = '';

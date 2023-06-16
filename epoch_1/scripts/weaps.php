@@ -1,4 +1,4 @@
-<?
+<?php
 $conf['weapon0strength'] = '50';
 $conf['weapon0pp'] = '5';
 $conf['weapon0price'] = '5000';

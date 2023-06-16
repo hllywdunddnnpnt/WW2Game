@@ -31,14 +31,14 @@
 				<th>Strength</th>
 				<th>Sell</th>
 			</tr>
-			<? foreach ($this->saWeapons as $weapon) { ?>
+			<?php foreach ($this->saWeapons as $weapon) { ?>
 				<tr>
 					<td><?= $weapon->getName($user) ?></td>
 					<td><?= numecho($weapon->weaponCount)?></td>
 					<td>
-					<? if ($weapon->weaponStrength == $weapon->getFullStrength()) {?>
+					<?php if ($weapon->weaponStrength == $weapon->getFullStrength()) {?>
 						<?= numecho($weapon->weaponStrength) ?> / <?= numecho($weapon->getFullStrength()) ?></td>
-					<? }
+					<?php }
 						else { ?>
 						<form method="post">
 							<input type="hidden" name="wId" value="<?= $weapon->id ?>" />
@@ -46,7 +46,7 @@
 							<input type="submit" name ="repair-attack" value="<?= numecho($weapon->getRepairPerPoint()) ?> gold / point" />
 							<input type="submit" name="repair-attack-max" value="Max" />
 						</form>
-						<? } ?>
+						<?php } ?>
 					<td>
 						<form method="post">
 							<input type="hidden" name="wId" value="<?= $weapon->id ?>" />
@@ -55,25 +55,25 @@
 						</form>
 					</td>
 				</tr>
-			<? } ?>
+			<?php } ?>
 			<tr>
 				<td>&nbsp;</td>
 				<td>Total: <?= numecho($this->saRatio->total) ?><br /> Ratio: <?= number_format(round($this->saRatio->ratio, 2)) ?></td>
 				<td>
 					&nbsp;
-					<? if ($user->supporter) { ?>
+					<?php if ($user->supporter) { ?>
 						<!-- <form method="post">
 							<input type="submit" value="Repair All" name="repair-all-attack" />
 						</form> -->
-					<? } ?>
+					<?php } ?>
 				</td>
 				<td>
 					&nbsp;
-					<? if ($user->supporter) { ?>
+					<?php if ($user->supporter) { ?>
 					<!--<form method="post">
 						<input type="submit" value="Sell All" name="sell-all-attack" />
 					</form>-->
-					<? } ?>
+					<?php } ?>
 				</td>
 			</tr>
 		</table>
@@ -90,14 +90,14 @@
 				<th>Strength</th>
 				<th>Sell</th>
 			</tr>
-			<? foreach ($this->daWeapons as $weapon) { ?>
+			<?php foreach ($this->daWeapons as $weapon) { ?>
 				<tr>
 					<td><?= $weapon->getName($user) ?></td>
 					<td><?= numecho($weapon->weaponCount) ?></td>
 					<td>
-					<? if ($weapon->weaponStrength == $weapon->getFullStrength()) {?>
+					<?php if ($weapon->weaponStrength == $weapon->getFullStrength()) {?>
 						<?= numecho($weapon->weaponStrength) ?> / <?= numecho($weapon->getFullStrength()) ?></td>
-					<? }
+					<?php }
 						else { ?>
 							<form method="post">
 								<input type="hidden" name="wId" value="<?= $weapon->id ?>" />
@@ -105,7 +105,7 @@
 								<input type="submit" name="repair-defense" value="<?= numecho($weapon->getRepairPerPoint()) ?> gold / point" />
 								<input type="submit" name="repair-defense-max" value="Max" />
 							</form>
-						<? } ?>
+						<?php } ?>
 					<td>
 						<form method="post">
 							<input type="hidden" name="wId" value="<?= $weapon->id ?>" />
@@ -114,25 +114,25 @@
 						</form>
 					</td>
 				</tr>
-			<? } ?>
+			<?php } ?>
 			<tr>
 				<td>&nbsp;</td>
 				<td>Total: <?= numecho($this->daRatio->total) ?><br /> Ratio: <?= number_format(round($this->daRatio->ratio, 2)) ?></td>
 				<td>
 					&nbsp;
-					<? if ($user->supporter) { ?>
+					<?php if ($user->supporter) { ?>
 						<!--<form method="post">
 							<input type="submit" value="Repair All" name="repair-all-defense" />
 						</form> -->
-					<? } ?>
+					<?php } ?>
 				</td>
 				<td>
 					&nbsp;
-					<? if ($user->supporter) { ?>
+					<?php if ($user->supporter) { ?>
 						<!-- <form method="post">
 							<input type="submit" value="Sell All" name="Sell-all-defense" />
 						</form> -->
-					<? } ?>
+					<?php } ?>
 				</td>
 			</tr>
 		</table>
@@ -151,7 +151,7 @@
 					<th>Amount</th>
 					<th>&nbsp;</th>
 				</tr>
-				<? for ($i = 0; $i <= $user->salevel; $i++) { ?>
+				<?php for ($i = 0; $i <= $user->salevel; $i++) { ?>
 					<tr>
 						<td><?= $conf['names']['weapons'][1][$i] ?></td>
 						<td><?= numecho($conf['weapon' . $i . 'strength']) ?></td>
@@ -159,7 +159,7 @@
 						<td><input type="text" name="attackweapon[]" value="0" id="attack-weapon-<?= $i ?>" /></td>
 						<td><input type="button" onclick="javascript:return attackWMax(<?= $i ?>, <?= $conf['weapon' . $i . 'price'] ?>);" value="Max" /></td>
 					</tr>
-				<? } ?>
+				<?php } ?>
 				<tr>
 					<th>Defense Weapons</th>
 					<th>Strength</th>
@@ -167,7 +167,7 @@
 					<th>Amount</th>
 					<th>&nbsp;</th>
 				</tr>
-				<? for ($i = 0; $i <= $user->dalevel; $i++) { ?>
+				<?php for ($i = 0; $i <= $user->dalevel; $i++) { ?>
 					<tr>
 						<td><?= $conf['names']['weapons'][0][$i] ?></td>
 						<td><?= numecho($conf['weapon' . $i . 'strength']) ?></td>
@@ -175,7 +175,7 @@
 						<td><input type="text" name="defenseweapon[]" value="0" id="defense-weapon-<?= $i ?>" /></td>
 						<td><input type="button" onclick="javascript:return defenseWMax(<?= $i ?>, <?= $conf['weapon' . $i . 'price'] ?>);" value="Max" /></td>
 					</tr>
-				<? } ?>
+				<?php } ?>
 				<tr>
 					<td colspan="4">&nbsp;</td>
 					<td><input type="submit" name="armoury-buy" value="Buy" /></td>

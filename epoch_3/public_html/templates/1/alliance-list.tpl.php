@@ -22,7 +22,7 @@
 <div id="alliance-listing-container">
 	<div class="panel">
 		<div class="panel-title">
-			Alliances <? $this->load('alliance-header') ?>
+			Alliances <?php $this->load('alliance-header') ?>
 		</div>
 		<table class="large">
 			<tr>
@@ -32,7 +32,7 @@
 				<th>Leader</th>
 				<th>Join</th>
 			</tr>
-			<? foreach ($this->alliances as $alliance) { ?>
+			<?php foreach ($this->alliances as $alliance) { ?>
 				<tr>
 					<td>
 						<a href="alliance-info.php?aid=<?= $alliance->id ?>">
@@ -43,15 +43,15 @@
 					<td><?= $alliance->getLeader(2)->getNameLink() ?></td>
 					<td><?= $alliance->getLeader(3)->getNameLink() ?></td>
 					<td>
-						<? if ($alliance->status == 0) { ?>
+						<?php if ($alliance->status == 0) { ?>
 							<a href="alliance-home.php?join=<?= $alliance->id ?>">Join</a>
-						<? } 
+						<?php } 
 							else { ?>
 							{Closed}
-						<? } ?>
+						<?php } ?>
 					</td>
 				</tr>
-			<? } ?>
+			<?php } ?>
 		</table>
 	</div>
 </div>

@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include ("scripts/vsys.php");
 //Upgrade Fortification
 $user = getUserDetails($_SESSION['isLogined']);
@@ -101,14 +101,14 @@ if ($cgi[$_SESSION[maxupgrade]]) {
   </HEAD>
   <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-    <?
+    <?php
 include "top.php";
 ?>
     <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
       <TBODY>
         <TR>
           <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-            <?
+            <?php
 include ("left.php");
 ?>
           </TD>
@@ -117,10 +117,10 @@ include ("left.php");
             <BR>
             <p>
               <strong><center>
-                <font color=red><? echo $cgi["strErr"]; ?></font>
+                <font color=red><?php echo $cgi["strErr"]; ?></font>
               </center></strong>
             </p>
-            <?
+            <?php
 include "islogined.php";
 ?>
             <table>
@@ -145,22 +145,22 @@ include "islogined.php";
                         </TR>
                         <TR>
                           <TD>
-                            <? echo $user->maxofficers
+                            <?php echo $user->maxofficers
 ?>
                           </TD>
-                          <?
+                          <?php
 if ($user->maxofficers < 15) {
 	$pris = pow(2, floor($user->maxofficers / 2)) * 1000;
 ?>
                           <TD align=middle>
-                            <INPUT type=submit size=5 value="<? numecho($pris) ?> Exp" name='ofupgrade'>
+                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Exp" name='ofupgrade'>
                             <INPUT type=hidden value=yes 
  		name=of_upgrade>
                           </TD>
-                          <?
+                          <?php
 } else { ?>
                           <td align="center">[No more upgrades]</td>
-                          <?
+                          <?php
 } ?>
                         </TR>
                       </TBODY>
@@ -187,21 +187,21 @@ if ($user->maxofficers < 15) {
                         </TR>
                         <TR>
                           <TD>
-                            <? echo $user->bankper
+                            <?php echo $user->bankper
 ?>
                           </TD>
                           <TD align=middle>
-                            <?
+                            <?php
 if ($user->bankper >= 2) {
 	$pris = pow(3, (10 - $user->bankper)) * 1800 + 1500;
 ?>
-                            <INPUT type=submit size=5 value="<? numecho($pris) ?> Exp" name='bupgrade'>
+                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Exp" name='bupgrade'>
                             <INPUT type=hidden value=yes 
  		name=b_upgrade>
-		<?
+		<?php
 } else {
 ?>
-                             [No more Upgrades] <?
+                             [No more Upgrades] <?php
 }
 ?>
                           </TD>
@@ -236,17 +236,17 @@ if ($user->bankper >= 2) {
 ?>
                           </TD>
                           <TD align=middle>
-                            <?
+                            <?php
 if ($user->weapper <= 3) {
 	$pris = pow(4, $user->weapper) * 1800 + 1500;
 ?>
-                            <INPUT type=submit size=5 value="<? numecho($pris) ?> Exp" name='wupgrade'>
+                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Exp" name='wupgrade'>
                             <INPUT type=hidden value=yes 
  		name=w_upgrade>
-		<?
+		<?php
 } else {
 ?>
-                             [No more Upgrades] <?
+                             [No more Upgrades] <?php
 }
 ?>
                           </TD>
@@ -278,14 +278,14 @@ if ($user->weapper <= 3) {
                         </TR>
                         <TR>
                           <TD>
-                            <? echo $user->sflevel
+                            <?php echo $user->sflevel
 ?>
                           </TD>
-                          <? $pris = pow(2, $user->sflevel) * 100000 + 100000;
+                          <?php $pris = pow(2, $user->sflevel) * 100000 + 100000;
 ?>
                           <TD align=middle>
                             
-                            <INPUT type=submit size=5 value="<? numecho($pris) ?> Gold" name='sfupgrade'>
+                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name='sfupgrade'>
                             <INPUT type=hidden value=yes 
  		name=sf_upgrade>
                           </TD>
@@ -313,13 +313,13 @@ if ($user->weapper <= 3) {
                         </TR>
                         <TR>
                           <TD>
-                            <? echo $user->hhlevel
+                            <?php echo $user->hhlevel
 ?>
                           </TD>
-                          <? $pris = pow(2.5, $user->hhlevel) * 125000 + 112500;
+                          <?php $pris = pow(2.5, $user->hhlevel) * 125000 + 112500;
 ?>
                           <TD align=middle>                            
-								<INPUT type=submit size=5 value="<? numecho($pris) ?> Gold" name='hh'>
+								<INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name='hh'>
 								<INPUT type=hidden value=yes name=hh_upgrade>
 						
                           </TD>
@@ -350,14 +350,14 @@ if ($user->weapper <= 3) {
                         </TR>
                         <tr>
                           <TD>
-                             Level <? echo $user->calevel
+                             Level <?php echo $user->calevel
 ?>
                             </td>
-				<? $pris = pow(2, $user->calevel) * 12000;
+				<?php $pris = pow(2, $user->calevel) * 12000;
 ?>
                           <TD align=middle>
                             
-                            <INPUT type=submit size=5 value="<? numecho($pris) ?> Gold" name=spyupgrade />
+                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name=spyupgrade />
                             <INPUT type=hidden value=yes 
  		name=upgrade_spy />
                           </TD>
@@ -385,11 +385,11 @@ if ($user->weapper <= 3) {
                         </TR>
                         <TR>
                           <TD>
-                            <? echo $user->up
+                            <?php echo $user->up
 ?>
                              per turn 
                           </TD>
-                          <? if ($user->race == 4) {
+                          <?php if ($user->race == 4) {
 	$pris = $user->up * 8500 + 10000;
 } else {
 	$pris = $user->up * 10000 + 10000;
@@ -397,7 +397,7 @@ if ($user->weapper <= 3) {
 ?>
                           <TD align=middle>
                            
-                            <INPUT type=submit size=5 value="<? numecho($pris) ?> Gold" name=<? $_SESSION[unitupgrade] = genUniqueTxt(10);
+                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name=<?php $_SESSION[unitupgrade] = genUniqueTxt(10);
 echo $_SESSION[unitupgrade]; ?>>
                             <INPUT type=hidden value=yes name=upgrade_prod>
                           </TD>
@@ -405,7 +405,7 @@ echo $_SESSION[unitupgrade]; ?>>
                         <tr>
                           <TD>
                            
-                            <INPUT type=submit size=5 value="Max" name=<? $_SESSION[maxupgrade] = genUniqueTxt(10);
+                            <INPUT type=submit size=5 value="Max" name=<?php $_SESSION[maxupgrade] = genUniqueTxt(10);
 echo $_SESSION[maxupgrade]; ?>>
                           </TD>
                         </tr>
@@ -434,7 +434,7 @@ border=0>
                           </TH>
                         </TR>
                         <TR>
-                          <? $fl = $conf["race"][$user->race]["fortification"][$user->dalevel]["name"];
+                          <?php $fl = $conf["race"][$user->race]["fortification"][$user->dalevel]["name"];
 if ($conf["race"][$user->race]["fortification"][$user->dalevel + 1]["price"]) {
 	$kn = numecho2($conf["race"][$user->race]["fortification"][$user->dalevel + 1]["price"]) . ' Gold' . ' (+25%)';
 } else {
@@ -476,7 +476,7 @@ if ($conf["race"][$user->race]["fortification"][$user->dalevel + 1]["price"]) {
                           </TH>
                         </TR>
                         <TR>
-                          <? $sl = $conf["race"][$user->race]["siege"][$user->salevel]["name"];
+                          <?php $sl = $conf["race"][$user->race]["siege"][$user->salevel]["name"];
 if ($conf["race"][$user->race]["siege"][$user->salevel + 1]["price"]) {
 	$kn = numecho2($conf["race"][$user->race]["siege"][$user->salevel + 1]["price"]) . ' Gold ' . ' (+25%)';
 } else {
@@ -502,7 +502,7 @@ if ($conf["race"][$user->race]["siege"][$user->salevel + 1]["price"]) {
                 </td>
               </tr>
             </table>
-            <?
+            <?php
 include ("bottom.php");
 ?>
           </TD>
@@ -511,5 +511,5 @@ include ("bottom.php");
     </TABLE>
   </BODY>
 </HTML>
-<? include "gzfooter.php";
+<?php include "gzfooter.php";
 ?>

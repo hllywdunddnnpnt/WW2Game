@@ -27,8 +27,8 @@
 	<br />
 	<small>Deposit Fee <?= $user->bankper ?>%</small>
 	<form  name="<?= getPassword(10) ?>" method="post">
-		<input name="<? $_SESSION['depbox'] = getPassword(10); echo $_SESSION['depbox']; ?>" type="text" size="12" maxlength="17" value="<?= numecho2($user->gold) ?>" />
-		<? if($user->bankimg == 1) { ?>
+		<input name="<?php $_SESSION['depbox'] = getPassword(10); echo $_SESSION['depbox']; ?>" type="text" size="12" maxlength="17" value="<?= numecho2($user->gold) ?>" />
+		<?php if($user->bankimg == 1) { ?>
 			<br />
 			<img src="imageclick.php?<?= session_name() . '=' . session_id() ?>" title="random characters" alt="random characters"><br />
 			<select name="turing">
@@ -48,7 +48,7 @@
 				<option value="14">fourteen</option>
 				<option value="15">fifteen</option>
 			</select>
-		<?}?> <br />
+		<?php }?> <br />
 		<input type="submit" value="Deposit" />
 	</form>	
 </div>

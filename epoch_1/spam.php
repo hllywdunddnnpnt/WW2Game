@@ -1,8 +1,8 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Massively Multiplayer Online Role Playing Game</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Massively Multiplayer Online Role Playing Game</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=koi8-r"><!-- ZoneLabs Privacy Insertion -->
 <SCRIPT language=javascript src="js/js"></SCRIPT>
 <LINK href="css/common.css" type=text/css rel=stylesheet><LINK 
@@ -22,14 +22,14 @@ href="css/main.css" type=text/css rel=stylesheet>
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include ("top.php");
 ?>
 <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
   <TBODY>
   <TR>
       <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-        <?
+        <?php
 include ("left.php");
 ?>
       </TD>
@@ -92,8 +92,8 @@ include ("left.php");
       <P>Comments:<BR><TEXTAREA name=comments rows=10 cols=40></TEXTAREA> 
       <P> <INPUT type=submit value="Submit Report"> </FORM>
         <P>
-          <?
+          <?php
 include ("bottom.php");
 ?>
         </P></TD></TR></TBODY></TABLE></BODY></HTML>
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

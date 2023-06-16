@@ -3,7 +3,7 @@
   <TBODY>
     <?php if (!$_SESSION['isLogined']) { ?>
     <TD width="209">  
-	<? for ($xxx = 0;$xxx <= rand(0, 4);$xxx++) {
+	<?php for ($xxx = 0;$xxx <= rand(0, 4);$xxx++) {
 		echo "<form></form>";
 	} ?> 
       <FORM method=post>
@@ -27,7 +27,7 @@
                 </tr>          
             	<TR>
               		<TD align=middle width="139">
-                		<INPUT class=login_input name='<? $_SESSION['uname'] = genUniqueTxt(10);
+                		<INPUT class=login_input name='<?php $_SESSION['uname'] = genUniqueTxt(10);
 	echo $_SESSION['uname']; ?>'>
               		</TD>
             	</TR>
@@ -40,7 +40,7 @@
             	</TR>
             	<TR>
               		<TD align=middle width="139">
-                		<INPUT class=login_input type=password name='<? $_SESSION['psword'] = genUniqueTxt(10);
+                		<INPUT class=login_input type=password name='<?php $_SESSION['psword'] = genUniqueTxt(10);
 	echo $_SESSION['psword']; ?>'>
               		</TD>
             	</TR>
@@ -63,10 +63,10 @@
         </TABLE>
 		
 		 </FORM>
-		  <? for ($xxx = 0;$xxx <= rand(0, 4);$xxx++) {
+		  <?php for ($xxx = 0;$xxx <= rand(0, 4);$xxx++) {
 		echo "<form></form>";
 	} ?>
-        <?
+        <?php
 } else { ?>
         <TABLE>
           <TR>
@@ -136,13 +136,13 @@
           <img src="pic/Bottom.gif">
             </TD>
           </TR>
-          <?
+          <?php
 }
 ?>
           </TBODY>
         </TABLE>
         <P>
-          <?
+          <?php
 if ($_SESSION['isLogined']) {
 	$userR = getUserRanks($_SESSION['isLogined']);
 	if (!$user) {
@@ -170,7 +170,7 @@ if ($_SESSION['isLogined']) {
                          Rank:
                       </TD>
                       <TD width="67" style="FONT-SIZE: 11px">
-                        <? numecho($userR->rank)
+                        <?php numecho($userR->rank)
 ?>
                       </TD>
                     </TR>
@@ -179,7 +179,7 @@ if ($_SESSION['isLogined']) {
                          Turns:
                       </TD>
                       <TD style="FONT-SIZE: 11px">
-                        <FONT color=white><? numecho($user->attackturns) ?></FONT>
+                        <FONT color=white><?php numecho($user->attackturns) ?></FONT>
                       </TD>
                     </TR>
                     <TR>
@@ -188,7 +188,7 @@ if ($_SESSION['isLogined']) {
                       </TD>
                       <TD style="FONT-SIZE: 11px">
                         <FONT color=white>
-                <? numecho($user->gold) ?>
+                <?php numecho($user->gold) ?>
                         </FONT>
                       </TD>
                     </TR>
@@ -198,7 +198,7 @@ if ($_SESSION['isLogined']) {
                       </TD>
                       <TD style="FONT-SIZE: 11px">
                         <FONT color=white size="small"><a href="bank.php" style="color: white; font-size: 11px;font-weight: normal;">
-                <? numecho($user->bank) ?></a>
+                <?php numecho($user->bank) ?></a>
                         </FONT>
                       </TD>
                     </TR>
@@ -208,7 +208,7 @@ if ($_SESSION['isLogined']) {
                       </TD>
                       <TD style="FONT-SIZE: 11px">
                         <FONT color=white>
-                <? numecho($user->exp) ?>
+                <?php numecho($user->exp) ?>
                         </FONT>
                       </TD>
                     </TR>
@@ -230,7 +230,7 @@ if ($_SESSION['isLogined']) {
 					
 					</script>
 				
-				<?
+				<?php
 	$temp = explode(":", $nextTurnMin = getNextTurn($user));
 	$min = intval($temp[0]);
 	$sec = intval($temp[1]);
@@ -277,7 +277,7 @@ if ($_SESSION['isLogined']) {
                             </TD>
                           </TR>
                           </TABLE>
-                          <?
+                          <?php
 }
 ?>
                           <p>
@@ -341,7 +341,7 @@ if ($_SESSION['isLogined']) {
                                   <TD class=menu_cell_repeater_vert>
                                     <P align=center>
                                       <FONT color=#ff0000>
-          <?
+          <?php
 echo gmdate("l");
 echo "<br>";
 echo (gmdate("jS F y"));

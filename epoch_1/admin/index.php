@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 include ("../scripts/conf.php");
 include ("../scripts/db.php");

@@ -33,8 +33,8 @@
 				<th>Result</th>
 				<th>Report</th>
 			</tr>
-			<? foreach ($this->defenseLogs as $log) { ?>
-				<? $attacker = getCachedUser($log->attackerId) ?>
+			<?php foreach ($this->defenseLogs as $log) { ?>
+				<?php $attacker = getCachedUser($log->attackerId) ?>
 				<tr>
 					<td><?= $log->getTime() ?></td>
 					<td>
@@ -50,22 +50,22 @@
 						<a href="spylog.php?id=<?= $log->id ?>&amp;isview=1">details</a>
 					</td>
 				</tr>
-			<? } ?>
+			<?php } ?>
 			<tr>
 				<td>
-					<? if ($this->dpage > 1) { ?>
+					<?php if ($this->dpage > 1) { ?>
 						<a href="?defense-page=<?= $this->dpage - 1?>&amp;attack-page=<?= $this->apage ?>">&lt;&lt;</a>&nbsp;
-					<? } else { echo "<<"; } ?>				
+					<?php } else { echo "<<"; } ?>				
 				</td>
 				<td colspan="3">
-					<? for($i = 1; $i <= $this->totalDPages; $i++) { ?>
+					<?php for($i = 1; $i <= $this->totalDPages; $i++) { ?>
 						<a <?= ($i == $this->dpage ? 'class="selected"' : '') ?> href="?defense-page=<?= $i ?>&amp;attack-page=<?= $this->apage ?>"><?= numecho($i) ?></a>&nbsp;
-					<? } ?>
+					<?php } ?>
 				</td>
 				<td>					
-					<? if ($this->dpage < $this->totalDPages) { ?>
+					<?php if ($this->dpage < $this->totalDPages) { ?>
 						&nbsp;<a href="?defense-page=<?= $this->dpage + 1?>&amp;attack-page=<?= $this->apage ?>">&gt;&gt;</a>&nbsp;
-					<? } else { echo ">>"; } ?>
+					<?php } else { echo ">>"; } ?>
 				</td>
 			</tr>
 			<tr>
@@ -89,8 +89,8 @@
 				<th>Result</th>
 				<th>Report</th>
 			</tr>
-			<? foreach ($this->attackLogs as $log) { ?>
-				<? $defender = getCachedUser($log->targetId) ?>
+			<?php foreach ($this->attackLogs as $log) { ?>
+				<?php $defender = getCachedUser($log->targetId) ?>
 				<tr>
 					<td><?= $log->getTime() ?></td>
 					<td>
@@ -106,22 +106,22 @@
 						<a href="spylog.php?id=<?= $log->id ?>&amp;isview=1">details</a>
 					</td>
 				</tr>
-			<? } ?>
+			<?php } ?>
 			<tr>
 				<td>
-					<? if ($this->apage > 1) { ?>
+					<?php if ($this->apage > 1) { ?>
 						<a href="?defense-page=<?= $this->dpage ?>&amp;attack-page=<?= $this->apage - 1?>">&lt;&lt;</a>&nbsp;
-					<? } else { echo "<<"; } ?>
+					<?php } else { echo "<<"; } ?>
 				</td>
 				<td colspan="3">
-					<? for($i = 1; $i <= $this->totalPages; $i++) { ?>
+					<?php for($i = 1; $i <= $this->totalPages; $i++) { ?>
 						<a <?= ($i == $this->apage ? 'class="selected"' : '') ?> href="?defense-page=<?= $this->dpage ?>&amp;attack-page=<?= $i ?>"><?= numecho($i) ?></a>&nbsp;
-					<? } ?>
+					<?php } ?>
 				</td>
 				<td>
-					<? if ($this->apage < $this->totalPages) { ?>
+					<?php if ($this->apage < $this->totalPages) { ?>
 						&nbsp;<a href="?defense-page=<?= $this->dpage ?>&amp;attack-page=<?= $this->apage + 1?>">&gt;&gt;</a>&nbsp;
-					<? } else { echo ">>"; } ?>
+					<?php } else { echo ">>"; } ?>
 				</td>
 			</tr>
 			<tr>

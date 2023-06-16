@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -53,13 +53,13 @@ class AllianceShout extends BaseClass {
 	
 	// statics
 	public static function
-	getShouts(Alliance $a) {
+	getShouts(Alliance $a) { global $db;
 		global $conf;
 	
 		$ret = array();
 	
-		$q = mysql_query("SELECT * FROM `AllianceShout` WHERE allianceId = $a->id ORDER BY date DESC LIMIT " . $conf['max-alliance-shouts']) or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'AllianceShout')) {
+		$q = mysqli_query($db, "SELECT * FROM `AllianceShout` WHERE allianceId = $a->id ORDER BY date DESC LIMIT " . $conf['max-alliance-shouts']) or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'AllianceShout')) {
 			$ret[] = $r;
 		}
 		

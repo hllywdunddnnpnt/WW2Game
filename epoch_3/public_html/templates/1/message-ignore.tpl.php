@@ -46,7 +46,7 @@
 					<th>Note</th>
 					<th><input type="submit" name="ignore-remove-submit" value="Remove" /></th>
 				</tr>
-				<? foreach ($this->ignoreList as $i) { ?>
+				<?php foreach ($this->ignoreList as $i) { ?>
 					<tr>
 						<td><?= date('H:i d/M', $i->time) ?></td>
 						<td><?= getCachedUser($i->targetId)->getNameLink() ?></td>
@@ -55,7 +55,7 @@
 							<input name="ignore-remove[]" type="checkbox" value="<?= $i->id ?>" />
 						</td>
 					</tr>
-				<? } ?>
+				<?php } ?>
 			</table>					
 		</form>
 	</div>

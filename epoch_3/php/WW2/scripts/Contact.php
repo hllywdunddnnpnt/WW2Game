@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -41,11 +41,11 @@ class Contact extends BaseClass {
 		$replied   = 0;
 	
 	public function
-	getNotDone() {
+	getNotDone() { global $db;
 		$ret = array();
-		$q = mysql_query("SELECT * FROM Contact WHERE done = 0") or die(mysql_error());
+		$q = mysqli_query($db, "SELECT * FROM Contact WHERE done = 0") or die(mysqli_error($db));
 		
-		while ($r = mysql_fetch_object($q, 'Contact')) {
+		while ($r = mysqli_fetch_object($q, 'Contact')) {
 			$ret[] = $r;
 		}
 		

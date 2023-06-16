@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 $user = getUserDetails($_SESSION["isLogined"]);
 if ($cgi[$_SESSION['depbox']]) {
@@ -52,7 +52,7 @@ if ($cgi['withdrawbox']) {
 $user = getUserDetails($_SESSION['isLogined']);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Treasury</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Treasury</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <LINK href="css/common.css" type=text/css rel=stylesheet>
 <script language="javascript" type="text/javascript" src="prototype.js"></script>
@@ -71,14 +71,14 @@ $user = getUserDetails($_SESSION['isLogined']);
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0"  onload="gm(<?=$user->ID ?>);">
-<?
+<?php
 include "top.php";
 ?>
 <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 
@@ -86,7 +86,7 @@ include ("left.php");
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
     vAlign=top align=left> <BR>
      <center>   <FONT 
-      color=red><? include "islogined.php";
+      color=red><?php include "islogined.php";
 echo $strErr; ?></FONT></center>
       <P>
       <TABLE width="100%">
@@ -99,11 +99,11 @@ echo $strErr; ?></FONT></center>
 	
 	<br>
 	<small>Deposit Fee <?=$user->bankper ?>%</small>
-	<form action=bank.php name='<? $d = genUniqueTxt(10);
+	<form action=bank.php name='<?php $d = genUniqueTxt(10);
 echo $d; ?>' method=POST>
- 	<input name='<? $_SESSION['depbox'] = genUniqueTxt(10);
+ 	<input name='<?php $_SESSION['depbox'] = genUniqueTxt(10);
 echo $_SESSION['depbox']; ?>' type=text size=12 maxlength=17 value=<?=numecho2($user->gold); ?> />
- 	<? if ($user->bankimg == 1) { ?><br /><img src="imageclick.php?<? $SID = session_name() . "=" . session_id();
+ 	<?php if ($user->bankimg == 1) { ?><br /><img src="imageclick.php?<?php $SID = session_name() . "=" . session_id();
 	echo $SID; ?>" alt="random chars"><br>
 		<SELECT name=turing>
 		    <option value="1">one</option>
@@ -122,7 +122,7 @@ echo $_SESSION['depbox']; ?>' type=text size=12 maxlength=17 value=<?=numecho2($
 		    <option value="14">fourteen</option>
 		    <option value="15">fifteen</option>
 		    
-		</SELECT><?
+		</SELECT><?php
 } ?> <br />
 		<input type="submit" value="Deposit" />
 	</form>	
@@ -134,9 +134,9 @@ echo $_SESSION['depbox']; ?>' type=text size=12 maxlength=17 value=<?=numecho2($
 	</td>
 
         </TR></TBODY></TABLE>
-     <?
+     <?php
 include ("bottom.php");
 ?>	
 </TD></TR></TBODY></TABLE></BODY></HTML>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

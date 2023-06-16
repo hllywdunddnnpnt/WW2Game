@@ -1,8 +1,8 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Battlefield</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Battlefield</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><!-- ZoneLabs Privacy Insertion -->
 <SCRIPT language=javascript src="js/js"></SCRIPT>
 <script language="javascript" type="text/javascript" src="prototype.js"></script>
@@ -22,14 +22,14 @@ include "scripts/vsys.php";
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0"  onload="gm(<?=$user->ID ?>);">
-<?
+<?php
 include "top.php";
 ?>
 <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 	</TD>
@@ -42,7 +42,7 @@ border=0>
           <TBODY>
             <TR> 
               <TH>Name</TH>
-              <?
+              <?php
 $attacker = $user;
 if ($attacker->supporter > 0) {
 	echo "<th>Offensive Type</th>";
@@ -52,7 +52,7 @@ if ($attacker->supporter > 0) {
               <TH>Treasury</TH>
               <TH>Rank</TH>
             </TR>
-            <?
+            <?php
 if (!$cgi['page'] AND !$cgi['search']) {
 	$u = getUserRanks($_SESSION['isLogined']);
 	$ur = $u->rank;
@@ -81,8 +81,8 @@ for ($i = 0;$i < count($users);$i++) {
 	if (in_array($users[$i]->alliance, $all_cache) AND !isset($all_cache[$users[$i]->alliance])) {
 		$tag = $all_cache[$users[$i]->alliance];
 	} elseif ($users[$i]->alliance > 0 AND $users[$i]->aaccepted > 0) {
-		$qal = mysql_query("SELECT tag FROM alliances WHERE ID='{$users[$i]->alliance}'") or die(mysql_error());
-		$r = mysql_fetch_array($qal, MYSQL_ASSOC);
+		$qal = mysqli_query($db, "SELECT tag FROM alliances WHERE ID='{$users[$i]->alliance}'") or die(mysqli_error($db));
+		$r = mysqli_fetch_array($qal, mysqli_ASSOC);
 		$all_cache[$users[$i]->alliance] = $r['tag'];
 		if ($r['tag']) {
 			$tag = "[" . $r['tag'] . "]";
@@ -94,8 +94,8 @@ for ($i = 0;$i < count($users);$i++) {
 	
 ?>
 			<TR> 
-              <TD><A  href="stats.php?id=<?=$users[$i]->ID ?>"><? echo $users[$i]->userName ?></A>&nbsp;<?=$tag ?></TD>
-              <? if ($attacker->supporter > 0) {
+              <TD><A  href="stats.php?id=<?=$users[$i]->ID ?>"><?php echo $users[$i]->userName ?></A>&nbsp;<?=$tag ?></TD>
+              <?php if ($attacker->supporter > 0) {
 		echo "<td><a href='attack.php?numspies=1&defender_id=" . ($users[$i]->ID) . "&mission_type=recon'>Spy</a>
               			&nbsp;<a href='attack.php?defender_id2=" . ($users[$i]->ID) . "&amp;attackbut=Balanced!'>Attack</a>
               </td>";
@@ -103,11 +103,11 @@ for ($i = 0;$i < count($users);$i++) {
 ?>
               
               
-                   <TD align=right><?
+                   <TD align=right><?php
 	numecho(getTotalFightingForce($users[$i]));
 ?></TD>
               <TD align=left><?=$conf["race"][$users[$i]->race]["name"] ?></TD>
-              <TD style="PADDING-RIGHT: 20px" align=right><?
+              <TD style="PADDING-RIGHT: 20px" align=right><?php
 	$rn = (rand(90, 110) / 100);
 	$dC = $users[$i]->CA;
 	$aC = $attacker->CA;
@@ -119,13 +119,13 @@ for ($i = 0;$i < count($users);$i++) {
 	// echo "<!--$rn $dC";print_r($users[$i]); echo " $aC-->";
 	
 ?> Gold</TD>
-              <TD style="PADDING-RIGHT: 20px" align=right><? numecho($users[$i]->rank); ?></TD>
+              <TD style="PADDING-RIGHT: 20px" align=right><?php numecho($users[$i]->rank); ?></TD>
             </TR>
-			<?
+			<?php
 }
 ?>
             <TR> 
-              <TD><?
+              <TD><?php
 if ($cgi['search']) {
 	$activeUsersC = searchRanksUsersListCount($strS);
 } else {
@@ -142,8 +142,8 @@ if ($cgi['page'] > 1) {
 }
 ?>
 			  </TD>
-              <TD align=middle colSpan=3><? numecho($activeUsersC) ?> players total | page <?=$cgi['page'] ?> of <? numecho($pCountF); ?></TD>
-              <TD align=right><?
+              <TD align=middle colSpan=3><?php numecho($activeUsersC) ?> players total | page <?=$cgi['page'] ?> of <?php numecho($pCountF); ?></TD>
+              <TD align=right><?php
 if ($cgi['page'] < $pCountF) {
 	echo '<A href="battlefield.php?page=' . ($cgi['page'] + 1) . '&search=' . $cgi["search"] . '&search_type=' . $cgi["search_type"] . '">Next &gt;&gt;</A>';
 } else {
@@ -171,10 +171,10 @@ if ($cgi['page'] < $pCountF) {
               label="contains">contains</OPTION> <OPTION value=e 
               label="ends with">ends with</OPTION></SELECT> <INPUT name=search> <INPUT type=submit value=Go></TD></TR></TBODY></TABLE></FORM>
       <P>                    
-      <?
+      <?php
 include ("bottom.php");
 ?>	
 
 	  </TD></TR></TBODY></TABLE></BODY></HTML>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

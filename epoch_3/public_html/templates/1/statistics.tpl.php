@@ -27,10 +27,10 @@
 	
 		<div class="line">
 			<label>Total Gold in Battlefeild</label>
-			<span><?= numecho($conf['totalGold']) ?></span>
+			<span><?= numecho($conf['totalGold']); ?></span>
 		</div>
 	</div>
-	<? foreach (array('europe' => 'Europe', 'africa' => 'Africa', 'graveyard' => 'The Graveyard') as $k => $v) { ?>
+	<?php foreach (array('europe' => 'Europe', 'africa' => 'Africa', 'graveyard' => 'The Graveyard') as $k => $v) { ?>
 		<div class="panel">
 			<div class="panel-title">
 				<?= $v ?> Statistics (Last 48 hours)
@@ -89,15 +89,15 @@
 					<th>Attacker</th>
 					<th>Defender</th>
 				</tr>
-			<? foreach ($this->stats[$k]['hits']['top10'] as $k => $v) { ?>
+			<?php if (isset($this->stats[$k]['hits']['top10']) > 0) { foreach ($this->stats[$k]['hits']['top10'] as $k => $v) { ?>
 				<tr>
 					<td><?= numecho($v['goldStolen']) ?></td>
 					<td><?= getCachedUser($v['attackerId'])->getNameLink() ?></td>
 					<td><?= getCachedUser($v['targetId'])->getNameLink() ?></td>
 				</tr>
-			<? } ?>
+			<?php } } ?>
 			</table>
 		</div>
-	<? } ?>
+	<?php } ?>
 </div>
 <!-- End Statistics page -->

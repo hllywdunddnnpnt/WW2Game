@@ -18,9 +18,9 @@
 
 -->
 <!-- Begin Offline page -->
-<? global $_AGE, $_START_TIME, $_END_TIME; ?>
+<?php global $_AGE, $_START_TIME, $_END_TIME; ?>
 <!--
-<?
+<?php
 $d = false;
 
 if ($d) {

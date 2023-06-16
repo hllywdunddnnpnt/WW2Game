@@ -28,13 +28,13 @@
 			<div class="line img">
 				<img src="imageclick.php?<?= session_name() . '=' . session_id() ?>" title="random characters" alt="random characters"><br />
 			</div>
-			<? for ($i = 0; $i < 3; $i++) { ?>
+			<?php for ($i = 0; $i < 3; $i++) { ?>
 				<div class="line">
-					<? for ($j = 0; $j < 5; $j++) { ?>
+					<?php for ($j = 0; $j < 5; $j++) { ?>
 						<input class="number" type="submit" name="number" value="<?= ($i * 5 + $j+ 1) ?>" />
-					<? } ?>
+					<?php } ?>
 				</div>
-			<? } ?>
+			<?php } ?>
 		</form>
 	</div>
 </div>

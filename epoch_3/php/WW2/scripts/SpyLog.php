@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -71,7 +71,7 @@ class SpyLog extends BaseClass {
 
 	public static function
 	getDefenseLogs($userId, $page = NULL) {
-		global $conf;
+		global $conf, $db;
 
 		$ret = array();
 		
@@ -83,8 +83,8 @@ class SpyLog extends BaseClass {
 		}
 
 			
-		$q = mysql_query("SELECT * FROM SpyLog WHERE targetId = $userId and (isSuccess = 0 or type != 0) ORDER BY time DESC $pageSQL") or die(mysql_error());
-		while ($log = mysql_fetch_object($q, 'SpyLog')) {
+		$q = mysqli_query($db, "SELECT * FROM SpyLog WHERE targetId = $userId and (isSuccess = 0 or type != 0) ORDER BY time DESC $pageSQL") or die(mysqli_error($db));
+		while ($log = mysqli_fetch_object($q, 'SpyLog')) {
 			$ret[] = $log;
 		}
 
@@ -92,15 +92,15 @@ class SpyLog extends BaseClass {
 	}
 
 	public static function
-	getDefenseLogsCount($userId) {
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM SpyLog WHERE targetId = $userId and (isSuccess = 0 or type != 0)") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+	getDefenseLogsCount($userId) { global $db;
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM SpyLog WHERE targetId = $userId and (isSuccess = 0 or type != 0)") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 
 	public static function
 	getAttackLogs($userId, $page = NULL) {
-		global $conf;
+		global $conf, $db;
 
 		$ret = array();
 		
@@ -113,8 +113,8 @@ class SpyLog extends BaseClass {
 
 
 			
-		$q = mysql_query("SELECT * FROM SpyLog WHERE attackerId = $userId ORDER BY time DESC $pageSQL") or die(mysql_error());
-		while ($log = mysql_fetch_object($q, 'SpyLog')) {
+		$q = mysqli_query($db, "SELECT * FROM SpyLog WHERE attackerId = $userId ORDER BY time DESC $pageSQL") or die(mysqli_error($db));
+		while ($log = mysqli_fetch_object($q, 'SpyLog')) {
 			$ret[] = $log;
 		}
 
@@ -122,16 +122,16 @@ class SpyLog extends BaseClass {
 	}
 
 	public static function
-	getAttackLogsCount($userId) {
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM SpyLog WHERE attackerId = $userId") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+	getAttackLogsCount($userId) { global $db;
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM SpyLog WHERE attackerId = $userId") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 	
 	public static function
-	getTheftOnUserCount($fromId, $userId, $time = 0) {
-		$q = mysql_query("SELECT COUNT(*) as retCode FROM SpyLog WHERE attackerId = $fromId AND targetId = $userId AND time > $time AND type > 0") or die(mysql_error());
-		$ret = mysql_fetch_object($q);
+	getTheftOnUserCount($fromId, $userId, $time = 0) { global $db;
+		$q = mysqli_query($db, "SELECT COUNT(*) as retCode FROM SpyLog WHERE attackerId = $fromId AND targetId = $userId AND time > $time AND type > 0") or die(mysqli_error($db));
+		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
 

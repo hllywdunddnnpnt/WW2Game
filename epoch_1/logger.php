@@ -1,4 +1,4 @@
-<?
+<?php
 $userid = $_SESSION['isLogined'] ? $_SESSION['isLogined'] : 0;
 if (ENABLE_LOGGING and !$_SESSION['admin'] and HAV_DB and ($userid == 0 or $user->toTrack == 1)) {
 	$save = array('POST' => $_POST, 'GET' => $_GET, 'SERVER' => $_SERVER, 'COOKIE' => $_COOKIE, 'RESTORE' => $restore_string);
@@ -16,7 +16,7 @@ if (ENABLE_LOGGING and !$_SESSION['admin'] and HAV_DB and ($userid == 0 or $user
 		fclose($f);
 	}
 	if (HAV_DB) {
-		mysql_query("INSERT INTO log_{$conf_ltable} SET time='$time',uid='$userid',ip='$_SERVER[REMOTE_ADDR]';") or die(mysql_error());
+		mysqli_query($db, "INSERT INTO log_{$conf_ltable} SET time='$time',uid='$userid',ip='$_SERVER[REMOTE_ADDR]';") or die(mysqli_error($db));
 	}
 }
 ?>

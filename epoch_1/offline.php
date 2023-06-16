@@ -1,4 +1,4 @@
-<?
+<?php
 function duration($time, $N = 1) {
 	if ($N == 3) {
 		$hour = floor($time / 3600);
@@ -88,7 +88,7 @@ if ($game_offline == "false") {
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<? $offline = true;
+<?php $offline = true;
 function getUserDetails($id) {
 	return 0;
 }
@@ -98,7 +98,7 @@ include "top.php";
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 //include ("left.php");
 
 ?>
@@ -110,7 +110,7 @@ include "top.php";
        <Br /><a href="chat.php">IRC Chatroom</a>
        <br /><a href="forum">Forum</a></center>
     
-     <?
+     <?php
 // include ("bottom.php");
 
 ?>	

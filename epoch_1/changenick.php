@@ -1,10 +1,10 @@
-<?
+<?php
 include "scripts/vsys.php";
 ?>
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> ::<?=$user->userName; ?>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> ::<?=$user->userName; ?>
 ' Change Username</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <LINK href="css/common.css" type=text/css rel=stylesheet>
@@ -25,7 +25,7 @@ include "scripts/vsys.php";
 </HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0"
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 
@@ -35,17 +35,17 @@ include "top.php";
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 </TD>
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px"
     vAlign=top align=left> <BR>
 
-    <?
+    <?php
 include "islogined.php";
 ?>
-	<?
+	<?php
 //if ($user->admin != 1) {
 //echo "<br><br><center><font color=red>You are not a Game Administrator!</font></center><br><br><br><br>";
 //include "bottom.php";
@@ -69,7 +69,7 @@ if ($cgi['submit']) {
 	} else {
 		updateUser($user->ID, " userName='{$cgi['username']}' ");
 		mail($user->e_mail, "Your New Username", "Your New Username is " . $cgi['username'] . "");
-		mysql_query("update UserDetails set changenick=1 where ID='" . $user->ID . "'");
+		mysqli_query($db, "update UserDetails set changenick=1 where ID='" . $user->ID . "'");
 		echo "Please Relogin, Thanks.";
 		$_SESSION['isLogined'] = 0;
 		echo "</font>";
@@ -105,7 +105,7 @@ if ($cgi['submit']) {
         </form>
 
         <P>
-          <?
+          <?php
 include ("bottom.php");
 ?>
 	 </TD></TR></TBODY></TABLE>

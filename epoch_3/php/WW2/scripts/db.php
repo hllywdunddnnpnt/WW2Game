@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -19,17 +19,17 @@
 
 ***/
 
-$db = mysql_connect('localhost',  $db_user, $db_pass);
+$db = mysqli_connect('localhost',  $db_user, $db_pass);
 if (!$db) {
 	
 	define("HAV_DB",false);
-	die (mysql_error());
+	die (mysqli_error($db));
 }
-if (!mysql_select_db($db_database, $db)) {
-	$str=mysql_error();
+if (!mysqli_select_db($db, $db_database)) {
+	$str=mysqli_error($db);
 	define("HAV_DB",false);
 	if ($str)	die($str);
 } 
 
-mysql_query("SET NAMES 'utf8'") or die(mysql_error());
+mysqli_query($db, "SET NAMES 'utf8'") or die(mysqli_error($db));
 ?>

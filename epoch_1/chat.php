@@ -1,9 +1,9 @@
-<? $incron = true;
+<?php $incron = true;
 include "scripts/vsys.php";
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> ::IRC Chat</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> ::IRC Chat</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <LINK href="css/common.css" type=text/css rel=stylesheet>
 
@@ -29,7 +29,7 @@ include "scripts/vsys.php";
 </HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 
@@ -37,7 +37,7 @@ include "top.php";
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 /*include ("left.php");*/
 ?>
 </TD>
@@ -53,7 +53,7 @@ include "top.php";
                 <param name="host" value="<?=$conf['ip_server'] ?>">
                 <param name="alternateserver1" value="<?=$conf['alternate_ip_server'] ?>">
                 <param name="port" value="6667">
-                <param name="nick" value="<?
+                <param name="nick" value="<?php
 $n = getUserDetails($_SESSION['isLogined'], 'username');
 if (isset($n->ircnick)) {
 	//echo "LOGINNED";
@@ -135,7 +135,7 @@ if ($_SESSION['isLogined']) {
          
         
         <P> 
-          <?
+          <?php
 include ("bottom.php");
 ?>	
 	 </TD></TR></TBODY></TABLE>

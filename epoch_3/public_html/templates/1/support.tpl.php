@@ -21,7 +21,7 @@
 <!-- Begin Supporter Stuff -->
 <div id="support-container">
 	<div class="panel">
-		<? if (!$this->ppVerify->id) { ?>
+		<?php if (!$this->ppVerify->id) { ?>
 		
 			<div class="panel-title">
 				Become a Supporter
@@ -52,7 +52,7 @@
 					<input style="background:white;" type="image" class="submit" name="paypal-submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" />
 				</div>
 			</form>
-		<? }
+		<?php }
 			else { ?>
 			<div class="panel-title">
 				Verify Paypal Order
@@ -77,7 +77,7 @@
 				</div>
 				<div class="clear flat"></div>
 			</form>
-		<? } ?>
+		<?php } ?>
 	</div>
 </div>
 <!-- End supporter stuff -->

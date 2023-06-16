@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -166,10 +166,10 @@ class Alliance extends BaseClass {
 	}
 	
 	public function
-	getMembers() {
+	getMembers() { global $db;
 		$ret = array();
-		$q = mysql_query("SELECT * FROM User WHERE Alliance = $this->id and active = 1") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'User')) {
+		$q = mysqli_query($db, "SELECT * FROM User WHERE Alliance = $this->id and active = 1") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'User')) {
 			$ret[] = $r;
 		}
 		return $ret; 
@@ -250,13 +250,13 @@ class Alliance extends BaseClass {
 
 	// Statics
 	public static function
-	queryNameTag($name, $tag) {
+	queryNameTag($name, $tag) { global $db;
 		$ret = array();
 		
-		$name = mysql_real_escape_string($name);
-		$tag  = mysql_real_escape_string($tag);
-		$q = mysql_query("SELECT * FROM Alliance WHERE name like \"$name\" or tag like \"$tag\"") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'Alliance')) {
+		$name = mysqli_real_escape_string($db, $name);
+		$tag  = mysqli_real_escape_string($db, $tag);
+		$q = mysqli_query($db, "SELECT * FROM Alliance WHERE name like \"$name\" or tag like \"$tag\"") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'Alliance')) {
 			$ret[] = $r;
 		}
 		
@@ -264,11 +264,11 @@ class Alliance extends BaseClass {
 	}
 	
 	public static function
-	queryNameTagCount($name, $tag) {
-		$name = mysql_real_escape_string($name);
-		$tag  = mysql_real_escape_string($tag);
-		$q = mysql_query("SELECT count(*) as retCode FROM Alliance WHERE name like \"$name\" or tag like \"$tag\"") or die(mysql_error());
-		$r = mysql_fetch_object($q);
+	queryNameTagCount($name, $tag) { global $db;
+		$name = mysqli_real_escape_string($db, $name);
+		$tag  = mysqli_real_escape_string($db, $tag);
+		$q = mysqli_query($db, "SELECT count(*) as retCode FROM Alliance WHERE name like \"$name\" or tag like \"$tag\"") or die(mysqli_error($db));
+		$r = mysqli_fetch_object($q);
 		if ($r->retCode) {
 			return $r->retCode;
 		}
@@ -276,10 +276,10 @@ class Alliance extends BaseClass {
 	}
 
 	public static function
-	getAll() {
+	getAll($c) { global $db;
 		$ret = array();
-		$q = mysql_query("SELECT * FROM Alliance WHERE status < 2 ORDER BY id asc") or die(mysql_error());
-		while ($r = mysql_fetch_object($q, 'Alliance')) {
+		$q = mysqli_query($db, "SELECT * FROM Alliance WHERE status < 2 ORDER BY id asc") or die(mysqli_error($db));
+		while ($r = mysqli_fetch_object($q, 'Alliance')) {
 			$ret[] = $r;
 		}
 		return $ret;

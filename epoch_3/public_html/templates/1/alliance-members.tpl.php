@@ -22,7 +22,7 @@
 <div id="alliancemembers-container">
 	<div class="panel">
 		<div class="panel-title">
-			Members <? $this->load('alliance-header') ?>
+			Members <?php $this->load('alliance-header') ?>
 		</div>
 		<form method="post" class="large">
 			<table class="large">
@@ -30,26 +30,26 @@
 					<th>Name</th>
 					<th>Area</th>
 					<th>Rank</th>
-					<? if ($this->alliance->isLeader($user)) { ?>
+					<?php if ($this->alliance->isLeader($user)) { ?>
 						<th>Action</th>
 						<th>Leader1</th>
 						<th>Leader2</th>
 						<th>Leader3</th>
-					<? } ?>
+					<?php } ?>
 				</tr>
-				<? foreach ($this->allianceMembers as $member) { ?>
+				<?php foreach ($this->allianceMembers as $member) { ?>
 					<tr>
 						<td><?= $member->getNameLink() ?></td>
 						<td><?= $member->getAreaName() ?></td>
 						<td><?= numecho($member->rank) ?></td>
-						<? if ($this->alliance->isLeader($user)) { ?>
+						<?php if ($this->alliance->isLeader($user)) { ?>
 							<td>
-								<? if ($member->aaccepted) { ?>
+								<?php if ($member->aaccepted) { ?>
 									Kick: <input type="checkbox" name="kick[]" value="<?= $member->id ?>" />
-								<? }
+								<?php }
 									else { ?>
 									Accept: <input type="checkbox" name="accept[]" value="<?= $member->id ?>" />
-								<? } ?>
+								<?php } ?>
 								Ban: <input type="checkbox" name="ban[]" value="<?= $member->id ?>" />
 							</td>
 							<td>
@@ -76,15 +76,15 @@
 									<?= ($member->id == $this->alliance->leaderId3 ? 'checked="checked"' : '') ?>
 								/>
 							</td>
-						<? } ?>
+						<?php } ?>
 					</tr>
-				<? } ?>
+				<?php } ?>
 			</table>
-			<? if ($this->alliance->isLeader($user)) { ?>
+			<?php if ($this->alliance->isLeader($user)) { ?>
 			<div class="line">
 				<input type="submit" value="Update" name="alliance-submit" class="submit" />
 			</div>
-			<? } ?>
+			<?php } ?>
 		</form>
 	</div>
 </div> 

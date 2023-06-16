@@ -154,7 +154,7 @@ class paypal_class {
 			fclose($fp); // close connection
 			
 		}
-		if (eregi("VERIFIED", $this->ipn_response)) {
+		if (preg_match("VERIFIED", $this->ipn_response)) {
 			// Valid IPN transaction.
 			$this->log_ipn_results(true);
 			return true;

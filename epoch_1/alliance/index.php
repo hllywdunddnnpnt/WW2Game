@@ -1,1 +1,1 @@
-<? die("You are not allowed to access this folder") ?>
+<?php die("You are not allowed to access this folder") ?>

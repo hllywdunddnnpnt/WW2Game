@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 if ($cgi['defender_id2'] || $cgi['defender_id']) {
 	if (($cgi['defender_id2'] == $_SESSION['isLogined']) || ($cgi['defender_id'] == $_SESSION['isLogined'])) {
@@ -28,8 +28,8 @@ if ($cgi['defender_id2']) {
 		//--------------------------Attacking
 		$attRanks = getUserRanks($_SESSION['isLogined']);
 		$time = time() - (60 * 60);
-		$a = mysql_query("SELECT count(*) FROM SpyLog WHERE toUserID='$cgi[id]' AND UserID='$_SESSION[isLogined]' AND type='1' AND time>$time;") or die(mysql_error());
-		$aq = mysql_fetch_array($a);
+		$a = mysqli_query($db, "SELECT count(*) FROM SpyLog WHERE toUserID='$cgi[id]' AND UserID='$_SESSION[isLogined]' AND type='1' AND time>$time;") or die(mysqli_error($db));
+		$aq = mysqli_fetch_array($a);
 		if ($aq[0] >= 10) {
 			$strErr = "You have maxed out your attacking potential";
 		} else if ($attacker->attackturns >= 3) {
@@ -117,7 +117,7 @@ if ($cgi['defender_id2']) {
 					} else {
 						$sql = "UPDATE Weapon SET weaponCount=weaponCount-'$weaponamount' WHERE weaponID='$weapontype2' AND userID='$defender->ID' AND isAttack='$weapontype';";
 					}
-					mysql_query($sql) or die(mysql_error());
+					mysqli_query($db, $sql) or die(mysqli_error($db));
 					//  print $sql;
 					if ($weapontype == 1) {
 						$a = getUserWeapon($attacker);
@@ -134,7 +134,7 @@ if ($cgi['defender_id2']) {
 					}
 					if ($in == true AND $weaponamount > 0) {
 						$str = $conf["weapon$weapontype2" . "strength"];
-						$q = @mysql_query("insert into `Weapon` (weaponID, weaponStrength, weaponCount, isAttack, userID) values ('$weapontype2', '$str', '$weaponamount', '$weapontype', '$attacker->ID')");
+						$q = @mysqli_query($db, "insert into `Weapon` (weaponID, weaponStrength, weaponCount, isAttack, userID) values ('$weapontype2', '$str', '$weaponamount', '$weapontype', '$attacker->ID')");
 					}
 				} else {
 					$weaponamount = 0;
@@ -162,7 +162,7 @@ if ($cgi['defender_id2']) {
 				$time = time();
 				//updateUser($attacker->ID,"  attackturns=attackturns - 4 ,  uu=uu + '$uu' ");
 				$sql = "UPDATE UserDetails SET attackturns=attackturns - $conf[thieft_turns] ,  uu=uu + '$uu' WHERE ID='$attacker->ID'";
-				mysql_query($sql) or die(mysql_error());
+				mysqli_query($db, $sql) or die(mysqli_error($db));
 				updateUser($defender->ID, " uu=uu - $uu,gold=gold-$gold  ");
 				updateUser($attacker->ID, " gold=gold + $gold  ");
 				$fields = "`spyStrength`,  `spyDefStrength`,  `sasoldiers`,  `samercs`,  `dasoldiers`,  `damercs`,    `strikeAction` ,  `defenceAction`,  `covertSkill` ,  `covertOperatives`,  `salevel` ,  `attackturns` ,  `unitProduction` ,  `weapons`,  `types`,  `types2` ,  `quantities`,  `strengths` , `allStrengths`, `time` ,  `spies`,  `isSuccess`, `race`,`sf`,`sflevel`,`hh`,`weapontype`,`weapontype2`,`type`,`weaponamount`,`uu`,`arace`,`gold`";
@@ -191,7 +191,7 @@ if ($cgi['defender_id2']) {
 >
 <HTML>
     <HEAD>
-        <TITLE><? echo $conf["sitename"]; ?> :: Thieve</TITLE>
+        <TITLE><?php echo $conf["sitename"]; ?> :: Thieve</TITLE>
         <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
         <LINK href="css/common.css" type=text/css rel=stylesheet>
         <META content="  rpg, mmorpg, role playing, game, online game, text based game, armory, mercenaries, spy, attack, army, battle, recruit, spies, spy skill, weapons, messaging, sabotage, recon, intelligence, pnp, mud, games, stockade, free, browser game"
@@ -213,14 +213,14 @@ name=description>
     </HEAD>
     <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0"
 marginwidth="0">
-        <?
+        <?php
 include "top.php";
 ?>
         <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
             <TBODY>
                 <TR>
                     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-                        <?
+                        <?php
 include ("left.php");
 ?>
                     </TD>
@@ -229,7 +229,7 @@ include ("left.php");
                         <BR>
                         <center>
                             <FONT
-      color=red><? include "islogined.php";
+      color=red><?php include "islogined.php";
 echo $strErr; ?></FONT>
                         </center>
                         <P>
@@ -237,7 +237,7 @@ echo $strErr; ?></FONT>
                                 <TBODY>
                                     <TR>
                                         <TD style="PADDING-RIGHT: 25px" vAlign=top width="50%">
-                                            <?
+                                            <?php
 $enemy = getUserDetails($cgi['id']);
 ?>
                                             <a name="ws" />
@@ -265,7 +265,7 @@ $enemy = getUserDetails($cgi['id']);
                                                             </TD>
                                                             <TD>
                                                                 <INPUT id="wsspies" size="8" name="wsspies">
-                                                                <?
+                                                                <?php
 if ($user->supporter > 0) {
 	//SP2 = ((SP1/100)*(2^L1)*B1*A1+SP1)/((2^L2)*B2*A2/100+1)
 	$A1 = 1.0;
@@ -273,13 +273,13 @@ if ($user->supporter > 0) {
 	//echo "<!-- ";
 	//echo (($conf["cabonus{$enemy->race}"]+1)/($conf["cabonus{$user->race}"]+1));
 	if ($enemy->alliance > 0) {
-		$q = mysql_query("SELECT CA FROM alliances WHERE id={$enemy->alliance}") or die(mysql_error());
-		$a = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT CA FROM alliances WHERE id={$enemy->alliance}") or die(mysqli_error($db));
+		$a = mysqli_fetch_object($q);
 		$A1+= (float)$a->CA;
 	}
 	if ($user->alliance > 0) {
-		$q = mysql_query("SELECT CA FROM alliances WHERE id={$user->alliance}") or die(mysql_error());
-		$a = mysql_fetch_object($q);
+		$q = mysqli_query($db, "SELECT CA FROM alliances WHERE id={$user->alliance}") or die(mysqli_error($db));
+		$a = mysqli_fetch_object($q);
 		$A2+= (float)$a->CA;
 	}
 	$spies = floor($enemy->spies * pow(2, $enemy->calevel - $user->calevel) * ($A1 / $A2) * (($conf["cabonus{$enemy->race}"] + 1) / ($conf["cabonus{$user->race}"] + 1)) * 1.3);
@@ -332,7 +332,7 @@ if ($user->supporter > 0) {
                                                             <B>Trained Attack Soldiers</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->sasoldiers)
+                                                            <?php numecho($user->sasoldiers)
 ?>
                                                         </TD>
                                                     </TR>
@@ -341,7 +341,7 @@ if ($user->supporter > 0) {
                                                             <B>Trained Attack Mercenaries</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->samercs)
+                                                            <?php numecho($user->samercs)
 ?>
                                                         </TD>
                                                     </TR>
@@ -350,7 +350,7 @@ if ($user->supporter > 0) {
                                                             <B>Trained Defense Soldiers</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->dasoldiers)
+                                                            <?php numecho($user->dasoldiers)
 ?>
                                                         </TD>
                                                     </TR>
@@ -359,7 +359,7 @@ if ($user->supporter > 0) {
                                                             <B>Trained Defense Mercenaries</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->damercs)
+                                                            <?php numecho($user->damercs)
 ?>
                                                         </TD>
                                                     </TR>
@@ -368,7 +368,7 @@ if ($user->supporter > 0) {
                                                             <B>Untrained Soldiers</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho($user->uu)
+                                                            <?php numecho($user->uu)
 ?>
                                                         </TD>
                                                     </TR>
@@ -377,7 +377,7 @@ if ($user->supporter > 0) {
                                                             <B>Spies</B>
                                                         </TD>
                                                         <TD class=subh align=right>
-                                                            <? numecho($user->spies)
+                                                            <?php numecho($user->spies)
 ?>
                                                         </TD>
                                                     </TR>
@@ -385,7 +385,7 @@ if ($user->supporter > 0) {
                                                         <B>Special Forces</B>
                                                     </TD>
                                                     <TD class=subh align=right>
-                                                        <? numecho($user->specialforces)
+                                                        <?php numecho($user->specialforces)
 ?>
                                                     </TD>
                                                     </TR>
@@ -394,7 +394,7 @@ if ($user->supporter > 0) {
                                                             <B>Total Fighting Force</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho(getTotalFightingForce($user))
+                                                            <?php numecho(getTotalFightingForce($user))
 ?>
                                                         </TD>
                                                     </TR>
@@ -414,11 +414,11 @@ if ($user->supporter > 0) {
                                                             <B>Strike Action</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho(getStrikeAction($user))
+                                                            <?php numecho(getStrikeAction($user))
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                             Ranked<?
+                                                             Ranked<?php
 if ($userR->sarank) {
 	numecho($userR->sarank);
 } else echo "#unranked";
@@ -430,11 +430,11 @@ if ($userR->sarank) {
                                                             <B>Defensive Action</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho(getDefenseAction($user))
+                                                            <?php numecho(getDefenseAction($user))
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                             Ranked<?
+                                                             Ranked<?php
 if ($userR->darank) {
 	numecho($userR->darank);
 } else echo "#unranked";
@@ -446,11 +446,11 @@ if ($userR->darank) {
                                                             <B>Covert Action</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho(getCovertAction($user))
+                                                            <?php numecho(getCovertAction($user))
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                             Ranked<?
+                                                             Ranked<?php
 if ($userR->carank) {
 	numecho($userR->carank);
 } else echo "#unranked";
@@ -462,11 +462,11 @@ if ($userR->carank) {
                                                             <B>Retaliation Action</B>
                                                         </TD>
                                                         <TD align=right>
-                                                            <? numecho(getRetaliationAction($user))
+                                                            <?php numecho(getRetaliationAction($user))
 ?>
                                                         </TD>
                                                         <TD align=right>
-                                                             Ranked<?
+                                                             Ranked<?php
 if ($userR->rarank) {
 	numecho($userR->rarank);
 } else echo "#unranked";
@@ -479,7 +479,7 @@ if ($userR->rarank) {
                                     </TR>
                                 </TBODY>
                             </TABLE>
-                            <?
+                            <?php
 include ("bottom.php");
 ?>
                     </TD>
@@ -488,5 +488,5 @@ include ("bottom.php");
         </TABLE>
     </BODY>
 </HTML>
-<? include "gzfooter.php";
+<?php include "gzfooter.php";
 ?>

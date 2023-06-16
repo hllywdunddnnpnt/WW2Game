@@ -1,4 +1,4 @@
-<?
+<?php
 
 /***
 
@@ -22,19 +22,19 @@
 
 require_once('scripts/Privacy.php');
 require_once('env/env.php');
-if (!$_SESSION['admin']) {
+if (!isset($_SESSION['admin'])) {
 
 	
 	$save = array(
 		'time' => time(),
 		'METHOD' => $_SERVER['REQUEST_METHOD'],
-		'REFERRER' => $_SERVER['HTTP_REFERRER'],
+		'REFERRER' => '',//$_SERVER['HTTP_REFERRER'],
 		'POST'=> $_POST,
 		'GET'=> $_GET,
 		'IP' => $_SERVER['REMOTE_ADDR'],
 		'REQUEST_URI' => $_SERVER['REQUEST_URI'],
 		'UA' => $_SERVER['HTTP_USER_AGENT'],
-		'RESTORE'=> $restore_string,
+		'RESTORE'=> '',//$restore_string,
 		'SID' => session_id(),
 	);
 	$s = serialize($save) . "\n";

@@ -1,6 +1,6 @@
-<?
+<?php
 $incron = true;
-ini_set('include_path', '.:/home/ww2game/public_html/scripts/:/home/ww2game/public_html/');
+//ini_set('include_path', '.:/home/ww2game/public_html/scripts/:/home/ww2game/public_html/');
 
 include('vsys.php');
 
@@ -27,36 +27,36 @@ $stats['graveyard']= array(
 
 $lastturn = time() - ($conf['minutes_per_turn'] * 60);
 
-$q = mysql_query("SELECT count(*) as retCode FROM User where lastturntime > $lastturn") or die(mysql_error());
-$ret = mysql_fetch_object($q);
+$q = mysqli_query($db, "SELECT count(*) as retCode FROM User where lastturntime > $lastturn") or die(mysqli_error($db));
+$ret = mysqli_fetch_object($q);
 $lastTurnActive = $ret->retCode;
 
 $lastday= time() - (24 * 60 * 60);
 
-$q = mysql_query("SELECT count(*) as retCode FROM User where lastturntime > $lastday") or die(mysql_error());
-$ret = mysql_fetch_object($q);
+$q = mysqli_query($db, "SELECT count(*) as retCode FROM User where lastturntime > $lastday") or die(mysqli_error($db));
+$ret = mysqli_fetch_object($q);
 $lastDayActive = $ret->retCode;
 
-$q = mysql_query("SELECT count(*) as retCode FROM BattleLog where time > $lastday") or die(mysql_error());
-$ret = mysql_fetch_object($q);
+$q = mysqli_query($db, "SELECT count(*) as retCode FROM BattleLog where time > $lastday") or die(mysqli_error($db));
+$ret = mysqli_fetch_object($q);
 $totalAttacks = $ret->retCode;
 
 $time = time();
 
 $canChange = !$allow_bonuses ? 'true' : 'false';
 
-$q = mysql_query("SELECT sum(gold) as g,(sum(bank)/count(*)) as b  FROM User") or die(mysql_error());
-$ret = mysql_fetch_array($q, MYSQL_ASSOC);
+$q = mysqli_query($db, "SELECT sum(gold) as g,(sum(bank)/count(*)) as b  FROM User") or die(mysqli_error($db));
+$ret = mysqli_fetch_array($q, MYSQLI_ASSOC);
 
 $totalGold = $ret['g'];
 $avgBank   = $ret['b'];
 
-$fp = fopen(INCDIR . '/scripts/gen-stats.php','w') or die('Could not open file');
-$str = "<?
+$fp = fopen(DIRSCR . 'gen-stats.php','w') or die('Could not open file');
+$str = "<?php
 \$conf['online-now'       ] = $lastTurnActive;
 \$conf['online-today'     ] = $lastDayActive;
 \$conf['attacks-today'    ] = $totalAttacks;
-require_once(INCDIR . '/scripts/gen-stats-l.php');
+require_once(DIRSCR . 'gen-stats-l.php');
 \$conf['can-change-nation'] = $canChange;
 \$conf['totalGold'        ] = $totalGold;
 \$stats = " . var_export($stats, true ) . "
@@ -65,33 +65,33 @@ require_once(INCDIR . '/scripts/gen-stats-l.php');
 fwrite($fp,$str);
 fclose($fp);
 
-function getAvgHits($area) {
+function getAvgHits($area) { global $db;
 	$t = time() - (48 * 60 * 60); // in the last 48 hours
-	$q = mysql_query("
+	$q = mysqli_query($db, "
 		select 
 			(sum(goldStolen)/count(*)) as hitAvg
 		from BattleLog b inner join User u on b.attackerId = u.id
 		where 
 			u.lastturntime > $t and u.area = $area and
 			b.isSuccess = 1
-	") or die(mysql_error());
+	") or die(mysqli_error($db));
 	
-	$ret['avghit'] = mysql_fetch_array($q);
+	$ret['avghit'] = mysqli_fetch_array($q);
 	
-	$q = mysql_query("select attackerId, targetId, goldStolen from BattleLog b inner join User u on b.attackerId = u.id where u.area=$area and b.isSuccess=1 order by goldStolen DESC limit 0,10") or die(mysql_error());
+	$q = mysqli_query($db, "select attackerId, targetId, goldStolen from BattleLog b inner join User u on b.attackerId = u.id where u.area=$area and b.isSuccess=1 order by goldStolen DESC limit 0,10") or die(mysqli_error($db));
 
 	$ret['top10'] = array();
 		
-	while ($r = mysql_fetch_array($q)) {
+	while ($r = mysqli_fetch_array($q)) {
 		$ret['top10'][] = $r;
 	}
 	
 	return $ret;
 }
 
-function getAvgStats($area) {
+function getAvgStats($area) { global $db;
 	$t = time() - (48 * 60 * 60); // in the last 48 hours
-	$q = mysql_query("
+	$q = mysqli_query($db, "
 		SELECT 
 			(sum(SA)/count(*)) as saAvg,
 			(sum(DA)/count(*)) as daAvg,
@@ -105,10 +105,10 @@ function getAvgStats($area) {
 			User
 		WHERE
 			active=1 AND area=$area AND lastturntime > $t
-		") or die (mysql_error());
+		") or die (mysqli_error($db));
 
 
-	$a = mysql_fetch_array($q);
+	$a = mysqli_fetch_array($q);
 	return $a;
 }
 

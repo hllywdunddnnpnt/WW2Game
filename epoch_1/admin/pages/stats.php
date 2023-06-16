@@ -1,17 +1,17 @@
-<?
+<?php
 if ($cgi['edit'] AND is_numeric($cgi['uid'])) {
 	if ($cgi['edit'] == 'password') {
 		$cgi['editval'] = md5($cgi['editval']);
 	}
-	$cgi['edit'] = mysql_escape_string($cgi['edit']);
-	$cgi['editval'] = mysql_escape_string($cgi['editval']);
-	$cgi['tbl'] = mysql_escape_string($cgi['tbl']);
+	$cgi['edit'] = mysqli_escape_string($cgi['edit']);
+	$cgi['editval'] = mysqli_escape_string($cgi['editval']);
+	$cgi['tbl'] = mysqli_escape_string($cgi['tbl']);
 	switch ($cgi['tbl']) {
 		case 'UserDetails':
 			$sql = "UPDATE UserDetails SET $cgi[edit]=\"$cgi[editval]\" WHERE id=$cgi[uid]";
 			//echo $sql;
-			mysql_query($sql);
-			if (!($e = mysql_error())) {
+			mysqli_query($db, $sql);
+			if (!($e = mysqli_error($db))) {
 				echo "Update Successful";
 			} else {
 				die($e);
@@ -20,13 +20,13 @@ if ($cgi['edit'] AND is_numeric($cgi['uid'])) {
 	}
 }
 if (is_numeric($cgi['uid'])) {
-	$q = mysql_query("SELECT * FROM UserDetails WHERE id=$cgi[uid] LIMIT 0,1") or die(mysql_error());
-	$details = mysql_fetch_array($q, MYSQL_ASSOC);
-	$q = mysql_query("SELECT * FROM Ranks WHERE userid=$cgi[uid] limit 0,1") or die(mysql_error());
-	$ranks = mysql_fetch_object($q);
-	$q = mysql_query("SELECT * FROM Weapon WHERE userid=$cgi[uid] ORDER BY weaponid asc") or die(mysql_error());
+	$q = mysqli_query($db, "SELECT * FROM UserDetails WHERE id=$cgi[uid] LIMIT 0,1") or die(mysqli_error($db));
+	$details = mysqli_fetch_array($q, mysqli_ASSOC);
+	$q = mysqli_query($db, "SELECT * FROM Ranks WHERE userid=$cgi[uid] limit 0,1") or die(mysqli_error($db));
+	$ranks = mysqli_fetch_object($q);
+	$q = mysqli_query($db, "SELECT * FROM Weapon WHERE userid=$cgi[uid] ORDER BY weaponid asc") or die(mysqli_error($db));
 	$weapons = array();
-	while ($row = mysql_fetch_object($q)) {
+	while ($row = mysqli_fetch_object($q)) {
 		$weapons[$row->isAttack][$row->weaponID] = $row;
 	}
 }

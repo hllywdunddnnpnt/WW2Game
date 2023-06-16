@@ -1,4 +1,4 @@
-<?
+<?php
 $db_user = 'epoch1';
 $db_pass = 'password';
 $db_database = 'ww2game_epoch1';

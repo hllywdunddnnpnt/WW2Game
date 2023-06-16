@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 if ($cgi['buy_merc']) {
 	$merc = getCommonInfo();
@@ -62,7 +62,7 @@ if ($cgi['buy_merc']) {
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Neutral Portuguese Mercenaries  </TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Neutral Portuguese Mercenaries  </TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><!-- ZoneLabs Privacy Insertion -->
 <SCRIPT language=javascript src="js/js"></SCRIPT>
 <LINK href="css/common.css" type=text/css rel=stylesheet>
@@ -86,7 +86,7 @@ name=description>
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 
@@ -94,13 +94,13 @@ include "top.php";
   <TBODY>
   <TR>
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 
 	</TD>
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
-    vAlign=top align=left> <? include "islogined.php";
+    vAlign=top align=left> <?php include "islogined.php";
 if ($cgi['strErr']) {
 	echo "<center><font color=red>{$cgi['strErr']}</font></center>";
 } ?><BR>
@@ -114,49 +114,49 @@ if ($cgi['strErr']) {
             <TR> 
               <TD><B>Trained Attack Soldiers</B></TD>
               <TD align=right>
-                <? numecho($user->sasoldiers) ?>
+                <?php numecho($user->sasoldiers) ?>
               </TD>
             </TR>
             <TR> 
               <TD><B>Trained Attack Mercenaries</B></TD>
               <TD align=right>
-                <? numecho($user->samercs) ?>
+                <?php numecho($user->samercs) ?>
               </TD>
             </TR>
             <TR> 
               <TD><B>Trained Defense Soldiers</B></TD>
               <TD align=right>
-                <? numecho($user->dasoldiers) ?>
+                <?php numecho($user->dasoldiers) ?>
               </TD>
             </TR>
             <TR> 
               <TD><B>Trained Defense Mercenaries</B></TD>
               <TD align=right>
-                <? numecho($user->damercs) ?>
+                <?php numecho($user->damercs) ?>
               </TD>
             </TR>
             <TR> 
               <TD><B>Untrained Soldiers</B></TD>
               <TD align=right>
-                <? numecho($user->uu) ?>
+                <?php numecho($user->uu) ?>
               </TD>
             </TR> 
             <TR> 
               <TD class=subh><B>Spies</B></TD>
               <TD class=subh align=right>
-                <? numecho($user->spies) ?>
+                <?php numecho($user->spies) ?>
               </TD>
             </TR>
             <TR> 
               <TD><B>Total Fighting Force</B></TD>
               <TD align=right>
-                <? numecho(getTotalFightingForce($user)) ?>
+                <?php numecho(getTotalFightingForce($user)) ?>
               </TD>
             </TR>
           </TBODY>
         </TABLE>
         <P>
-		<?
+		<?php
 $merc = getCommonInfo();
 ?>
       <FORM action=mercs.php method=post>
@@ -173,22 +173,22 @@ border=0>
           <TH class=subh align=middle>Quantity to Buy</TH></TR>
         <TR>
           <TD>Portuguese Attack Specialist</TD>
-          <TD align=right><? numecho(10000) ?> Gold</TD>
-          <TD align=right><? numecho($merc->attackSpecCount); ?></TD>
+          <TD align=right><?php numecho(10000) ?> Gold</TD>
+          <TD align=right><?php numecho($merc->attackSpecCount); ?></TD>
           <TD align=middle><INPUT size=3 value=0 name=mercs_attack></TD></TR>
         <TR>
           <TD>Portuguese Defense Specialist</TD>
                 <TD align=right>
-                  <? numecho(10000) ?>
+                  <?php numecho(10000) ?>
                   Gold</TD>
                 <TD align=right>
-                  <? numecho($merc->defSpecCount); ?>
+                  <?php numecho($merc->defSpecCount); ?>
                 </TD>
           <TD align=middle><INPUT size=3 value=0 name=mercs_defend></TD></TR>
         
-          <TD align=middle colSpan=4><? if ($conf_use_savings) { ?>
+          <TD align=middle colSpan=4><?php if ($conf_use_savings) { ?>
                 	From Savings:<input type="checkbox" name="c_savings" />
-                <?
+                <?php
 } ?><INPUT type=submit value=Buy> 
         </TD></TR></TBODY></TABLE>
 	  <INPUT type=hidden value=1 name=buy_merc></FORM>
@@ -207,25 +207,25 @@ border=0>
           <TH class=subh align=middle>Quantity to Sell</TH></TR>
         <TR>
           <TD>Portuguese Attack Specialist</TD>
-          <TD align=right><? numecho(5000) ?> Gold</TD>
-          <TD align=right><? numecho($user->samercs); ?></TD>
+          <TD align=right><?php numecho(5000) ?> Gold</TD>
+          <TD align=right><?php numecho($user->samercs); ?></TD>
           <TD align=middle><INPUT size=3 value=0 name=mercs_attacks></TD></TR>
         <TR>
           <TD>Portuguese Defense Specialist</TD>
                 <TD align=right>
-                  <? numecho(5000) ?>
+                  <?php numecho(5000) ?>
                   Gold</TD>
                 <TD align=right>
-                  <? numecho($user->damercs); ?>
+                  <?php numecho($user->damercs); ?>
                 </TD>
           <TD align=middle><INPUT size=3 value=0 name=mercs_defends></TD></TR>
              
           <TD align=middle colSpan=4><INPUT type=submit value=Sell> 
         </TD></TR></TBODY></TABLE>
 	  <INPUT type=hidden value=1 name=buy_merc></FORM>
-      <?
+      <?php
 include ("bottom.php");
 ?>	
 	  </TD></TR></TBODY></TABLE>
 </BODY></HTML>
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

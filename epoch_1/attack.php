@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 function getKilled($count, $atturns, $success, $death) {
 	if ($success) {
@@ -8,8 +8,8 @@ function getKilled($count, $atturns, $success, $death) {
 	}
 }
 function damageWeapons($userid, $attacker = 0, $ra = 0, $attackturns, $success) {
-	$q = mysql_query("SELECT sum(weaponStrength*weaponCount) AS wpoints,sum(weaponCount) AS wcount FROM Weapon WHERE userID=$userid AND isAttack=$attacker") or die(mysql_error());
-	$a = mysql_fetch_array($q, MYSQL_ASSOC);
+	$q = mysqli_query($db, "SELECT sum(weaponStrength*weaponCount) AS wpoints,sum(weaponCount) AS wcount FROM Weapon WHERE userID=$userid AND isAttack=$attacker") or die(mysqli_error($db));
+	$a = mysqli_fetch_array($q, mysqli_ASSOC);
 	$count = $a['wcount'] ? $a['wcount'] : 0;
 	$a['wcount'] = ($a['wcount'] == 0 ? 1 : $a['wcount']);
 	if ($success == 1) {
@@ -24,25 +24,25 @@ function damageWeapons($userid, $attacker = 0, $ra = 0, $attackturns, $success) 
 		$attdmg = floor($attackturns / 2);
 	}
 	$before = $a['wpoints'];
-	mysql_free_result($q);
-	$q = mysql_query("SELECT ID,weaponStrength FROM Weapon WHERE userID=$userid AND isAttack=$attacker ORDER BY weaponID ASC") or die(mysql_error());
-	while ($row = mysql_fetch_object($q)) {
+	mysqli_free_result($q);
+	$q = mysqli_query($db, "SELECT ID,weaponStrength FROM Weapon WHERE userID=$userid AND isAttack=$attacker ORDER BY weaponID ASC") or die(mysqli_error($db));
+	while ($row = mysqli_fetch_object($q)) {
 		if ($attdmg >= $row->weaponStrength) {
 			$attdmg-= $row->weaponStrength;
-			$d = mysql_query("UPDATE Weapon SET weaponStrength=0 WHERE ID={$row->ID}");
+			$d = mysqli_query($db, "UPDATE Weapon SET weaponStrength=0 WHERE ID={$row->ID}");
 		} else {
-			$d = mysql_query("UPDATE Weapon SET weaponStrength=weaponStrength-$attdmg WHERE ID={$row->ID}");
+			$d = mysqli_query($db, "UPDATE Weapon SET weaponStrength=weaponStrength-$attdmg WHERE ID={$row->ID}");
 			$attdmg-= $row->weaponStrength;
 		}
 		if ($attdmg <= 0) {
 			break;
 		}
 	}
-	mysql_query("DELETE FROM Weapon WHERE weaponStrength<=0");
-	$q = mysql_query("SELECT sum(weaponStrength*weaponCount) AS wpoints FROM Weapon WHERE userID=$userid AND isAttack=$attacker") or die(mysql_error());
-	$a = mysql_fetch_array($q, MYSQL_ASSOC);
+	mysqli_query($db, "DELETE FROM Weapon WHERE weaponStrength<=0");
+	$q = mysqli_query($db, "SELECT sum(weaponStrength*weaponCount) AS wpoints FROM Weapon WHERE userID=$userid AND isAttack=$attacker") or die(mysqli_error($db));
+	$a = mysqli_fetch_array($q, mysqli_ASSOC);
 	$after = $a['wpoints'];
-	mysql_free_result($q);
+	mysqli_free_result($q);
 	$p = (100 - ($before > 0 ? round($after / $before * 100, 2) : 100));
 	return array('per' => $p ? $p : 0, 'count' => $count);
 }
@@ -104,8 +104,8 @@ if ($cgi['defender_id2'] and $cgi['attackbut']) {
 	$attacker = getUserDetails($_SESSION['isLogined']);
 	$defender = getUserDetails($cgi['id']);
 	$time = time() - (60 * 60 * 12);
-	$a = mysql_query("SELECT count(*) FROM AttackLog WHERE toUserID='$cgi[id]' AND UserID='$_SESSION[isLogined]' AND time>$time;") or die(mysql_error() . "err10");
-	$aq = mysql_fetch_array($a);
+	$a = mysqli_query($db, "SELECT count(*) FROM AttackLog WHERE toUserID='$cgi[id]' AND UserID='$_SESSION[isLogined]' AND time>$time;") or die(mysqli_error($db) . "err10");
+	$aq = mysqli_fetch_array($a);
 	if ($aq[0] >= 10) {
 		header("Location: attack.php?strErr=You have maxed out your attacking potential on this player");
 		exit;
@@ -212,7 +212,7 @@ if ($cgi['defender_id2'] and $cgi['attackbut']) {
 											sasoldiers=sasoldiers-$attackUsersKilledAS,
 											samercs=samercs-$attackUsersKilledAM,
 											gold=gold+$gold,exp=exp+$attexp");
-		mysql_query('UPDATE UserDetails SET gold=0 WHERE gold<0');
+		mysqli_query($db, 'UPDATE UserDetails SET gold=0 WHERE gold<0');
 		//calculate th extra amount of damage RA will cause
 		$attRA = getRetaliationAction($attacker, 1) * (rand(50, 100) / 100);
 		$defRA = getRetaliationAction($defender, 1) * (rand(50, 100) / 100);
@@ -264,7 +264,7 @@ if ($cgi['defender_id2'] and $cgi['attackbut']) {
 		//addAttack($_SESSION['isLogined'],$cgi['id'],$fields,$values);
 		$sql = "INSERT INTO AttackLog (userID,toUserID,$fields) VALUES ($_SESSION[isLogined],$cgi[id],$values);";
 		//echo $sql;
-		mysql_query($sql) or die(mysql_error() . "err");
+		mysqli_query($db, $sql) or die(mysqli_error($db) . "err");
 		$attak = getAttackByUser1User2AndTime($_SESSION['isLogined'], $cgi['id'], $time, " ID ");
 		header("Location: battlelog.php?id={$attak->ID}");
 		exit;
@@ -382,7 +382,7 @@ if ($cgi['defender_id2'] and $cgi['attackbut']) {
 >
 <HTML>
 	<HEAD>
-		<TITLE><? echo $conf["sitename"]; ?> :: Attack</TITLE>
+		<TITLE><?php echo $conf["sitename"]; ?> :: Attack</TITLE>
 		<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 		<LINK href="css/common.css" type=text/css rel=stylesheet>
 		<META
@@ -404,25 +404,25 @@ name=description>
 		<META content="MSHTML 5.50.4522.1800" name=GENERATOR>
 	</HEAD>
 	<BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
-		<? include "top.php"; ?>
+		<?php include "top.php"; ?>
 		<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 			<TBODY>
 				<TR>
 					<TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-						<? include ("left.php"); ?>
+						<?php include ("left.php"); ?>
 					</TD>
 					<TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px"
 	vAlign=top align=left>
 						<BR>
 						<center>
-							<FONT color=red><? include "islogined.php"; echo $_GET['strErr']; echo $strErr ?></FONT>
+							<FONT color=red><?php include "islogined.php"; echo $_GET['strErr']; echo $strErr ?></FONT>
 						</center>
 						<P>
 							<TABLE width="100%">
 								<TBODY>
 									<TR>
 										<TD style="PADDING-RIGHT: 25px" vAlign=top width="50%">
-											<? $enemy = getUserDetails($cgi['id']); ?>
+											<?php $enemy = getUserDetails($cgi['id']); ?>
 											<FORM name=attack action=attack.php method=post>
 												<TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
 													<TBODY>
@@ -439,7 +439,7 @@ name=description>
 																<?=$enemy->userName ?>
 															</TD>
 														</TR>
-					<? if (($enemy->gold >= 0) && ($user->gold >= 0)) { ?>
+					<?php if (($enemy->gold >= 0) && ($user->gold >= 0)) { ?>
 														<TR>
 															<TD>
 																 Attack Type
@@ -465,7 +465,7 @@ name=description>
 												<input type="hidden" value="<?=$cgi['id'] ?>" name="id" />
 												<input type="hidden" value="<?=$cgi['id'] ?>" name="defender_id2" />
 											</FORM>
-					<? } elseif ($user->gold < 0) { ?>
+					<?php } elseif ($user->gold < 0) { ?>
 									<tr>
 										<td colspan=2>
 											 [You need to pay back your debt]
@@ -473,7 +473,7 @@ name=description>
 									</tr>
 								</TBODY>
 							</TABLE>
-					<? } else { ?>
+					<?php } else { ?>
 								<tr>
 									<td colspan=2>
 										 [This player has to pay back debt]
@@ -481,7 +481,7 @@ name=description>
 								</tr>
 							</TBODY>
 						</TABLE>
-					<? } ?>
+					<?php } ?>
 		<BR>
 		<A
 			name=spy></A>
@@ -523,7 +523,7 @@ name=description>
 							<B>Trained Attack Soldiers</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->sasoldiers)?>
+							<?php numecho($user->sasoldiers)?>
 						</TD>
 					</TR>
 					<TR>
@@ -531,7 +531,7 @@ name=description>
 							<B>Trained Attack Mercenaries</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->samercs)?>
+							<?php numecho($user->samercs)?>
 						</TD>
 					</TR>
 					<TR>
@@ -539,7 +539,7 @@ name=description>
 							<B>Trained Defense Soldiers</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->dasoldiers)?>
+							<?php numecho($user->dasoldiers)?>
 						</TD>
 					</TR>
 					<TR>
@@ -547,7 +547,7 @@ name=description>
 							<B>Trained Defense Mercenaries</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->damercs)?>
+							<?php numecho($user->damercs)?>
 						</TD>
 					</TR>
 					<TR>	
@@ -555,7 +555,7 @@ name=description>
 							<B>Untrained Soldiers</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->uu)?>
+							<?php numecho($user->uu)?>
 						</TD>
 					</TR>
 					<TR>
@@ -563,14 +563,14 @@ name=description>
 							<B>Spies</B>
 						</TD>
 						<TD class=subh align=right>
-							<? numecho($user->spies)?>
+							<?php numecho($user->spies)?>
 						</TD>
 					</TR>
 					<TD class=subh>
 						<B>Special Forces</B>
 					</TD>
 					<TD class=subh align=right>
-						<? numecho($user->specialforces)?>
+						<?php numecho($user->specialforces)?>
 					</TD>
 					</TR>
 					<TR>
@@ -578,7 +578,7 @@ name=description>
 							<B>Total Fighting Force</B>
 						</TD>
 						<TD align=right>
-							<? numecho(getTotalFightingForce($user))?>
+							<?php numecho(getTotalFightingForce($user))?>
 						</TD>
 					</TR>
 				</TBODY>
@@ -597,10 +597,10 @@ name=description>
 							<B>Strike Action</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->SA)?>
+							<?php numecho($user->SA)?>
 						</TD>
 						<TD align=right>
-							 Ranked&nbsp;<?
+							 Ranked&nbsp;<?php
 								if ($userR->sarank) {
 									numecho($userR->sarank);
 								} else echo "#unranked";
@@ -612,10 +612,10 @@ name=description>
 							<B>Defensive Action</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->DA)?>
+							<?php numecho($user->DA)?>
 						</TD>
 						<TD align=right>
-							 Ranked&nbsp;<?
+							 Ranked&nbsp;<?php
 								if ($userR->darank) {
 									numecho($userR->darank);
 								} else echo "#unranked";
@@ -627,10 +627,10 @@ name=description>
 							<B>Covert Action</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->CA)?>
+							<?php numecho($user->CA)?>
 						</TD>
 						<TD align=right>
-							 Ranked&nbsp;<?
+							 Ranked&nbsp;<?php
 							if ($userR->carank) {
 								numecho($userR->carank);
 							} else echo "#unranked";
@@ -642,10 +642,10 @@ name=description>
 							<B>Retaliation Action</B>
 						</TD>
 						<TD align=right>
-							<? numecho($user->RA) ?>
+							<?php numecho($user->RA) ?>
 						</TD>
 						<TD align=right>
-							 Ranked&nbsp;<?
+							 Ranked&nbsp;<?php
 							if ($userR->rarank) {
 								numecho($userR->rarank);
 							} else echo "#unranked";
@@ -665,5 +665,5 @@ name=description>
 		</TABLE>
 	</BODY>
 </HTML>
-<? include "gzfooter.php";
+<?php include "gzfooter.php";
 ?>

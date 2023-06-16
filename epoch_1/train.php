@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 if ($cgi[train] and ($user->gold >= 0)) {
 	$pris = ((2000 * $cgi[atsold]) + (2000 * $cgi[defsold]) + (3500 * $cgi[spy]) + (100000 * $cgi[sf]));
@@ -92,7 +92,7 @@ if ($cgi[train] and ($user->gold >= 0)) {
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE><? echo $conf["sitename"]; ?> :: Training</TITLE>
+<HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Training</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 
 <LINK href="css/common.css" type=text/css rel=stylesheet>
@@ -118,25 +118,25 @@ if ($cgi[train] and ($user->gold >= 0)) {
 <META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
 <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
 marginwidth="0">
-<?
+<?php
 include "top.php";
 ?>
 <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
   <TBODY>
   <TR>
 <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
 
     </TD>
       <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
     vAlign=top align=left> <BR>
-	<?
+	<?php
 include "islogined.php";
 ?>
       <H3>Training</H3>
-	  <p><strong><center><font color=red><? echo $cgi["strErr"]; ?></font></center></strong></p>
+	  <p><strong><center><font color=red><?php echo $cgi["strErr"]; ?></font></center></strong></p>
       <TABLE width="100%">
         <TBODY>
         <TR>
@@ -147,29 +147,29 @@ include "islogined.php";
 			    <TH colSpan=2>Personnel</TH></TR>
 			  <TR>
 			    <TD><B>Trained Attack Soldiers</B></TD>
-			    <TD align=right><? numecho($user->sasoldiers) ?></TD></TR>
+			    <TD align=right><?php numecho($user->sasoldiers) ?></TD></TR>
 			  <TR>
 			    <TD><B>Trained Attack Mercenaries</B></TD>
-			    <TD align=right><? numecho($user->samercs) ?></TD></TR>
+			    <TD align=right><?php numecho($user->samercs) ?></TD></TR>
 			  <TR>
 			    <TD><B>Trained Defense Soldiers</B></TD>
-			    <TD align=right><? numecho($user->dasoldiers) ?></TD></TR>
+			    <TD align=right><?php numecho($user->dasoldiers) ?></TD></TR>
 			  <TR>
 			    <TD><B>Trained Defense Mercenaries</B></TD>
-			    <TD align=right><? numecho($user->damercs) ?></TD></TR>
+			    <TD align=right><?php numecho($user->damercs) ?></TD></TR>
 			  <TR>
 			    <TD><B>Untrained Soldiers</B></TD>
-			    <TD align=right><? numecho($user->uu) ?></TD></TR>			  
+			    <TD align=right><?php numecho($user->uu) ?></TD></TR>			  
 			  <TR>
 			    <TD class=subh><B>Spies</B></TD>
-			    <TD class=subh align=right><? numecho($user->spies) ?></TD></TR>
+			    <TD class=subh align=right><?php numecho($user->spies) ?></TD></TR>
 			    <TR>
 			    <TD class=subh><B>Special Forces</B></TD>
-			    <TD class=subh align=right><? numecho($user->specialforces) ?></TD></TR>
+			    <TD class=subh align=right><?php numecho($user->specialforces) ?></TD></TR>
 			    <TR>
 			   <TR>
 			    <TD><B>Total Fighting Force</B></TD>
-				<TD align=right><? numecho(getTotalFightingForce($user)) ?></TD></TR>
+				<TD align=right><?php numecho(getTotalFightingForce($user)) ?></TD></TR>
 				</TBODY>
 			</TABLE><BR></TD> 
           <TD rowspan="2" vAlign=top width="50%">
@@ -188,7 +188,7 @@ include "islogined.php";
                 <TD align=right>2,000 Gold</TD>
                 <TD align=middle><INPUT id=atsold size=5 value=0 
               name=atsold></TD>
-	      <td><input type=button value='Max'  onclick="document.getElementById('atsold').value='<?
+	      <td><input type=button value='Max'  onclick="document.getElementById('atsold').value='<?php
 $bygold = floor($user->gold / 2000);
 if ($bygold > $user->uu) {
 	echo $user->uu;
@@ -201,7 +201,7 @@ if ($bygold > $user->uu) {
                 <TD align=right>2,000 Gold</TD>
                 <TD align=middle><INPUT size=5 value=0 
              id=defsold name=defsold></TD>
-	       <td><input type=button value='Max'  onclick="document.getElementById('defsold').value='<?
+	       <td><input type=button value='Max'  onclick="document.getElementById('defsold').value='<?php
 $bygold = floor($user->gold / 2000);
 if ($bygold > $user->uu) {
 	echo $user->uu;
@@ -214,7 +214,7 @@ if ($bygold > $user->uu) {
                 <TD>Spy</TD>
                 <TD align=right>3,500 Gold</TD>
                 <TD align=middle><INPUT id=spy size=5 value=0 name=spy></TD>
-		<td><input type=button value='Max'  onclick="document.getElementById('spy').value='<?
+		<td><input type=button value='Max'  onclick="document.getElementById('spy').value='<?php
 $bygold = floor($user->gold / 3500);
 if ($bygold > $user->uu) {
 	echo $user->uu;
@@ -227,7 +227,7 @@ if ($bygold > $user->uu) {
                 <TD>Special Forces Operative</TD>
                 <TD align=right>100,000 Gold</TD>
                 <TD align=middle><INPUT id=sf size=5 value=0 name='sf'></TD>
-		<td><input type=button value='Max'  onclick="document.getElementById('sf').value='<?
+		<td><input type=button value='Max'  onclick="document.getElementById('sf').value='<?php
 $bygold = floor($user->gold / 100000);
 if ($bygold > $user->uu) {
 	echo $user->uu;
@@ -271,10 +271,10 @@ if ($bygold > $user->uu) {
               </TD></TR></TBODY></TABLE> </FORM><BR></TD></TR>
 	      
         </TBODY></TABLE>
-      <?
+      <?php
 include ("bottom.php");
 ?>	
 	  </TD></TR></TBODY></TABLE>
 </BODY></HTML>
 
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>

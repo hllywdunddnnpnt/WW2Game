@@ -1,4 +1,4 @@
-<?
+<?php
 
 $cachedir    = $argv[1];
 $current_age = $argv[2];
@@ -42,12 +42,12 @@ $_END_TIME[$current_age + 1] = '@' . $lastday;
 
 echo "opening $cachedir/end_time.php\n";
 $endtime = fopen($cachedir . '/end_time.php', 'w+') or die("Couldn't' open end time\n");
-fwrite($endtime, '<? $_END_TIME = ' . var_export($_END_TIME, true) . ';?>');
+fwrite($endtime, '<?php $_END_TIME = ' . var_export($_END_TIME, true) . ';?>');
 fclose($endtime);
 
 echo "opening $cachedir/start_time.php\n";
 $starttime = fopen($cachedir . '/start_time.php', 'w+') or die("Couldn't' open start time\n");
-fwrite($starttime, '<? $_START_TIME = ' . var_export($_START_TIME, true) . ';?>');
+fwrite($starttime, '<?php $_START_TIME = ' . var_export($_START_TIME, true) . ';?>');
 fclose($starttime);
 ?>
 

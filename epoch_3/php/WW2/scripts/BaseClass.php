@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -22,26 +22,26 @@
 class BaseClass {
 
 	public function
-	create() {
+	create() { global $db;
 		$sql = 'INSERT INTO `' . get_class($this) . '` set ';
 		$values = array();
 		foreach ((array)$this as $k => $value) {
 			if ($k != 'id' and $k != '_cache' and !is_array($value)) {
-				$value = mysql_real_escape_string($value);
+				$value = mysqli_real_escape_string($db, $value);
 				$values[] = "`$k` = \"$value\"";
 			}
 		}
 
 		$sql .= implode(', ', $values);
-		$q = mysql_query($sql) or die(mysql_error());
-		$this->id = mysql_insert_id();
+		$q = mysqli_query($db, $sql) or die(mysqli_error($db));
+		$this->id = mysqli_insert_id($db);
 		return $this->id;
 	}
 		
 	public function
-	get($id) {
-		$r = mysql_query('SELECT * FROM `' . get_class($this) . "` WHERE id = $id LIMIT 1") or die(mysql_error());
-		$a = mysql_fetch_assoc($r);
+	get($id) { global $db;
+		$r = mysqli_query($db, 'SELECT * FROM `' . get_class($this) . "` WHERE id = $id LIMIT 1") or die(mysqli_error($db));
+		$a = mysqli_fetch_assoc($r);
 		if ($a) {
 			foreach ($a as $key => $value) {
 				$this->$key = $value;
@@ -50,12 +50,12 @@ class BaseClass {
 	}
 	
 	public function
-	save() {
+	save() { global $db;
 		$sql = 'UPDATE `' . get_class($this) . '` SET ';
 		$values = array();
 		foreach ((array)$this as $k => $value) {
 			if ($k != 'id' and $k != '_cache' and !is_array($value)) {
-				$value = mysql_real_escape_string($value);
+				$value = mysqli_real_escape_string($db, $value);
 				$values[] = "`$k` = \"$value\"";
 			}
 		}
@@ -64,24 +64,24 @@ class BaseClass {
 		$sql .= " where id =$this->id;";
 		
 		if ($this->id) {
-			mysql_query($sql) or die(mysql_error());
+			mysqli_query($db, $sql) or die(mysqli_error($db));
 		}
 	}
 	
 	public function
-	delete() {
+	delete() { global $db;
 		if ($this->id) {
-			mysql_query('DELETE FROM `' . get_class($this) . "` WHERE id = $this->id LIMIT 1") or die(mysql_error());
+			mysqli_query($db, 'DELETE FROM `' . get_class($this) . "` WHERE id = $this->id LIMIT 1") or die(mysqli_error($db));
 		}
 	}
 	
 	
 	public static function
-	getAll($c) {
+	getAll($c) { global $db;
 		$ret = array();
-		$q = mysql_query('SELECT * FROM `' . $c . "`") or die(mysql_error());
+		$q = mysqli_query($db, 'SELECT * FROM `' . $c . "`") or die(mysqli_error($db));
 		
-		while ($r = mysql_fetch_object($q, $c)) {
+		while ($r = mysqli_fetch_object($q, $c)) {
 			$ret[] = $r;
 		}
 		

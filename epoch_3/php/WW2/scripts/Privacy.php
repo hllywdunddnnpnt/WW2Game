@@ -1,4 +1,4 @@
-<?
+<?php
 /***
 
     World War II MMORPG
@@ -44,7 +44,7 @@ class Privacy {
 
 	public static function
 	assertAdmin() {
-		if ($_SESSION[SESS_NAME] != 1) {
+		if (isset($_SESSION[SESS_NAME]) != 1) {
 			header('Location: index.php?e=1');
 			exit;
 		}
@@ -52,7 +52,7 @@ class Privacy {
 	
 	public static function
 	getId() {
-		if ($_SESSION[SESS_NAME]) {
+		if (isset($_SESSION[SESS_NAME])) {
 			return $_SESSION[SESS_NAME];
 		}
 		else {

@@ -1,4 +1,4 @@
-<? include "gzheader.php";
+<?php include "gzheader.php";
 include "scripts/vsys.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -23,19 +23,19 @@ include "scripts/vsys.php";
 		</script></head>
 
 	<body bgcolor="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" text="#ffffff">
-<?
+<?php
 include "top.php";
 ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="5">
   <tbody><tr> 
     <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
-<?
+<?php
 include ("left.php");
 ?>
     </td>
       <td style="padding-left: 15px; padding-top: 12px; padding-right: 15px;" valign="top" align="left"> 
         <font color="red">
-        <?
+        <?php
 if ($cgi['submit']) {
 	if (($HTTP_SERVER_VARS['REMOTE_ADDR']) && (isIP($HTTP_SERVER_VARS['REMOTE_ADDR']))) {
 		$echoS = "Oops. Somebody has already registered from this IP. If you beleive it is a fault you can contact us via mail {$conf['mail']}.";
@@ -86,7 +86,7 @@ if ($cgi['submit']) {
 	}
 }
 ?>
-        </font><br><? if (!$isResistered) { ?>
+        </font><br><?php if (!$isResistered) { ?>
 <form action="register.php" method="post">
           <table border="0" class="table_lines" cellspacing="0" cellpadding="6">
             <tbody>
@@ -94,7 +94,7 @@ if ($cgi['submit']) {
                 <th colspan="2">Register</th>
               </tr>
               <tr> 
-                <td colspan="2"><font color="red"><? echo $echoS; ?></font></td>
+                <td colspan="2"><font color="red"><?php echo $echoS; ?></font></td>
               </tr>
               <tr> 
                 <td>Desired Username:</td>
@@ -138,13 +138,13 @@ if ($cgi['submit']) {
               </tr>
               <tr> 
                 <td colspan="2"><input type="checkbox" name="account" value="true"> 
-                  This is my <b>ONLY</b> <? echo $conf["sitename"]; ?> account</td>
+                  This is my <b>ONLY</b> <?php echo $conf["sitename"]; ?> account</td>
               </tr>
               <tr>
 		<td colspan="2">Copy the text below into the adjacent box.</td>
 	</tr>
 	<tr>
-		<td align="center"><img src="imageclick.php?<? $SID = session_name() . "=" . session_id();
+		<td align="center"><img src="imageclick.php?<?php $SID = session_name() . "=" . session_id();
 	echo $SID; ?>" alt="random chars"></td>
 		<td><SELECT name=turing>
 		    <option value="1">one</option>
@@ -167,7 +167,7 @@ if ($cgi['submit']) {
 	</tr>
               <tr> 
                 <td>Commander:</td>
-                <td valign="middle"><?
+                <td valign="middle"><?php
 	$str = "None";
 	if ($cgi['uniqid']) {
 		$us = getUserDetails($cgi['uniqid']);
@@ -191,7 +191,7 @@ if ($cgi['submit']) {
 
 </form>
 
-<?
+<?php
 }
 include ("bottom.php");
 ?>	
@@ -199,4 +199,4 @@ include ("bottom.php");
 	</tr>
 </tbody></table>
 </body></html>
-<? include "gzfooter.php"; ?>
+<?php include "gzfooter.php"; ?>
