@@ -21,7 +21,7 @@
 ***/
 
 require_once('scripts/Privacy.php');
-require_once('env/env.php');
+require_once('scripts/env.php');
 if (!isset($_SESSION['admin'])) {
 
 	

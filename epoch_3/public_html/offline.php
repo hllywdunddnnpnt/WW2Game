@@ -22,7 +22,7 @@
 
 require_once('scripts/Template.php');
 require_once('scripts/Privacy.php');
-require_once('env/env.php');
+require_once('scripts/env.php');
 
 
 $t = new Template('offline');

@@ -20,22 +20,41 @@
 
 ***/
 
-
 error_reporting(E_ALL & ~E_NOTICE);
 
-if (!$incron) {
+if (!isset($incron)) {
 	session_start();
 	session_regenerate_id(false);
-
 	$alert='';
 }
+
+$host_local = "ww2game-epoch3.git";
+$host_server = "ww2game-3.j3t-games.com";
+
+define('BASEURL', isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"] == $host_local ? "http://$host_local" : "https://$host_server");
+
+//define('HOME', '/var/www/ww2game-3.j3t-games.com/');
+$HOME = "";
+if (isset($incron)) 
+	{
+		$HOME = isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) ? $_SERVER["DOCUMENT_ROOT"]: '/var/www/ww2game-3.j3t-games.com/public_html';
+		//define('HOME', $_SERVER["SERVER_NAME"] == $host_local ? "/" : "/var/www/$host_server/");
+	}
+else
+	{
+		$HOME = isset($_SERVER) && isset($_SERVER["DOCUMENT_ROOT"]) ? $_SERVER["DOCUMENT_ROOT"] : '/var/www/ww2game-3.j3t-games.com/public_html';
+	}
+
+//$HOME = implode('/', explode('/', $HOME, -1));
+if (substr($HOME,-11,11) == "public_html") $HOME = substr($HOME,0,-11);
+define('HOME', $HOME."/");
+
 
 //mb_internal_encoding('UTF-8');
 //mb_regex_encoding('UTF-8');
 setlocale(LC_ALL, 'UTF-8');
 
 require_once('conf.php');
-
 require_once('weaps.php');
 require_once('db.php');
 
@@ -48,7 +67,7 @@ require_once('Privacy.php');
 require_once('IP.php');
 
 //$game_offline = true;
-if ($game_offline == true and !$_SESSION['admin'] and !$incron) {
+if ($game_offline == true && !$_SESSION['admin'] && !isset($incron)) {
 	header('Location: offline.php');
 	exit;
 }

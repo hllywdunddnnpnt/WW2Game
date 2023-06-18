@@ -29,39 +29,39 @@ $move = array(
 );
 
 // Get all the people in Europe that need to move down
-$q = mysqli_query($db, 'select * from User where area=1 and active=1 and rank > ' . $conf['users-per-page']) or die (mysqli_error($db));
+$q = mysqli_query($db, 'SELECT * FROM `User` WHERE `area`=1 AND `active`=1 AND `rank`>' . $conf['users-per-page']) or die (mysqli_error($db));
 $i = 0;
 while ($r = mysqli_fetch_object($q)) {
-	$move[2][] = $r->id; 
-	$i++;
+    $move[2][] = $r->id;
+    $i++;
 }
 
 print "Moving $i from Europe down\n";
 
 // Get all the people in Africa that need to move up
-$q = mysqli_query($db, 'select * from User where area=2 and active=1 and rank <= ' . ($conf['users-per-page'] * 2)) or die (mysqli_error($db));
+$q = mysqli_query($db, 'SELECT * FROM `User` WHERE `area`=2 AND `active`=1 AND `rank` <= ' . ($conf['users-per-page'] * 2)) or die (mysqli_error($db));
 $i = 0;
 while ($r = mysqli_fetch_object($q)) {
-	$move[1][] = $r->id;
-	$i++;
+    $move[1][] = $r->id;
+    $i++;
 }
 print "Moving $i from Africa up\n";
 
 // Get all the people in Africa that need to move down
-$q = mysqli_query($db, 'select * from User where area=2 and active=1 order by rank desc limit ' . ($conf['users-per-page'] * 2)) or die (mysqli_error($db));
+$q = mysqli_query($db, 'SELECT * FROM `User` WHERE `area`=2 AND `active`=1 ORDER BY rank DESC LIMIT ' . ($conf['users-per-page'] * 2)) or die (mysqli_error($db));
 $i = 0;
 while ($r = mysqli_fetch_object($q)) {
-	$move[3][] = $r->id;
-	$i++;
+    $move[3][] = $r->id;
+    $i++;
 }
 print "Moving $i from Africa down\n";
 
 // Get all the people in Graveyard that need to move up
-$q = mysqli_query($db, 'select * from User where area=3 and active=1 and rank <= ' . ($conf['users-per-page'] * 2)) or die (mysqli_error($db));
+$q = mysqli_query($db, 'SELECT * FROM `User` WHERE `area`=3 AND `active`=1 AND `rank `<= ' . ($conf['users-per-page'] * 2)) or die (mysqli_error($db));
 $i = 0;
 while ($r = mysqli_fetch_object($q)) {
-	$move[2][] = $r->id;
-	$i++;
+    $move[2][] = $r->id;
+    $i++;
 }
 print "Moving $i from Graveyard up\n";
 
@@ -69,7 +69,7 @@ print "Moving $i from Graveyard up\n";
 
 //echo "select id, username,rank,area from User where id in (" . implode(',', $move[2]) . ") order by area asc, rank asc";
 
-$q = mysqli_query($db, 'UPDATE User set area=1 where active=1 and id in (' . implode(',', $move[1]) . ')') or die(mysqli_error($db));
-$q = mysqli_query($db, 'UPDATE User set area=2 where active=1 and id in (' . implode(',', $move[2]) . ')') or die(mysqli_error($db));
-$q = mysqli_query($db, 'UPDATE User set area=3 where active=1 and id in (' . implode(',', $move[3]) . ')') or die(mysqli_error($db));
+$q = mysqli_query($db, 'UPDATE `User` SET `area`=1 WHERE active=1 AND `id` IN (' . implode(',', $move[1]) . ')') or die(mysqli_error($db));
+$q = mysqli_query($db, 'UPDATE `User` SET `area`=2 WHERE active=1 AND `id` IN (' . implode(',', $move[2]) . ')') or die(mysqli_error($db));
+$q = mysqli_query($db, 'UPDATE `User` SET `area`=3 WHERE active=1 AND `id` IN (' . implode(',', $move[3]) . ')') or die(mysqli_error($db));
 ?>

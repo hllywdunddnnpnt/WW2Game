@@ -668,7 +668,7 @@ class User extends BaseClass {
 	
 	public static function
 	login($username, $password) { global $db;
-		$ret->id = false;
+		//$ret->id = false;
 		$password = md5($password);
 		$ori_username = $username;
 
@@ -677,7 +677,7 @@ class User extends BaseClass {
 			$username = mysqli_real_escape_string($db, $username);
 			$r = mysqli_query($db, "select * from User where username LIKE \"$username\" and password =\"$password\";") or die(mysqli_error($db));
 			$ret = mysqli_fetch_object($r, 'User');
-			if (!$ret) {
+			if (!isset($ret)) {
 				require_once('Activation.php');
 				
 				// check activations				
@@ -687,11 +687,11 @@ class User extends BaseClass {
 					exit;
 				}
 				
-				$ret->id = false;
+				//$ret->id = false;
 			}
 			return $ret;
 		}
-		return $ret;
+		return null;//ret;
 	}
 	
 	public static function
@@ -709,30 +709,31 @@ class User extends BaseClass {
 		}
 
 		if (!$allowUnranked) {
-			$where = ' AND rank > 0 ';
+			$where = ' AND `rank`>0 ';
 		}
 		
 		if ($search and $searchType) {
 			$search = mysqli_real_escape_string($db, $search);
 			switch ($searchType) {
 				case 1:
-					$where .= " AND username LIKE \"$search%\" ";
+					$where .= " AND `username` LIKE \"$search%\" ";
 					break;
 				case 2:
-					$where .= " AND username LIKE \"%$search\" ";
+					$where .= " AND `username` LIKE \"%$search\" ";
 					break;
 				default:
 				case 3:
-					$where .= " AND username LIKE \"%$search%\" ";
+					$where .= " AND `username` LIKE \"%$search%\" ";
 					break;
 			}
 		}
 		
 		if ($area and $area != '*') {
-			$where .= " AND area = $area ";
+			$where .= " AND `area`=$area ";
 		}
-		
-		$q = mysqli_query($db, "SELECT * FROM User WHERE active = 1 $where ORDER BY rank ASC $pageSQL") or die(mysqli_error($db));
+
+		$strq = "SELECT * FROM `User` WHERE `active`=1 $where ORDER BY `rank` ASC $pageSQL";
+		$q = mysqli_query($db, $strq) or die($strq."<br>".mysqli_error($db));
 		while ($u = mysqli_fetch_object($q, 'User')) {
 			$ret[] = $u;
 		}
@@ -748,30 +749,30 @@ class User extends BaseClass {
 		$where = '';
 
 		if (!$allowUnranked) {
-			$where = ' AND rank > 0 ';
+			$where = ' AND `rank`>0 ';
 		}
 		
 		if ($search and $searchType) {
 			$search = mysqli_real_escape_string($db, $search);
 			switch ($searchType) {
 				case 1:
-					$where .= " AND username LIKE \"$search%\" ";
+					$where .= " AND `username` LIKE \"$search%\" ";
 					break;
 				case 2:
-					$where .= " AND username LIKE \"%$search\" ";
+					$where .= " AND `username` LIKE \"%$search\" ";
 					break;
 				default:
 				case 3:
-					$where .= " AND username LIKE \"%$search%\" ";
+					$where .= " AND `username` LIKE \"%$search%\" ";
 					break;
 			}
 		}
 		
 		if ($area and $area != '*') {
-			$where .= " AND area = $area ";
+			$where .= " AND `area`=$area ";
 		}
 
-		$q = mysqli_query($db, "SELECT count(*) as retCode FROM User WHERE active = 1 $where ORDER BY rank ASC") or die(mysqli_error($db));
+		$q = mysqli_query($db, "SELECT COUNT(*) as `retCode` FROM `User` WHERE `active`=1 $where ORDER BY `rank` ASC") or die(mysqli_error($db));
 		$ret = mysqli_fetch_object($q);
 		return $ret->retCode;
 	}
@@ -784,10 +785,10 @@ class User extends BaseClass {
 		$where = '';
 		
 		if (!$allowUnranked) {
-			$where = ' AND rank > 0 ';
+			$where = ' AND `rank`>0 ';
 		}
 
-		$str = "SELECT COUNT(*) as retCode FROM `User` where lastturntime>'$time' and active='1' $where";
+		$str = "SELECT COUNT(*) AS `retCode` FROM `User` WHERE `lastturntime`>$time AND `active`=`1` $where";
 
 		$q = @mysqli_query($db, $str) or die(mysqli_error($db));
 		if ($q) {

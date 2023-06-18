@@ -99,7 +99,7 @@
 			<!-- Start of top navbar -->
 			<div id="main-top-nav">
 				<div id="logo">
-					<a href="http://www.ww2game.net">
+					<a href="<?= BASEURL ?>">
 <!-- 						<img title="World War II Game" src="/images/logo.jpg" /> -->
 						<img id="page-logo" title="World War 2 Game" src="<?= $this->image('WW2GameLogo1.jpg') ?>"
 						 onmouseover="this.src=img2.src;"

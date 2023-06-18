@@ -22,7 +22,7 @@
 
 
 	session_start();
-	require_once('env/env.php');
+	require_once('scripts/env.php');
 	require_once('scripts/Privacy.php');
 	Privacy::logout();
 

@@ -1,0 +1,1 @@
+<?php include "scripts/vsys.php"; echo HOME;//$_SERVER['SERVER_NAME'];//phpinfo();

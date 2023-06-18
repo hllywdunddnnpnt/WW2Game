@@ -19,14 +19,13 @@
 
 ***/
 
+/*
 $envpath = ini_get('ENVPATH');
-if ($envpath) {
-	require_once($envpath . '/env.php');
-}
-else {
-	require_once('env/env.php');
-}
-
+if (isset($incron) && $incron === true) require_once(HOME.'public_html/env/env.php');
+else if ($envpath) require_once($envpath . '/env.php');
+else require_once('env/env.php');*/
+//require_once((isset($incron) && $incron === true) ? 'env.php' : 'env.php');
+require_once('env.php');
 
 
 $min  = 60;
@@ -61,7 +60,7 @@ $resetA = "Reset in: $d";
 $conf_announcement = $announce  . ' ' .  $resetA;
  
 // If changing these, update User
-$conf['start-gold'           ] = 50000;
+$conf['start-gold'           ] = 1000000;
 $conf['start-attackturns'    ] = 50;
 $conf['start-uu'             ] = 0;
 $conf['start-sasoldiers'     ] = 75;
@@ -90,7 +89,7 @@ $conf["sitename"] = "World War II";
 $conf["users_per_page"]=30;
 $conf["users_per_page_on_attack_log"]=10;
 $conf["mercenaries_per_turn"] = 400;
-$conf["days_to_hold_logs"]=5; //For Battle Logs
+$conf["days_to_hold_logs"]=30; //For Battle Logs
 $conf["ips_to_hold_per_user"]=10;
 
 $conf['area-count'] = 3;
