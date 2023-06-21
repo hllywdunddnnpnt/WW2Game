@@ -43,15 +43,22 @@ if (!$age) {
 	$age = $current_age - 1;
 }
 
+$noages = true;
+if ($noages) $age++;
 
+
+
+/*
 if ($age < 15) {
 	$area = false;
-}
+} $area = true;
+
+//$age = 1;
 
 $WHERE = '';
 if ($area and $age >= 15) {
 	$WHERE = " WHERE area = $area ";
-}
+}*/
 
 
 $q = mysqli_query($db, "SELECT *, (sarank+darank+carank+rarank) as rave FROM hof$age $WHERE order by rave ASC") or die(mysqli_error($db));

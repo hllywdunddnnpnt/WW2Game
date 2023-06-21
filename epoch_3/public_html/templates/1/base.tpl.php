@@ -20,37 +20,31 @@
 -->
 <!-- Begin base page -->
 <div id="base-container">
-	<table  style="width: 100%;vertical-align: top;">
+	<table style="width: 100%; vertical-align: top;">
 		<tr>
-			<td id="left-pane">
+			<td id="left-pane" style="width: 50%;">
 				<div id="officers-list" class="panel">
 					<div class="panel-title">
 						User Info
 					</div>
-					<table>
-						<tr><td>Name</td><td><?= $user->getNameLink() ?></td></tr>
+					<table class="tab-stats table-details">
+						<tr>
+							<td class="title">Name</td>
+							<td class="amount"><?= $user->getNameLink() ?></td>
+						</tr>
 						<!--<tr><td>Social</td>
 							<td><fb:login-button v="2" size="medium" onlogin="window.location.reload(true);">Connect</fb:login-button>
 							</td>
 						</tr>-->
-						<tr>
-							<td>Supporter Level</td>
-							<td><a href="support.php"><?= ($user->supporter? "\$$user->supporter" : 'Become A Supporter') ?></a><td>
-						</tr>
-						<tr><td>Alliance</td><td>
-							<?php if ($user->alliance > 0) { ?>
-								<a href="alliance-home.php?"><?= $user->getAlliance()->getNameHTML() ?></a>
-								[<a href="alliance-home.php?leave-alliance=yes"> leave </a>]
-							<?php }
-								else { ?>
-								<a href="alliance-list.php">None</a>
-							<?php } ?>
-						</td></tr>
-						<tr><td>Email</td><td><?= $user->email ?></td></tr>
-						<tr><td>Nation</td><td><?= $user->getNation() ?></td></tr>
-						<tr><td>Rank</td><td><?= numecho($user->rank) ?></td></tr>
-						<tr><td>Area</td><td><?= $user->getAreaName() ?></td></tr>
-						<tr><td>Commander</td><td>
+						<!-- <tr>
+							<td class="title">Supporter Level</td>
+							<td class="amount"><a href="support.php"><?= ($user->supporter? "\$$user->supporter" : 'Become A Supporter') ?></a><td>
+						</tr> -->
+						<tr><td class="title">Email</td><td class="amount"><?= $user->email ?></td></tr>
+						<tr><td class="title">Nation</td><td class="amount"><?= $user->getNation() ?></td></tr>
+						<tr><td class="title">Rank</td><td class="amount"><?= numecho($user->rank) ?></td></tr>
+						<?php if (AREAS): ?><td class="title">Area</td><td class="amount"><?= $user->getAreaName() ?></td></tr><?php endif; ?>
+						<tr><td class="title">Commander</td><td class="amount">
 							<?php if ($user->commander) { ?>
 								<?= $user->getCommander()->getNameLink() ?>
 								[<a href="base.php?leave-commander=yes"> leave </a>]
@@ -59,28 +53,58 @@
 								None
 							<?php } ?>
 						</td></tr>
-						<tr><td>Game Skill</td><td><?= numecho($user->gameSkill) ?></td></tr>
-						<tr><td>Defensive Tech</td><td><?= $user->getDAName() ?></td></tr>
-						<tr><td>Offensive Tech</td><td><?= $user->getSAName() ?></td></tr>
-						<tr><td>Covert Tech</td><td><?= $user->calevel ?></td></tr>
-						<tr><td>Retaliation Tech</td><td><?= $user->ralevel ?></td></tr>
-						<tr><td>Hand-to-hand Level</td><td><?= $user->hhlevel ?></td></tr>
-						<tr>
-							<td>Unit Production</td>
-							<td><?= numecho($user->up) ?> (+ <?php numecho($user->getOfficerUP());echo ' +';numecho($user->getAllianceUP()); ?>)</td>
-						</tr>
-						<tr><td>Gold</td><td><?= numecho($user->gold) ?> </td></tr>
-						<tr><td>Income</td><td><?= numecho($user->getIncome()) ?> gold / turn</td></tr>
-						<tr><td>Commander Bonus</td><td><?php numecho($user->commandergold) ?> gold / turn</td></tr>
-						<tr><td>Attack Turns</td><td><?= numecho($user->attackturns) ?></td></tr>
-						<tr><td>Click Credits</td><td><?= $user->gclick ?></td></tr>
-						
+						<tr><td class="title">Alliance</td><td class="amount">
+							<?php if ($user->alliance > 0) { ?>
+								<a href="alliance-home.php?"><?= $user->getAlliance()->getNameHTML() ?></a>
+								[<a href="alliance-home.php?leave-alliance=yes"> leave </a>]
+							<?php }
+								else { ?>
+								<a href="alliance-list.php">None</a>
+							<?php } ?>
+						</td></tr>
+						<tr><td class="title">Game Skill</td><td class="amount"><?= numecho($user->gameSkill) ?></td></tr>
+					</table>
+					<div class="panel-title">
+						Stats
+					</div>
+					<table class="tab-stats table-details">
+						<tr><td class="title gold">Gold</td><td class="amount gold"><?= numecho($user->gold) ?> </td></tr>
+						<tr><td class="title">Attack Turns</td><td class="amount"><?= numecho($user->attackturns) ?></td></tr>
+						<tr><td class="title">Click Credits</td><td class="amount"><?= $user->gclick ?></td></tr>
+						<tr><td class="title gold">Bank</td><td class="amount gold"><?= numecho($user->bank) ?> </td></tr>
+					</table>
+					<div class="panel-title">
+						Productions
+					</div>
+					<table class="tab-stats table-details">
+						<tr><td class="title bgold">Turn Based Gold</td>
+							<td class="amount bgold"><span class="bgold"><?= numecho($user->getIncome()) ?> gold</span> 
+								<span class="fade">p/turn</span></td></tr>
+						<tr><td class="title bgold2">Commander Bonus</td>
+							<td class="amount bgold2"><?php numecho($user->commandergold) ?> 
+								<span class="fade">p/turn</span></td></tr>
 					</table>
 				</div>
 			</td>
-			<td id="right-pane">
+			<td id="right-pane" style="width: 50%;">
 				<?php $this->load('user-stats') ?>
 				<?php $this->load('personnel') ?>
+				<div class="panel">
+					<div class="panel-title">
+						Upgrades
+					</div>
+					<table class="tab-stats table-details">
+						<tr><td class="title">Defensive Tech</td><td class="amount"><?= $user->getDAName() ?></td></tr>
+						<tr><td class="title">Offensive Tech</td><td class="amount"><?= $user->getSAName() ?></td></tr>
+						<tr><td class="title">Covert Tech</td><td class="amount"><?= $user->calevel ?></td></tr>
+						<tr><td class="title">Retaliation Tech</td><td class="amount"><?= $user->ralevel ?></td></tr>
+						<tr><td class="title">Hand-to-hand Level</td><td class="amount"><?= $user->hhlevel ?></td></tr>
+						<tr>
+							<td class="title">Unit Production</td>
+							<td class="amount"><?= numecho($user->up) ?> (+ <?php numecho($user->getOfficerUP());echo ' +';numecho($user->getAllianceUP()); ?>)</td>
+						</tr>
+					</table>
+				</div>
 			</td>
 		</tr>
 		<tr>

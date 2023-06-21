@@ -22,7 +22,7 @@
 <div id="hof-container">
 	<form method="get">
 		<select name="age">
-			<?php for ($i = 1; $i < $this->current_age; $i++) { ?>
+			<?php for ($i = 1; $i <= $this->current_age; $i++) { ?>
 				<option value="<?= $i ?>" <?= ($i == $this->age ? 'selected="selected"' : '') ?>>Age <?= $i ?></option>
 			<?php } ?>
 		</select>

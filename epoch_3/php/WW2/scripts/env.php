@@ -18,6 +18,8 @@ define('Inf', null);
 
 define('SESS_NAME', 'ww2game');
 
+define('AREAS', false);
+
 
 require_once(CACHEDIR . '/age.php');
 require_once(CACHEDIR . '/start_time.php');

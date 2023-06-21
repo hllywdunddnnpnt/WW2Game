@@ -23,6 +23,7 @@
 	<div class="panel">
 		<div class="panel-title">
 			Ranking 
+			<?php if (AREAS): ?>
 			<span class="small">(
 				<?php foreach ($conf['area'] as $n => $a) { ?>
 					<?php if ($this->area == $n) { ?>
@@ -33,6 +34,7 @@
 					<?php } ?>
 				<?php } ?>
 			)</span>
+			<?php endif; ?>
 		</div>
 		<table class="odd-even large">
 			<tr>
@@ -116,6 +118,7 @@
 			<tr><td colspan="<?= ($quickAttack ? 5 : 4) ?>"><?= numecho($this->usersCount) ?> active players</td></tr>
 		</table>
 		<form method="get" class="large">
+			<?php if (AREAS): ?>
 			<div class="line">
 				<label>Area</label>
 				<select name="area">
@@ -125,6 +128,7 @@
 					<?php } ?>
 				</select>
 			</div>
+			<?php endif; ?>
 			<div class="line">
 				<label>Search Type</label>
 				<select name="search-type">

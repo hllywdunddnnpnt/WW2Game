@@ -19,39 +19,37 @@
 
 -->
 <!-- Begin user stats -->
+
 <div id="officers-list" class="panel">
 	<div class="panel-title">
 		Military Potential
 	</div>
-	<table>
+	<table class="tab-stats table-military">
 		<tr>
-			<th>Stat</th>
-			<th>Amount</th>
-			<th>Rank</th>
+			<th class="title stat">Stat</th>
+			<th class="number amount">Amount</th>
+			<th class="number rank">Rank</th>
 		</tr>
 		<tr>
-			<td>Offensive</td>
-			<td><?= numecho($user->SA) ?></td>
-			<td><?= ($user->sarank ?  numecho($user->sarank) : 'Unranked') ?></td>
+			<td class="title stat">Offensive</td>
+			<td class="number amount high"><?= numecho($user->SA) ?></td>
+			<td class="number rank"><?= ($user->sarank ?  numecho($user->sarank) : '#') ?></td>
 		</tr>
 		<tr>
-			<td>Defensive</td>
-			<td><?= numecho($user->DA) ?></td>
-			<td><?= ($user->darank ?  numecho($user->darank) : 'Unranked') ?></td>
+			<td class="title stat">Defensive</td>
+			<td class="number amount high"><?= numecho($user->DA) ?></td>
+			<td class="number rank"><?= ($user->darank ?  numecho($user->darank) : '#') ?></td>
 		</tr>
 		<tr>
-			<td>Covert</td>
-			<td><?= numecho($user->CA) ?></td>
-			<td><?= ($user->carank ?  numecho($user->carank) : 'Unranked') ?></td>
+			<td class="title stat">Covert</td>
+			<td class="number amount high"><?= numecho($user->CA) ?></td>
+			<td class="number rank"><?= ($user->carank ?  numecho($user->carank) : '#') ?></td>
 		</tr>
 		<tr>
-			<td>Retaliation</td>
-			<td><?= numecho($user->RA) ?></td>
-			<td><?= ($user->rarank ?  numecho($user->rarank) : 'Unranked') ?></td>
+			<td class="title stat">Retaliation</td>
+			<td class="number amount high"><?= numecho($user->RA) ?></td>
+			<td class="number rank"><?= ($user->rarank ?  numecho($user->rarank) : '#') ?></td>
 		</tr>
-
-
-
 	</table>
 </div>
 <!-- End user stats -->

@@ -33,7 +33,7 @@ body {
 	background-color: #000;
 	padding: 0;
 	margin: 0;
-	color: #A0A0A0;
+	color: #d1c7b4;
 	font-size: 13px;
 	font-weight: normal;
  	/*font-family: "Verdana",  "Helvetica", "Arial", sans-serif;*/
@@ -53,7 +53,7 @@ a:active {
 	/*color: #9B0;*/
 	/*color: #BE0;*/
 	/*color: #C8EA4E;*/
-	color: #BBC64F;
+	color: rgb(233, 124, 124); /*color: #BBC64F;*/
 }
 
 a:hover {
@@ -332,7 +332,7 @@ div.panel .large div.line {
 	padding: 1px 2px;
 	
 	border-bottom: dotted 1px #444;
-	padding: 2px 0
+	padding: 2px 0;
 	
 	zoom:1;
 }
@@ -429,14 +429,14 @@ div.panel tr td:last-child {
 	text-align:center;
 }
 
-div.panel tr td:first-child {
+div.panel tr:last-child td:first-child { /* div.panel tr td:first-child  */
 	-moz-border-radius-topleft: 5px;
 	-webkit-border-top-left-radius: 5px;
 	
 	-moz-border-radius-bottomleft: 5px;
 	-webkit-border-bottom-left-radius: 5px;
 }
-div.panel tr td:last-child {
+div.panel tr:last-child td:last-child { /* div.panel tr td:last-child */
 	-moz-border-radius-topright: 5px;
 	-webkit-border-top-right-radius: 5px;
 	
@@ -448,9 +448,15 @@ div.panel tr td:nth-child(2) {
 	padding-left : 3px;
 }
 
+div.panel th {
+	border-bottom: solid 1px #666;
+	padding: 0px 0px 5px 0px;
+	margin-bottom: 0px;
+}
+
 div.panel td {
 	border-bottom: dotted 1px #444;
-	padding: 2px 0
+	padding: 3px 0px;
 }
 
 table.odd-even tr:nth-child(even) td {
@@ -461,3 +467,138 @@ table.odd-even tr:nth-child(even) td {
 	border: 1px solid #444;
 	padding: 5px;
 }
+
+/* background */ body { background-color: #000 !important; color: #d1c7b4; /* #000, #d1c7b4 */ }
+/* foreground */ #main-content-panel { background-color: #252525 !important; /* #252525 */ }
+/* top panel */ #main-content-panel .layer2 { background-color: #4C4C4C !important; /* #4C4C4C */ }
+/* left panel */ #main-content-panel .layer3 { background-color: #333 !important; /* #333 */ }
+
+#left-panel { color: #d1c7b4; }	
+/* #main-content-panel .layer3 a */
+
+
+#main-container { width: 1000px !important; }
+#left-panel { width: 180px !important; }	
+#page-content { width: calc(1000px - 250px) !important; }
+#main-content-panel .layer3 a { color: #a89d6c !important; /* color: #C90; */ }
+a:link, a:visited, a:active { color: #a89d6c; /*color: #BBC64F;*/ }
+div.panel .panel-title { color: #e2d0a2 !important; /*color: #AACCFF;*/ } 
+
+
+li.primary { color: rgb(255, 211, 66) !important; } /* rgb(255, 211, 66) */
+#left-menu li a.unread { color: rgb(255, 230, 0) !important; }
+
+
+.b { font-weight: bold !important; }
+.high { color: #e2d0a2 !important; }
+.gold { color: #ffec3c !important; }
+.gold { color: rgb(255, 211, 66) !important; }
+.bgold { color: rgb(181, 231, 240) !important; }
+.bgold2 { color:rgb(137, 176, 184) !important; }
+.fade { color: #777 !important; }
+
+
+.tab-stats 
+	{
+		width: 100%;
+	}
+.tab-stats tr th
+	{
+		color: #A0A0A0; /* #A0A0A0 */
+	}
+.tab-stats tr td.title
+	{
+		color: #d1c7b4; /* #A0A0A0 */
+	}
+.tab-stats tr td.number
+	{
+		color: #d1c7b4; /* #A0A0A0 */
+	}
+
+
+.table-military
+	{
+		width: 100%;
+	}
+.table-military tr th.stat, 
+.table-military tr td.stat
+	{
+		width: 30%;
+		padding: default;
+		text-align: center;
+	}
+.table-military tr th.amount, 
+.table-military tr td.amount
+	{
+		width: 40%;
+		padding: default;
+		text-align: right;
+	}
+.table-military tr th.rank, 
+.table-military tr td.rank
+	{
+		width: 30%;
+		padding: default;
+		text-align: center;
+	}
+
+.table-personnel
+	{
+		width: 100%;
+	}
+.table-personnel tr th.unit, 
+.table-personnel tr td.unit
+	{
+		width: 50% !important;
+		padding-right: 10px !important;
+		text-align: right !important;
+	}
+.table-personnel tr th.quantity, 
+.table-personnel tr td.quantity
+	{
+		width: 50% !important;
+		padding-left: 10px !important;
+		text-align: left !important;
+	}
+
+
+.table-details
+	{
+		width: 100%;
+	}
+.table-details tr th.title, 
+.table-details tr td.title
+	{
+		width: 42% !important;
+		padding-right: 10px !important;
+		text-align: right !important;
+	}
+.table-details tr th.amount, 
+.table-details tr td.amount
+	{
+		width: 58% !important;
+		padding-left: 10px !important;
+		text-align: left !important;
+	}
+
+
+.table-officers
+	{
+		width: 100%;
+	}
+.table-officers tr th.rank, .table-officers tr td.rank { width: 25% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers tr th.name, .table-officers tr td.name { width: 25% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers tr th.army, .table-officers tr td.army { width: 25% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers tr th.area, .table-officers tr td.area { width: 25% !important; padding-right: 10px !important; text-align: center !important; }
+
+.table-officers-x
+	{
+		width: 100%;
+	}
+.table-officers-x tr th.rank, .table-officers-x tr td.rank { width: 10% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers-x tr th.name, .table-officers-x tr td.name { width: 15% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers-x tr th.army, .table-officers-x tr td.army { width: 10% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers-x tr th.area, .table-officers-x tr td.area { width: 10% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers-x tr th.up, .table-officers-x tr td.up { width: 10% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers-x tr th.active, .table-officers-x tr td.active { width: 20% !important; padding-right: 10px !important; text-align: center !important; }
+.table-officers-x tr th.action, .table-officers-x tr td.action { width: 20% !important; padding-right: 10px !important; text-align: center !important; }

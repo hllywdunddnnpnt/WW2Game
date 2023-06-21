@@ -23,18 +23,18 @@
 	<div class="panel-title">
 		Officers
 	</div>
-	<table>
+	<table class="table-officers<?= me($user->id) ? "-x" : "" ?>">
 		<tr>
-			<th>Name</th>
-			<th>Army</th>
-			<th>Area</th>
-			<th>Rank</th>
-			<?php $col1 = 3; $col2 = 1; ?>
+			<th class="rank">Rank</th>
+			<th class="name">Name</th>
+			<th class="army">Army</th>
+			<th class="area"><?= AREAS ? "Area" : "&nbsp;" ?></th>
+			<?php $col1 = 4; $col2 = 2; ?>
 			<?php if (me($user->id)) { // $user might be the person we're looking at ?>
-				<?php $col1 = 6; $col2 = 4; ?>
-				<th>Unit Production</td>
-				<th>Last Active</th>
-				<th>Kick/Accept</th>
+				<?php $col1 = 7; $col2 = 5; ?>
+				<th class="up">Units p/t</td>
+				<th class="active">Last Active</th>
+				<th class="action">Kick/Accept</th>
 			<?php } ?>
 		</tr>
 		<?php
@@ -56,16 +56,16 @@
 			<?php $officers = $user->getOfficers(max($page, 1));
 			foreach ($officers as $officer) { ?>
 				<tr>
-					<td>
+					<td class="rank"><?= numecho($officer->rank)         ?></td>
+					<td class="name">
 						<?= $officer->getNameLink() ?>
 					</td>
-					<td><?= numecho($officer->getTFF())     ?></td>
-					<td><?= $officer->getAreaNameShort()    ?></td>
-					<td><?= numecho($officer->rank)         ?></td>
+					<td class="army"><?= numecho($officer->getTFF())     ?></td>
+					<td class="area"><?= AREAS ? $officer->getAreaNameShort() : "&nbsp;" ?></td>
 					<?php if (me($user->id)) { ?>
-						<td><?= numecho($officer->up) ?></td>
-						<td><?= date('G:s:i M jS', $officer->lastturntime)  ?></td>
-						<td>
+						<td class="up"><?= numecho($officer->up) ?></td>
+						<td class="active"><?= date('G:s:i M jS', $officer->lastturntime)  ?></td>
+						<td class="action">
 							<?php if ($officer->accepted) { ?>
 								<a href="base.php?kick-officer=<?= $officer->id ?>">Kick</a>
 							<?php }
@@ -83,7 +83,7 @@
 		
 
 		<tr>
-			<td>
+			<td style="text-align: left;">
 				<?php if ($prev > 0) { ?>
 					<a href="?officer-list-page=<?= $prev ?>&<?= $this->offargs ?>">&lt;&lt; prev</a>
 				<?php }
@@ -92,10 +92,10 @@
 					}
 				?>
 			</td>
-			<td colspan="<?= $col2 ?>">
+			<td colspan="<?= $col2 ?>" style="text-align: center;">
 				<?= numecho($count); ?> / <?= numecho($user->maxofficers) ?> officers | page <?= $page ?> of <?= $totalPages ?>
 			</td>
-			<td>
+			<td style="text-align: right;">
 				<?php if ($next > 0) { ?>
 					<a href="?officer-list-page=<?= $next ?>&<?= $this->offargs ?>">next &gt;&gt;</a>
 				<?php }

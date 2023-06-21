@@ -56,26 +56,54 @@ update User set area=3 where area=6;
 $incron = true;
 // Include everything we need
 require_once('vsys.php');
+/*
+function report($message, $area=null)
+	{
+		global $reports;
+		$reports[ isset($area) ? $area : "default" ][] = $message;
+		echo $message;
+	}
+
+function query_submit($db, $query, $area)
+	{
+		global $reports;
+		$reports[ isset($area) ? $area : "default" ][] = $message;
+		echo $message;
+	}*/
+
+$reports = [ "default" => [] ];
+
+
 
 $hof = $_AGE;
-die("MAKE SURE THE AGE IS CORRECT");
+//die("MAKE SURE THE AGE IS CORRECT");
 /*
 	Stage 1 : Back up the tables
 */
 // A list of tables that we'll use, so need to back up
 $tableList = array(
-	'BattleLog',
-	'SpyLog',
-	'User',
-	'Weapon'
+	'battlelog',
+	'spylog',
+	'user',
+	'weapon'
 );
 
 foreach ($tableList as $table) {
 	// Copy the tables
-	echo "resetscript: dropping $table$hof if exists\n";
-	@mysqli_query($db, "drop table if exists hof$hof");
-	echo "resetscript: backing up table $table as $table$hof\n";
-	$q = mysqli_query($db, "CREATE TABLE IF NOT EXISTS $table$hof SELECT * FROM $table") or die(mysqli_error($db));
+	echo "resetscript: dropping $table$hof if exists<br>";
+	mysqli_query($db, "drop table if exists hof$hof");
+	echo "resetscript: backing up table $table as $table$hof<br>";
+	$q = mysqli_query($db, "CREATE TABLE IF NOT EXISTS $table$hof SELECT * FROM $table");
+	if (!$q)
+		{
+			$str_error = "Table '.\ww3game_db\\$table' is marked as crashed and should be repaired";
+			echo mysqli_error($db);
+			if (mysqli_error($db) == $str_error)
+				{
+					mysqli_query($db, "REPAIR TABLE $table") or die(mysqli_error($db));
+					echo "$table repaired!";
+				}
+		} 
 }
 
 // TODO: update for table column names.
@@ -126,7 +154,7 @@ $hofTable = "CREATE TABLE IF NOT EXISTS `hof{$hof}` (
 	UNIQUE (
 	`username`
 	)
-) TYPE = MYISAM ;";
+) ENGINE = MYISAM ;";
 
 mysqli_query($db, $hofTable) or die("2:".mysqli_error($db));
 
@@ -204,12 +232,14 @@ $hofq = mysqli_query($db, "
 
 $users = User::getActiveUsers(false, false);
 
+echo "<br>";
+
 $nusers = count($users);
 $i = 0;
 foreach($users as $user) {
-	echo "resetscript: (" . round(($i / $nusers)*100, 2) . "%) calculating user ($user->id:$user->username)\n";
+	echo "resetscript: (" . round(($i / $nusers)*100, 2) . "%) calculating user ($user->id:$user->username)<br>";
 	$i++;
-	$ret = null;
+	$ret = (Object) [];
 	
 	$q = mysqli_query($db, "select sum(goldStolen) as retCode from BattleLog where attackerId = $user->id") or die(mysqli_error($db));
 	$a = mysqli_fetch_object($q);
@@ -295,7 +325,8 @@ $clean = array(
 	'SpyLog',
 	'Weapon',
 );
-
+echo "done";
+exit();
 foreach ($clean as $tbl) {
 	echo "resetscript: truncating table $tbl\n";
 	$sql = "TRUNCATE $tbl";

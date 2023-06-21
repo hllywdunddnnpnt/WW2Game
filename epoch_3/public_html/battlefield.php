@@ -36,16 +36,20 @@ $filter = array(
 
 $filteredG = filter_input_array(INPUT_GET, $filter);
 
-if ($filteredG['area']) {
-	$area      = $filteredG['area'] ? max(1, min($filteredG['area'], $conf['area-count'] + 1 )) : 1;
-}
-else {
-	$area      = $user->area;
-}
+if (AREAS)
+    {
+        if ($filteredG['area']) {
+            $area      = $filteredG['area'] ? max(1, min($filteredG['area'], $conf['area-count'] + 1 )) : 1;
+        }
+        else {
+            $area      = $user->area;
+        }
+        
+        if ($area == $conf['area-count'] + 1) {
+            $area = '*';
+        }
+    }
 
-if ($area == $conf['area-count'] + 1) {
-	$area = '*';
-}
 
 $t->page       = $filteredG['page'] ? max($filteredG['page'], 1) : 1;
 $t->user       = $user;

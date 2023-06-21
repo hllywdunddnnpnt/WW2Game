@@ -456,7 +456,7 @@ class User extends BaseClass {
 				$pageSQL = " LIMIT $page, $limit ";
 			}
 
-			$q = mysqli_query($db, "SELECT * FROM User where commander = $this->id ORDER BY RANK ASC  $pageSQL") or die(mysqli_error($db));
+			$q = mysqli_query($db, "SELECT * FROM `User` where commander = $this->id ORDER BY `rank` ASC $pageSQL") or die(mysqli_error($db));
 			while ($u = mysqli_fetch_object($q, 'User')) {
 				$ret[] = $u;
 			}
