@@ -10,18 +10,18 @@ if (!$incron) {
 	session_start();
 	session_regenerate_id(false);
 	$alert = '';
-	$red = "http://www.google.com/search?hl=en&q=STOP+REFRESHING+the+server+is+down";
+/*	$red = "http://www.google.com/search?hl=en&q=STOP+REFRESHING+the+server+is+down";
 	$loadavg = file_get_contents('/proc/loadavg');
 	$loads = explode(' ', $loadavg);
-	if ($loads[0] > 12 AND !$_SESSION[admin]) {
+	if ($loads[0] > 12 AND !$_SESSION['admin']) {
 		$red = "http://www.google.com/search?hl=en&q=STOP+REFRESHING+the+server+is+down&btnG=Google+Search";
 		header("Location: $red");
 		exit();
-	}
+	}*/
 }
 include 'conf.php';
-include 'weaps.php';
 include 'db.php';
+include 'weaps.php';
 include 'anticheat.php';
 include 'class_email.php';
 $cgi = array();
@@ -129,6 +129,7 @@ function valchar($uname) { //Makes sure there is no SQL injection (One word leng
 	}
 }
 function isLogined($uname, $psword) {
+	global $conf, $db;
 	$psword = md5($psword);
 	if (!valchar($uname)) {
 		return;
@@ -139,7 +140,7 @@ function isLogined($uname, $psword) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -148,6 +149,7 @@ function isLogined($uname, $psword) {
 	}
 }
 function getUserByUniqId($uniqueLink, $fields = " ID ") {
+	global $conf, $db;
 	if (!valchar($uniqueLink)) {
 		return;
 	}
@@ -158,7 +160,7 @@ function getUserByUniqId($uniqueLink, $fields = " ID ") {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -168,6 +170,7 @@ function getUserByUniqId($uniqueLink, $fields = " ID ") {
 	}
 }
 function getUserDetailsByName($name, $fields = " ID ") {
+	global $conf, $db;
 	if (!valchar($name)) {
 		return;
 	}
@@ -178,7 +181,7 @@ function getUserDetailsByName($name, $fields = " ID ") {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -188,6 +191,7 @@ function getUserDetailsByName($name, $fields = " ID ") {
 	}
 }
 function getUserDetailsByEmail($email, $fields = " ID ") {
+	global $conf, $db;
 	$str = "select $fields from `UserDetails` where  email='$email' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -195,7 +199,7 @@ function getUserDetailsByEmail($email, $fields = " ID ") {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -205,6 +209,7 @@ function getUserDetailsByEmail($email, $fields = " ID ") {
 	}
 }
 function getUserDetails($id, $fields = "*") {
+	global $conf, $db;
 	if (!valchar($id)) {
 		return;
 	}
@@ -218,7 +223,7 @@ function getUserDetails($id, $fields = "*") {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		/*if($st->alliance){
@@ -240,7 +245,7 @@ function getUserDetails($id, $fields = "*") {
 	}
 }
 function getUserIncome($user) {
-	global $conf;
+	global $conf, $db;
 	$income = 0;
 	$income+= $user->sasoldiers;
 	$income+= $user->dasoldiers;
@@ -312,7 +317,7 @@ function getWeaponArray($weaponA1) {
 	return $weaponA;
 }
 function getStrikeAction($user) {
-	global $conf, $allow_bonuses;
+	global $conf, $allow_bonuses, $db;
 	$q = mysqli_query($db, "SELECT a.SA,u.aaccepted FROM alliances a,UserDetails u WHERE u.alliance=a.ID AND u.ID={$user->ID}") or die(mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	mysqli_free_result($q);
@@ -328,7 +333,7 @@ function getStrikeAction($user) {
 	return (float)round((($r[0] * $wepAlloc['mercW'] * 50) + ($r[0] * $wepAlloc['trainedW'] * 20) + ($r[0] * $wepAlloc["untrainedW"] * 3) + ($wepAlloc["mercUnW"] * $user->hhlevel) + ($wepAlloc["untrainedUnW"] * $user->hhlevel) + ($wepAlloc["trainedUnW"] * 2 * $user->hhlevel)) * pow(1.25, $user->salevel + 1) * (1 + ($conf["sabonus{$user->race}"])) + $user->sasoldiers + $user->samercs + $user->uu) * (1 + (float)$user->SABONUS);
 }
 function getDefenseAction($user) {
-	global $conf, $allow_bonuses;
+	global $conf, $allow_bonuses, $db;
 	$q = mysqli_query($db, "SELECT a.DA,u.aaccepted FROM alliances a,UserDetails u WHERE u.alliance=a.ID AND u.ID={$user->ID}") or die(mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	mysqli_free_result($q);
@@ -347,7 +352,7 @@ function getDefenseAction($user) {
 	return $part1 + $part2;
 }
 function getCovertAction($user) {
-	global $conf, $allow_bonuses;
+	global $conf, $allow_bonuses, $db;
 	$num = 0;
 	if (!$user->spies) {
 		return 0;
@@ -364,7 +369,7 @@ function getCovertAction($user) {
 	return (float)round($num * (1 + $user->CABONUS)) + $user->spies;
 }
 function getRetaliationAction($user) {
-	global $conf, $allow_bonuses;
+	global $conf, $allow_bonuses, $db;
 	if (!$user->specialforces) {
 		return 0;
 	}
@@ -380,6 +385,7 @@ function getRetaliationAction($user) {
 	return (float)round($ra * (1 + ($conf["rabonus{$user->race}"])) * (1 + $user->RABONUS)) + $user->specialforces;
 }
 function updateUserStats($user) {
+	global $conf, $db;
 	$user = getUserDetails($user->ID, "ID,race,alliance,specialforces,sflevel,spies,calevel,dalevel,salevel,sasoldiers,samercs,dasoldiers,damercs,uu,hhlevel");
 	$str = "UPDATE UserDetails SET SA='" . getStrikeAction($user) . "',
 								DA='" . getDefenseAction($user) . "',
@@ -388,6 +394,7 @@ function updateUserStats($user) {
 	mysqli_query($db, $str) or die(mysqli_error($db));
 }
 function setWeapon($id, $fields) {
+	global $conf, $db;
 	if (!valchar($id)) {
 		return;
 	}
@@ -400,6 +407,7 @@ function setWeapon($id, $fields) {
 	}
 }
 function delWeapon($id) {
+	global $conf, $db;
 	$str = "DELETE FROM  `Weapon` WHERE ID='$id'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -409,6 +417,7 @@ function delWeapon($id) {
 	}
 }
 function getUserAllWeapon($user) {
+	global $conf, $db;
 	$str = "SELECT * FROM `Weapon` Where  userID='{$user->ID}' ORDER BY `weaponStrength` DESC ";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -416,7 +425,7 @@ function getUserAllWeapon($user) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -429,6 +438,7 @@ function getUserAllWeapon($user) {
 	}
 }
 function getUserWeapon($user, $order = "weaponStrength") {
+	global $conf, $db;
 	$str = "SELECT * FROM `Weapon` Where isAttack='1' and  userID='{$user->ID}' ORDER BY `$order` DESC ";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -436,10 +446,10 @@ function getUserWeapon($user, $order = "weaponStrength") {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -449,6 +459,7 @@ function getUserWeapon($user, $order = "weaponStrength") {
 	}
 }
 function getDefUserWeapon($user, $order = "weaponStrength") {
+	global $conf, $db;
 	$str = "SELECT * FROM `Weapon` Where isAttack='0' and  userID='{$user->ID}' ORDER BY `$order` DESC";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -456,10 +467,10 @@ function getDefUserWeapon($user, $order = "weaponStrength") {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -481,6 +492,7 @@ function getTotalFightingForce($user) {
 	return $count;
 }
 function getActiveUsers($fields = "*") {
+	global $conf, $db;
 	$str = "SELECT $fields FROM `UserDetails` WHERE active='1'";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -489,7 +501,7 @@ function getActiveUsers($fields = "*") {
 		echo ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -503,6 +515,7 @@ function getActiveUsers($fields = "*") {
 	}
 }
 function getActiveUsers2($fields = "*") {
+	global $conf, $db;
 	$str = "SELECT $fields FROM UserDetails,Ranks WHERE UserDetails.active='1' and Ranks.userID=UserDetails.ID";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -511,7 +524,7 @@ function getActiveUsers2($fields = "*") {
 		echo ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -525,7 +538,7 @@ function getActiveUsers2($fields = "*") {
 	}
 }
 function getRanksList($page) {
-	global $conf;
+	global $conf, $db;
 	$start = ($page - 1) * $conf['users_per_page'];
 	$str = "SELECT  userID,rank FROM `Ranks` WHERE rank!=0  ORDER BY `rank` ASC LIMIT $start,{$conf['users_per_page']}  ";
 	//print $str;
@@ -534,7 +547,7 @@ function getRanksList($page) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -547,7 +560,7 @@ function getRanksList($page) {
 	}
 }
 function getRanksUsersList($page, $fields = " ID, userName,sasoldiers ,samercs ,dasoldiers ,dasoldiers ,uu, spies,specialforces,scientists, race ,gold,salevel,alliance,aaccepted,CA ") {
-	//global $conf;
+	global $conf, $db;
 	$users = getRanksList($page);
 	for ($i = 0;$i < count($users);$i++) {
 		$usersA[$i] = getUserDetails($users[$i]->userID, $fields);
@@ -556,7 +569,7 @@ function getRanksUsersList($page, $fields = " ID, userName,sasoldiers ,samercs ,
 	return $usersA;
 }
 function getRanksUsersList2($page) {
-	global $conf;
+	global $conf, $db;
 	$start = ($page - 1) * $conf['users_per_page'];
 	$SQL = " SELECT Ranks.rank,UserDetails.ID, UserDetails.userName ,UserDetails.sasoldiers ,UserDetails.samercs ,";
 	$SQL.= " UserDetails.dasoldiers , UserDetails.aaccepted, UserDetails.dasoldiers ,UserDetails.uu, UserDetails.alliance, UserDetails.spies,UserDetails.specialforces, UserDetails.race ,UserDetails.gold,UserDetails.calevel,";
@@ -566,7 +579,7 @@ function getRanksUsersList2($page) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -579,6 +592,7 @@ function getRanksUsersList2($page) {
 	}
 }
 function searchRanksUsersListCount($str) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `UserDetails`,`Ranks` WHERE UserDetails.ID = Ranks.userID AND rank<>0  AND UserDetails.active='1' AND userName LIKE '$str' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -594,7 +608,7 @@ function searchRanksUsersListCount($str) {
 	}
 }
 function searchRanksUsersList($page, $str, $fields = " UserDetails.ID, userName ,sasoldiers ,samercs ,dasoldiers ,damercs ,uu, calevel,alliance,spies,specialforces, race ,gold, rank,CA,aaccepted ") {
-	global $conf;
+	global $conf, $db;
 	$start = ($page - 1) * $conf['users_per_page'];
 	$str = "SELECT  $fields FROM `UserDetails`,`Ranks` WHERE UserDetails.ID = Ranks.userID AND rank<>0 AND UserDetails.active='1' AND userName LIKE '$str'  ORDER BY `rank` ASC LIMIT $start,{$conf['users_per_page']}  ";
 	//print $str;
@@ -603,7 +617,7 @@ function searchRanksUsersList($page, $str, $fields = " UserDetails.ID, userName 
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -617,6 +631,7 @@ function searchRanksUsersList($page, $str, $fields = " UserDetails.ID, userName 
 	}
 }
 function getUserRanks($id) {
+	global $conf, $db;
 	$str = "select * from `Ranks` where  userID='$id' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -624,7 +639,8 @@ function getUserRanks($id) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	$st = (OBject) [];
+	if (!mysqli_num_rows($q)) {
 		$st->rank = 'unranked';
 		$st->sarank = 'unranked';
 		$st->darank = 'unranked';
@@ -653,6 +669,7 @@ function getUserRanks($id) {
 	}
 }
 function createUser($userName, $race, $email, $password, $commander, $active = 0, $uniqueLink = "", $dalevel = 0, $salevel = 0, $gold = 50000, $lastturntime = 0, $attackturns = 30, $up = 0, $calevel = 0, $sasoldiers = 0, $samercs = 0, $dasoldiers = 0, $damercs = 0, $uu = 200, $spies = 0) {
+	global $conf, $db;
 	if (!$lastturntime) {
 		$lastturntime = time();
 	}
@@ -678,6 +695,7 @@ function createUser($userName, $race, $email, $password, $commander, $active = 0
 	return $password;
 }
 function getActiveUsersCount() {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `UserDetails` where active='1'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -691,7 +709,7 @@ function getActiveUsersCount() {
 	
 }
 function getOnlineUsersCount() {
-	global $conf;
+	global $conf, $db;
 	$time = time() - $conf["minutes_per_turn"] * 60;
 	$str = "SELECT COUNT(*) FROM `UserDetails` where lastturntime>'$time' and active='1'";
 	//echo time()."<br>";
@@ -707,7 +725,7 @@ function getOnlineUsersCount() {
 	
 }
 function getOnlineUsers() {
-	global $conf;
+	global $conf, $db;
 	$time = time() - $conf["minutes_per_turn"] * 60;
 	$str = "SELECT * FROM UserDetails,Ranks where UserDetails.lastturntime>'$time' and UserDetails.active='1' AND UserDetails.ID=Ranks.UserID ORDER BY Ranks.rank ASC";
 	//echo time()."<br>";
@@ -728,7 +746,7 @@ function getOnlineUsers() {
 	
 }
 function getOldUsers() {
-	global $conf;
+	global $conf, $db;
 	$time = time() - $conf["days_of_inactivity_before_delete_this_user"] * 24 * 60 * 60;
 	$str = "SELECT ID, active FROM `UserDetails` where lastturntime<'$time'";
 	$q = mysqli_query($db, $str);
@@ -736,7 +754,7 @@ function getOldUsers() {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -749,7 +767,7 @@ function getOldUsers() {
 	}
 }
 function deleteoldusers() {
-	global $conf;
+	global $conf, $db;
 	$time = time() - 5 * 24 * 60 * 60; //$conf["days_of_inactivity_before_delete_this_user"]*24*60*60;
 	$users = getOldUsers();
 	$i = count($users);
@@ -759,6 +777,7 @@ function deleteoldusers() {
 	return;
 }
 function updateUser($id, $str) {
+	global $conf, $db;
 	$str = "update `UserDetails` set $str WHERE ID='$id' ";
 	//echo "$str<br>";
 	$q = mysqli_query($db, $str);
@@ -769,6 +788,7 @@ function updateUser($id, $str) {
 	return $q;
 }
 function updateMercenary($str) {
+	global $conf, $db;
 	$str = "update `Mercenaries` set $str  ";
 	//echo "$str<br>";
 	$q = mysqli_query($db, $str);
@@ -778,6 +798,7 @@ function updateMercenary($str) {
 	}
 }
 function setUserRank($id, $rank, $sarank, $darank, $carank, $rarank) {
+	global $conf, $db;
 	$str = "update `Ranks` SET rank='$rank' , 
 	sarank='$sarank', 
 	darank='$darank', 
@@ -797,6 +818,7 @@ function setLastTurnTime($date) {
 	updateMercenary(" lastturntime = '$date' ");
 }
 function deleteUserWeapon($id, $weaponID = "") {
+	global $conf, $db;
 	if ($weaponID) {
 		$str2 = " AND weaponID='$weaponID' ";
 	}
@@ -809,6 +831,7 @@ function deleteUserWeapon($id, $weaponID = "") {
 	}
 }
 function clearRanks($id) {
+	global $conf, $db;
 	$str = "update `Ranks` set rank ='0', sarank  ='0',darank   ='0',carank   ='0',rarank='0' WHERE userID='$id' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -818,6 +841,7 @@ function clearRanks($id) {
 	}
 }
 function deleteUser($id) {
+	global $conf, $db;
 	//$str = "DELETE FROM  `UserDetails` WHERE ID='$id'";
 	$str = "update `UserDetails` set active=2,commander=0 WHERE ID='$id'";
 	//echo $str;
@@ -832,7 +856,7 @@ function addTurns($id, $addTurns, $lastturntime) {
 	mysqli_query($db, $str);
 }
 function getNextTurn($user) {
-	global $conf;
+	global $conf, $db;
 	$info = getCommonInfo();
 	$lastturntime = $info->lastturntime;
 	$thisTime = time();
@@ -854,6 +878,7 @@ function getNextTurn($user) {
 	return $timeTurn;
 }
 function getCommonInfo() {
+	global $conf, $db;
 	$str = "select * from `Mercenaries`";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -861,7 +886,7 @@ function getCommonInfo() {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -874,7 +899,7 @@ include ('message.functions.php');
 //----------------------------END Messages-----------------------------------------------
 //----------------------------Officers-----------------------------------------------
 function getOfficers($id, $page, $fields = "userID,userName, rank, sasoldiers,samercs ,dasoldiers ,damercs ,uu, spies, race,accepted,lastturntime") {
-	global $conf;
+	global $conf, $db;
 	$start = ($page - 1) * $conf['users_per_page'];
 	$str = "SELECT *  FROM `UserDetails`,`Ranks` WHERE Ranks.userID=UserDetails.ID  AND commander='$id' AND Ranks.active='1' AND rank<>'0' ORDER BY `rank` ASC LIMIT $start,{$conf['users_per_page']}  ";
 	//print $str;
@@ -883,7 +908,7 @@ function getOfficers($id, $page, $fields = "userID,userName, rank, sasoldiers,sa
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -896,6 +921,7 @@ function getOfficers($id, $page, $fields = "userID,userName, rank, sasoldiers,sa
 	}
 }
 function getOfficersCount($id) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `UserDetails`,`Ranks` where Ranks.userID=UserDetails.ID AND commander='$id' AND Ranks.active='1' AND rank<>'0'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -974,6 +1000,7 @@ function genUniqueTxt($n) {
 //-----------------------------End Convertions--------------------------------------------
 //------------------------------Security---------------------------------------------
 function addIP($ip, $userID) {
+	global $conf, $db;
 	$time = time();
 	$str = "INSERT INTO `IPs` (ip,userID,time) VALUES ('$ip','$userID','$time') ";
 	$q = mysqli_query($db, $str);
@@ -983,7 +1010,8 @@ function addIP($ip, $userID) {
 	}
 }
 function isIP($ip) {
-	return 0;
+	global $conf, $db;
+	//return 0;
 	$str = "SELECT * FROM `IPs` WHERE ip='$ip' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -999,6 +1027,7 @@ function isIP($ip) {
 	}
 }
 function isIPandUser($ip, $id) {
+	global $conf, $db;
 	$str = "SELECT * FROM `IPs` WHERE ip='$ip' AND userID='$id' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1014,6 +1043,7 @@ function isIPandUser($ip, $id) {
 	}
 }
 function isIPNewerThen($ip, $time) {
+	global $conf, $db;
 	//return 0;
 	$time = time() - $time;
 	$str = "SELECT * FROM `IPs` WHERE ip='$ip' AND time>'$time' ";
@@ -1031,6 +1061,7 @@ function isIPNewerThen($ip, $time) {
 	}
 }
 function getIP($id) {
+	global $conf, $db;
 	$str = "select * from `IPs` where  userID='$id' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1038,7 +1069,7 @@ function getIP($id) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -1047,6 +1078,7 @@ function getIP($id) {
 	}
 }
 function getUserIPs($id) {
+	global $conf, $db;
 	$str = "SELECT * FROM `IPs` Where  userID='$id' ORDER BY `time` DESC ";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -1054,7 +1086,7 @@ function getUserIPs($id) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -1067,6 +1099,7 @@ function getUserIPs($id) {
 	}
 }
 function deleteIP($id) {
+	global $conf, $db;
 	$str = "DELETE FROM  `IPs` WHERE userID='$id'";
 	//echo $str;
 	//$q = mysqli_query($db, $str);
@@ -1074,6 +1107,7 @@ function deleteIP($id) {
 	
 }
 function deleteIPByIP($ip) {
+	global $conf, $db;
 	$str = "DELETE FROM  `IPs` WHERE ip='$ip'";
 	//echo $str;
 	//$q = mysqli_query($db, $str);
@@ -1081,6 +1115,7 @@ function deleteIPByIP($ip) {
 	
 }
 function deleteIPByID($id) {
+	global $conf, $db;
 	$str = "DELETE FROM  `IPs` WHERE ID='$id'";
 	//echo $str;
 	//$q = mysqli_query($db, $str);
@@ -1095,6 +1130,7 @@ function logIP($id) {
 //------------------------------END Security---------------------------------------------
 //-----------------------------Attack---------------------------------------------------
 function getAttackCount($userID) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `AttackLog` where userID='$userID' ";
 	$q = mysqli_query($db, $str);
 	if ($q) {
@@ -1105,6 +1141,7 @@ function getAttackCount($userID) {
 	}
 }
 function getDefenceCount($userID) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `AttackLog` where toUserID='$userID' ";
 	$q = mysqli_query($db, $str);
 	if ($q) {
@@ -1115,6 +1152,7 @@ function getDefenceCount($userID) {
 	}
 }
 function getAllAttacks($userID) {
+	global $conf, $db;
 	$str = "SELECT * FROM `AttackLog` WHERE userID='$userID'";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -1122,7 +1160,7 @@ function getAllAttacks($userID) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -1135,6 +1173,7 @@ function getAllAttacks($userID) {
 	}
 }
 function getAllDefences($userID) {
+	global $conf, $db;
 	$str = "SELECT * FROM `AttackLog` WHERE toUserID='$userID'";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -1142,7 +1181,7 @@ function getAllDefences($userID) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -1155,6 +1194,7 @@ function getAllDefences($userID) {
 	}
 }
 function getAttack($id) {
+	global $conf, $db;
 	$str = "select * from `AttackLog` where  ID='$id' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1162,7 +1202,7 @@ function getAttack($id) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -1171,6 +1211,7 @@ function getAttack($id) {
 	}
 }
 function getAttackByAttackerCount($id) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `AttackLog` where  userID='$id'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1186,7 +1227,7 @@ function getAttackByAttackerCount($id) {
 	}
 }
 function getAttackByAttacker($id, $page) {
-	global $conf;
+	global $conf, $db;
 	$start = ($page - 1) * $conf['users_per_page_on_attack_log'];
 	//ORDER BY `rank` ASC LIMIT $start,{$conf['users_per_page']}
 	$str = "select * from `AttackLog` where  userID='$id' ORDER BY `time` DESC LIMIT $start,{$conf['users_per_page_on_attack_log']}";
@@ -1196,7 +1237,7 @@ function getAttackByAttacker($id, $page) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -1209,6 +1250,7 @@ function getAttackByAttacker($id, $page) {
 	}
 }
 function getAttackByDefenderCount($id) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `AttackLog` where  toUserID='$id'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1224,12 +1266,12 @@ function getAttackByDefenderCount($id) {
 	}
 }
 function getAttackByDefender($id, $page) {
-	global $conf;
+	global $conf, $db;
 	$start = ($page - 1) * $conf['users_per_page_on_attack_log'];
 	$str = "select * from `AttackLog` where  toUserID ='$id' ORDER BY `time` DESC LIMIT $start,{$conf['users_per_page_on_attack_log']}";
 	//echo $str;
 	$q = mysqli_query($db, $str);
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
 		$st = "";
@@ -1242,6 +1284,7 @@ function getAttackByDefender($id, $page) {
 	}
 }
 function getAttackByUser1User2AndTime($User1, $User2, $time, $fields = "*") {
+	global $conf, $db;
 	$str = "select $fields from `AttackLog` where  userID='$User1' AND toUserID='$User2' AND time='$time' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1249,7 +1292,7 @@ function getAttackByUser1User2AndTime($User1, $User2, $time, $fields = "*") {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -1258,6 +1301,7 @@ function getAttackByUser1User2AndTime($User1, $User2, $time, $fields = "*") {
 	}
 }
 function addAttack($id, $toid, $fields, $values) {
+	global $conf, $db;
 	$text = urlencode($text);
 	$subject = urlencode($subject);
 	$date = time();
@@ -1267,15 +1311,18 @@ function addAttack($id, $toid, $fields, $values) {
 	return $q;
 }
 function deleteAttack($id) {
+	global $conf, $db;
 	$str = "DELETE FROM  `AttackLog` WHERE ID='$id'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
 }
 function deleteOldAttacks() {
+	global $conf, $db;
 	$time = time() - $conf["days_to_hold_logs"] * 24 * 60 * 60;
 	$str = "DELETE FROM  `AttackLog` where time<'$time'";
 }
 function deleteAttacksOfUser($userID) {
+	global $conf, $db;
 	$str = "DELETE FROM  `AttackLog` WHERE userID='$userID'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1283,6 +1330,7 @@ function deleteAttacksOfUser($userID) {
 //-----------------------------End Attack---------------------------------------------------
 //-----------------------------Spy---------------------------------------------------
 function getSpyCount($userID) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `SpyLog` where userID='$userID' ";
 	$q = mysqli_query($db, $str);
 	if ($q) {
@@ -1293,6 +1341,7 @@ function getSpyCount($userID) {
 	}
 }
 function getSpyDefenceCount($userID) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `SpyLog` where toUserID='$userID' ";
 	$q = mysqli_query($db, $str);
 	if ($q) {
@@ -1303,6 +1352,7 @@ function getSpyDefenceCount($userID) {
 	}
 }
 function getAllSpys($userID) {
+	global $conf, $db;
 	$str = "SELECT * FROM `SpyLog` WHERE userID='$userID'";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -1323,6 +1373,7 @@ function getAllSpys($userID) {
 	}
 }
 function getAllSpyDefences($userID) {
+	global $conf, $db;
 	$str = "SELECT * FROM `SpyLog` WHERE toUserID='$userID'";
 	//print $str;
 	$q = mysqli_query($db, $str);
@@ -1343,6 +1394,7 @@ function getAllSpyDefences($userID) {
 	}
 }
 function getSpy($id) {
+	global $conf, $db;
 	$str = "select * from `SpyLog` where  ID='$id' ";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1359,6 +1411,7 @@ function getSpy($id) {
 	}
 }
 function getSpyBySpyerCount($id) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `SpyLog` where  userID='$id'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1374,7 +1427,7 @@ function getSpyBySpyerCount($id) {
 	}
 }
 function getSpyBySpyer($id, $page) {
-	global $conf;
+	global $conf, $db;
 	$start = ($page - 1) * $conf['users_per_page'];
 	//ORDER BY `rank` ASC LIMIT $start,{$conf['users_per_page']}
 	$str = "select * from `SpyLog` where  userID='$id' ORDER BY `time` DESC LIMIT $start,{$conf['users_per_page']}";
@@ -1397,6 +1450,7 @@ function getSpyBySpyer($id, $page) {
 	}
 }
 function getSpyByDefenderCount($id) {
+	global $conf, $db;
 	$str = "SELECT COUNT(*) FROM `SpyLog` where  toUserID='$id' AND isSuccess='0'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1412,7 +1466,7 @@ function getSpyByDefenderCount($id) {
 	}
 }
 function getSpyByDefender($id, $page) {
-	global $conf;
+	global $conf, $db;
 	$start = ($page - 1) * $conf['users_per_page'];
 	$str = "select * from `SpyLog` where  toUserID ='$id' AND (isSuccess='0' OR type='1') ORDER BY `time` DESC LIMIT $start,{$conf['users_per_page']}";
 	//echo $str;
@@ -1433,6 +1487,7 @@ function getSpyByDefender($id, $page) {
 	}
 }
 function getSpyByUser1User2AndTime($User1, $User2, $time, $fields = "*") {
+	global $conf, $db;
 	$str = "select $fields from `SpyLog` where  userID='$User1' AND toUserID='$User2' AND time='$time' ";
 	//echo $str;
 	$q = mysqli_query($db, $str); //exit;
@@ -1440,13 +1495,14 @@ function getSpyByUser1User2AndTime($User1, $User2, $time, $fields = "*") {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		return mysqli_fetch_object($q);
 	}
 }
 function addSpy($id, $toid, $fields, $values) {
+	global $conf, $db;
 	$str = "INSERT INTO `SpyLog` (userID, toUserID, $fields ) VALUES ($id,$toid, $values )";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -1457,22 +1513,25 @@ function addSpy($id, $toid, $fields, $values) {
 	return $q;
 }
 function deleteSpy($id) {
+	global $conf, $db;
 	$str = "DELETE FROM  `SpyLog` WHERE ID='$id'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
 }
 function deleteOldSpyLogs() {
+	global $conf, $db;
 	$time = time() - $conf["days_to_hold_logs"] * 24 * 60 * 60;
 	$str = "DELETE FROM `SpyLog` where time<'$time'";
 }
 function deleteSpyLogsOfUser($userID) {
+	global $conf, $db;
 	$str = "DELETE FROM  `SpyLog` WHERE userID='$userID'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
 }
 //-----------------------------End Spy---------------------------------------------------
 function RepairWeaponMax($wepid, $user, $type) {
-	global $conf, $cgi, $conf_use_savings;
+	global $conf, $cgi, $conf_use_savings, $db;
 	$user = getUserDetails($user->ID, 'gold,ID');
 	$q = mysqli_query($db, "SELECT weaponCount,weaponStrength FROM Weapon WHERE weaponID='$wepid' AND userID='$user->ID' AND isAttack='$type'") or die(mysqli_error($db));
 	$r = mysqli_fetch_array($q, mysqli_ASSOC);
@@ -1499,7 +1558,7 @@ function RepairWeaponMax($wepid, $user, $type) {
 	}
 }
 function RepairWeapon($wepid, $wal, $user, $type) {
-	global $cgi, $conf_use_savings, $conf;
+	global $cgi, $conf_use_savings, $conf, $db;
 	//$wepid=ToPositive($wepid);
 	$wal = ToPositive($wal);
 	$tp = 'weapon';
@@ -1528,9 +1587,9 @@ function RepairWeapon($wepid, $wal, $user, $type) {
 function ScrapSell($wepid, $wal, $a, $user, $type) {
 	//$wepid=ToPositive($wepid);
 	$wal = ToPositive($wal);
-	global $conf;
+	global $conf, $db;
 	$q = mysqli_query($db, "select weaponCount,weaponStrength from `Weapon` where weaponID='$wepid' and userID='$user->ID' and isAttack='$type' ");
-	$el = mysqli_fetch_array($q, mysqli_ASSOC);
+	$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
 	if ($wal >= $el["weaponCount"]) {
 		$wal = $el["weaponCount"];
 	}
@@ -1553,7 +1612,7 @@ function ScrapSell($wepid, $wal, $a, $user, $type) {
 	updateUserStats($user);
 }
 function BuyWeapon($wepid, $wal, $at, $user) {
-	global $cgi, $conf_use_savings, $conf;
+	global $cgi, $conf_use_savings, $conf, $db;
 	//$wepid=ToPositive($wepid);
 	$wal = ToPositive($wal);
 	if ($at == 1) {
@@ -1568,7 +1627,7 @@ function BuyWeapon($wepid, $wal, $at, $user) {
 		if ($el['weaponCount'] >= 200000 OR ($wal + $el['weaponCount']) > 200000) {
 			return "You cannot buy anymore of that weapon";
 		}
-		if (@mysqli_num_rows($q)) {
+		if (mysqli_num_rows($q)) {
 			$q = mysqli_query($db, "update `Weapon` set weaponCount=weaponCount+'$wal' where weaponID='$wepid' and userID='$user->ID' and isAttack='$at' ");
 			$q = mysqli_query($db, "update `UserDetails` set gold=gold-'$pris' where ID='$user->ID' ");
 		} else {
@@ -1582,7 +1641,7 @@ function BuyWeapon($wepid, $wal, $at, $user) {
 		if ($el['weaponCount'] >= 200000 OR ($wal + $el['weaponCount']) > 200000) {
 			return "You cannot buy anymore of that weapon";
 		}
-		if (@mysqli_num_rows($q)) {
+		if (mysqli_num_rows($q)) {
 			$q = mysqli_query($db, "update `Weapon` set weaponCount=weaponCount+'$wal' where weaponID='$wepid' and userID='$user->ID' and isAttack='$at' ");
 			$q = mysqli_query($db, "update `UserDetails` set savings=savings-'$pris' where ID='$user->ID' ");
 		} else {
@@ -1595,7 +1654,7 @@ function BuyWeapon($wepid, $wal, $at, $user) {
 	}
 }
 function Upgrade($user, $type, $wtd) {
-	global $cgi, $conf_use_savings, $conf;
+	global $cgi, $conf_use_savings, $conf, $db;
 	$user = getUserDetails($user->ID);
 	if ($wtd == 'No more upgrades available') return;
 	else {
@@ -1627,7 +1686,7 @@ function Upgrade($user, $type, $wtd) {
 	}
 }
 function Train($user, $wal, $type) {
-	global $cgi, $conf_use_savings;
+	global $cgi, $conf_use_savings, $db;
 	$wal = ToPositive($wal);
 	$nogold = "Not enough gold!";
 	$nosold = "Not enough untrained soldies!";
@@ -1796,7 +1855,7 @@ function Train($user, $wal, $type) {
 	}
 }
 function Trainupgrade($user, $type) {
-	global $cgi, $conf_use_savings;
+	global $cgi, $conf_use_savings, $db;
 	$user = getUserDetails($_SESSION["isLogined"], 'ID,calevel,gold,race,up,savings,sflevel,maxofficers,exp,bankper,weapper,hhlevel,nukelevel,scientists');
 	if ($type == 'spy') {
 		$pris = pow(2, $user->calevel) * 12000;

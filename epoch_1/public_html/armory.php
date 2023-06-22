@@ -43,350 +43,350 @@ if ($user->supporter > 0 and $cgi['maxall']) {
 	RepairWeaponMax(1, $user, 9);
 	$user = getUserDetails($_SESSION['isLogined']);
 }
-if ($cgi[doatrepair]) {
-	if ($cgi[atrepair0]) {
+if ($cgi['doatrepair']) {
+	if ($cgi['atrepair0']) {
 		$wepid = 0;
-		$wal = $cgi[atrepair0];
+		$wal = $cgi['atrepair0'];
 	}
-	if ($cgi[atrepair1]) {
+	if ($cgi['atrepair1']) {
 		$wepid = 1;
-		$wal = $cgi[atrepair1];
+		$wal = $cgi['atrepair1'];
 	}
-	if ($cgi[atrepair2]) {
+	if ($cgi['atrepair2']) {
 		$wepid = 2;
-		$wal = $cgi[atrepair2];
+		$wal = $cgi['atrepair2'];
 	}
-	if ($cgi[atrepair3]) {
+	if ($cgi['atrepair3']) {
 		$wepid = 3;
-		$wal = $cgi[atrepair3];
+		$wal = $cgi['atrepair3'];
 	}
-	if ($cgi[atrepair4]) {
+	if ($cgi['atrepair4']) {
 		$wepid = 4;
-		$wal = $cgi[atrepair4];
+		$wal = $cgi['atrepair4'];
 	}
-	if ($cgi[atrepair5]) {
+	if ($cgi['atrepair5']) {
 		$wepid = 5;
-		$wal = $cgi[atrepair5];
+		$wal = $cgi['atrepair5'];
 	}
-	if ($cgi[atrepair6]) {
+	if ($cgi['atrepair6']) {
 		$wepid = 6;
-		$wal = $cgi[atrepair6];
+		$wal = $cgi['atrepair6'];
 	}
-	if ($cgi[atrepair7]) {
+	if ($cgi['atrepair7']) {
 		$wepid = 7;
-		$wal = $cgi[atrepair7];
+		$wal = $cgi['atrepair7'];
 	}
-	if ($cgi[atrepair8]) {
+	if ($cgi['atrepair8']) {
 		$wepid = 8;
-		$wal = $cgi[atrepair8];
+		$wal = $cgi['atrepair8'];
 	}
-	if ($cgi[atrepair9]) {
+	if ($cgi['atrepair9']) {
 		$wepid = 9;
-		$wal = $cgi[atrepair9];
+		$wal = $cgi['atrepair9'];
 	}
 	$detail = RepairWeapon($wepid, $wal, $user, 1);
 	header("Location: armory.php?strErr=$detail");
 }
-if ($cgi[doatrepairmax]) {
-	if ($cgi[doatrepairmax_points0]) {
+if ($cgi['doatrepairmax']) {
+	if ($cgi['doatrepairmax_points0']) {
 		$wepid = 0;
-		$wal = $cgi[doatrepairmax_points0];
+		$wal = $cgi['doatrepairmax_points0'];
 	}
-	if ($cgi[doatrepairmax_points1]) {
+	if ($cgi['doatrepairmax_points1']) {
 		$wepid = 1;
-		$wal = $cgi[doatrepairmax_points1];
+		$wal = $cgi['doatrepairmax_points1'];
 	}
-	if ($cgi[doatrepairmax_points2]) {
+	if ($cgi['doatrepairmax_points2']) {
 		$wepid = 2;
-		$wal = $cgi[doatrepairmax_points2];
+		$wal = $cgi['doatrepairmax_points2'];
 	}
-	if ($cgi[doatrepairmax_points3]) {
+	if ($cgi['doatrepairmax_points3']) {
 		$wepid = 3;
-		$wal = $cgi[doatrepairmax_points3];
+		$wal = $cgi['doatrepairmax_points3'];
 	}
-	if ($cgi[doatrepairmax_points4]) {
+	if ($cgi['doatrepairmax_points4']) {
 		$wepid = 4;
-		$wal = $cgi[doatrepairmax_points4];
+		$wal = $cgi['doatrepairmax_points4'];
 	}
-	if ($cgi[doatrepairmax_points5]) {
+	if ($cgi['doatrepairmax_points5']) {
 		$wepid = 5;
-		$wal = $cgi[doatrepairmax_points5];
+		$wal = $cgi['doatrepairmax_points5'];
 	}
-	if ($cgi[doatrepairmax_points6]) {
+	if ($cgi['doatrepairmax_points6']) {
 		$wepid = 6;
-		$wal = $cgi[doatrepairmax_points6];
+		$wal = $cgi['doatrepairmax_points6'];
 	}
-	if ($cgi[doatrepairmax_points7]) {
+	if ($cgi['doatrepairmax_points7']) {
 		$wepid = 7;
-		$wal = $cgi[doatrepairmax_points7];
+		$wal = $cgi['doatrepairmax_points7'];
 	}
-	if ($cgi[doatrepairmax_points8]) {
+	if ($cgi['doatrepairmax_points8']) {
 		$wepid = 8;
-		$wal = $cgi[doatrepairmax_points8];
+		$wal = $cgi['doatrepairmax_points8'];
 	}
-	if ($cgi[doatrepairmax_points9]) {
+	if ($cgi['doatrepairmax_points9']) {
 		$wepid = 9;
-		$wal = $cgi[doatrepairmax_points9];
+		$wal = $cgi['doatrepairmax_points9'];
 	}
 	$detail = RepairWeapon($wepid, $wal, $user, 1);
 	header("Location: armory.php?strErr=$detail");
 }
-if ($cgi[dodefrepair]) {
-	if ($cgi[defrepair0]) {
+if ($cgi['dodefrepair']) {
+	if ($cgi['defrepair0']) {
 		$wepid = 0;
-		$wal = $cgi[defrepair0];
+		$wal = $cgi['defrepair0'];
 	}
-	if ($cgi[defrepair1]) {
+	if ($cgi['defrepair1']) {
 		$wepid = 1;
-		$wal = $cgi[defrepair1];
+		$wal = $cgi['defrepair1'];
 	}
-	if ($cgi[defrepair2]) {
+	if ($cgi['defrepair2']) {
 		$wepid = 2;
-		$wal = $cgi[defrepair2];
+		$wal = $cgi['defrepair2'];
 	}
-	if ($cgi[defrepair3]) {
+	if ($cgi['defrepair3']) {
 		$wepid = 3;
-		$wal = $cgi[defrepair3];
+		$wal = $cgi['defrepair3'];
 	}
-	if ($cgi[defrepair4]) {
+	if ($cgi['defrepair4']) {
 		$wepid = 4;
-		$wal = $cgi[defrepair4];
+		$wal = $cgi['defrepair4'];
 	}
-	if ($cgi[defrepair5]) {
+	if ($cgi['defrepair5']) {
 		$wepid = 5;
-		$wal = $cgi[defrepair5];
+		$wal = $cgi['defrepair5'];
 	}
-	if ($cgi[defrepair6]) {
+	if ($cgi['defrepair6']) {
 		$wepid = 6;
-		$wal = $cgi[defrepair6];
+		$wal = $cgi['defrepair6'];
 	}
-	if ($cgi[defrepair7]) {
+	if ($cgi['defrepair7']) {
 		$wepid = 7;
-		$wal = $cgi[defrepair7];
+		$wal = $cgi['defrepair7'];
 	}
-	if ($cgi[defrepair8]) {
+	if ($cgi['defrepair8']) {
 		$wepid = 8;
-		$wal = $cgi[defrepair8];
+		$wal = $cgi['defrepair8'];
 	}
-	if ($cgi[defrepair9]) {
+	if ($cgi['defrepair9']) {
 		$wepid = 9;
-		$wal = $cgi[defrepair9];
+		$wal = $cgi['defrepair9'];
 	}
 	$detail = RepairWeapon($wepid, $wal, $user, 0);
 	header("Location: armory.php?strErr=$detail");
 }
-if ($cgi[dodefrepairmax]) {
-	if ($cgi[dodefrepairmax_points0]) {
+if ($cgi['dodefrepairmax']) {
+	if ($cgi['dodefrepairmax_points0']) {
 		$wepid = 0;
-		$wal = $cgi[dodefrepairmax_points0];
+		$wal = $cgi['dodefrepairmax_points0'];
 	}
-	if ($cgi[dodefrepairmax_points1]) {
+	if ($cgi['dodefrepairmax_points1']) {
 		$wepid = 1;
-		$wal = $cgi[dodefrepairmax_points1];
+		$wal = $cgi['dodefrepairmax_points1'];
 	}
-	if ($cgi[dodefrepairmax_points2]) {
+	if ($cgi['dodefrepairmax_points2']) {
 		$wepid = 2;
-		$wal = $cgi[dodefrepairmax_points2];
+		$wal = $cgi['dodefrepairmax_points2'];
 	}
-	if ($cgi[dodefrepairmax_points3]) {
+	if ($cgi['dodefrepairmax_points3']) {
 		$wepid = 3;
-		$wal = $cgi[dodefrepairmax_points3];
+		$wal = $cgi['dodefrepairmax_points3'];
 	}
-	if ($cgi[dodefrepairmax_points4]) {
+	if ($cgi['dodefrepairmax_points4']) {
 		$wepid = 4;
-		$wal = $cgi[dodefrepairmax_points4];
+		$wal = $cgi['dodefrepairmax_points4'];
 	}
-	if ($cgi[dodefrepairmax_points5]) {
+	if ($cgi['dodefrepairmax_points5']) {
 		$wepid = 5;
-		$wal = $cgi[dodefrepairmax_points5];
+		$wal = $cgi['dodefrepairmax_points5'];
 	}
-	if ($cgi[dodefrepairmax_points6]) {
+	if ($cgi['dodefrepairmax_points6']) {
 		$wepid = 6;
-		$wal = $cgi[dodefrepairmax_points6];
+		$wal = $cgi['dodefrepairmax_points6'];
 	}
-	if ($cgi[dodefrepairmax_points7]) {
+	if ($cgi['dodefrepairmax_points7']) {
 		$wepid = 7;
-		$wal = $cgi[dodefrepairmax_points7];
+		$wal = $cgi['dodefrepairmax_points7'];
 	}
-	if ($cgi[dodefrepairmax_points8]) {
+	if ($cgi['dodefrepairmax_points8']) {
 		$wepid = 8;
-		$wal = $cgi[dodefrepairmax_points8];
+		$wal = $cgi['dodefrepairmax_points8'];
 	}
-	if ($cgi[dodefrepairmax_points9]) {
+	if ($cgi['dodefrepairmax_points9']) {
 		$wepid = 9;
-		$wal = $cgi[dodefrepairmax_points9];
+		$wal = $cgi['dodefrepairmax_points9'];
 	}
 	$detail = RepairWeapon($wepid, $wal, $user, 0);
 	header("Location: armory.php?strErr=$detail");
 }
 // Sell weapons
-if ($cgi[doatscrapsell]) {
-	if ($cgi[atscrapsell0]) {
+if ($cgi['doatscrapsell']) {
+	if ($cgi['atscrapsell0']) {
 		$wepid = 0;
-		$wal = $cgi[atscrapsell0];
+		$wal = $cgi['atscrapsell0'];
 	}
-	if ($cgi[atscrapsell1]) {
+	if ($cgi['atscrapsell1']) {
 		$wepid = 1;
-		$wal = $cgi[atscrapsell1];
+		$wal = $cgi['atscrapsell1'];
 	}
-	if ($cgi[atscrapsell2]) {
+	if ($cgi['atscrapsell2']) {
 		$wepid = 2;
-		$wal = $cgi[atscrapsell2];
+		$wal = $cgi['atscrapsell2'];
 	}
-	if ($cgi[atscrapsell3]) {
+	if ($cgi['atscrapsell3']) {
 		$wepid = 3;
-		$wal = $cgi[atscrapsell3];
+		$wal = $cgi['atscrapsell3'];
 	}
-	if ($cgi[atscrapsell4]) {
+	if ($cgi['atscrapsell4']) {
 		$wepid = 4;
-		$wal = $cgi[atscrapsell4];
+		$wal = $cgi['atscrapsell4'];
 	}
-	if ($cgi[atscrapsell5]) {
+	if ($cgi['atscrapsell5']) {
 		$wepid = 5;
-		$wal = $cgi[atscrapsell5];
+		$wal = $cgi['atscrapsell5'];
 	}
-	if ($cgi[atscrapsell6]) {
+	if ($cgi['atscrapsell6']) {
 		$wepid = 6;
-		$wal = $cgi[atscrapsell6];
+		$wal = $cgi['atscrapsell6'];
 	}
-	if ($cgi[atscrapsell7]) {
+	if ($cgi['atscrapsell7']) {
 		$wepid = 7;
-		$wal = $cgi[atscrapsell7];
+		$wal = $cgi['atscrapsell7'];
 	}
-	if ($cgi[atscrapsell8]) {
+	if ($cgi['atscrapsell8']) {
 		$wepid = 8;
-		$wal = $cgi[atscrapsell8];
+		$wal = $cgi['atscrapsell8'];
 	}
-	if ($cgi[atscrapsell9]) {
+	if ($cgi['atscrapsell9']) {
 		$wepid = 9;
-		$wal = $cgi[atscrapsell9];
+		$wal = $cgi['atscrapsell9'];
 	}
-	ScrapSell($wepid, $wal, $cgi[doscrapsell], $user, 1);
+	ScrapSell($wepid, $wal, $cgi['doscrapsell'], $user, 1);
 }
-if ($cgi[dodefscrapsell]) {
-	if ($cgi[defscrapsell0]) {
+if ($cgi['dodefscrapsell']) {
+	if ($cgi['defscrapsell0']) {
 		$wepid = 0;
-		$wal = $cgi[defscrapsell0];
+		$wal = $cgi['defscrapsell0'];
 	}
-	if ($cgi[defscrapsell1]) {
+	if ($cgi['defscrapsell1']) {
 		$wepid = 1;
-		$wal = $cgi[defscrapsell1];
+		$wal = $cgi['defscrapsell1'];
 	}
-	if ($cgi[defscrapsell2]) {
+	if ($cgi['defscrapsell2']) {
 		$wepid = 2;
-		$wal = $cgi[defscrapsell2];
+		$wal = $cgi['defscrapsell2'];
 	}
-	if ($cgi[defscrapsell3]) {
+	if ($cgi['defscrapsell3']) {
 		$wepid = 3;
-		$wal = $cgi[defscrapsell3];
+		$wal = $cgi['defscrapsell3'];
 	}
-	if ($cgi[defscrapsell4]) {
+	if ($cgi['defscrapsell4']) {
 		$wepid = 4;
-		$wal = $cgi[defscrapsell4];
+		$wal = $cgi['defscrapsell4'];
 	}
-	if ($cgi[defscrapsell5]) {
+	if ($cgi['defscrapsell5']) {
 		$wepid = 5;
-		$wal = $cgi[defscrapsell5];
+		$wal = $cgi['defscrapsell5'];
 	}
-	if ($cgi[defscrapsell6]) {
+	if ($cgi['defscrapsell6']) {
 		$wepid = 6;
-		$wal = $cgi[defscrapsell6];
+		$wal = $cgi['defscrapsell6'];
 	}
-	if ($cgi[defscrapsell7]) {
+	if ($cgi['defscrapsell7']) {
 		$wepid = 7;
-		$wal = $cgi[defscrapsell7];
+		$wal = $cgi['defscrapsell7'];
 	}
-	if ($cgi[defscrapsell8]) {
+	if ($cgi['defscrapsell8']) {
 		$wepid = 8;
-		$wal = $cgi[defscrapsell8];
+		$wal = $cgi['defscrapsell8'];
 	}
-	if ($cgi[defscrapsell9]) {
+	if ($cgi['defscrapsell9']) {
 		$wepid = 9;
-		$wal = $cgi[defscrapsell9];
+		$wal = $cgi['defscrapsell9'];
 	}
-	ScrapSell($wepid, $wal, $cgi[doscrapsell], $user, 0);
+	ScrapSell($wepid, $wal, $cgi['doscrapsell'], $user, 0);
 }
 //buy weapons
-if ($cgi[buybut] and ($user->gold >= 0)) {
+if ($cgi['buybut'] and ($user->gold >= 0)) {
 	$user = getUserDetails($_SESSION['isLogined']);
-	if ($cgi[buy_w0]) {
-		$detail = BuyWeapon(0, $cgi[buy_w0], 1, $user);
+	if ($cgi['buy_w0']) {
+		$detail = BuyWeapon(0, $cgi['buy_w0'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w1]) {
-		$detail = BuyWeapon(1, $cgi[buy_w1], 1, $user);
+	if ($cgi['buy_w1']) {
+		$detail = BuyWeapon(1, $cgi['buy_w1'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w2]) {
-		$detail = BuyWeapon(2, $cgi[buy_w2], 1, $user);
+	if ($cgi['buy_w2']) {
+		$detail = BuyWeapon(2, $cgi['buy_w2'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w3]) {
-		$detail = BuyWeapon(3, $cgi[buy_w3], 1, $user);
+	if ($cgi['buy_w3']) {
+		$detail = BuyWeapon(3, $cgi['buy_w3'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w4]) {
-		$detail = BuyWeapon(4, $cgi[buy_w4], 1, $user);
+	if ($cgi['buy_w4']) {
+		$detail = BuyWeapon(4, $cgi['buy_w4'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w5]) {
-		$detail = BuyWeapon(5, $cgi[buy_w5], 1, $user);
+	if ($cgi['buy_w5']) {
+		$detail = BuyWeapon(5, $cgi['buy_w5'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w6]) {
-		$detail = BuyWeapon(6, $cgi[buy_w6], 1, $user);
+	if ($cgi['buy_w6']) {
+		$detail = BuyWeapon(6, $cgi['buy_w6'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w7]) {
-		$detail = BuyWeapon(7, $cgi[buy_w7], 1, $user);
+	if ($cgi['buy_w7']) {
+		$detail = BuyWeapon(7, $cgi['buy_w7'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w8]) {
-		$detail = BuyWeapon(8, $cgi[buy_w8], 1, $user);
+	if ($cgi['buy_w8']) {
+		$detail = BuyWeapon(8, $cgi['buy_w8'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_w9]) {
-		$detail = BuyWeapon(9, $cgi[buy_w9], 1, $user);
+	if ($cgi['buy_w9']) {
+		$detail = BuyWeapon(9, $cgi['buy_w9'], 1, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw0]) {
-		$detail = BuyWeapon(0, $cgi[buy_dw0], 0, $user);
+	if ($cgi['buy_dw0']) {
+		$detail = BuyWeapon(0, $cgi['buy_dw0'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw1]) {
-		$detail = BuyWeapon(1, $cgi[buy_dw1], 0, $user);
+	if ($cgi['buy_dw1']) {
+		$detail = BuyWeapon(1, $cgi['buy_dw1'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw2]) {
-		$detail = BuyWeapon(2, $cgi[buy_dw2], 0, $user);
+	if ($cgi['buy_dw2']) {
+		$detail = BuyWeapon(2, $cgi['buy_dw2'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw3]) {
-		$detail = BuyWeapon(3, $cgi[buy_dw3], 0, $user);
+	if ($cgi['buy_dw3']) {
+		$detail = BuyWeapon(3, $cgi['buy_dw3'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw4]) {
-		$detail = BuyWeapon(4, $cgi[buy_dw4], 0, $user);
+	if ($cgi['buy_dw4']) {
+		$detail = BuyWeapon(4, $cgi['buy_dw4'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw5]) {
-		$detail = BuyWeapon(5, $cgi[buy_dw5], 0, $user);
+	if ($cgi['buy_dw5']) {
+		$detail = BuyWeapon(5, $cgi['buy_dw5'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw6]) {
-		$detail = BuyWeapon(6, $cgi[buy_dw6], 0, $user);
+	if ($cgi['buy_dw6']) {
+		$detail = BuyWeapon(6, $cgi['buy_dw6'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw7]) {
-		$detail = BuyWeapon(7, $cgi[buy_dw7], 0, $user);
+	if ($cgi['buy_dw7']) {
+		$detail = BuyWeapon(7, $cgi['buy_dw7'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw8]) {
-		$detail = BuyWeapon(8, $cgi[buy_dw8], 0, $user);
+	if ($cgi['buy_dw8']) {
+		$detail = BuyWeapon(8, $cgi['buy_dw8'], 0, $user);
 		$user = getUserDetails($_SESSION['isLogined']);
 	}
-	if ($cgi[buy_dw9]) {
-		$detail = BuyWeapon(9, $cgi[buy_dw9], 0, $user);
+	if ($cgi['buy_dw9']) {
+		$detail = BuyWeapon(9, $cgi['buy_dw9'], 0, $user);
 	}
 	$user = getUserDetails($_SESSION['isLogined'], "*");
 	header("Location: armory.php?strErr=$detail");
@@ -461,7 +461,8 @@ include ("left.php");
                                 </TR>
                                 <?php $wep = getUserWeapon($user);
 $totalWCount = 0;
-for ($i = 0;$i < count($wep);$i++) {
+if ($wep && is_countable($wep)) {
+for ($i = 0; $i < count($wep);$i++) {
 	$totalWCount+= $wep[$i]->weaponCount;
 	printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["weapon"][$wep[$i]->weaponID]["name"]);
 ?>
@@ -532,7 +533,7 @@ for ($i = 0;$i < count($wep);$i++) {
                                 </FORM>
                                 </TR>
                                 <?php
-}
+}}
 ?>
                                 <tr><td></td><td>Total: <?php numecho($totalWCount) ?></td><td></td><td></td><td></td></tr>
                                 <TR>
@@ -554,6 +555,7 @@ for ($i = 0;$i < count($wep);$i++) {
                                 </TR>
                                 <?php $wep = getDefUserWeapon($user);
 $totalWCount = 0;
+if ($wep && is_countable($wep)) {
 for ($i = 0;$i < count($wep);$i++) {
 	$totalWCount+= $wep[$i]->weaponCount;
 	printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["defenseweapon"][$wep[$i]->weaponID]["name"]);
@@ -626,7 +628,7 @@ for ($i = 0;$i < count($wep);$i++) {
                                 </FORM>
                                 </TR>
                                 <?php
-}
+}}
 ?>
                                 <tr><td>
                                 <?php if ($user->supporter > 0) { ?>

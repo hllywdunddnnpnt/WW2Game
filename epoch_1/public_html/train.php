@@ -1,7 +1,7 @@
 <?php include "gzheader.php";
 include "scripts/vsys.php";
-if ($cgi[train] and ($user->gold >= 0)) {
-	$pris = ((2000 * $cgi[atsold]) + (2000 * $cgi[defsold]) + (3500 * $cgi[spy]) + (100000 * $cgi[sf]));
+if ($cgi['train'] and ($user->gold >= 0)) {
+	$pris = ((2000 * $cgi['atsold']) + (2000 * $cgi['defsold']) + (3500 * $cgi[spy]) + (100000 * $cgi[sf]));
 	if ($pris > $user->gold AND $pris > $user->savings) {
 		$detail = "Not Enough Gold!";
 		header("Location: train.php?strErr=$detail");

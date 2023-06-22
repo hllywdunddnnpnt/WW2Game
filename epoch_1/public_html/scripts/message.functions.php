@@ -1,5 +1,6 @@
 <?php
 function getNewMessageCount($userID) {
+	global $conf, $db;
 	if ($userID != $_SESSION['isLogined']) {
 		echo "You are not allowed to view other peoples messages!";
 	} else {
@@ -14,6 +15,7 @@ function getNewMessageCount($userID) {
 	}
 }
 function getMessagesCount($userID) {
+	global $conf, $db;
 	if ($userID != $_SESSION['isLogined']) {
 		echo "You are not allowed to view other peoples messages!";
 	} else {
@@ -30,6 +32,7 @@ function getMessagesCount($userID) {
 	}
 }
 function getAllMessages($userID) {
+	global $conf, $db;
 	if ($userID != $_SESSION['isLogined']) {
 		echo "You are not allowed to view other peoples messages!";
 	} else {
@@ -60,6 +63,7 @@ function getAllMessages($userID) {
 	}
 }
 function getMessage($messID) {
+	global $conf, $db;
 	$str = "select * from `Messages` where  ID='$messID' ORDER BY date ASC";
 	//echo $str;
 	$q = mysqli_query($db, $str);
@@ -67,7 +71,7 @@ function getMessage($messID) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -81,6 +85,7 @@ function getMessage($messID) {
 	}
 }
 function sendMessage($id, $toid, $subject, $text) {
+	global $conf, $db;
 	$text = mysqli_real_escape_string($db, htmlspecialchars($text));
 	$subject = mysqli_real_escape_string($db, htmlspecialchars($subject));
 	$date = time();
@@ -109,38 +114,41 @@ function sendMessage($id, $toid, $subject, $text) {
 		mysqli_query($db, $str) or die(mysqli_error($db));
 	} else {
 		$str = "INSERT INTO Messages (fromID , userID ,subject ,text,date ) VALUES ('$id','$toid','$subject','$text','$date')";
-		$q = @mysqli_query($db, $str);
+		$q = mysqli_query($db, $str);
 		$str = "INSERT INTO `outbox` (toID,userID,subject,text,date) VALUES ('$toid','$id','$subject','$text','$date')";
-		@mysqli_query($db, $str) or die(mysqli_error($db));
+		mysqli_query($db, $str) or die(mysqli_error($db));
 	}
 	return $q;
 }
 function deleteMessage($mesID) {
+	global $conf, $db;
 	$mess = getMessage($mesID);
 	If ($mess->userID == $_SESSION['isLogined']) {
 		$str = "UPDATE `Messages` SET `read`=2 WHERE ID='$mesID'";
 		//echo $str;
-		$q = @mysqli_query($db, $str);
+		$q = mysqli_query($db, $str);
 	}
 }
 function deleteMessagesOfUser($id) {
+	global $conf, $db;
 	$str = "UPDATE `Messages` SET `read`=2 WHERE userID='$id'";
 	//echo $str;
-	$q = @mysqli_query($db, $str);
+	$q = mysqli_query($db, $str);
 }
 //outbox functions
 function getAllOutMessages($userID) {
+	global $conf, $db;
 	if ($userID != $_SESSION['isLogined']) {
 		echo "You are not allowed to view other peoples messages!";
 	} else {
 		$str = "SELECT * FROM `outbox` WHERE userID='$userID' ORDER BY date DESC";
 		//print $str;
-		$q = @mysqli_query($db, $str);
+		$q = mysqli_query($db, $str);
 		if (!$q) {
 			print ('Query failed: ' . mysqli_error($db));
 			return;
 		}
-		if (!@mysqli_num_rows($q)) {
+		if (!mysqli_num_rows($q)) {
 			return;
 		} else {
 			$st = "";
@@ -156,14 +164,15 @@ function getAllOutMessages($userID) {
 	}
 }
 function getOutMessage($messID) {
+	global $conf, $db;
 	$str = "select * from `outbox` where  ID='$messID' ORDER BY date ASC";
 	//echo $str;
-	$q = @mysqli_query($db, $str);
+	$q = mysqli_query($db, $str);
 	if (!$q) {
 		print ('Query failed: ' . mysqli_error($db));
 		return;
 	}
-	if (!@mysqli_num_rows($q)) {
+	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
 		$st = "";
@@ -174,19 +183,21 @@ function getOutMessage($messID) {
 	}
 }
 function deleteOutMessage($mesID) {
+	global $conf, $db;
 	$mess = getOutMessage($mesID);
 	If ($mess->userID == $_SESSION['isLogined']) {
 		$str = "DELETE FROM  `outbox` WHERE ID='$mesID'";
 		//echo $str;
-		$q = @mysqli_query($db, $str);
+		$q = mysqli_query($db, $str);
 	}
 }
 function getOutMessagesCount($userID) {
+	global $conf, $db;
 	if ($userID != $_SESSION['isLogined']) {
 		echo "You are not allowed to view other peoples messages!";
 	} else {
 		$str = "SELECT COUNT(*) FROM `outbox` where userID='$userID' ";
-		$q = @mysqli_query($db, $str);
+		$q = mysqli_query($db, $str);
 		if ($q) {
 			$st = mysqli_fetch_array($q);
 			return $st[0];

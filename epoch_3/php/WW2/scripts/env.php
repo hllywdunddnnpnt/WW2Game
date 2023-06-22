@@ -2,6 +2,8 @@
 define('GAME', 'game');
 define('VERSION', '2.0.1-ww2-2');
 
+require_once('path-home.php');
+
 #define('BASEURL', 'https://ww2game-3.j3t-games.com/');
 #define('BASEDIR', '/home/ww2game/public_html/');
 #define('INCDIR', '/home/ww2game/php/WW2/');

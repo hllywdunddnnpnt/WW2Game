@@ -136,7 +136,7 @@ marginwidth="0">
 			$aname = str_replace(':', '_', $a->userName);
 		} elseif ($_GET['forID'] == 'ad' OR $_GET['forID'] == '"ad"') {
 			$ad = true;
-			$q = mysqli_query($db, "SELECT u.alliance,a.name FROM UserDetails u,alliances a WHERE a.id=u.alliance AND u.id={$_SESSION[isLogined]}") or die(mysqli_error($db));
+			$q = mysqli_query($db, "SELECT u.alliance,a.name FROM UserDetails u,alliances a WHERE a.id=u.alliance AND u.id={$_SESSION['isLogined']}") or die(mysqli_error($db));
 			$a = mysqli_fetch_object($q);
 			$allid = $a->alliance;
 			if ($allid == 0) {
@@ -235,7 +235,7 @@ marginwidth="0">
 			} elseif ($p->ipn_data['payment_gross'] >= 1 AND $isall) {
 				$all = "UPDATE alliances SET donated=donated+" . floatval($p->ipn_data['payment_gross']) . " WHERE id=$uid";
 				$email.= $all . "\n";
-				@mysqli_query($db, $all);
+				mysqli_query($db, $all);
 			}
 			$s = '';
 			$vs = array();
@@ -247,7 +247,7 @@ marginwidth="0">
 			}
 			$sales = "INSERT INTO sales SET (" . implode(',', $ks) . ") VALUES(" . implode(',', $vs) . ")";
 			$email.= $sales;
-			@mysqli_query($db, $sales);
+			mysqli_query($db, $sales);
 			// Payment has been recieved and IPN is verified.  This is where you
 			// update your database to activate or process the order, or setup
 			// the database with the user's order details, email an administrator,

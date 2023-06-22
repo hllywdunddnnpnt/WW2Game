@@ -155,7 +155,7 @@ if ($cgi['image_click_value']) {
                                 </h1>
                                  You failed to correctly match the image! For your sanity, there is a mandatory "cooling down" period that you must go through before trying again. Please try again in a <b>few minutes</b>.
                                  <?php
-		$_SESSION[hash2] = md5($_SERVER['REMOTE_ADDR'] . time());
+		$_SESSION['hash2'] = md5($_SERVER['REMOTE_ADDR'] . time());
 	}
 } elseif ($cgi['uniqid']) {
 	$us = getUserDetails($cgi['uniqid']);
@@ -254,8 +254,8 @@ if ($cgi['image_click_value']) {
                                                 </SCRIPT>
                                                 <SCRIPT LANGUAGE="JavaScript" SRC="http://www.drumcash.com/drumcash.dc">
                                                 </SCRIPT>
-                                                <input type="hidden" name="hash2" value="<?php $_SESSION[hash2] = md5($_SERVER['REMOTE_ADDR'] . time());
-	echo $_SESSION[hash2]; ?>">
+                                                <input type="hidden" name="hash2" value="<?php $_SESSION['hash2'] = md5($_SERVER['REMOTE_ADDR'] . time());
+	echo $_SESSION['hash2']; ?>">
                                                 <input type="hidden" name="uniqid" value="<?=$cgi['uniqid'] ?>">
                                                 </form>
                                             <p>

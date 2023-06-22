@@ -1,10 +1,36 @@
 <?php
-$db_user = 'epoch1';
-$db_pass = 'password';
-$db_database = 'ww2game_epoch1';
-$base_url = '127.0.0.1';
+
+$host_local = "ww2game-epoch1.git";
+$host_server = "ww2game-1.j3t-games.com";
+
+//define('HOME', '/var/www/ww2game-3.j3t-games.com/');
+$HOME = "";
+if (isset($incron) && $incron === true)
+{
+    $HOME = isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) ? $_SERVER["DOCUMENT_ROOT"]: "/var/www/$host_server/public_html";
+    //define('HOME', $_SERVER["SERVER_NAME"] == $host_local ? "/" : "/var/www/$host_server/");
+}
+else
+{
+    $HOME = isset($_SERVER) && isset($_SERVER["DOCUMENT_ROOT"]) ? $_SERVER["DOCUMENT_ROOT"] : "/var/www/$host_server/public_html";
+}
+
+//$HOME = implode('/', explode('/', $HOME, -1));
+if (substr($HOME,-11,11) == "public_html") $HOME = substr($HOME,0,-11);
+define('HOME', $HOME);
+
+
+define('BASEURL', isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"] == $host_local ? "http://$host_local" : "https://$host_server");
+
+
+$db_user = isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"] == $host_local ? 'ww3game_user' : 'ww2-johnny';
+$db_pass = isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"] == $host_local ? 'password' : 'johnnyisinWW2';
+$db_database = 'ww2game_db';
+
+
+$base_url = '';
 $conf_ltable = 'A';
-$game_offline = 'false';
+$game_offline = false;
 $offline_message = 'We are resetting the game, please come back in a few hours';
 $min = 60;
 $hour = $min * 60;
@@ -12,8 +38,8 @@ $day = $hour * 24;
 $week = $day * 7;
 $time = time(); //-(10*$hour);
 /**/
-$endtime = mktime(23, 59, 59, 9, 1, 2010) - (6 * $hour); //1173571199;
-$allow_bonuses = false;
+$endtime = mktime(10, 0, 0, 7, 2, 2023) - (0 * $hour); //1173571199;
+$allow_bonuses = 'false';
 if (time() > ($endtime - (3 * $week))) {
 	$allow_bonuses = true;
 }
@@ -23,6 +49,7 @@ if ($diff <= 0) {
 	$game_offline = 'true';
 }
 $d = duration($diff);
+$sLoada = "";
 $resetA = "Reset in: $d";
 $conf_announcement = $sLoada . ' ' . $resetA;
 $minutes_per_turn = 20;
@@ -479,4 +506,3 @@ $conf['race'][4]['defenseweapon'][5]['name'] = 'Outpost';
 $conf['race'][4]['defenseweapon'][6]['name'] = 'Flak 88';
 $conf['race'][4]['defenseweapon'][7]['name'] = 'Massive Tower';
 $conf['race'][4]['defenseweapon'][8]['name'] = 'Fort';
-?>

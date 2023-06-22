@@ -2,20 +2,20 @@
 include ("scripts/vsys.php");
 //Upgrade Fortification
 $user = getUserDetails($_SESSION['isLogined']);
-if ($cgi[upgrade_fortification]) {
+if ($cgi['upgrade_fortification']) {
 	$detail = Upgrade($user, 'fortification', $cgi[upgrade_fortification]);
 	header("Location: upgrades.php?strErr=$detail");
 }
 //Upgrade Siege
-if ($cgi[upgrade_siege]) {
+if ($cgi['upgrade_siege']) {
 	$detail = Upgrade($user, 'siege', $cgi[upgrade_siege]);
 	header("Location: upgrades.php?strErr=$detail");
 }
-if ($cgi[spyupgrade]) {
+if ($cgi['spyupgrade']) {
 	$detail = Trainupgrade($user, 'spy');
 	header("Location: upgrades.php?strErr=$detail");
 }
-if ($cgi[$_SESSION[unitupgrade]]) {
+if ($cgi[$_SESSION['unitupgrade']]) {
 	$detail = Trainupgrade($user, 'unit');
 	header("Location: upgrades.php?strErr=$detail");
 }
@@ -39,7 +39,7 @@ if ($cgi['hh']) {
 	$detail = Trainupgrade($user, 'hh');
 	header("Location: upgrades.php?strErr=$detail");
 }
-if ($cgi[$_SESSION[maxupgrade]]) {
+if ($cgi[$_SESSION['maxupgrade']]) {
 	$Li = $user->up;
 	$gold = $user->gold;
 	if ($user->race == 4) {
@@ -397,16 +397,16 @@ if ($user->weapper <= 3) {
 ?>
                           <TD align=middle>
                            
-                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name=<?php $_SESSION[unitupgrade] = genUniqueTxt(10);
-echo $_SESSION[unitupgrade]; ?>>
+                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name=<?php $_SESSION['unitupgrade'] = genUniqueTxt(10);
+echo $_SESSION['unitupgrade']; ?>>
                             <INPUT type=hidden value=yes name=upgrade_prod>
                           </TD>
                         </TR>
                         <tr>
                           <TD>
                            
-                            <INPUT type=submit size=5 value="Max" name=<?php $_SESSION[maxupgrade] = genUniqueTxt(10);
-echo $_SESSION[maxupgrade]; ?>>
+                            <INPUT type=submit size=5 value="Max" name=<?php $_SESSION['maxupgrade'] = genUniqueTxt(10);
+echo $_SESSION['maxupgrade']; ?>>
                           </TD>
                         </tr>
                       </TBODY>

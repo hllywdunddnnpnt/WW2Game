@@ -29,7 +29,7 @@ class Privacy {
 	__construct($privacy = PRIVACY_PUBLIC) {
 		
 		if (
-			(!$_SESSION[SESS_NAME] and $privacy == PRIVACY_USER) ||
+			(!$_SESSION['SESS_NAME'] and $privacy == PRIVACY_USER) ||
 			($privacy == PRIVACY_ADMIN && !$_SESSION['admin'])
 		) {
 			header('Location: index.php?e=1');
@@ -44,7 +44,7 @@ class Privacy {
 
 	public static function
 	assertAdmin() {
-		if (isset($_SESSION[SESS_NAME]) != 1) {
+		if (isset($_SESSION['SESS_NAME']) != 1) {
 			header('Location: index.php?e=1');
 			exit;
 		}
@@ -52,8 +52,8 @@ class Privacy {
 	
 	public static function
 	getId() {
-		if (isset($_SESSION[SESS_NAME])) {
-			return $_SESSION[SESS_NAME];
+		if (isset($_SESSION['SESS_NAME'])) {
+			return $_SESSION['SESS_NAME'];
 		}
 		else {
 			return 0;
@@ -62,17 +62,17 @@ class Privacy {
 	
 	public static function
 	login($id) {
-		$_SESSION[SESS_NAME] = $id;
+		$_SESSION['SESS_NAME'] = $id;
 	}
 	
 	public static function
 	isIn() {
-		return ($_SESSION[SESS_NAME] > 0);
+		return ($_SESSION['SESS_NAME'] > 0);
 	}
 	
 	public static function
 	logout() {
-		$_SESSION[SESS_NAME] = 0;
+		$_SESSION['SESS_NAME'] = 0;
 	}
 }
 ?>

@@ -55,10 +55,9 @@ if (!isset($_START_TIME[$nextage])) {
 ?>
 -->
 <div id="offline-container">
-	<p>World War II is in the process of resetting.</p>
-	<p>Thank you for playing Age <?= $_AGE ?>. We will be down for about 24 hours to reset.</p>
-	<p>Online in <b><?= ceil(($starttime - time()) / 60) ?> minutes</b></p>
-	<p>In the mean time, join us on <a href="/irc/">IRC</a>, or the <a href="http://forum.ww2game.net">forum</a> and discuss WW2</a>
+	<p>Thank you for playing Age <?= $_AGE ?> of World War II.</p>
+    <p>The Age has ended the game is under the process of resetting the game for a new Age.</p>
+	<p>The new Age will start in <b><?= ceil(($starttime - time()) / 60) ?> minutes</b>, the game will be down in the meantime.</p>
 </div>
 <!-- End offline page -->
 

@@ -34,7 +34,7 @@ if (isset($_SESSION['hash'])) {
 	//=====================
 	// Stop switching of IP
 	//=====================
-	$ip = $_SERVER[REMOTE_ADDR];
+	$ip = $_SERVER['SERVER_ADDR'];
 	if (isset($CK['lastip'])) {
 		if ($ip != $CK['lastip'] && ($CK['time'] + (60 * 60)) >= time()) {
 			//Possible IP switching
@@ -103,7 +103,7 @@ if (isset($_SESSION['hash'])) {
 	 'oldpage'=>'$_SERVER[PHP_SELF]',
 	 'count'=>0,
 	 'lastmin'=>'$min',
-	 'lastip'=>'$_SERVER[REMOTE_ADDR]',
+	 'lastip'=>'$_SERVER[SERVER_ADDR]',
 	 'lasttime'=>'" . time() . "' );
 	";
 	$_SESSION['hash'] = $b;

@@ -790,7 +790,7 @@ class User extends BaseClass {
 
 		$str = "SELECT COUNT(*) AS `retCode` FROM `User` WHERE `lastturntime`>$time AND `active`=`1` $where";
 
-		$q = @mysqli_query($db, $str) or die(mysqli_error($db));
+		$q = mysqli_query($db, $str) or die(mysqli_error($db));
 		if ($q) {
 			$st = mysqli_fetch_object($q);
 			return $st->retCode;
@@ -812,7 +812,7 @@ class User extends BaseClass {
 		else {
 			$str = "SELECT * FROM User where lastturntime>'$time' and active='1' ORDER BY rank ASC";
 		}
-		$q = @mysqli_query($db, $str) or die(mysqli_error($db));
+		$q = mysqli_query($db, $str) or die(mysqli_error($db));
 		while ($u = mysqli_fetch_object($q, 'User')) {
 			$ret[] = $u;
 		}

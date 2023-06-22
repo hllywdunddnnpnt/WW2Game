@@ -47,7 +47,7 @@ if ($cgi['submit']) {
 		$pas = md5($cgi['passone']);
 		updateUser($_SESSION["activationID"], " password=\"$pas\", active='1' ");
 		setLastSeen($_SESSION['activationID'], time());
-		mail($cgi['email'], "Your new  password", "Your new  password is: $pas ");
+// COMMENT BY J3T //		mail($cgi['email'], "Your new  password", "Your new  password is: $pas ");
 		echo "<font color=white size=5>Activate.</font><br><br> Your password  was changed and now you can login with this new password.";
 		$isActivated = 1;
 	}

@@ -123,29 +123,66 @@ $conf['gps'] = array(
 	20
 );
 
-$conf['dabonus0'] = 0.10;
-$conf['dabonus1'] = 0.25;
-$conf['dabonus2'] = 0;
-$conf['dabonus3'] = 0.05;
-$conf['dabonus4'] = 0.1;
+$race_bonuses = [
+	/* USA */ [
+		"offense" => 0,
+		"defensive" => 10,
+		"covert" => 5,
+		"retaliation" => 25,
+	],
+	/* UK */ [
+		"offense" => 5,
+		"defensive" => 25,
+		"covert" => 10,
+		"retaliation" => 0,
+	],
+	/* Japan */ [
+		"offense" => 10,
+		"defensive" => 0,
+		"covert" => 25,
+		"retaliation" => 5,
+	],
+	/* Germany */ [
+		"offense" => 25,
+		"defensive" => 5,
+		"covert" => 0,
+		"retaliation" => 10,
+	],
+	/* USSR */ [
+		"offense" => 10,
+		"defensive" => 10,
+		"covert" => 10,
+		"retaliation" => 10,
+	],
+];
 
-$conf['cabonus0'] = 0.05;
-$conf['cabonus1'] = 0.10;
-$conf['cabonus2'] = 0.25;
-$conf['cabonus3'] = 0;
-$conf['cabonus4'] = 0.1;
+// Offensive Bonus for each race
+$conf['sabonus0'] = $race_bonuses[0]["offense"] / 100;
+$conf['sabonus1'] = $race_bonuses[1]["offense"] / 100;
+$conf['sabonus2'] = $race_bonuses[2]["offense"] / 100;
+$conf['sabonus3'] = $race_bonuses[3]["offense"] / 100;
+$conf['sabonus4'] = $race_bonuses[4]["offense"] / 100;
 
-$conf['sabonus0'] = 0;
-$conf['sabonus1'] = 0.05;
-$conf['sabonus2'] = 0.10;
-$conf['sabonus3'] = 0.25;
-$conf['sabonus4'] = 0.1;
+// Defensive Bonus for each race
+$conf['dabonus0'] = $race_bonuses[0]["defensive"] / 100;
+$conf['dabonus1'] = $race_bonuses[1]["defensive"] / 100;
+$conf['dabonus2'] = $race_bonuses[2]["defensive"] / 100;
+$conf['dabonus3'] = $race_bonuses[3]["defensive"] / 100;
+$conf['dabonus4'] = $race_bonuses[4]["defensive"] / 100;
 
-$conf['rabonus0'] = 0.25;
-$conf['rabonus1'] = 0;
-$conf['rabonus2'] = 0.05;
-$conf['rabonus3'] = 0.10;
-$conf['rabonus4'] = 0.1;
+// Covert Bonus for each race
+$conf['cabonus0'] = $race_bonuses[0]["covert"] / 100;
+$conf['cabonus1'] = $race_bonuses[1]["covert"] / 100;
+$conf['cabonus2'] = $race_bonuses[2]["covert"] / 100;
+$conf['cabonus3'] = $race_bonuses[3]["covert"] / 100;
+$conf['cabonus4'] = $race_bonuses[4]["covert"] / 100;
+
+// Retaliation Bonus for each race
+$conf['rabonus0'] = $race_bonuses[0]["retaliation"] / 100;
+$conf['rabonus1'] = $race_bonuses[1]["retaliation"] / 100;
+$conf['rabonus2'] = $race_bonuses[2]["retaliation"] / 100;
+$conf['rabonus3'] = $race_bonuses[3]["retaliation"] / 100;
+$conf['rabonus4'] = $race_bonuses[4]["retaliation"] / 100;
 
 $conf['cost'] = array(
 	'sasoldier'     => 5000,

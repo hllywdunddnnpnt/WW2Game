@@ -134,7 +134,7 @@ if ($cgi['defender_id2']) {
 					}
 					if ($in == true AND $weaponamount > 0) {
 						$str = $conf["weapon$weapontype2" . "strength"];
-						$q = @mysqli_query($db, "insert into `Weapon` (weaponID, weaponStrength, weaponCount, isAttack, userID) values ('$weapontype2', '$str', '$weaponamount', '$weapontype', '$attacker->ID')");
+						$q = mysqli_query($db, "insert into `Weapon` (weaponID, weaponStrength, weaponCount, isAttack, userID) values ('$weapontype2', '$str', '$weaponamount', '$weapontype', '$attacker->ID')");
 					}
 				} else {
 					$weaponamount = 0;
