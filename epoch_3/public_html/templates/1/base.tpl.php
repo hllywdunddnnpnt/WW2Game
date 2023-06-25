@@ -41,7 +41,13 @@
 							<td class="amount"><a href="support.php"><?= ($user->supporter? "\$$user->supporter" : 'Become A Supporter') ?></a><td>
 						</tr> -->
 						<tr><td class="title">Email</td><td class="amount"><?= $user->email ?></td></tr>
-						<tr><td class="title">Nation</td><td class="amount"><?= $user->getNation() ?></td></tr>
+						<tr><td class="title">Nation</td><td class="amount">
+							<div class="flag-top"><?= $user->getNationName() ?></div>
+							<img class="flag-med" style="margin-bottom: 5px !important;" title="<?= $user->getNationName() ?>" alt="<?= $user->getNationName() ?>" src="<?= $this->image($user->getNationFlag()) ?>" />
+						</td></tr>
+						
+				
+
 						<tr><td class="title">Rank</td><td class="amount"><?= numecho($user->rank) ?></td></tr>
 						<?php if (AREAS): ?><td class="title">Area</td><td class="amount"><?= $user->getAreaName() ?></td></tr><?php endif; ?>
 						<tr><td class="title">Commander</td><td class="amount">

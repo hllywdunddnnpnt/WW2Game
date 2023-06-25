@@ -54,8 +54,8 @@ if ($this->target->alliance) {
 		<tr>
 			<td class="title">Nation</td>
 			<td class="amount">
-				<div class="flag-top"><?= $this->target->getNation() ?></div>
-				<img class="flag-med" style="margin-bottom: 5px !important;" title="<?= $this->target->getNation() ?>" alt="<?= $this->target->getNation() ?>" src="<?= $this->image($this->target->getNationFlag()) ?>" />
+				<div class="flag-top"><?= $this->target->getNationName() ?></div>
+				<img class="flag-med" style="margin-bottom: 5px !important;" title="<?= $this->target->getNationName() ?>" alt="<?= $this->target->getNationName() ?>" src="<?= $this->image($this->target->getNationFlag()) ?>" />
 			</td>
 		</tr>
 		<?php if (AREAS): ?>

@@ -487,18 +487,18 @@ class User extends BaseClass {
 
 	public function
 	getNation() {
-		switch ($this->nation) {
-			case 0:
-				return 'USA';
-			case 1:
-				return 'Britain';
-			case 2:
-				return 'Japan';
-			case 3:
-				return 'Germany';
-			case 4:
-				return 'USSR';
-		}
+		global $conf;
+		return $conf["race"][$this->nation]["name"];
+	}
+	public function
+	getNationAlias() {
+		global $conf;
+		return $conf["race"][$this->nation]["alias"];
+	}
+	public function
+	getNationName() {
+		global $conf;
+		return $conf["race"][$this->nation]["full_name"];
 	}
 	
 	public function
