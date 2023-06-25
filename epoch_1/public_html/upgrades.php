@@ -63,7 +63,7 @@ if ($cgi[$_SESSION['maxupgrade']]) {
 		$upcost=$up*8500+10000;
 	}
 	$gold=$user->gold;
-	$count=0;
+	$count="0";
 	//echo $gold." ".$upcost." ".$up;
 	while($gold>=$upcost){
 		$gold=$gold-$upcost;
@@ -76,7 +76,7 @@ if ($cgi[$_SESSION['maxupgrade']]) {
 		$count++;
   	  
 	}
-	updateUser($_SESSION['isLogined'],"up=up+'$count',gold='$gold'");
+	updateUser($_SESSION['isLogined'],"up="up"+'$count',gold='$gold'");
 	$cgi["strErr"]="Unit Production increased by $count";
 }*/
 ?>
@@ -85,9 +85,9 @@ if ($cgi[$_SESSION['maxupgrade']]) {
 <HTML>
   <HEAD>
     <TITLE><?=$conf["sitename"]; ?> :: Upgrades</TITLE>
-    <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
-    <LINK href="css/common.css" type=text/css rel=stylesheet>
-    <SCRIPT language=javascript type=text/javascript>
+    <META http-equiv="Content-Type" content="text/html" charset="iso-8859-1"">
+    <LINK href="css/common.css" type="text/css" rel="stylesheet">
+    <SCRIPT language="javascript" type="text/javascript">
 		<!--
 		function checkCR(evt) {
 		var evt = (evt) ? evt : ((event) ? event : null);
@@ -97,53 +97,294 @@ if ($cgi[$_SESSION['maxupgrade']]) {
 		document.onkeypress = checkCR;
 		//-->
 		</SCRIPT>
-    <META content="MSHTML 5.50.4522.1800" name=GENERATOR>
+    <META content="MSHTML 5.50.4522.1800" name="GENERATOR">
   </HEAD>
-  <BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
+  <BODY text=#ffffff bgColor=#000000 leftMargin="0" topMargin="0" marginheight="0" 
 marginwidth="0">
     <?php
 include "top.php";
 ?>
-    <TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
+    <TABLE cellSpacing="0" cellPadding="5" width="100%" border="0">
       <TBODY>
         <TR>
-          <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
+          <TD class="menu_cell_repeater" style="PADDING-LEFT: 15px" vAlign="top" width="140">
             <?php
 include ("left.php");
 ?>
           </TD>
           <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
-	vAlign=top align=left>
-            <BR>
+	vAlign="top" align="left">
             <p>
               <strong><center>
-                <font color=red><?php echo $cgi["strErr"]; ?></font>
+                <font color="red"><?php echo $cgi["strErr"]; ?></font>
               </center></strong>
             </p>
             <?php
 include "islogined.php";
 ?>
-            <table>
-              <tr>
-                <TD >
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 
- 		border=0>
+            <table style="width: 1200px;">
+            <tr>
+                <TD>
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" border="0">
                       <TBODY>
                         <TR>
-                          <TH align=middle colSpan=2>
+                          <TH align="middle" colSpan="2">
+                             Upgrade <span class="subh">Weapons Technology</span>
+                          </TH>
+                        </TR>
+                        <TR>
+                          <TH class="subh" align="left">
+                             Current Weapons Technology 
+                          </TH>
+                          <TH class="subh" width="45%">
+                             Upgrade 
+                          </TH>
+                        </TR>
+                        <TR style="height: 60px;">
+                          <?php $sl = $conf["race"][$user->race]["siege"][$user->salevel]["name"];
+if ($conf["race"][$user->race]["siege"][$user->salevel + 1]["price"]) {
+	$kn = numecho2($conf["race"][$user->race]["siege"][$user->salevel + 1]["price"]) . ' Gold ' . ' (+25%)';
+} else {
+	$kn = 'No more upgrades available';
+}
+?>
+                          <TD>
+                            <?=$sl
+?>
+                          </TD>
+                          <TD align="middle">
+                            <p style="margin-bottom: 5px;"><?=$conf["race"][$user->race]["siege"][$user->salevel + 1]["name"]?></p>
+                           
+                            <INPUT type="submit" size="5" value="<?=$kn
+?>" width="100%" name="upgrade_siege">
+                          </TD>
+                        </TR>
+                      </TBODY>
+                    </TABLE>
+                  </FORM>
+                </td>
+                <TD>
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" 
+border="0">
+                      <TBODY>
+                      <TR>
+                          <TH align="middle" colSpan="2">
+                             Upgrade <span class="subh">Shielding Technology</span>
+                          </TH>
+                        </TR>
+                        <TR>
+                          <TH class="subh" align="left">
+                             Current Shielding Technology 
+                          </TH>
+                          <TH class="subh" width="45%">
+                             Upgrade 
+                          </TH>
+                        </TR>
+                        <TR style="height: 60px;">
+                          <?php $fl = $conf["race"][$user->race]["fortification"][$user->dalevel]["name"];
+if ($conf["race"][$user->race]["fortification"][$user->dalevel + 1]["price"]) {
+	$kn = numecho2($conf["race"][$user->race]["fortification"][$user->dalevel + 1]["price"]) . ' Gold' . ' (+25%)';
+} else {
+	$kn = 'No more upgrades available';
+}
+?>
+                          <TD>
+                            <?=$fl
+?>
+                          </TD>
+                          <TD align="middle">
+                            <p style="margin-bottom: 5px;"><?=$conf["race"][$user->race]["fortification"][$user->dalevel + 1]["name"]?></p>
+                           
+                            <INPUT type="submit" size="5" value="<?=$kn
+?>" width="100%" name="upgrade_fortification">
+                          </TD>
+                        </TR>
+                      </TBODY>
+                    </TABLE>
+                  </FORM>
+                </td>
+              </tr>
+              
+              <tr>
+              <TD>
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" 
+ 		border="0">
+                      <TBODY>
+                        <TR>
+                          <TH align="middle" colSpan="2">
+                             Upgrade Spy Skill 
+                          </TH>
+                        </TR>
+                        <TR>
+                          <TH class="subh" align="left">
+                             Current Spy Skill 
+                          </TH>
+                          <TH class="subh" width="45%">
+                             Upgrade 
+                          </TH>
+                        </TR>
+                        <tr style="height: 40px;">
+                          <TD>
+                             Level <?php echo $user->calevel
+?>
+                            </td>
+				<?php $pris = pow(2, $user->calevel) * 12000;
+?>
+                          <TD align="middle">
+                            
+                            <INPUT type="submit" size="5" value="<?php numecho($pris) ?> Gold" name="spyupgrade" />
+                            <INPUT type="hidden" value="yes" 
+ 		name="upgrade_spy" />
+                          </TD>
+                        </TR>
+                      </TBODY>
+                    </TABLE>
+                  </FORM>
+                </td>
+                <TD >
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" 
+ 		border="0">
+                      <TBODY>
+                        <TR>
+                          <TH align="middle" colSpan="2">
+                             Upgrade Special Forces Level 
+                          </TH>
+                        </TR>
+                        <TR>
+                          <TH class="subh" align="left">
+                             Current Special Forces Level 
+                          </TH>
+                          <TH class="subh" width="45%">
+                             Upgrade 
+                          </TH>
+                        </TR>
+                        <TR style="height: 40px;">
+                          <TD>
+                            <?php echo $user->sflevel
+?>
+                          </TD>
+                          <?php $pris = pow(2, $user->sflevel) * 100000 + 100000;
+?>
+                          <TD align="middle">
+                            
+                            <INPUT type="submit" size="5" value="<?php numecho($pris) ?> Gold" name='sfupgrade'>
+                            <INPUT type="hidden" value="yes" 
+ 		name="sf_upgrade">
+                          </TD>
+                        </TR>
+                      </TBODY>
+                    </TABLE>
+                  </FORM>
+                </td>
+              </tr>
+              <tr>
+                <TD style="padding-top: 30px;">
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" border="0">
+                      <TBODY>
+                        <TR>
+                          <TH align="middle" colSpan="2">
+                             Hand to Hand Training 
+                          </TH>
+                        </TR>
+                        <TR>
+                          <TH class="subh" align="left">
+                             Current Hand to Hand Level 
+                          </TH>
+                          <TH class="subh" width="45%">
+                             Upgrade 
+                          </TH>
+                        </TR>
+                        <TR style="height: 40px;">
+                          <TD>
+                            <?php echo $user->hhlevel
+?>
+                          </TD>
+                          <?php $pris = pow(2.5, $user->hhlevel) * 125000 + 112500;
+?>
+                          <TD align="middle">                            
+								<INPUT type="submit" size="5" value="<?php numecho($pris) ?> Gold" name='hh'>
+								<INPUT type="hidden" value="yes" name="hh_upgrade">
+						
+                          </TD>
+                        </TR>
+                      </TBODY>
+                    </TABLE>
+                  </FORM>
+                </td>
+                <TD style="padding-top: 30px;">
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" 		border="0">
+                      <TBODY>
+                        <TR>
+                          <TH align="middle" colSpan="2">
+                             Upgrade Unit Production 
+                          </TH>
+                        </TR>
+                        <TR>
+                          <TH class="subh" align="left">
+                             Current Unit Production 
+                          </TH>
+                          <TH class="subh" width="45%">
+                             Upgrade 
+                          </TH>
+                        </TR>
+                        <TR style="height: 40px;">
+                          <TD>
+                            <?php echo $user->up
+?>
+                             per turn 
+                          </TD>
+                          <?php if ($user->race == 4) {
+	$pris = $user->up * 8500 + 10000;
+} else {
+	$pris = $user->up * 10000 + 10000;
+}
+?>
+                          <TD align="middle">
+                           
+                            <INPUT type="submit" size="5" value="<?php numecho($pris) ?> Gold" name=<?php $_SESSION['unitupgrade'] = genUniqueTxt(10);
+echo $_SESSION['unitupgrade']; ?>>
+                            <INPUT type="hidden" value="yes" name="upgrade_prod" style="float: left;">
+                            <INPUT type="submit" size="5" value="Max" name=<?php $_SESSION['maxupgrade'] = genUniqueTxt(10);
+echo $_SESSION['maxupgrade']; ?> style="float: right;">
+                          </TD>
+                        </TR>
+                        <!-- <tr>
+                          <TD>
+                           
+                            
+                          </TD>
+                        </tr> -->
+                      </TBODY>
+                    </TABLE>
+                  </FORM>
+                </td>
+              </tr>
+              <tr>
+                <TD style="padding-top: 30px;">
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" 
+ 		border="0">
+                      <TBODY>
+                        <TR>
+                          <TH align="middle" colSpan="2">
                              Upgrade Max Officer Limit 
                           </TH>
                         </TR>
                         <TR>
-                          <TH class=subh align=left>
+                          <TH class="subh" align="left">
                              Current Max Officer Limit 
                           </TH>
-                          <TH class=subh>
+                          <TH class="subh" width="45%">
                              Upgrade 
                           </TH>
                         </TR>
-                        <TR>
+                        <TR style="height: 40px;">
                           <TD>
                             <?php echo $user->maxofficers
 ?>
@@ -152,10 +393,10 @@ include "islogined.php";
 if ($user->maxofficers < 15) {
 	$pris = pow(2, floor($user->maxofficers / 2)) * 1000;
 ?>
-                          <TD align=middle>
-                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Exp" name='ofupgrade'>
-                            <INPUT type=hidden value=yes 
- 		name=of_upgrade>
+                          <TD align="middle">
+                            <INPUT type="submit" size="5" value="<?php numecho($pris) ?> Exp" name='ofupgrade'>
+                            <INPUT type="hidden" value="yes" 
+ 		name="of_upgrade">
                           </TD>
                           <?php
 } else { ?>
@@ -167,37 +408,37 @@ if ($user->maxofficers < 15) {
                     </TABLE>
                   </FORM>
                 </td>
-                <TD >
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 
- 		border=0>
+                <TD style="padding-top: 30px;">
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" 
+ 		border="0">
                       <TBODY>
                         <TR>
-                          <TH align=middle colSpan=2>
+                          <TH align="middle" colSpan="2">
                              Upgrade Bank Deposit Percentage 
                           </TH>
                         </TR>
                         <TR>
-                          <TH class=subh align=left>
+                          <TH class="subh" align="left">
                              Current Percentage 
                           </TH>
-                          <TH class=subh>
+                          <TH class="subh" width="45%">
                              Upgrade 
                           </TH>
                         </TR>
-                        <TR>
+                        <TR style="height: 40px;">
                           <TD>
                             <?php echo $user->bankper
 ?>
                           </TD>
-                          <TD align=middle>
+                          <TD align="middle">
                             <?php
 if ($user->bankper >= 2) {
 	$pris = pow(3, (10 - $user->bankper)) * 1800 + 1500;
 ?>
-                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Exp" name='bupgrade'>
-                            <INPUT type=hidden value=yes 
- 		name=b_upgrade>
+                            <INPUT type="submit" size="5" value="<?php numecho($pris) ?> Exp" name='bupgrade'>
+                            <INPUT type="hidden" value="yes" 
+ 		name="b_upgrade">
 		<?php
 } else {
 ?>
@@ -213,36 +454,36 @@ if ($user->bankper >= 2) {
               </tr>
               <tr>
                 <TD colspan="2">
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 
- 		border=0>
+                  <FORM action="upgrades.php" method="post">
+                    <TABLE class="table_lines" cellSpacing="0" cellPadding="6" width="100%" 
+ 		border="0">
                       <TBODY>
                         <TR>
-                          <TH align=middle colSpan=2>
+                          <TH align="middle" colSpan="2">
                              Upgrade Weapon Sell Percentage 
                           </TH>
                         </TR>
                         <TR>
-                          <TH class=subh align=left>
+                          <TH class="subh" align="left">
                              Current Percentage 
                           </TH>
-                          <TH class=subh>
+                          <TH class="subh" width="45%">
                              Upgrade 
                           </TH>
                         </TR>
-                        <TR>
+                        <TR style="height: 40px;">
                           <TD>
                             <?=$user->weapper
 ?>
                           </TD>
-                          <TD align=middle>
+                          <TD align="middle">
                             <?php
 if ($user->weapper <= 3) {
 	$pris = pow(4, $user->weapper) * 1800 + 1500;
 ?>
-                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Exp" name='wupgrade'>
-                            <INPUT type=hidden value=yes 
- 		name=w_upgrade>
+                            <INPUT type="submit" size="5" value="<?php numecho($pris) ?> Exp" name='wupgrade'>
+                            <INPUT type="hidden" value="yes" 
+ 		name="w_upgrade">
 		<?php
 } else {
 ?>
@@ -256,250 +497,6 @@ if ($user->weapper <= 3) {
                   </FORM>
                 </td>
                
-              </tr>
-              <tr>
-                <TD >
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 
- 		border=0>
-                      <TBODY>
-                        <TR>
-                          <TH align=middle colSpan=2>
-                             Upgrade Special Forces Level 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TH class=subh align=left>
-                             Current Special Forces Level 
-                          </TH>
-                          <TH class=subh>
-                             Upgrade 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TD>
-                            <?php echo $user->sflevel
-?>
-                          </TD>
-                          <?php $pris = pow(2, $user->sflevel) * 100000 + 100000;
-?>
-                          <TD align=middle>
-                            
-                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name='sfupgrade'>
-                            <INPUT type=hidden value=yes 
- 		name=sf_upgrade>
-                          </TD>
-                        </TR>
-                      </TBODY>
-                    </TABLE>
-                  </FORM>
-                </td>
-                <TD>
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
-                      <TBODY>
-                        <TR>
-                          <TH align=middle colSpan=2>
-                             Hand to Hand Training 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TH class=subh align=left>
-                             Current Hand to Hand Level 
-                          </TH>
-                          <TH class=subh>
-                             Upgrade 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TD>
-                            <?php echo $user->hhlevel
-?>
-                          </TD>
-                          <?php $pris = pow(2.5, $user->hhlevel) * 125000 + 112500;
-?>
-                          <TD align=middle>                            
-								<INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name='hh'>
-								<INPUT type=hidden value=yes name=hh_upgrade>
-						
-                          </TD>
-                        </TR>
-                      </TBODY>
-                    </TABLE>
-                  </FORM>
-                </td>
-              </tr>
-              <tr>
-                <TD>
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 
- 		border=0>
-                      <TBODY>
-                        <TR>
-                          <TH align=middle colSpan=2>
-                             Upgrade Spy Skill 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TH class=subh align=left>
-                             Current Spy Skill 
-                          </TH>
-                          <TH class=subh>
-                             Upgrade 
-                          </TH>
-                        </TR>
-                        <tr>
-                          <TD>
-                             Level <?php echo $user->calevel
-?>
-                            </td>
-				<?php $pris = pow(2, $user->calevel) * 12000;
-?>
-                          <TD align=middle>
-                            
-                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name=spyupgrade />
-                            <INPUT type=hidden value=yes 
- 		name=upgrade_spy />
-                          </TD>
-                        </TR>
-                      </TBODY>
-                    </TABLE>
-                  </FORM>
-                </td>
-                <TD>
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 		border=0>
-                      <TBODY>
-                        <TR>
-                          <TH align=middle colSpan=2>
-                             Upgrade Unit Production 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TH class=subh align=left>
-                             Current Unit Production 
-                          </TH>
-                          <TH class=subh>
-                             Upgrade 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TD>
-                            <?php echo $user->up
-?>
-                             per turn 
-                          </TD>
-                          <?php if ($user->race == 4) {
-	$pris = $user->up * 8500 + 10000;
-} else {
-	$pris = $user->up * 10000 + 10000;
-}
-?>
-                          <TD align=middle>
-                           
-                            <INPUT type=submit size=5 value="<?php numecho($pris) ?> Gold" name=<?php $_SESSION['unitupgrade'] = genUniqueTxt(10);
-echo $_SESSION['unitupgrade']; ?>>
-                            <INPUT type=hidden value=yes name=upgrade_prod>
-                          </TD>
-                        </TR>
-                        <tr>
-                          <TD>
-                           
-                            <INPUT type=submit size=5 value="Max" name=<?php $_SESSION['maxupgrade'] = genUniqueTxt(10);
-echo $_SESSION['maxupgrade']; ?>>
-                          </TD>
-                        </tr>
-                      </TBODY>
-                    </TABLE>
-                  </FORM>
-                </td>
-              </tr>
-              <tr>
-                <TD>
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 
-border=0>
-                      <TBODY>
-                        <TR>
-                          <TH align=middle colSpan=2>
-                             Upgrade <span class="subh">Shielding Technology</span>
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TH class=subh align=left>
-                             Current Shielding Technology 
-                          </TH>
-                          <TH class=subh width="50%">
-                             Upgrade 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <?php $fl = $conf["race"][$user->race]["fortification"][$user->dalevel]["name"];
-if ($conf["race"][$user->race]["fortification"][$user->dalevel + 1]["price"]) {
-	$kn = numecho2($conf["race"][$user->race]["fortification"][$user->dalevel + 1]["price"]) . ' Gold' . ' (+25%)';
-} else {
-	$kn = 'No more upgrades available';
-}
-?>
-                          <TD>
-                            <?=$fl
-?>
-                          </TD>
-                          <TD align=middle>
-                            <?=$conf["race"][$user->race]["fortification"][$user->dalevel + 1]["name"]
-?>
-                            <br/>
-                           
-                            <INPUT type=submit size=5 value="<?=$kn
-?>" width="100%" name=upgrade_fortification>
-                          </TD>
-                        </TR>
-                      </TBODY>
-                    </TABLE>
-                  </FORM>
-                </td>
-                <TD>
-                  <FORM action=upgrades.php method=post>
-                    <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
-                      <TBODY>
-                        <TR>
-                          <TH align=middle colSpan=2>
-                             Upgrade <span class="subh">Weapons Technology</span>
-                          </TH>
-                        </TR>
-                        <TR>
-                          <TH class=subh align=left>
-                             Current Weapons Technology 
-                          </TH>
-                          <TH class=subh width="50%">
-                             Upgrade 
-                          </TH>
-                        </TR>
-                        <TR>
-                          <?php $sl = $conf["race"][$user->race]["siege"][$user->salevel]["name"];
-if ($conf["race"][$user->race]["siege"][$user->salevel + 1]["price"]) {
-	$kn = numecho2($conf["race"][$user->race]["siege"][$user->salevel + 1]["price"]) . ' Gold ' . ' (+25%)';
-} else {
-	$kn = 'No more upgrades available';
-}
-?>
-                          <TD>
-                            <?=$sl
-?>
-                          </TD>
-                          <TD align=middle>
-                            <?=$conf["race"][$user->race]["siege"][$user->salevel + 1]["name"]
-?>
-                            <br>
-                           
-                            <INPUT type=submit size=5 value="<?=$kn
-?>" width="100%" name=upgrade_siege>
-                          </TD>
-                        </TR>
-                      </TBODY>
-                    </TABLE>
-                  </FORM>
-                </td>
               </tr>
             </table>
             <?php

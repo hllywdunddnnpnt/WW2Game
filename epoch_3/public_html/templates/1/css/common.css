@@ -233,20 +233,18 @@ input, textarea {
 
 #main-error-bar {
 	color : #F00;
-	margin: 0 0 10px 15px;
+	margin: 5px 0px 10px 0px;
 	font-weight: bold;
 	text-align: center;
-	width: 495px;
-	float:left;
+	width: 685px !important; /* 495px; */
 }
 
 #main-msg-bar {
 	color: #0A0;
-	margin: 0 0 10px 15px;
+	margin: 5px 0px 10px 0px;
 	font-weight: bold;
 	text-align: center;
-	width: 495px;
-	float:left;
+	width: 685px !important; /* 495px; */
 }
 
 #main-announce-bar {
@@ -380,6 +378,7 @@ div.line p.info {
 div.line input.submit  {
 	margin-left:143px;
 	margin-bottom: 5px;
+	cursor: pointer;
 }
 
 div.line fieldset {
@@ -466,6 +465,7 @@ table.odd-even tr:nth-child(even) td {
 .email-help {
 	border: 1px solid #444;
 	padding: 5px;
+	margin: 0px;
 }
 
 /* background */ body { background-color: #000 !important; color: #d1c7b4; /* #000, #d1c7b4 */ }
@@ -478,8 +478,8 @@ table.odd-even tr:nth-child(even) td {
 
 
 #main-container { width: 1000px !important; }
-#left-panel { width: 180px !important; }	
-#page-content { width: calc(1000px - 250px) !important; }
+#left-panel { width: 195px !important; }	
+#page-content { width: calc(1000px - 265px) !important; }
 #main-content-panel .layer3 a { color: #a89d6c !important; /* color: #C90; */ }
 a:link, a:visited, a:active { color: #a89d6c; /*color: #BBC64F;*/ }
 div.panel .panel-title { color: #e2d0a2 !important; /*color: #AACCFF;*/ } 
@@ -523,21 +523,21 @@ li.primary { color: rgb(255, 211, 66) !important; } /* rgb(255, 211, 66) */
 .table-military tr th.stat, 
 .table-military tr td.stat
 	{
-		width: 30%;
+		width: 35%;
 		padding: default;
 		text-align: center;
 	}
 .table-military tr th.amount, 
 .table-military tr td.amount
 	{
-		width: 40%;
+		width: 45%;
 		padding: default;
 		text-align: right;
 	}
 .table-military tr th.rank, 
 .table-military tr td.rank
 	{
-		width: 30%;
+		width: 20%;
 		padding: default;
 		text-align: center;
 	}
@@ -549,14 +549,14 @@ li.primary { color: rgb(255, 211, 66) !important; } /* rgb(255, 211, 66) */
 .table-personnel tr th.unit, 
 .table-personnel tr td.unit
 	{
-		width: 50% !important;
+		width: 45% !important;
 		padding-right: 10px !important;
 		text-align: right !important;
 	}
 .table-personnel tr th.quantity, 
 .table-personnel tr td.quantity
 	{
-		width: 50% !important;
+		width: 55% !important;
 		padding-left: 10px !important;
 		text-align: left !important;
 	}
@@ -569,16 +569,33 @@ li.primary { color: rgb(255, 211, 66) !important; } /* rgb(255, 211, 66) */
 .table-details tr th.title, 
 .table-details tr td.title
 	{
-		width: 42% !important;
+		width: 45% !important;
 		padding-right: 10px !important;
 		text-align: right !important;
 	}
 .table-details tr th.amount, 
 .table-details tr td.amount
 	{
-		width: 58% !important;
+		width: 55% !important;
 		padding-left: 10px !important;
 		text-align: left !important;
+	}
+
+.table-profile tr th.title, 
+.table-profile tr td.title
+	{
+		width: 25% !important;
+		padding: 5px;
+	}
+.table-profile tr th.amount, 
+.table-profile tr td.amount
+	{
+		width: 75% !important;
+		padding: 5px;
+	}
+.table-profile tr
+	{
+		height: 30px !important;
 	}
 
 
@@ -602,3 +619,138 @@ li.primary { color: rgb(255, 211, 66) !important; } /* rgb(255, 211, 66) */
 .table-officers-x tr th.up, .table-officers-x tr td.up { width: 10% !important; padding-right: 10px !important; text-align: center !important; }
 .table-officers-x tr th.active, .table-officers-x tr td.active { width: 20% !important; padding-right: 10px !important; text-align: center !important; }
 .table-officers-x tr th.action, .table-officers-x tr td.action { width: 20% !important; padding-right: 10px !important; text-align: center !important; }
+
+
+.table-battlefield
+	{
+		width: 100%;
+	}
+.table-battlefield tr th
+	{
+		padding: 3px 5px !important;
+	}
+.table-battlefield tr td
+	{
+		padding: 5px 8px !important;
+	}
+
+img.flag-tiny {
+	display: inline-block;
+	height: 20px !important;
+	max-height: 20px;
+	position: relative;
+	opacity: 1;
+	/* top: 0px; */
+	left: 0px;
+}
+img.flag-med {
+	display: inline-block;
+	height: 50px !important;
+	max-height: 50px;
+	position: relative;
+	opacity: 1;
+	/* top: 0px; */
+	left: 0px;
+}
+div.flag-label {
+	display: inline-block;
+	position: relative;
+	top: -4px;
+	left: 0px;
+	margin-top: 0px;
+	margin-left: 5px;
+	/* color: white; */
+	/* font-size: 14px; */
+}
+div.flag-top {
+	display: block;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-bottom: 5px;
+	/* color: white; */
+	/* font-size: 14px; */
+}
+
+
+div.boxer {
+	text-align:center;
+	font-size: 15px;
+	border: 1px #444 solid;
+	background-color: #222;
+	padding : 5px 0;
+	margin: 5px 0;
+	width: 99.5%;
+}
+
+
+.table-upgrades tr th { padding: 5px !important; }
+.table-upgrades tr td { padding: 8px !important; height: 20px; }
+.table-upgrades tr .upgrade { width: 32% !important; text-align: right !important; padding-right: 10px !important; }
+.table-upgrades tr .current { width: 28% !important; text-align: left !important; padding-left: 10px !important }
+.table-upgrades tr .next { width: 40% !important; text-align: left !important; }
+
+input.btn-max { width: 60px !important; }
+input.btn-upgrade { width: 180px !important; }
+
+div.racer { width: 220px; border: 0px solid white; text-align: center; display: inline-block; margin: 0px; padding: 10px; }
+div.race-col { display: flex; flex-direction: row; justify-content: center; flex-wrap: wrap;}
+
+div.race-img img { height: 100px; /* width: 200px; */ }
+div.race-desc { height: 40px; text-align: center; font-style: italic; }
+
+div.race-bonuses div { font-size: 14px; }
+
+div.race-join { margin-top: 10px; }
+div.race-join a,
+div.race-join a:link,
+div.race-join a:hover,
+div.race-join a:visited,
+div.race-join a:active
+	{ 
+		background-color: #222;
+		border: 1px solid #4C4C4C;
+		color: #CCC;
+		font-size: 12px;
+		border-collapse: collapse;
+		padding: 5px 5px;
+		font-family: Verdana;
+		width: 160px;
+	}
+
+div.race-title {
+	display: block;
+	text-align: center;
+	font-size: 15px;
+	border: 1px #444 solid;
+	background-color: #222;
+	padding : 5px 0px;
+	margin: 5px auto;
+	width: 200px;
+}
+
+input.btn-sub
+	{
+		width: 100px;
+		height: 30px;
+		cursor: pointer;
+	}
+div.form-sub-bottom
+	{
+		float:right; 
+		height: 38px; 
+		margin-top: 5px; 
+		margin-bottom: 10px;
+	}
+
+ul.ul-login-menu li.dot
+	{
+		border-bottom: dotted #444 2px !important;
+		padding: 3px 0px !important;
+	}
+
+div.menu-age
+	{
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 10px;
+	}

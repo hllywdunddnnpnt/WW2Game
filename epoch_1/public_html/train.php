@@ -130,21 +130,23 @@ include ("left.php");
 ?>
 
     </TD>
-      <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
-    vAlign=top align=left> <BR>
+      <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px;" 
+    vAlign=top align=left>
 	<?php
 include "islogined.php";
 ?>
-      <H3>Training</H3>
 	  <p><strong><center><font color=red><?php echo $cgi["strErr"]; ?></font></center></strong></p>
       <TABLE width="100%">
         <TBODY>
         <TR>
           <TD style="PADDING-RIGHT: 25px" vAlign=top width="50%">
+		  	<H3 style="margin-bottom: 12px;">
+			  Training
+			</H3>
             <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 	border=0>
 			  <TBODY>
 			  <TR>
-			    <TH colSpan=2>Personnel</TH></TR>
+			    <TH class="subh" colSpan="2">Personnel</TH></TR>
 			  <TR>
 			    <TD><B>Trained Attack Soldiers</B></TD>
 			    <TD align=right><?php numecho($user->sasoldiers) ?></TD></TR>

@@ -4,11 +4,11 @@ include "scripts/vsys.php";
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?>:: Attack Log</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><!-- ZoneLabs Privacy Insertion -->
-<SCRIPT language=javascript src="js/js"></SCRIPT>
-<LINK href="css/common.css" type=text/css rel=stylesheet>
+<META http-equiv="Content-Type" content="text/html; charset="iso-8859-1""><!-- ZoneLabs Privacy Insertion -->
+<SCRIPT language="javascript" src="js/js"></SCRIPT>
+<LINK href="css/common.css" type="text/css" rel="stylesheet">
 
-<SCRIPT language=javascript type=text/javascript>
+<SCRIPT language="javascript" type="text/javascript">
 		<!--
 		function checkCR(evt) {
 		var evt = (evt) ? evt : ((event) ? event : null);
@@ -19,22 +19,21 @@ include "scripts/vsys.php";
 		//-->
 		</SCRIPT>
 
-<META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
-<BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
+<META content="MSHTML 5.50.4522.1800" name="GENERATOR"></HEAD>
+<BODY text=#ffffff bgColor=#000000 leftMargin="0" topMargin="0" marginheight="0" 
 marginwidth="0">
 <?php
 include "top.php";
 ?>
-<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
+<TABLE cellSpacing="0" cellPadding="5" width="100%" border="0">
   <TBODY>
   <TR>
-    <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
+    <TD class="menu_cell_repeater" style="PADDING-LEFT: 15px" vAlign="top" width="140">
 <?php
 include ("left.php");
 ?>
 	</TD>
-    <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px"   vAlign=top align=left>
-     <BR>
+    <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px"   vAlign="top" align="left">
      <table width="100%" class="table_lines" cellspacing="0" cellpadding="6" border="0">
           <tr> 
             <th colspan="10" align="center">Attacks on You</th>
@@ -56,6 +55,7 @@ if (!$cgi['page1']) {
 	$cgi['page1'] = 1;
 }
 $atackA1 = getAttackByDefender($user->ID, $cgi['page1']);
+if (is_countable($atackA1)){
 for ($i = 0;$i < count($atackA1);$i++) {
 ?>
           <tr> 
@@ -95,10 +95,10 @@ for ($i = 0;$i < count($atackA1);$i++) {
             <td align="right">
               <?php numecho($atackA1[$i]->defStrength); ?>
             </td>
-            <td align="center"><a href="battlelog.php?id=<?=$atackA1[$i]->ID ?>&isview=1">details</a></td>
+            <td align="center"><a href="battlelog.php?id=<?=$atackA1[$i]->ID ?>&isview="1"">details</a></td>
           </tr>
           <?php
-}
+}}
 ?>
           <tr> 
             <td><?php if ($cgi['page1'] > 1) {
@@ -146,6 +146,7 @@ if (!$cgi['page2']) {
 	$cgi['page2'] = 1;
 }
 $atackA2 = getAttackByAttacker($user->ID, $cgi['page2']);
+if (is_countable($atackA2)){
 for ($i = 0;$i < count($atackA2);$i++) {
 ?>
           <tr> 
@@ -189,10 +190,10 @@ for ($i = 0;$i < count($atackA2);$i++) {
             <td align="right"> 
             <?php numecho($atackA2[$i]->attackStrength); ?>
             </td>
-            <td align="center"><a href="battlelog.php?id=<?=$atackA2[$i]->ID ?>&amp;isview=1">details</a></td>
+            <td align="center"><a href="battlelog.php?id=<?=$atackA2[$i]->ID ?>&amp;isview="1"">details</a></td>
           </tr>
           <?php
-} ?>
+}} ?>
           <tr> 
             <td> 
               <?php if ($cgi['page2'] > 1) {

@@ -21,11 +21,14 @@ define('Inf', null);
 define('SESS_NAME', 'ww2game');
 
 define('AREAS', false);
+define('SUPPORT', false);
+define('SHOW_ONLINE', false);
+define('ALLIANCES', false);
+define('THIEVES', true);
 
-
-require_once(CACHEDIR . '/age.php');
-require_once(CACHEDIR . '/start_time.php');
-require_once(CACHEDIR . '/end_time.php');
+require_once(CACHEDIR . 'age.php');
+require_once(CACHEDIR . 'start_time.php');
+require_once(CACHEDIR . 'end_time.php');
 
 $db_user = isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"] == $host_local ? 'ww3game_user' : 'ww2-johnny';
 $db_pass = isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"] == $host_local ? 'password' : 'johnnyisinWW2';
@@ -70,8 +73,8 @@ function updateAgefiles($nextage) {
 	$second = false;
 	//return false;
 	$nextage = intval($nextage);
-	/*
-	$fp = fopen('age.txt', 'w+');
+	
+	$fp = fopen(CACHEDIR . 'age.txt', 'w+');
 	if ($fp) {
 		if (flock($fp, LOCK_EX)) {
 			ftruncate($fp, 0);
@@ -95,7 +98,7 @@ function updateAgefiles($nextage) {
 			
 		}
 		fclose($fp);
-	}*/
+	}
 	
 	return $first && $second;
 }

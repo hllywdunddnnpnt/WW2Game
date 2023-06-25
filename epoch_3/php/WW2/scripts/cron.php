@@ -153,71 +153,70 @@ $UpdateSQL.=" avgarmy='$avgarmy',avghit='$avghit',avgtbg='$avgtbg',avgup='$avgup
 $UpdateSQL.=" avgra='$avgra';";
 mysqli_query($db, $UpdateSQL)or die("M".mysqli_error($db));
 
-
-$q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY area,SA DESC")or die("e8".mysqli_error($db));
+$order = AREAS ? "area," : "";
+$q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY $order SA DESC")or die("e8".mysqli_error($db));
 $i=1;
 $area = 0;
-
 while($row=mysqli_fetch_array($q, MYSQLI_ASSOC)) {
-	if ($area != $row['area']) {
+	if (AREAS && $area != $row['area']) {
 		$i = 1;
 	}
 
 	$update = mysqli_query($db, "UPDATE User SET sarank=$i WHERE id=".$row['id'])or die("e9".mysqli_error($db));
 	$i++;
-	$area = $row['area'];
+	if (AREAS) $area = $row['area'];
 }
 
-$q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY area,DA DESC")or die("e20".mysqli_error($db));
+$q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY $order DA DESC")or die("e20".mysqli_error($db));
 $i=1;
 $area = 0;
 while($row=mysqli_fetch_array($q, MYSQLI_ASSOC)){
-	if ($area != $row['area']) {
+	if (AREAS && $area != $row['area']) {
 		$i = 1;
 	}
 	$update=mysqli_query($db, "UPDATE User SET darank=$i WHERE id=".$row['id'])or die("e21".mysqli_error($db));
 	$i++;
-	$area = $row['area'];
+	if (AREAS) $area = $row['area'];
 }
 
-$q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY area,CA DESC")or die("e22".mysqli_error($db));
+$q=mysqli_query($db, "SELECT id,area FROM User WHERE active=1 ORDER BY $order CA DESC")or die("e22".mysqli_error($db));
 $i=1;
 $area = 0;
 while($row=mysqli_fetch_array($q,MYSQLI_ASSOC)){
-	if ($area != $row['area']) {
+	if (AREAS && $area != $row['area']) {
 		$i = 1;
 	}
 	$update=mysqli_query($db, "UPDATE User SET carank=$i WHERE id=".$row['id'])or die("e23".mysqli_error($db));
 	$i++;
-	$area = $row['area'];
+	if (AREAS) $area = $row['area'];
 
 }
 
-$q=mysqli_query($db, "SELECT id,active,area FROM User WHERE active=1 ORDER BY area,RA DESC")or die("e24".mysqli_error($db));
+$q=mysqli_query($db, "SELECT id,active,area FROM User WHERE active=1 ORDER BY $order RA DESC")or die("e24".mysqli_error($db));
 $i=1;
 $area = 0;
 while($row=mysqli_fetch_array($q,MYSQLI_ASSOC)){
-	if ($area != $row['area']) {
+	if (AREAS && $area != $row['area']) {
 		$i = 1;
 	}
 	$update=mysqli_query($db, "UPDATE User SET rarank=$i,active=".$row['active']." WHERE id=".$row['id'])or die("e25".mysqli_error($db));
 	$i++;
-	$area = $row['area'];
+	if (AREAS) $area = $row['area'];
 
 }
 
-$q=mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) as avgx, id, area FROM User WHERE active=1 ORDER BY area, avgx")or die("e10".mysqli_error($db));
+$q=mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) as avgx, id, area FROM User WHERE active=1 ORDER BY $order avgx")or die("e10".mysqli_error($db));
 
 $i = 1;
 $area = 0;
 while($row=mysqli_fetch_array($q,MYSQLI_ASSOC)){
-	if ($area != $row['area']) {
+	if (AREAS && $area != $row['area']) {
 		$i = 1;
 	}
 
 	$update=mysqli_query($db, "UPDATE `User` SET `rank`=$i WHERE `id`=".$row['id'])or die("e11".mysqli_error($db));
 	$i++;
-	$area = $row['area'];
+	if (AREAS) $area = $row['area'];
 
 }
 

@@ -24,44 +24,48 @@
 		<div class="panel-title">
 			Users Online
 		</div>
-		<table class="odd-even large">
-			<tr>
-				<th>Rank</th>
-				<th>Nation</th>
-				<th>Name</th>
-				<th>Army Size</th>
-				<?php if (Privacy::isAdmin()) { ?>
-					<th>IP</td>
-				<?php } ?>
-			</tr>
-			<?php $area = 0; ?>
-			<?php foreach($this->users as $target) { ?>
-				<?php if ($area != $target->area) { $area = $target->area;?>
-					<tr><td colspan="4"><?= $conf['area'][$area]['name'] ?></td></tr>
-				<?php } ?>
+		<?php if (SHOW_ONLINE): ?>
+			<table class="odd-even large">
 				<tr>
-					<?php if ($target->rank == 0) { ?>
-						<td>Unranked</td>
-						<td><img title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" /></td>
-						<td><?= $target->getNameHTML() ?></td>
-						<td><?= numecho($target->getTFF()) ?></td>
-					<?php }
-						else { ?>
-						<td><?= numecho($target->rank) ?></td>
-						<td><img title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" /></td>
-						<td style="text-align:left;">
-							<?= $target->getNameLink() ?>
-							<?php if ($target->alliance) { echo $target->getAlliance()->getTag(); } ?>
-						</td>
-						<td><?= numecho($target->getTFF()) ?></td>
-					<?php } ?>
+					<th>Rank</th>
+					<th>Nation</th>
+					<th>Name</th>
+					<th>Army Size</th>
 					<?php if (Privacy::isAdmin()) { ?>
-						<td><?= $target->currentIP ?> <br /> (<?= gethostbyaddr($target->currentIP) ?>)</td>
+						<th>IP</td>
 					<?php } ?>
 				</tr>
-			<?php } ?>
-			<tr><td colspan="4"><?= numecho($this->usersCount) ?> online players</td></tr>
-		</table>
+				<?php $area = 0; ?>
+				<?php foreach($this->users as $target) { ?>
+					<?php if ($area != $target->area) { $area = $target->area;?>
+						<tr><td colspan="4"><?= $conf['area'][$area]['name'] ?></td></tr>
+					<?php } ?>
+					<tr>
+						<?php if ($target->rank == 0) { ?>
+							<td>Unranked</td>
+							<td><img title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" /></td>
+							<td><?= $target->getNameHTML() ?></td>
+							<td><?= numecho($target->getTFF()) ?></td>
+						<?php }
+							else { ?>
+							<td><?= numecho($target->rank) ?></td>
+							<td><img title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" /></td>
+							<td style="text-align:left;">
+								<?= $target->getNameLink() ?>
+								<?php if ($target->alliance) { echo $target->getAlliance()->getTag(); } ?>
+							</td>
+							<td><?= numecho($target->getTFF()) ?></td>
+						<?php } ?>
+						<?php if (Privacy::isAdmin()) { ?>
+							<td><?= $target->currentIP ?> <br /> (<?= gethostbyaddr($target->currentIP) ?>)</td>
+						<?php } ?>
+					</tr>
+				<?php } ?>
+				<tr><td colspan="4"><?= numecho($this->usersCount) ?> online players</td></tr>
+			</table>
+		<?php else: ?>
+			Online users are anonymous!
+		<?php endif; ?>
 	</div>
 </div>
 <!-- End online page -->

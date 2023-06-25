@@ -59,7 +59,7 @@
 								[<a href="alliance-home.php?leave-alliance=yes"> leave </a>]
 							<?php }
 								else { ?>
-								<a href="alliance-list.php">None</a>
+								<!-- <a href="alliance-list.php">None</a> -->None
 							<?php } ?>
 						</td></tr>
 						<tr><td class="title">Game Skill</td><td class="amount"><?= numecho($user->gameSkill) ?></td></tr>

@@ -19,19 +19,172 @@
 
 -->
 <!-- Begin Stats page -->
+
+<?php
+$tag = '';
+if ($this->target->alliance) {
+	$tag = '&nbsp;' . $this->target->getAlliance()->getTag();
+}
+?>
+
 <div id="statspage-container">
 
 	<div class="panel">
 		<div class="panel-title">
-			User Info {<a href="report-user.php?uid=<?= $this->target->id ?>">Report User</a>}
+			<?= $this->target->username ?>'s Details
 		</div>
-		<div class="large">
-			<?php
-				$tag = '';
-				if ($this->target->alliance) {
-					$tag = '&nbsp;' . $this->target->getAlliance()->getTag();
-				}
-			?>
+		<table class="tab-stats table-details table-profile">
+		<tr>
+			<td class="title">Username</td>
+			<td class="amount"><?= $this->target->getNameRecruit() . $tag ?></td>
+		</tr>
+		<?php if (Privacy::isAdmin()): ?>
+			<tr>
+				<td class="title">Admin Tools</td>
+				<td class="amount">
+					<a href="admin-stats.php?uid=<?= $this->target->id ?>">Stats</a>
+					(<?= $this->target->currentIP ?>)
+				</td>
+			</tr>
+		<?php endif; ?>
+		<tr>
+			<td class="title">Rank</td>
+			<td class="amount"><?= numecho($this->target->rank) ?></td>
+		</tr>
+		<tr>
+			<td class="title">Nation</td>
+			<td class="amount">
+				<div class="flag-top"><?= $this->target->getNation() ?></div>
+				<img class="flag-med" style="margin-bottom: 5px !important;" title="<?= $this->target->getNation() ?>" alt="<?= $this->target->getNation() ?>" src="<?= $this->image($this->target->getNationFlag()) ?>" />
+			</td>
+		</tr>
+		<?php if (AREAS): ?>
+		<tr>
+			<td class="title">Area</td>
+			<td class="amount"><?= $this->target->getAreaName() ?></td>
+		</tr>
+		<?php endif; ?>
+		<tr>
+			<td class="title">Commander</td>
+			<td class="amount">
+				<?php if($this->target->commander) { ?>
+					<?= $this->target->getCommander()->getNameLink() ?>
+				<?php }
+					else { ?>
+					None
+				<?php } ?>
+			</td>
+		</tr>
+		<?php if (ALLIANCES): ?>
+		<tr>
+			<td class="title">Alliance</td>
+			<td class="amount"><?= "none" ?></td>
+		</tr>
+		<?php endif; ?>
+		<tr>
+			<td class="title">Army Size</td>
+			<td class="amount"><?= numecho($this->target->getTFF()) ?></td>
+		</tr>
+		<tr>
+			<td class="title gold">Gold</td>
+			<td class="amount gold"><?= ( $user->canSpyOn($this->target) ? numecho2($this->target->gold) : '?????' ) ?></td>
+		</tr>
+		<?php if (SUPPORT): ?>
+		<tr>
+			<td class="title">Area</td>
+			<td class="amount"><?= $this->target->getNameRecruit() . $tag ?></td>
+		</tr>
+		<?php endif; ?>
+		</table>
+
+		<?php if ($user->id && $this->target->id != $user->id): ?>
+		<div class="panel-title">
+			Actions towards <?= $this->target->username ?>
+		</div>
+		<table class="tab-stats table-details table-profile">
+		<?php if (!AREAS || (AREAS && $this->target->area == $user->area)): ?>
+		<tr>
+			<td class="title">Attack</td>
+			<td class="amount">
+				<form action="attack.php" method="post" class="right-section">
+					<input type="hidden" name="uid" value="<?= $this->target->id ?>" />
+					<input type="submit" name="mass" value="Pierce (1 Turn)" />&nbsp;&nbsp;|&nbsp;
+					<input type="submit" name="raid" value="Strike (6 Turns)" />
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td class="title">Spy</td>
+			<td class="amount">
+				<form action="spy.php" method="post" class="right-section">
+					<input type="hidden" name="uid" value="<?= $this->target->id ?>" />
+					<input type="submit" name="spy" value="<?= numecho($conf['spying-cost']) ?> gold to Spy!" />
+				</form>
+			</td>
+		</tr>
+		<?php if (THIEVES): ?>
+		<tr>
+			<td class="title">Thieve</td>
+			<td class="amount">
+				<form action="theft.php" method="post" class="right-section">
+					<input type="hidden" name="id" value="<?= $this->target->id ?>" />
+			
+					<input type="hidden" name="uid" value="<?= $this->target->id ?>" />
+					<?php if (!$user->getSupport('theft-calc')) { ?>
+						<label for="spies">Spies:</label>
+						<input id="theft-spies" type="text" name="spies" value="" style="margin-bottom:5px;"/>
+						<br />
+					<?php } ?>
+					<input type="submit" name="saweapons" value="Attack Weapons" /> |
+					<input type="submit" name="daweapons" value="Defense Weapons" /> |
+					<?php if ($user->nation != 1 and $user->nation != 3) { ?>
+						<input type="submit" name="gold" value="Gold" />
+					<?php } ?>
+				</form>
+			</td>
+		</tr>
+		<?php endif; ?>
+		<tr>
+			<td class="title">Message</td>
+			<td class="amount">
+				<form action="writemail.php" method="post" class="right-section">
+					<input type="hidden" name="to[]" value="<?= $this->target->id ?>" />
+					<input type="submit" name="message" value="Send a Message!" />
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td class="title">Join</td>
+			<td class="amount">
+				<?php if ($this->target->numofficers < $this->target->maxofficers) { ?>
+					<?php if ($user->commander != $this->target->id) { ?>
+						<form method="post" class="right-section">
+							<input type="hidden" name="uid" value="<?= $this->target->id ?>" />
+							<input type="submit" name="mkcommander" value="Make this user my commander!" />
+						</form>
+					<?php }
+						else { ?>
+						<span>[ This is your commander ]</span>
+					<?php } ?>
+				<?php }
+					else { ?>
+					<span>[ This user has enough officers ]</span>
+				<?php } ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="title">Report</td>
+			<td class="amount">
+				<a href="report-user.php?uid=<?= $this->target->id ?>">Report User</a>
+			</td>
+		</tr>
+		<?php endif; ?>
+		<?php endif; ?>
+		</table>
+
+
+		<?php if (false): ?>
+		<!-- <div class="large">
 			<div class="line">
 				<label>Username</label>
 				<span><?= $this->target->getNameRecruit() . $tag ?></span>
@@ -44,6 +197,7 @@
 					</span>
 				</div>
 			<?php } ?>
+			<?php if (SUPPORT) { ?>
 			<div class="line">
 				<span colspan="2" style="text-align:center;margin-left:0;">
 					<a href="support.php?uid=<?= $this->target->id ?>" title="Buy Supporter Status for <?= $this->target->getNameHTML() ?>">
@@ -51,6 +205,7 @@
 					</a>
 				</span>
 			</div>
+			<?php } ?>
 			<div class="line">
 				<label>Commander</label>
 				<span>
@@ -64,7 +219,8 @@
 			</div>
 			<div class="line">
 				<label>Nation</label>
-				<span><?= $this->target->getNation() ?></span>
+				<img class="flag-med" title="<?= $this->target->getNation() ?>" alt="<?= $this->target->getNation() ?>" src="<?= $this->image($this->target->getNationFlag()) ?>" />
+				<div class="flag-label"><?= $this->target->getNation() ?></div>
 			</div>
 			<div class="line">
 				<label>Area</label>
@@ -78,7 +234,7 @@
 				<label>Army Size</label>
 				<span><?= numecho($this->target->getTFF()) ?></span>
 			</div>
-			<div class="line">
+			<div class="line gold">
 				<label>Gold</label>
 				<span><?= ( $user->canSpyOn($this->target) ? numecho2($this->target->gold) : '?????' ) ?></span>
 			</div>
@@ -148,7 +304,8 @@
 				
 			<?php } ?>
 			<div class="clear flat"></div>
-		</div>
+		</div> -->
+		<?php endif; ?>
 	</div>
 
 	<?php

@@ -20,22 +20,26 @@
 -->
 					<!-- Begin left menu -->
 					<div id="left-menu">
+						<div class="menu-age high">Age <?= $conf['age'] ?></div>
 						<ul>
 							<li><a href="base.php" title="Military Home">Base</a></li>
-							<li><a href="treasury.php" title="Your Bank">Treasury</a></li>
-							<li><a href="upgrades.php" title="Technology Upgrades">Upgrades</a></li>
-							<li><a href="train.php" title="Train You Soldiers">Training</a></li>
-							<li><a href="battlefield.php?page=<?= floor($user->rank / $conf['users-per-page']) + 1 ?>" title="Show Potential Targets">Attack</a></li>
+							<li><a href="battlefield.php?page=<?= floor($user->rank / $conf['users-per-page']) + 1 ?>" title="Show Potential Targets">Battlefield</a></li>
 							<li><a href="armoury.php" title="Buy Amoury">Armoury</a></li>
+							<li><a href="train.php" title="Train You Soldiers">Training</a></li>
+							<li><a href="upgrades.php" title="Technology Upgrades">Upgrades</a></li>
 							<li><a href="attacklog.php" title="See Who Has Attacked You">Attack Log</a></li>
 							<li><a href="intel.php" title="See Who Has Spied On You">Intel</a></li>
+							<li><a href="treasury.php" title="Your Bank">Treasury</a></li>
 							<li><a href="prefs.php" title="Change Your Preferences">Preferences</a></li>
 							<li><a href="logout.php" title="Good Bye">Logout</a></li>
 						</ul>
 						<br />
 						<ul>
-							<li>Next turn: <span id="menu-next-turn-min"></span>:<span id="menu-next-turn-sec"></span></li>
-							<li>Rank: <?= numecho($user->rank)         ?></li>
+							<li>Next turn: <span id="menu-next-turn-min">00</span>:<span id="menu-next-turn-sec">00</span></li>
+							<li>
+								Rank: <?=numecho($user->rank)?>
+								<span class="fade">(<?=numecho($user->sarank)?>,<?=numecho($user->darank)?>,<?=numecho($user->carank)?>,<?=numecho($user->rarank)?>)</span>
+							</li>
 							<li>Turns: <?= numecho($user->attackturns) ?> / <?= numecho($conf['attackturn-cap']) ?></li>
 							<?php if ($user->getSupport('combined-gold')) { ?>
 								<?php $user->primary = 2; ?>

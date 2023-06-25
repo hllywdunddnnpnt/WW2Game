@@ -3,9 +3,9 @@ include "scripts/vsys.php";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE><?php echo $conf["sitename"]; ?> :: Online List</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
-<LINK href="css/common.css" type=text/css rel=stylesheet>
-<SCRIPT language=javascript type=text/javascript>
+<META http-equiv="Content-Type" content="text/html; charset="iso-8859-1"">
+<LINK href="css/common.css" type="text/css" rel="stylesheet">
+<SCRIPT language="javascript" type="text/javascript">
 		<!--
 		function checkCR(evt) {
 		var evt = (evt) ? evt : ((event) ? event : null);
@@ -16,25 +16,27 @@ include "scripts/vsys.php";
 		//-->
 		</SCRIPT>
 
-<META content="MSHTML 5.50.4522.1800" name=GENERATOR></HEAD>
-<BODY text=#ffffff bgColor=#000000 leftMargin=0 topMargin=0 marginheight="0" 
+<META content="MSHTML 5.50.4522.1800" name="GENERATOR"></HEAD>
+<BODY text=#ffffff bgColor=#000000 leftMargin="0" topMargin="0" marginheight="0" 
 marginwidth="0">
 <?php
 include "top.php";
 ?>
-<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
+<TABLE cellSpacing="0" cellPadding="5" width="100%" border="0">
   <TBODY>
   <TR>
-    <TD class=menu_cell_repeater style="PADDING-LEFT: 15px" vAlign=top width=140>
+    <TD class="menu_cell_repeater" style="PADDING-LEFT: 15px" vAlign="top" width="140">
 <?php
 include ("left.php");
 ?>
-	</TD><td valign="TOP"><center> <b>Users Online</b><br>
-	<table class=table_lines cellSpacing=0 cellPadding=6 width="50%" 
-border=0>
+	</TD><td valign="TOP" class="subh" style="padding-top: 20px;"><center>
+	<table class="table_lines" cellSpacing="0" cellPadding="6" width="50%" 
+border="0">
+	<tr><th class="subh" colspan="3">Users Online</th></tr>
 	<tr><TD>UserName</td><td>Nation</td><TD>Rank</td></tr>
 	<?php $users = getOnlineUsers();
 $all_cache = array();
+if (is_countable($users)){
 for ($i = 0;$i < count($users);$i++) {
 	$tag = '';
 	if (in_array($users[$i]->alliance, $all_cache) AND !isset($all_cache[$users[$i]->alliance])) {
@@ -58,7 +60,7 @@ for ($i = 0;$i < count($users);$i++) {
 	}
 	echo "</td>";
 	echo "</tr>\n";
-}
+}}
 ?>
 	</table>
 	 </center>

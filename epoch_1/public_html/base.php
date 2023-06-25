@@ -104,7 +104,7 @@ include "islogined.php";
 												
                                                 <TR>
                                                     <TH class=subh align=middle colSpan=2>
-                                                         User Info
+                                                         User Infoss
                                                     </TH>
                                                 </TR>
                                                 <TR>

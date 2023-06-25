@@ -134,7 +134,7 @@ function me($id = null) {
 //-----------------------------End Convertions--------------------------------------------
 
 
-function duration($time, $N = 1) {
+function duration($time, $N = 1, $mode=1, $sep=", ", $sep2=" ") {
 	if ($N == 3) {
 		$hour = floor($time / 3600);
 		$time = $time - $hour * 3600;
@@ -152,59 +152,72 @@ function duration($time, $N = 1) {
 	$input['min'] = floor($time / 60);
 	$input['sec'] = $time - $input['min'] * 60;
 
+	$str_week = ($mode == 1 ? "week" : ($mode == 2 ? "w" : "week"));
+	$str_day = ($mode == 1 ? "day" : ($mode == 2 ? "d" : "day"));
+	$str_hour = ($mode == 1 ? "hour" : ($mode == 2 ? "h" : "hour"));
+	$str_minute = ($mode == 1 ? "minute" : ($mode == 2 ? "m" : "min"));
+	$str_second = ($mode == 1 ? "second" : ($mode == 2 ? "s" : "sec"));
+	
+	$str_weeks = ($mode == 1 ? "weeks" : ($mode == 2 ? "w" : "weeks"));
+	$str_days = ($mode == 1 ? "days" : ($mode == 2 ? "d" : "days"));
+	$str_hours = ($mode == 1 ? "hours" : ($mode == 2 ? "h" : "hours"));
+	$str_minutes = ($mode == 1 ? "minutes" : ($mode == 2 ? "m" : "mins"));
+	$str_seconds = ($mode == 1 ? "seconds" : ($mode == 2 ? "s" : "secs"));
+
 	$output = "";
 	if ($input['week']) {
 		if ($input['week'] > 1) {
-			$output .= $input['week']."wks ";
+			$output .= $input['week'].$sep2.$str_weeks.$sep;
 		}
 		else {
-			$output .= $input['week']."wk ";
+			$output .= $input['week'].$sep2.$str_week.$sep;
 		}
 	}
 	if ($input['day']) {
 		if ($input['day'] > 1) {
-			$output .= $input['day']."days ";
+			$output .= $input['day'].$sep2.$str_days.$sep;
 		}
 		else {
-			$output .= $input['day']."day ";
+			$output .= $input['day'].$sep2.$str_day.$sep;
 		}
 	}
 	if ($input['hour']) {
 		if ($input['hour'] > 1) {
-			$output .= $input['hour']."hours ";
+			$output .= $input['hour'].$sep2.$str_hours.$sep;
 		}
 		else {
-			$output .= $input['hour']."hour ";
+			$output .= $input['hour'].$sep2.$str_hour.$sep;
 		}
 	}
 	if ($input['min']) {
 		if ($input['min'] > 1) {
-			$output .= $input['min']."mins ";
+			$output .= $input['min'].$sep2.$str_minutes.$sep;
 		}
 		else {
-			$output .= $input['min']."min ";
+			$output .= $input['min'].$sep2.$str_minute.$sep;
 		}
 	}
 	if ($input['sec']) {
 		if ($N == 1) {
 			if ($input['sec'] > 1) {
-				$output .= $input['sec']."secs ";
+				$output .= $input['sec'].$sep2.$str_seconds;
 			}
 			else {
-				$output .= $input['sec']."sec ";
+				$output .= $input['sec'].$sep2.$str_second;
 			}
 		}
 		elseif (($output == NULL) && ($N == 2)) {
 			if ($input['sec'] > 1) {
-				$output .= $input['sec']."secs ";
+				$output .= $input['sec'].$sep2.$str_seconds;
 			}
 			else {
-				$output .= $input['sec']."sec ";
+				$output .= $input['sec'].$sep2.$str_second;
 			}
 		}
 	}
-	if (substr($output, -1) == chr(32)) {
-		return substr($output, 0, strlen($output) - 1);
+	//if (substr($output, -1) == chr(32)) {
+	if (preg_match("/$sep$/", $output)) {
+		return preg_replace("/$sep$/", "", $output);
 	}
 	return $output;
 }

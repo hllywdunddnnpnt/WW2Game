@@ -36,12 +36,13 @@
 			)</span>
 			<?php endif; ?>
 		</div>
-		<table class="odd-even large">
+		<table class="odd-even table-battlefield">
 			<tr>
-				<th>Rank</th>
-				<th>Nation</th>
-				<th>Name</th>
-				<th>Army Size</th>
+				<th width="20%">Rank</th>
+				<th width="15%">Nation</th>
+				<th width="25%">Name</th>
+				<th width="20%">Army Size</th>
+				<th width="20%">Gold</th>
 				<?php $quickAttack = false; ?>
 				<?php if ($user->getSupport('quick-attack') and $user->area == $this->area) { $quickAttack = true; ?>
 					<th>&nbsp;</th>
@@ -49,8 +50,11 @@
 			</tr>
 			<?php foreach($this->users as $target) { ?>
 				<tr>
-					<td><?= numecho($target->rank) ?></td>
-					<td><img title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" /></td>
+					<td style="text-align:center;"><?= numecho($target->rank) ?></td>
+					<td style="text-align:left;">
+						<img class="flag-tiny" title="<?= $target->getNation() ?>" alt="<?= $target->getNation() ?>" src="<?= $this->image($target->getNationFlag()) ?>" />
+						<div class="flag-label"><?= $target->getNation() ?></span>
+					</td>
 					<?php
 						$class = '';
 						$title = '';
@@ -86,9 +90,10 @@
 							<br />(<?= $target->currentIP ?>)
 						<?php } ?>
 					</td>
-					<td><?= numecho($target->getTFF()) ?></td>
+					<td style="text-align:center;"><?= numecho($target->getTFF()) ?></td>
+					<td style="text-align:right;" class="gold"><?= $target->id == $user->id || $user->canSpyOn($target) ? numecho2($target->gold) : '???' ?></td>
 					<?php if ($quickAttack) { ?>
-						<td style="white-space:nowrap;">
+						<td style="white-space:nowrap; text-align:right;">
 							<a href="attack.php?uid=<?= $target->id ?>&amp;raid=Raid">Attack</a>&nbsp;||&nbsp;
 							<a href="spy.php?uid=<?= $target->id ?>&amp;spy=Spy">Spy</a>
 						</td>
@@ -101,7 +106,7 @@
 						<a href="?page=<?= $this->page - 1?>&amp;search=<?= urlencode($this->search) ?>&amp;search-type=<?= $this->searchType ?>&amp;area=<?= $this->area ?>">&lt;&lt;</a>&nbsp;
 					<?php } else { echo "<<"; } ?>
 				</td>
-				<td colspan="<?= ($quickAttack ? 3 : 2) ?>">
+				<td colspan="<?= ($quickAttack ? 4 : 3) ?>" align="center">
 					<?php for($i = 1; $i <= $this->totalPages; $i++) { ?>
 						<a <?= ($i == $this->page ? 'class="selected"' : '') ?> href="?page=<?= $i ?>&amp;search=<?= urlencode($this->search) ?>&amp;search-type=<?= $this->searchType ?>&amp;area=<?= $this->area ?>"><?= numecho($i) ?></a>&nbsp;
 					<?php } ?>
@@ -113,9 +118,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="<?= ($quickAttack ? 5 : 4) ?>">Page <?= numecho($this->page) ?> of <?= numecho($this->totalPages) ?></td>
+				<td colspan="<?= ($quickAttack ? 6 : 5) ?>">Page <?= numecho($this->page) ?> of <?= numecho($this->totalPages) ?></td>
 			</tr>
-			<tr><td colspan="<?= ($quickAttack ? 5 : 4) ?>"><?= numecho($this->usersCount) ?> active players</td></tr>
+			<tr><td colspan="<?= ($quickAttack ? 6 : 5) ?>"><?= numecho($this->usersCount) ?> active players</td></tr>
 		</table>
 		<form method="get" class="large">
 			<?php if (AREAS): ?>

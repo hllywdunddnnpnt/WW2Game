@@ -20,16 +20,78 @@
 -->
 <!-- Begin Armoury page -->
 <div id="armoury-container">
-	<div class="panel">
+
+	<form method="post">
+		<h1 class="">
+			Buy Weapons
+		</h1>
+		<div class="panel">
+			<div class="panel-title">
+				Attack Weapons
+			</div>
+			<table>
+				<tr>
+					<th width="25%" style="text-align:right;">Weapon</th>
+					<th width="15%">Strength</th>
+					<th width="15%">Cost</th>
+					<th width="25%">Amount</th>
+					<th width="20%">&nbsp;</th>
+				</tr>
+				<?php for ($i = 0; $i <= $user->salevel; $i++) { ?>
+					<tr>
+						<td style="text-align:right;"><?= $conf['names']['weapons'][1][$i] ?></td>
+						<td style="text-align:center;"><?= numecho($conf['weapon' . $i . 'strength']) ?></td>
+						<td style="text-align:center;"><?= numecho($conf['weapon' . $i . 'price']) ?></td>
+						<td style="text-align:left;"><input type="text" name="attackweapon[]" value="0" id="attack-weapon-<?= $i ?>" /></td>
+						<td style="text-align:left;"><input type="button" onclick="javascript:return attackWMax(<?= $i ?>, <?= $conf['weapon' . $i . 'price'] ?>);" value="Max" style="width: 60px;" /></td>
+					</tr>
+				<?php } ?>
+			</table>
+			<div class="panel-title">
+				Defense Weapons
+			</div>
+			<table>
+				<tr>
+					<th width="25%" style="text-align:right;">Weapon</th>
+					<th width="15%">Strength</th>
+					<th width="15%">Cost</th>
+					<th width="25%">Amount</th>
+					<th width="20%">&nbsp;</th>
+				</tr>
+				<?php for ($i = 0; $i <= $user->dalevel; $i++) { ?>
+					<tr>
+						<td style="text-align:right;"><?= $conf['names']['weapons'][0][$i] ?></td>
+						<td style="text-align:center;"><?= numecho($conf['weapon' . $i . 'strength']) ?></td>
+						<td style="text-align:center;"><?= numecho($conf['weapon' . $i . 'price']) ?></td>
+						<td style="text-align:left;"><input type="text" name="defenseweapon[]" value="0" id="defense-weapon-<?= $i ?>" /></td>
+						<td style="text-align:left;"><input type="button" onclick="javascript:return defenseWMax(<?= $i ?>, <?= $conf['weapon' . $i . 'price'] ?>);" value="Max" style="width: 60px;" /></td>
+					</tr>
+				<?php } ?>
+				<!-- <tr>
+					<td colspan="4">&nbsp;</td>
+					<td style="text-align:right;"><input type="submit" name="armoury-buy" value="Buy" /></td>
+				</tr> -->
+			</table>
+		</div>
+		<div class="form-sub-bottom">
+			<input type="submit" class="btn-sub" name="armoury-buy" value="Buy" />
+		</div>
+	</form>
+
+	
+	<div class="panel" style="margin-top: 30px;">
+		<h1 class="">
+			Inventory
+		</h1>
 		<div class="panel-title">
 			Current Attack Weapons
 		</div>
 		<table>
 			<tr>
-				<th>Weapon</th>
-				<th>Quantity</th>
-				<th>Strength</th>
-				<th>Sell</th>
+				<th width="25%">Weapon</th>
+				<th width="15%">Quantity</th>
+				<th width="30%">Strength</th>
+				<th width="30%">Sell</th>
 			</tr>
 			<?php foreach ($this->saWeapons as $weapon) { ?>
 				<tr>
@@ -50,7 +112,7 @@
 					<td>
 						<form method="post">
 							<input type="hidden" name="wId" value="<?= $weapon->id ?>" />
-							<input style="width:35px;" type="text" name="sell" value="0" />
+							<input style="width: 60px;" type="text" name="sell" value="0" />
 							<input type="submit" value="Sell for <?= numecho($weapon->getSellCost($user)) ?>" />
 						</form>
 					</td>
@@ -58,22 +120,20 @@
 			<?php } ?>
 			<tr>
 				<td>&nbsp;</td>
-				<td>Total: <?= numecho($this->saRatio->total) ?><br /> Ratio: <?= number_format(round($this->saRatio->ratio, 2)) ?></td>
+				<td>Total: <?= numecho($this->saRatio->total) ?><br>Ratio: <?= number_format(round($this->saRatio->ratio, 2)) ?></td>
 				<td>
-					&nbsp;
-					<?php if ($user->supporter) { ?>
-						<!-- <form method="post">
-							<input type="submit" value="Repair All" name="repair-all-attack" />
-						</form> -->
-					<?php } ?>
+					<?php if (true/*$user->supporter*/) { ?>
+						<form method="post">
+							<input type="submit" value="Repair All" name="repair-all-attack" style="float: right;" />
+						</form>
+					<?php } else { echo "&nbsp;"; } ?>
 				</td>
 				<td>
-					&nbsp;
-					<?php if ($user->supporter) { ?>
-					<!--<form method="post">
-						<input type="submit" value="Sell All" name="sell-all-attack" />
-					</form>-->
-					<?php } ?>
+					<?php if (false/*$user->supporter*/) { ?>
+						<form method="post">
+							<input type="submit" value="Sell All" name="sell-all-attack" style="float: right;" />
+						</form>
+					<?php } else { echo "&nbsp;"; } ?>
 				</td>
 			</tr>
 		</table>
@@ -85,10 +145,10 @@
 		</div>
 		<table>
 			<tr>
-				<th>Weapon</th>
-				<th>Quantity</th>
-				<th>Strength</th>
-				<th>Sell</th>
+				<th width="25%">Weapon</th>
+				<th width="15%">Quantity</th>
+				<th width="30%">Strength</th>
+				<th width="30%">Sell</th>
 			</tr>
 			<?php foreach ($this->daWeapons as $weapon) { ?>
 				<tr>
@@ -109,7 +169,7 @@
 					<td>
 						<form method="post">
 							<input type="hidden" name="wId" value="<?= $weapon->id ?>" />
-							<input style="width:35px;" type="text" name="sell" value="0" />
+							<input style="width: 60px;" type="text" name="sell" value="0" />
 							<input type="submit" value="Sell for <?= numecho($weapon->getSellCost($user)) ?>" />
 						</form>
 					</td>
@@ -117,72 +177,24 @@
 			<?php } ?>
 			<tr>
 				<td>&nbsp;</td>
-				<td>Total: <?= numecho($this->daRatio->total) ?><br /> Ratio: <?= number_format(round($this->daRatio->ratio, 2)) ?></td>
+				<td>Total: <?= numecho($this->daRatio->total) ?><br>Ratio: <?= number_format(round($this->daRatio->ratio, 2)) ?></td>
 				<td>
-					&nbsp;
-					<?php if ($user->supporter) { ?>
-						<!--<form method="post">
-							<input type="submit" value="Repair All" name="repair-all-defense" />
-						</form> -->
-					<?php } ?>
+					<?php if (true/*$user->supporter*/) { ?>
+						<form method="post">
+							<input type="submit" value="Repair All" name="repair-all-defense" style="float: right;" />
+						</form>
+					<?php } else { echo "&nbsp;"; } ?>
 				</td>
 				<td>
-					&nbsp;
-					<?php if ($user->supporter) { ?>
-						<!-- <form method="post">
-							<input type="submit" value="Sell All" name="Sell-all-defense" />
-						</form> -->
-					<?php } ?>
+					<?php if (false/*$user->supporter*/) { ?>
+						<form method="post">
+							<input type="submit" value="Sell All" name="sell-all-defense" style="float: right;" />
+						</form>
+					<?php } else { echo "&nbsp;"; } ?>
 				</td>
 			</tr>
 		</table>
 	</div>
 
-	<form method="post">
-		<div class="panel">
-			<div class="panel-title">
-				Buy Weapons
-			</div>
-			<table>
-				<tr>
-					<th>Attack Weapons</th>
-					<th>Strength</th>
-					<th>Cost</th>
-					<th>Amount</th>
-					<th>&nbsp;</th>
-				</tr>
-				<?php for ($i = 0; $i <= $user->salevel; $i++) { ?>
-					<tr>
-						<td><?= $conf['names']['weapons'][1][$i] ?></td>
-						<td><?= numecho($conf['weapon' . $i . 'strength']) ?></td>
-						<td><?= numecho($conf['weapon' . $i . 'price']) ?></td>
-						<td><input type="text" name="attackweapon[]" value="0" id="attack-weapon-<?= $i ?>" /></td>
-						<td><input type="button" onclick="javascript:return attackWMax(<?= $i ?>, <?= $conf['weapon' . $i . 'price'] ?>);" value="Max" /></td>
-					</tr>
-				<?php } ?>
-				<tr>
-					<th>Defense Weapons</th>
-					<th>Strength</th>
-					<th>Cost</th>
-					<th>Amount</th>
-					<th>&nbsp;</th>
-				</tr>
-				<?php for ($i = 0; $i <= $user->dalevel; $i++) { ?>
-					<tr>
-						<td><?= $conf['names']['weapons'][0][$i] ?></td>
-						<td><?= numecho($conf['weapon' . $i . 'strength']) ?></td>
-						<td><?= numecho($conf['weapon' . $i . 'price']) ?></td>
-						<td><input type="text" name="defenseweapon[]" value="0" id="defense-weapon-<?= $i ?>" /></td>
-						<td><input type="button" onclick="javascript:return defenseWMax(<?= $i ?>, <?= $conf['weapon' . $i . 'price'] ?>);" value="Max" /></td>
-					</tr>
-				<?php } ?>
-				<tr>
-					<td colspan="4">&nbsp;</td>
-					<td><input type="submit" name="armoury-buy" value="Buy" /></td>
-				</tr>
-			</table>
-		</div>
-	</form>
-	
 </div>
 <!-- End Armoury Page -->

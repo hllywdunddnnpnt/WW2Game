@@ -426,16 +426,278 @@ include ("left.php");
                     </TD>
                     <TD style="PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 12px" 
     vAlign=top align=left> <?php include "islogined.php"; ?>
-                        <BR>
-                        <H3>
-                             Armory
-                        </H3>
                         <P>
                             <strong><center>
                                 <font color=red><?php echo $cgi["strErr"]; ?></font>
                             </center></strong>
                         </p>
-                        <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
+                        
+                        <P>
+                            <TABLE width="100%">
+                                <TBODY>
+                                    <TR>
+                                        <TD style="PADDING-RIGHT: 25px" vAlign=top width="50%">
+											<H3 style="margin-bottom: 12px;">
+												Armory
+											</H3>
+                                            <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
+                                                <TBODY>
+                                                    <TR>
+                                                        <TH class="subh" colSpan=3>
+                                                             Military Effectiveness
+                                                        </TH>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Strike Action</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->SA)
+?>
+                                                        </TD>
+                                                        <TD align=right>
+                                                             Ranked&nbsp;<?php
+if ($userR->sarank) {
+	numecho($userR->sarank);
+} else echo "#unranked";
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Defensive Action</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->DA)
+?>
+                                                        </TD>
+                                                        <TD align=right>
+                                                             Ranked&nbsp;<?php
+if ($userR->darank) {
+	numecho($userR->darank);
+} else echo "#unranked";
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Covert Action</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->CA)
+?>
+                                                        </TD>
+                                                        <TD align=right>
+                                                             Ranked&nbsp;<?php
+if ($userR->carank) {
+	numecho($userR->carank);
+} else echo "#unranked";
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Retaliation Action</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->RA)
+?>
+                                                        </TD>
+                                                        <TD align=right>
+                                                             Ranked&nbsp;<?php
+if ($userR->rarank) {
+	numecho($userR->rarank);
+} else echo "#unranked";
+?>
+                                                        </TD>
+                                                    </TR>
+                                                </TBODY>
+                                            </TABLE>
+                                            <BR>
+                                            <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 	border=0>
+                                                <TBODY>
+                                                    <TR>
+                                                        <TH class="subh" colSpan=2>
+                                                             Personnel
+                                                        </TH>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Trained Attack Soldiers</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->sasoldiers)
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Trained Attack Mercenaries</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->samercs)
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Trained Defense Soldiers</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->dasoldiers)
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Trained Defense Mercenaries</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->damercs)
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Untrained Soldiers</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($user->uu)
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD class=subh>
+                                                            <B>Spies</B>
+                                                        </TD>
+                                                        <TD class=subh align=right>
+                                                            <?php numecho($user->spies)
+?>
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD class=subh>
+                                                            <B>Special Forces</B>
+                                                        </TD>
+                                                        <TD class=subh align=right>
+                                                            <?php numecho($user->specialforces)
+?>
+                                                        </TD>
+                                                    </TR>                                                   
+                                                    <TR>
+                                                        <TD>
+                                                            <B>Total Fighting Force</B>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho(getTotalFightingForce($user))
+?>
+                                                        </TD>
+                                                    </TR>
+                                                </TBODY>
+                                            </TABLE>
+                                        </TD>
+                                        <TD vAlign=top width="50%">
+                                            <FORM action=armory.php method=post>
+                                                <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
+                                                    <TBODY>
+                                                        <TR>
+                                                            <TH colSpan=4>
+                                                                 Buy Weapons
+                                                            </TH>
+                                                        </TR>
+                                                        <TR>
+                                                            <TH class=subh align=left>
+                                                                 Attack Weapons
+                                                            </Th>
+                                                            <TH class=subh align=right>
+                                                                 Strength
+                                                            </Th>
+                                                            <TH class=subh align=right>
+                                                                 Price
+                                                            </Th>
+                                                            <TH class=subh>
+                                                                 Buy
+                                                            </Th>
+                                                            <TH class=subh>
+                                                                 Max
+                                                            </Th>
+                                                        </TR>
+                                                        <?php for ($i = - 1;$i < $user->salevel;$i++) {
+	if ($i < 8) {
+		printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["weapon"][$i + 1]["name"]);
+?>
+                                                        <TD align=right>
+                                                            <?php numecho($conf["weapon" . ($i + 1) . "strength"]);
+?>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($conf["weapon" . ($i + 1) . "price"] * (($user->salevel / 2) + 1));
+?>
+                                                             Gold
+                                                        </TD>
+                                                        <?php echo "<TD align=middle><INPUT size=3 value=0 id=buy_w" . ($i + 1) . " name=buy_w" . ($i + 1) . "></TD>";
+?>
+                                                        <td>
+                                                            <input type=button value='Max'  onclick="document.getElementById('<?php echo "buy_w" . ($i + 1); ?>').value='<?=floor($user->gold / ($conf["weapon" . ($i + 1) . "price"] * (($user->salevel / 2) + 1))) ?>'">
+                                                        </td>
+                                                        <?php
+	}
+}
+?>
+                                                        <TR>
+                                                            <TH class=subh align=left>
+                                                                 Defense Weapons
+                                                            </Th>
+                                                            <TH class=subh align=right>
+                                                                 Strength
+                                                            </Th>
+                                                            <TH class=subh align=right>
+                                                                 Price
+                                                            </Th>
+                                                            <TH class=subh>
+                                                                 Buy
+                                                            </Th> 
+                                                            <TH class=subh>
+                                                                 Max
+                                                            </Th>
+                                                        </TR>
+                                                        <?php for ($i = - 1;$i < $user->dalevel;$i++) {
+	if ($i < 8) {
+		printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["defenseweapon"][$i + 1]["name"]);
+?>
+                                                        <TD align=right>
+                                                            <?php numecho($conf["weapon" . ($i + 1) . "strength"]);
+?>
+                                                        </TD>
+                                                        <TD align=right>
+                                                            <?php numecho($conf["weapon" . ($i + 1) . "price"] * (($user->dalevel / 2) + 1));
+?>
+                                                             Gold
+                                                        </TD>
+                                                        <?php echo "<TD align=middle><INPUT size=3 value=0 id=buy_dw" . ($i + 1) . " name=buy_dw" . ($i + 1) . "></TD>";
+?>
+                                                        <td>
+                                                            <input type=button value='Max'  onclick="document.getElementById('<?php echo "buy_dw" . ($i + 1); ?>').value='<?=floor($user->gold / ($conf["weapon" . ($i + 1) . "price"] * (($user->dalevel / 2) + 1))) ?>'">
+                                                        </td>
+                                                        <?php
+	}
+}
+?>
+                                                        <TR>
+                                                            <TD align=middle colSpan=5>
+                                         
+                                                                <INPUT type=submit value="Process Order" name=buybut>
+                                                            </TD>
+                                                        </TR>
+                                                    </TBODY>
+                                                </TABLE>
+                                            </FORM>
+                                        </TD>
+                                    </TR>
+                                </TBODY>
+                            </TABLE>
+
+							<TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
                             <TBODY>
                                 <TR>
                                     <TH align=middle colSpan=6>
@@ -644,267 +906,8 @@ for ($i = 0;$i < count($wep);$i++) {
                                 
                             </TBODY>
                         </TABLE>
-                        <P>
-                            <TABLE width="100%">
-                                <TBODY>
-                                    <TR>
-                                        <TD style="PADDING-RIGHT: 25px" vAlign=top width="50%">
-                                            <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
-                                                <TBODY>
-                                                    <TR>
-                                                        <TH colSpan=3>
-                                                             Military Effectiveness
-                                                        </TH>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Strike Action</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->SA)
-?>
-                                                        </TD>
-                                                        <TD align=right>
-                                                             Ranked&nbsp;<?php
-if ($userR->sarank) {
-	numecho($userR->sarank);
-} else echo "#unranked";
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Defensive Action</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->DA)
-?>
-                                                        </TD>
-                                                        <TD align=right>
-                                                             Ranked&nbsp;<?php
-if ($userR->darank) {
-	numecho($userR->darank);
-} else echo "#unranked";
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Covert Action</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->CA)
-?>
-                                                        </TD>
-                                                        <TD align=right>
-                                                             Ranked&nbsp;<?php
-if ($userR->carank) {
-	numecho($userR->carank);
-} else echo "#unranked";
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Retaliation Action</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->RA)
-?>
-                                                        </TD>
-                                                        <TD align=right>
-                                                             Ranked&nbsp;<?php
-if ($userR->rarank) {
-	numecho($userR->rarank);
-} else echo "#unranked";
-?>
-                                                        </TD>
-                                                    </TR>
-                                                </TBODY>
-                                            </TABLE>
-                                            <BR>
-                                            <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" 	border=0>
-                                                <TBODY>
-                                                    <TR>
-                                                        <TH colSpan=2>
-                                                             Personnel
-                                                        </TH>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Trained Attack Soldiers</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->sasoldiers)
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Trained Attack Mercenaries</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->samercs)
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Trained Defense Soldiers</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->dasoldiers)
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Trained Defense Mercenaries</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->damercs)
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Untrained Soldiers</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($user->uu)
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD class=subh>
-                                                            <B>Spies</B>
-                                                        </TD>
-                                                        <TD class=subh align=right>
-                                                            <?php numecho($user->spies)
-?>
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD class=subh>
-                                                            <B>Special Forces</B>
-                                                        </TD>
-                                                        <TD class=subh align=right>
-                                                            <?php numecho($user->specialforces)
-?>
-                                                        </TD>
-                                                    </TR>                                                   
-                                                    <TR>
-                                                        <TD>
-                                                            <B>Total Fighting Force</B>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho(getTotalFightingForce($user))
-?>
-                                                        </TD>
-                                                    </TR>
-                                                </TBODY>
-                                            </TABLE>
-                                        </TD>
-                                        <TD vAlign=top width="50%">
-                                            <FORM action=armory.php method=post>
-                                                <TABLE class=table_lines cellSpacing=0 cellPadding=6 width="100%" border=0>
-                                                    <TBODY>
-                                                        <TR>
-                                                            <TH colSpan=4>
-                                                                 Buy Weapons
-                                                            </TH>
-                                                        </TR>
-                                                        <TR>
-                                                            <TH class=subh align=left>
-                                                                 Attack Weapons
-                                                            </Th>
-                                                            <TH class=subh align=right>
-                                                                 Strength
-                                                            </Th>
-                                                            <TH class=subh align=right>
-                                                                 Price
-                                                            </Th>
-                                                            <TH class=subh>
-                                                                 Buy
-                                                            </Th>
-                                                            <TH class=subh>
-                                                                 Max
-                                                            </Th>
-                                                        </TR>
-                                                        <?php for ($i = - 1;$i < $user->salevel;$i++) {
-	if ($i < 8) {
-		printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["weapon"][$i + 1]["name"]);
-?>
-                                                        <TD align=right>
-                                                            <?php numecho($conf["weapon" . ($i + 1) . "strength"]);
-?>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($conf["weapon" . ($i + 1) . "price"] * (($user->salevel / 2) + 1));
-?>
-                                                             Gold
-                                                        </TD>
-                                                        <?php echo "<TD align=middle><INPUT size=3 value=0 id=buy_w" . ($i + 1) . " name=buy_w" . ($i + 1) . "></TD>";
-?>
-                                                        <td>
-                                                            <input type=button value='Max'  onclick="document.getElementById('<?php echo "buy_w" . ($i + 1); ?>').value='<?=floor($user->gold / ($conf["weapon" . ($i + 1) . "price"] * (($user->salevel / 2) + 1))) ?>'">
-                                                        </td>
-                                                        <?php
-	}
-}
-?>
-                                                        <TR>
-                                                            <TH class=subh align=left>
-                                                                 Defense Weapons
-                                                            </Th>
-                                                            <TH class=subh align=right>
-                                                                 Strength
-                                                            </Th>
-                                                            <TH class=subh align=right>
-                                                                 Price
-                                                            </Th>
-                                                            <TH class=subh>
-                                                                 Buy
-                                                            </Th> 
-                                                            <TH class=subh>
-                                                                 Max
-                                                            </Th>
-                                                        </TR>
-                                                        <?php for ($i = - 1;$i < $user->dalevel;$i++) {
-	if ($i < 8) {
-		printf("<TR><TD>%s</TD>", $conf["race"][$user->race]["defenseweapon"][$i + 1]["name"]);
-?>
-                                                        <TD align=right>
-                                                            <?php numecho($conf["weapon" . ($i + 1) . "strength"]);
-?>
-                                                        </TD>
-                                                        <TD align=right>
-                                                            <?php numecho($conf["weapon" . ($i + 1) . "price"] * (($user->dalevel / 2) + 1));
-?>
-                                                             Gold
-                                                        </TD>
-                                                        <?php echo "<TD align=middle><INPUT size=3 value=0 id=buy_dw" . ($i + 1) . " name=buy_dw" . ($i + 1) . "></TD>";
-?>
-                                                        <td>
-                                                            <input type=button value='Max'  onclick="document.getElementById('<?php echo "buy_dw" . ($i + 1); ?>').value='<?=floor($user->gold / ($conf["weapon" . ($i + 1) . "price"] * (($user->dalevel / 2) + 1))) ?>'">
-                                                        </td>
-                                                        <?php
-	}
-}
-?>
-                                                        <TR>
-                                                            <TD align=middle colSpan=5>
-                                         
-                                                                <INPUT type=submit value="Process Order" name=buybut>
-                                                            </TD>
-                                                        </TR>
-                                                    </TBODY>
-                                                </TABLE>
-                                            </FORM>
-                                        </TD>
-                                    </TR>
-                                </TBODY>
-                            </TABLE>
+
+
                             <?php
 include ("bottom.php");
 ?>

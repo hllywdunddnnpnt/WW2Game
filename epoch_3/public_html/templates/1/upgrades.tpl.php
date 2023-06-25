@@ -26,69 +26,69 @@
 		</div>
 		<form method="post">
 			<!-- How I hate tables for layout -->
-			<table class="large">
+			<table class="tab-stats table-upgrades">
 				<tr>
-					<th>Upgrade</th>
-					<th>Current</th>
-					<th>Next</th>
+					<th class="upgrade">Upgrade</th>
+					<th class="current">Current</th>
+					<th class="next">Next</th>
 				</tr>
 				<tr>
-					<td>Offensive Technology</td>
-					<td><?= $user->getSAName() ?></td>
-					<td>
+					<td class="upgrade">Offensive Technology</td>
+					<td class="current"><?= $user->getSAName() ?></td>
+					<td class="next">
 						<?php if ($user->salevel >= $conf['race'][$user->nation]['max-salevel']) { ?>
 							[ No More ]
 						<?php }
 							else { ?>
-							<input type="submit" name="upgrade-sa" value="<?= numecho(Upgrades::saCost($user)) ?> Gold" />
+							<input type="submit" class="btn-upgrade" name="upgrade-sa" value="<?= numecho(Upgrades::saCost($user)) ?> Gold" />
 						<?php } ?>
 					</td>
 				</tr>
 				<tr>
-					<td>Defensive Technology</td>
-					<td><?= $user->getDAName() ?></td>
-					<td>
+					<td class="upgrade">Defensive Technology</td>
+					<td class="current"><?= $user->getDAName() ?></td>
+					<td class="next">
 						<?php if ($user->dalevel >= $conf['race'][$user->nation]['max-dalevel']) { ?>
 							[ No More ]
 						<?php }
 							else { ?>
-							<input type="submit" name="upgrade-da" value="<?= numecho(Upgrades::daCost($user)) ?> Gold" />
+							<input type="submit" class="btn-upgrade" name="upgrade-da" value="<?= numecho(Upgrades::daCost($user)) ?> Gold" />
 						<?php } ?>
 					</td>
 				</tr>
 				<tr>
-					<td>Covert Technology</td>
-					<td><?= $user->calevel ?></td>
-					<td><input type="submit" name="upgrade-ca" value="<?= numecho(Upgrades::caCost($user)) ?> Gold" /></td>
+					<td class="upgrade">Covert Technology</td>
+					<td class="current"><?= $user->calevel ?></td>
+					<td class="next"><input type="submit" class="btn-upgrade" name="upgrade-ca" value="<?= numecho(Upgrades::caCost($user)) ?> Gold" /></td>
 				</tr>
 				<tr>
-					<td>Retaliation Technology</td>
-					<td><?= $user->ralevel ?></td>
-					<td><input type="submit" name="upgrade-ra" value="<?= numecho(Upgrades::raCost($user)) ?> Gold" /></td>
+					<td class="upgrade">Retaliation Technology</td>
+					<td class="current"><?= $user->ralevel ?></td>
+					<td class="next"><input type="submit" class="btn-upgrade" name="upgrade-ra" value="<?= numecho(Upgrades::raCost($user)) ?> Gold" /></td>
 				</tr>
 				<tr>
-					<td>Upgrade Unit Production</td>
-					<td><?= numecho($user->up) ?></td>
-					<td>
-						<input type="submit" name="upgrade-up" value="<?= numecho(Upgrades::upCost($user)) ?> Gold" />
-						<input type="submit" name="upgrade-up-max" value="Max" />
+					<td class="upgrade">Upgrade Unit Production</td>
+					<td class="current"><?= numecho($user->up) ?></td>
+					<td class="next">
+						<input type="submit" class="btn-upgrade" name="upgrade-up" value="<?= numecho(Upgrades::upCost($user)) ?> Gold" />
+						<input type="submit" class="btn-max" name="upgrade-up-max" value="Max" style="float: right;" />
 					</td>
 				</tr>
 				<tr>
-					<td>Hand-to-Hand Training</td>
-					<td><?= $user->hhlevel ?></td>
-					<td><input type="submit" name="upgrade-hh" value="<?= numecho(Upgrades::hhCost($user)) ?> Gold" /></td>
+					<td class="upgrade">Hand-to-Hand Training</td>
+					<td class="current"><?= $user->hhlevel ?></td>
+					<td class="next"><input type="submit" class="btn-upgrade" name="upgrade-hh" value="<?= numecho(Upgrades::hhCost($user)) ?> Gold" /></td>
 				</tr>
-				<?php if ($user->getSupport('upgrades')) { ?>
+				<?php if (false/*$user->getSupport('upgrades')*/) { ?>
 					<tr>
 						<td>Upgrade Officer Limit</td>
 						<td><?= $user->maxofficers ?></td>
-						<td><input type="submit" name="upgrade-of" value="<?= numecho(Upgrades::ofCost($user)) ?> Gold" /></td>
+						<td><input type="submit" class="btn-upgrade" name="upgrade-of" value="<?= numecho(Upgrades::ofCost($user)) ?> Gold" /></td>
 					</tr>
 					<tr>
 						<td>Upgrade Bank Deposit Percentage</td>
 						<td><?= $user->bankper ?>%</td>
-						<td><input type="submit" name="upgrade-bk" value="<?= numecho(Upgrades::bkCost($user)) ?> Gold" /></td>
+						<td><input type="submit" class="btn-upgrade" name="upgrade-bk" value="<?= numecho(Upgrades::bkCost($user)) ?> Gold" /></td>
 					</tr>
 				<?php } ?>
 			</table>

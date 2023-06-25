@@ -53,13 +53,6 @@
 				$min = $min - 1;
 				$sec = 60 + $sec;
 			}
-			else if ($sec < 10){
-				$sec = '0' + $sec;
-			}
-			if ($min < 10){
-				$min = '0' + $min;
-			}
-
 			
 			
 			<?php if ($user) { ?>
@@ -114,8 +107,8 @@
 				 <?php } ?>
 
 				<div id="nav-icons">
-					<a href="/irc/" target="_blank">Chat</a><br />
-					<a href="/forum" target="_blank">Forum</a><br />
+					<!-- <a href="/irc/" target="_blank">Chat</a><br />
+					<a href="/forum" target="_blank">Forum</a><br /> -->
 					<a href="online<?= ($user ? '' : '-offline') ?>.php">Online (<?= isset($conf['online-now']) ? $conf['online-now'] : '' ?>)</a>
 				</div>
 			</div>
@@ -124,14 +117,8 @@
 			<!-- Start of Content panel -->
 			<div id="main-content-panel">
 				<div id="main-announce-bar" class="layer2">
-					<?= $this->announcement ?>
-					<?php if ($user and $user->admin) { ?>
-						|| <a href="?admin-key=<?= ($_SESSION['admin'] ? 'off&amp;' : 'on&amp;') .  http_build_query($_GET) ?>" >Admin <?= ($_SESSION['admin'] ? 'off' : 'on') ?></a>
-						<?php if ($_SESSION['admin']) { ?>
-							|| <a href="admin.php">Admin Panel</a>
-							|| <a href="admin-contact.php">Contact Manager</a>
-						<?php } ?>
-					<?php } ?>
+					<span class="high b" style="padding-right: 25px;"><?= $conf["sitename"] ?></span>
+					<span class=""><?= $this->announcement ?></span>
 				</div>
 
 					<div id="left-panel">
@@ -157,16 +144,33 @@
 								<li>Server Time: <span><?= date ('H:i', time() + (60*60*13)) ?></span></li>
 							</ul>
 							<ul id="menu-links">
-								<li><a href="/forum" target="_blank">Forum</a></li>
-								<li><a href="/irc/" target="_blank">IRC Chat</a></li>
+								<!-- <li><a href="/forum" target="_blank">Forum</a></li>
+								<li><a href="/irc/" target="_blank">IRC Chat</a></li> -->
 								<li><a href="statistics.php">Current Statistics</a></li>
 								<li><a href="hof.php">Hall of Fame</a></li>
 								<li><a href="rules.php">Rules</a></li>
 								<li><a href="http://forum.ww2game.net/index.php?board=4.0" target="_blank">Help</a></li>
 							</ul>
+							<?php if ($user and $user->admin): ?>
+								<ul id="menu-links" style="margin-top: 20px;">
+									<li>
+										<a href="?admin-key=<?= ($_SESSION['admin'] ? 'off&amp;' : 'on&amp;') .  http_build_query($_GET) ?>" >Admin <?= ($_SESSION['admin'] ? 'off' : 'on') ?></a>
+									</li>
+									<?php if ($_SESSION['admin']): ?>
+										<li>
+											<a href="admin.php">Admin Panel</a>
+										</li>
+										<li>
+											<a href="admin-contact.php">Contact Manager</a>
+										</li>
+									<?php endif; ?>
+								</ul>
+							<?php endif; ?>
 
 							
-							<?php if (!$user or ($user and !$user->supporter)) { ?>
+
+							
+							<?php if (false/*(!$user or ($user and !$user->supporter)*/) { ?>
 								<ul id="ad-list">
 									<li id="google-ad1">
 										
@@ -179,13 +183,14 @@
 						<div class="clear flat"></div>
 					</div>
 					<!-- Start of Main page content panel -->
-					<?php if (isset($this->err)) { ?>
-						<div id="main-error-bar" class="layer2"><?= $this->err ?></div>
-					<?php } ?>
-					<?php if (isset($this->msg)) { ?>
-						<div id="main-msg-bar" class="layer2"><?= $this->msg ?></div>
-					<?php } ?>
 					<div id="page-content">
+
+						<?php if (isset($this->err)) { ?>
+							<div id="main-error-bar" class="layer2"><?= $this->err ?></div>
+						<?php } ?>
+						<?php if (isset($this->msg)) { ?>
+							<div id="main-msg-bar" class="layer2"><?= $this->msg ?></div>
+						<?php } ?>
 
 						<?php $this->load($this->templateName) ?>
 
@@ -199,7 +204,7 @@
 
 			<!-- Start of Footer panel -->
 			<div id="main-content-footer">
-				<div class="right">
+				<div style="text-align: center; margin-bottom: 5px;">
 					<a href="spam.php">Report Spam</a>&nbsp;|
 					<a href="privacy.php">Privacy Policy</a>&nbsp;|
 					<a href="advertising.php">Advertising</a>&nbsp;|
@@ -208,12 +213,20 @@
 				</div>
 				<div class="clear flat"></div>
 				<div id="copyright">
-					<a href="http://www.http://github.com/Naddiseo/WW2Game" target="_blank" >Epoch 3</a>under GNU/GPL3, coding by Naddiseo<br />
-					Rolz14 (IRC Service)<br />
-					Epoch 1 design by SilentWarrior and Xamir<br />
-					<i>Copyright  2005-2010<br/>
-					World War II Game, All rights reserved.</i><br />
-					<small>This game is not a clone, all code is original</small>
+					<p style="margin-top: 0px; margin-bottom: 5px; font-size: 10px;">
+						<a href="http://github.com/Naddiseo/WW2Game" target="_blank" >Epoch 3</a> under GNU/GPL3, coding by Naddiseo<br />
+						Rolz14 (IRC Service)<br />
+						Epoch 1 design by SilentWarrior and Xamir
+					</p>
+					<p style="margin-top: 0px; margin-bottom: 5px; font-size: 10px;">
+						<i>Copyright  2005-2010<br/>
+						World War II Game, All rights reserved.</i><br />
+						<span style="font-size: 8px; color: #777;">This game is not a clone, all code is original</span>
+					</p>
+					<p style="margin-top: 10px; margin-bottom: 5px;">
+						<i>Relaunched by Johnny_3_Tears<br>ww2game-3.j3t-games.com from 2023+</i>
+					</p>
+					
 				</div>
 			</div>
 			<!-- End of Footer panel -->

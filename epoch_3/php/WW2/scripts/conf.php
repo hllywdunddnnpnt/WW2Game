@@ -55,9 +55,12 @@ if ($time > $endtime) {
 
 $d = duration($diff);
 
-$resetA = "Reset in: $d";
+$resetA = "Resets in: $d";
+$announce = "";
 
 $conf_announcement = $announce  . ' ' .  $resetA;
+
+$conf['age'] = $_AGE;
  
 // If changing these, update User
 $conf['start-gold'           ] = 1000000;
@@ -85,7 +88,7 @@ $conf['max-recruit'          ] = 25;
 
 $conf['max-alliance-shouts'  ] = 30;
 
-$conf["sitename"] = "World War II";
+$conf["sitename"] = "World War II: A New Dawn";
 $conf["users_per_page"]=30;
 $conf["users_per_page_on_attack_log"]=10;
 $conf["mercenaries_per_turn"] = 400;
@@ -243,28 +246,95 @@ $conf['strength'] = array(
 	'untrained'    => 4
 );
 
+$conf['bonuses'] = [
+	"offense" => "@% Attack",
+	"defense" => "@% Defense",
+	"covert" => "@% Covert",
+	"retaliation" => "@% Retaliation",
+];
 
-$conf['race'] = array(
-	0 => array(
+$conf['race'] = [
+	[
+		'name' => "USA",
+		'alias' => "Americans",
+		'full_name' => "United States",
+		'bonuses' => [
+			"offense" => $conf['sabonus0'],
+			"defense" => $conf['dabonus0'],
+			"covert" => $conf['cabonus0'],
+			"retaliation" => $conf['rabonus0'],
+		],
+		'img' => "templates/1/images/americans.gif",
+		'desc' => "Gather your troops to fight the coming enemy!",
+		'side' => 0,
+		'side_name' => "The Allies",
 		'max-dalevel' => 4,
 		'max-salevel'  => 4,
-	),
-	1 => array(
+	],[
+		'name' => "UK",
+		'alias' => "Britians",
+		'full_name' => "United Kingdom",
+		'bonuses' => [
+			"offense" => $conf['sabonus1'],
+			"defense" => $conf['dabonus1'],
+			"covert" => $conf['cabonus1'],
+			"retaliation" => $conf['rabonus1'],
+		],
+		'img' => "templates/1/images/britains.gif",
+		'desc' => "Come to the aid of your allies and destroy your enemies!",
+		'side' => 0,
+		'side_name' => "The Allies",
 		'max-dalevel' => 4,
 		'max-salevel'  => 4,
-	),
-	2 => array(
+	],[
+		'name' => "Japan",
+		'alias' => "Japanese",
+		'full_name' => "Japan",
+		'bonuses' => [
+			"offense" => $conf['sabonus2'],
+			"defense" => $conf['dabonus2'],
+			"covert" => $conf['cabonus2'],
+			"retaliation" => $conf['rabonus2'],
+		],
+		'img' => "templates/1/images/japanese.gif",
+		'desc' => "Harness your strength and Kamikaze for your people!",
+		'side' => 1,
+		'side_name' => "The Axis",
 		'max-dalevel' => 4,
 		'max-salevel'  => 4,
-	),
-	3 => array(
+	],[
+		'name' => "Germany",
+		'alias' => "Germans",
+		'full_name' => "Germany",
+		'bonuses' => [
+			"offense" => $conf['sabonus3'],
+			"defense" => $conf['dabonus3'],
+			"covert" => $conf['cabonus3'],
+			"retaliation" => $conf['rabonus3'],
+		],
+		'img' => "templates/1/images/german.gif",
+		'desc' => "Use your Blitzkrieg to spread evil throughout the land!",
+		'side' => 1,
+		'side_name' => "The Axis",
 		'max-dalevel' => 4,
 		'max-salevel'  => 4,
-	),
-	4 => array(
+	],[
+		'name' => "USSR",
+		'alias' => "Soviets",
+		'full_name' => "Soviet Union",
+		'bonuses' => [
+			"offense" => $conf['sabonus4'],
+			"defense" => $conf['dabonus4'],
+			"covert" => $conf['cabonus4'],
+			"retaliation" => $conf['rabonus4'],
+		],
+		'img' => "templates/1/images/german.gif",
+		'desc' => "Stand unitied and fight to take over the world!",
+		'side' => 1,
+		'side_name' => "The Axis",
 		'max-dalevel' => 4,
 		'max-salevel'  => 4,
-	),
-);
+	],
+];
 
 ?>

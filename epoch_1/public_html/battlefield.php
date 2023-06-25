@@ -41,6 +41,9 @@ include ("left.php");
 border=0>
           <TBODY>
             <TR> 
+              <TH class="subh" colspan="5">Battlefield</TH>
+			</tr>
+            <TR> 
               <TH>Name</TH>
               <?php
 $attacker = $user;
@@ -53,14 +56,17 @@ if ($attacker->supporter > 0) {
               <TH>Rank</TH>
             </TR>
             <?php
-if (!$cgi['page'] AND !$cgi['search']) {
+if (!is_numeric($cgi['page']))
+	{
+		$cgi['page'] = 1;
+	}
+else if (!$cgi['page'] AND !$cgi['search']) {
 	$u = getUserRanks($_SESSION['isLogined']);
 	$ur = $u->rank;
 	$count = getActiveUsersCount();
 	$cgi['page'] = floor(($ur) / ($conf["users_per_page"])) + 1;
-} elseif (!is_numeric($cgi['page'])) {
-	$cgi['page'] = 1;
 }
+
 if ($cgi['search']) {
 	$strS = $cgi['search'];
 	if ($cgi['search_type'] == 's') {
@@ -76,6 +82,7 @@ if ($cgi['search']) {
 }
 $all_cache = array();
 //echo "<!-- ";print_r($users);echo " -->";
+if (is_countable($atackA1)){
 for ($i = 0;$i < count($users);$i++) {
 	$tag = '';
 	if (in_array($users[$i]->alliance, $all_cache) AND !isset($all_cache[$users[$i]->alliance])) {
@@ -122,7 +129,7 @@ for ($i = 0;$i < count($users);$i++) {
               <TD style="PADDING-RIGHT: 20px" align=right><?php numecho($users[$i]->rank); ?></TD>
             </TR>
 			<?php
-}
+}}
 ?>
             <TR> 
               <TD><?php

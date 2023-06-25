@@ -65,9 +65,9 @@ class Template {
 		$user = $this->user;
 		$this->announcement = $conf_announcement;
 		
-		$t = $this->title[rand(0,4)] . '::';
+		$t = $this->title[1] . ': ';
 		$t .= ($this->pageTitle ? $this->pageTitle : 'Game') . ' - ';
-		$t .= $this->other[rand(0, 7)];
+		//$t .= $this->other[rand(0, 7)];
 		
 		$this->pageTitle = $t;
 		

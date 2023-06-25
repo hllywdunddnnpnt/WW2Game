@@ -19,53 +19,58 @@
 
 -->
 <!-- Begin register page -->
-<?php
-$this->username = "Johnny_3_Tears";
-$this->email = "night_train_247@hotmail.com";
-$this->emailv = "night_train_247@hotmail.com";
 
-?>
 <div id="register-container">
 	<div class="panel">
 		<div class="panel-title">
 			Register a new World War 2 account
 		</div>
 		<div class="email-help">
-			<p>Help: <br />If you have trouble activating or verifying your account, please try the <a href="forgotpass.php">Forgot Password</a> page.
-			This should send a new password. If this still does not work, please <a href="contact.php">contact us</a>, and provide your username.</p>
+			Help: <br />If you have trouble activating or verifying your account, please try the <a href="forgotpass.php">Forgot Password</a> page.
+			This should send a new password. If this still does not work, please <a href="contact.php">contact us</a>, and provide your username.
 		</div>
 		<form method="post">			
 			<div class="register-line">
 				<label for="register-username">Username</label>
-				<input type="text" name="register-username" maxlength="25" value="<?= $this->username ?>" />
+				<input type="text" name="register-username" maxlength="25" value="<?= $this->username ?>" style="width: 250px;" />
 				<small>Must be between 3 and 25 characters</small>
 			</div>
 			
 			<div class="register-line">
 				<label for="register-email">Email</label>			
-				<input type="text" name="register-email" maxlength="100" value="<?= $this->email ?>" />
+				<input type="text" name="register-email" maxlength="100" value="<?= $this->email ?>" style="width: 250px;" />
 			</div>
 			
 			<div class="register-line">
 				<label for="register-emailv">Email Again</label>
-				<input type="text" name="register-emailv" maxlength="100" value="<?= $this->emailv ?>" />
+				<input type="text" name="register-emailv" maxlength="100" value="<?= $this->emailv ?>" style="width: 250px;" />
 				<small>Must be the same as above</small>
 			</div>
 			
 			<div class="register-line">
 				<p class="info">
-				An activation password will be emailed to you. <br />Please add signups&#64;ww2game&#46;&#110;et to your email whitelists.
+					An activation password will be emailed to you from <span class="high">j3t.games.mw@gmail.com</span>.
+				</p>
+				<p class="info">
+					Check your Junk Mail and add <span class="high">j3t.games.mw@gmail.com</span> to your email whitelist.
 				</p>
 			</div>
 			
 			<div class="register-line">
 				<label for="register-nation">Nation</label>
-				<select name="register-nation">
-					<option value="0" <?= ($this->nation == 0 ? 'selected="selected"': '') ?>>United States (USA)</option>
-					<option value="1" <?= ($this->nation == 1 ? 'selected="selected"': '') ?>>Great Britain (UK)</option>
-					<option value="2" <?= ($this->nation == 2 ? 'selected="selected"': '') ?>>Japan</option>
-					<option value="3" <?= ($this->nation == 3 ? 'selected="selected"': '') ?>>Germany</option>
-					<option value="4" <?= ($this->nation == 4 ? 'selected="selected"': '') ?>>Union of Soviet Socialist Republic (USSR)</option>
+				<select name="register-nation" style="width: 250px;">
+					<?php foreach ($conf["race"] as $id => $data): ?>
+						<option value="<?= $id ?>" <?= ($this->nation == $id ? 'selected': '') ?>>
+							The <?= $data["alias"] ?>, <?= $data["full_name"] ?> (<?= $data["name"] ?>)
+						</option>
+					<?php endforeach; ?>
+					<?php if (false): ?>
+						<!-- <option value="0" <?= ($this->nation == 0 ? 'selected="selected"': '') ?>>United States (USA)</option>
+						<option value="1" <?= ($this->nation == 1 ? 'selected="selected"': '') ?>>Great Britain (UK)</option>
+						<option value="2" <?= ($this->nation == 2 ? 'selected="selected"': '') ?>>Japan</option>
+						<option value="3" <?= ($this->nation == 3 ? 'selected="selected"': '') ?>>Germany</option>
+						<option value="4" <?= ($this->nation == 4 ? 'selected="selected"': '') ?>>Union of Soviet Socialist Republic (USSR)</option> -->
+					<?php endif; ?>
 				</select>
 			
 			</div>
@@ -112,7 +117,7 @@ $this->emailv = "night_train_247@hotmail.com";
 			</div>
 			
 			<div class="register-line">
-				<input class="submit" type="submit" name="register-submit" value="Register" />
+				<input class="submit btn-sub" type="submit" name="register-submit" value="Register" />
 			</div>
 		</form>
 	</div>

@@ -33,6 +33,7 @@ $filter = array(
 	'register-emailv'   => FILTER_VALIDATE_EMAIL,
 	
 	'register-nation'   => FILTER_VALIDATE_INT | FILTER_SANITIZE_NUMBER_INT,
+	'nation'   => FILTER_VALIDATE_INT | FILTER_SANITIZE_NUMBER_INT,
 	
 	'register-rules'    => FILTER_VALIDATE_BOOLEAN,
 	
@@ -53,13 +54,15 @@ if ($filteredG['register-referrer'] or $filteredG['referrer']) {
 	$t->referrerId = $filteredG['register-referrer'] ? $filteredG['register-referrer'] : $filteredG['referrer'];
 }
 
+$t->nation     = $nation    = max(0, min($filteredG['nation'], count($conf["race"])));
+
 try {
 	if ($filtered['register-submit']) {	
 
 		$t->username   = $username  = $filtered['register-username'];
 		$t->email      = $email     = $filtered['register-email'   ];
 		$t->emailv     = $emailv    = $filtered['register-emailv'  ];
-		$t->nation     = $nation    = max(0, min($filtered['register-nation'], 4));
+		$t->nation     = $nation    = max(0, min($filteredG['nation'], count($conf["race"])));
 		$t->rules      = $rules     = $filtered['register-rules'   ];
 		$t->referrerId = $filtered['register-referrer'];
 		$captcha       = $filtered['register-captcha' ];

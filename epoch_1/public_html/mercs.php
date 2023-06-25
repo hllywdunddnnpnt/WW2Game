@@ -109,7 +109,7 @@ if ($cgi['strErr']) {
             border=0>
           <TBODY>
             <TR> 
-              <TH colSpan=2>Personnel</TH>
+              <TH class="subh" colSpan="2">Personnel</TH>
             </TR>
             <TR> 
               <TD><B>Trained Attack Soldiers</B></TD>

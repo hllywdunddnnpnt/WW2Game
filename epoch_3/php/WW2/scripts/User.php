@@ -244,7 +244,7 @@ class User extends BaseClass {
 		$trainedCount   = $isAttack ? $this->sasoldiers : $this->dasoldiers;
 		$mercCount      = $isAttack ? $this->samercs    : $this->damercs;
 		$untrainedCount = $this->uu;
-
+/*
 		// Can't have a merc-only army
 		if ($trainedCount == 0) {
 			// they'll be unarmed
@@ -255,7 +255,7 @@ class User extends BaseClass {
 		if ($mercCount > $thirty = floor($trainedCount * 0.3)) {
 			$ret['mercs']['noweapons'] = $mercCount - $thirty;
 			$mercCount = $thirty;
-		}
+		}*/
 
 		// There are more weapons than trained soldiers,
 		// so all soldiers will have weapons
@@ -308,13 +308,13 @@ class User extends BaseClass {
 		$alloc = $this->getWeaponAlloacation(true, $ratio->total);
 
 		// apply the weapon ratios to the units with weapons
-		$alloc['mercs'    ]['weapons']   *= 50 * $ratio->ratio;
+		$alloc['mercs'    ]['weapons']   *= 20 * $ratio->ratio;
 		$alloc['trained'  ]['weapons']   *= 20 * $ratio->ratio;
-		$alloc['untrained']['weapons']   *= 3  * $ratio->ratio;
+		$alloc['untrained']['weapons']   *= 10  * $ratio->ratio;
 
 		// apply hand-to-hand to the units without weapons
 		$alloc['mercs'    ]['noweapons'] *= $this->hhlevel * 10;
-		$alloc['trained'  ]['noweapons'] *= $this->hhlevel * 25;
+		$alloc['trained'  ]['noweapons'] *= $this->hhlevel * 30;
 		$alloc['untrained']['noweapons'] *= $this->hhlevel * 15;
 
 		// and sum them.
@@ -356,13 +356,13 @@ class User extends BaseClass {
 		$alloc = $this->getWeaponAlloacation(false, $ratio->total);
 
 		// apply the weapon ratios to the units with weapons
-		$alloc['mercs'    ]['weapons']   *= 50 * $ratio->ratio;
+		$alloc['mercs'    ]['weapons']   *= 20 * $ratio->ratio;
 		$alloc['trained'  ]['weapons']   *= 20 * $ratio->ratio;
-		$alloc['untrained']['weapons']   *= 3  * $ratio->ratio;
+		$alloc['untrained']['weapons']   *= 10  * $ratio->ratio;
 
 		// apply hand-to-hand to the units without weapons
 		$alloc['mercs'    ]['noweapons'] *= $this->hhlevel * 10;
-		$alloc['trained'  ]['noweapons'] *= $this->hhlevel * 25;
+		$alloc['trained'  ]['noweapons'] *= $this->hhlevel * 30;
 		$alloc['untrained']['noweapons'] *= $this->hhlevel * 15;
 
 		// and sum them.
@@ -503,7 +503,7 @@ class User extends BaseClass {
 	
 	public function
 	getNationFlag() {
-		return 'nation' . $this->nation . '.gif';
+		return 'nation' . $this->nation . '.svg';
 	}
 	
 	public function
@@ -788,9 +788,9 @@ class User extends BaseClass {
 			$where = ' AND `rank`>0 ';
 		}
 
-		$str = "SELECT COUNT(*) AS `retCode` FROM `User` WHERE `lastturntime`>$time AND `active`=`1` $where";
+		$str = "SELECT COUNT(*) AS `retCode` FROM `User` WHERE `lastturntime`>$time AND `active`='1' $where";
 
-		$q = mysqli_query($db, $str) or die(mysqli_error($db));
+		$q = mysqli_query($db, $str) or die(mysqli_error($db)."<BR>".$str);
 		if ($q) {
 			$st = mysqli_fetch_object($q);
 			return $st->retCode;
@@ -807,12 +807,12 @@ class User extends BaseClass {
 		$time = time() - $conf["minutes_per_turn"] * 60;
 		
 		if ($areaSort) {
-			$str = "SELECT *  FROM User where lastturntime>'$time' and active='1' order by area, rank asc";
+			$str = "SELECT * FROM `User` where `lastturntime`>'$time' and `active`='1' ORDER BY `area`, `rank` ASC";
 		}
 		else {
-			$str = "SELECT * FROM User where lastturntime>'$time' and active='1' ORDER BY rank ASC";
+			$str = "SELECT * FROM `User` where `lastturntime`>'$time' and `active`='1' ORDER BY `rank` ASC";
 		}
-		$q = mysqli_query($db, $str) or die(mysqli_error($db));
+		$q = mysqli_query($db, $str) or die(mysqli_error($db)."<BR>".$str);
 		while ($u = mysqli_fetch_object($q, 'User')) {
 			$ret[] = $u;
 		}
@@ -821,7 +821,7 @@ class User extends BaseClass {
 
 	public static function
 	setActive($userId, $active) { global $db;
-		mysqli_query($db, "update User set active=$active where id = $userId LIMIT 1") or die(mysqli_error($db));
+		mysqli_query($db, "UPDATE `User` SET `active`='$active' where `id`='$userId' LIMIT 1") or die(mysqli_error($db));
 	}
 	
 	public static function

@@ -67,7 +67,7 @@ TABLE.small TD {
 	border-right: 1px solid;
 	border-right-width: thin;
 	background-color: #000000;
- 	background-image: url(http://www.ww2game.net/pic/login_background_repeater.gif); 
+ 	background-image: url('../pic/login_background_repeater.gif'); 
 	border-top-color: #000000;
 	border-right-color: #000000;
 	border-bottom-color: #000000;
@@ -88,15 +88,15 @@ TABLE.small INPUT {
 	background-color: #000000;
 	}
 TABLE.table_lines TD {
-	PADDING-BOTTOM: 10px; PADDING-TOP: 9px; BORDER-BOTTOM: #333333 1px solid; BORDER-COLLAPSE: collapse
+	PADDING-BOTTOM: 10px; PADDING-TOP: 9px; BORDER-BOTTOM: #333333 1px solid; BORDER-COLLAPSE: collapse;
 }
 TD.menu_cell {
-background: #000000
-border:#000000
+	background: #000000;
+	border:#000000;
 	VERTICAL-ALIGN: top;
 	WIDTH: 137px;
 	BORDER-COLLAPSE: collapse;
-	horizontal-align: left;
+	text-align: left;
 	border-color: #000000;
 }
 TD.menu_cell_repeater {
@@ -111,12 +111,14 @@ TD.menu_cell_repeater {
 }
 TD.menu_cell_repeater_vert {
 /* 	background:#000000; */
-	background-image: url(http://www.ww2game.net/pic/cell_vert_background.jpg);
+	background-image: url('../pic/cell_vert_background.jpg');
 /* 	border: #000000 0px solid; */
 /* 	border-top-color: #000000; */
 /* 	border-color: #000000; */
 	background-color: grey;
 /* 	color: #FFFFFF; */
+	background-size: 190px;
+	background-position: 0px 0px;
 }
 IMG {
 	BORDER-RIGHT: 0px;
@@ -152,3 +154,17 @@ A.visited{
 	font-size: 11px;
 	color: white;
 }
+.menu_cell_repeater_vert a,
+.menu_cell_repeater_vert a:link,
+.menu_cell_repeater_vert a:visited,
+.menu_cell_repeater_vert a:hover,
+.menu_cell_repeater_vert a:active
+	{
+		display: block;
+		margin: 8px 0px;
+	}
+.menu_cell_repeater_vert hr
+	{
+		border-color: #888;
+		border-width: 0.5px;
+	}

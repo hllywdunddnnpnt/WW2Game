@@ -1,62 +1,62 @@
-
+<?php $w = 48; $w2 = 142 + 38; ?>
 <TABLE bgcolor="#000000" cellSpacing=0 cellPadding=0 width=137 border=0>
   <TBODY>
     <?php if (!$_SESSION['isLogined']) { ?>
-    <TD width="209">  
+    <TD width="<?=$w+209?>">  
 	<?php for ($xxx = 0;$xxx <= rand(0, 4);$xxx++) {
 		echo "<form></form>";
 	} ?> 
       <FORM method=post>
 	    
         <INPUT type=hidden name=username><INPUT type=hidden name=pword>
-        <TABLE class=small style="padding-left: 0px; padding-right: 0px; padding-top: 0px;border-color: red;border-width:10px; padding-bottom: 5px" width=130 align=center cellspacing="0" cellpadding="0">
+        <TABLE class=small style="padding-left: 15px; padding-right: 0px; padding-top: 0px;border-color: red;border-width:10px; padding-bottom: 5px" width=130 align=center cellspacing="0" cellpadding="0">
         	<TBODY>
         		<TR>
-        			<td width="204" bgcolor="#000000" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000">
+        			<td width="<?=$w+204?>" bgcolor="#000000" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000">
         				<p align="left">
-        					<img src="pic/navigation_r1_c1.gif" width="142" height="72">
+        					<img src="pic/navigation_r1_c1.gif" width="<?=$w+142?>" height="72">
 						</p>
 					</td>
         		</TR>
         		<tr>
-              		<td width="204">
+              		<td width="<?=$w+204?>">
 						<p align="center">
                   			<FONT color=White>Username:</FONT>
 				  		</p>
 				  	</td>
                 </tr>          
             	<TR>
-              		<TD align=middle width="139">
+              		<TD align=middle width="<?=$w+139?>">
                 		<INPUT class=login_input name='<?php $_SESSION['uname'] = genUniqueTxt(10);
 	echo $_SESSION['uname']; ?>'>
               		</TD>
             	</TR>
 				<tr>
-            		<TD align=middle width="139">
+            		<TD align=middle width="<?=$w+139?>">
               			<p align="center">
                 			<FONT color=White>Password:</FONT>
               			</p>
             		</TD>
             	</TR>
             	<TR>
-              		<TD align=middle width="139">
+              		<TD align=middle width="<?=$w+139?>">
                 		<INPUT class=login_input type=password name='<?php $_SESSION['psword'] = genUniqueTxt(10);
 	echo $_SESSION['psword']; ?>'>
               		</TD>
             	</TR>
             	<TR>
-              		<TD style="PADDING-TOP: 5px" align="middle" width="142">
+              		<TD style="PADDING-TOP: 5px" align="middle" width="<?=$w+142?>">
                 		<INPUT class=login_input style="WIDTH: 50px" type=submit value=Login>
               		</TD>
            	 	</TR>				
 				<TR>
-            		<TD class="menu_cell_repeater_vert" width="67"  align="middle" width="142">
+            		<TD class="menu_cell_repeater_vert" width="<?=$w+67?>"  align="middle" width="<?=$w+142?>">
               			<p align="center">
                 			<div><A  href="register.php">Register</A></div>
               				<div><A href="forgotpass.php">Forgot Login?</A></div>
 						</p>
               			<br />
-              			<img src="pic/navigation_r11_c1.gif" width="142" height="10" />
+              			<img src="pic/navigation_r11_c1.gif" width="<?=$w+142?>" height="10" />
 					</TD>
           		</TR>         
 		  </TBODY>
@@ -70,31 +70,30 @@
 } else { ?>
         <TABLE>
           <TR>
-            <TD class="menu_cell_repeater_vert" width="142" vAlign=top   align=middle >
-              <A href="index.php">
+            <TD class="menu_cell_repeater_vert" width="<?=$w+142?>" vAlign=top   align=middle>
               <center>
-                <img src="pic/Top.gif" width="142" height="10" border="0">
-              </center></a><a href="base.php">
+                <img src="pic/Top.gif" width="<?=$w+142?>" height="10" border="0">
+              </center><a href="base.php">
           <center>
              Base
           </center>
           </a>
-          <a href="bank.php">
+          <a href="battlefield.php">
           <center>
-             Treasury
+             Battlefield
           </center>
           </a>
-          <hr>
-          <a href="upgrades.php" >
-          <center>
-             Upgrades
-          </center>
-          </a>
+          <!-- <hr> -->
           <!--<a href="nuke.php">
           <center>
              Nuclear Research
           </center>
           </a>-->
+          </a>
+          <a href="armory.php"><center>
+             Armory
+          </center>
+          </a>
           <a href="train.php">
           <center>
              Training
@@ -105,17 +104,9 @@
              Mercenaries
           </center>
           </a>
-          <hr>
-          
-          
-          <a href="battlefield.php">
+          <a href="upgrades.php" >
           <center>
-             Attack
-          </center>
-          </a>
-          </a>
-          <a href="armory.php"><center>
-             Armory
+             Upgrades
           </center>
           </a>
           <a href="attacklog.php">
@@ -127,13 +118,18 @@
              Intel
           </center>
           </a>
+          <a href="bank.php">
+          <center>
+             Treasury
+          </center>
+          </a>
           <hr>
           <a href="logout.php">
           <center>
              Logout
           </center>
           </a>
-          <img src="pic/Bottom.gif">
+          <img src="pic/Bottom.gif" width="<?=$w+142?>" height="10">
             </TD>
           </TR>
           <?php
@@ -154,7 +150,7 @@ if ($_SESSION['isLogined']) {
               <TD 
                 align=center style="FONT-SIZE: 8pt; COLOR: white">
                 <div align="left">
-                  <img src="pic/Top.gif" width="142" height="13">
+                  <img src="pic/Top.gif" width="<?=$w+142?>" height="13">
                 </div>
               </TD>
               <TD style="FONT-SIZE: 8pt">&nbsp;
@@ -162,20 +158,20 @@ if ($_SESSION['isLogined']) {
               </TD>
             </TR>
             <TBODY>
-              <td width="142" align="middle" valign="top" bgcolor="#4d4d4d" style="border-left-color : #ac7c28; border-left-style : solid; border-left-width : 5px; border-right-color : #ac7c28; border-right-style : solid; border-right-width : 5px; display : table-cell; overflow : hidden; padding-left : 2px; padding-right : 2px; width : 142px;">
-                <TABLE bordercolor="#C1C1C1"  cellSpacing=0 cellPadding=3>
+              <td class="menu_cell_repeater_vert" width="<?=$w+142?>" align="middle" valign="top" bgcolor="#4d4d4d" style=" display : table-cell; overflow : hidden; padding-left : 2px; padding-right : 2px; width : 142px;">
+                <TABLE cellSpacing=0 cellPadding=3 style="width: 100%;">
                   <TBODY>
                     <TR>
-                      <TD width="41" align="left" style="FONT-SIZE:11px; COLOR: white">
+                      <TD width="45%" align="left" style="FONT-SIZE:11px; COLOR: white; padding-left: 15px;">
                          Rank:
                       </TD>
-                      <TD width="67" style="FONT-SIZE: 11px">
+                      <TD width="55%" style="FONT-SIZE: 11px">
                         <?php numecho($userR->rank)
 ?>
                       </TD>
                     </TR>
                     <TR>
-                      <TD style="FONT-SIZE: 11px; COLOR: white" align="left">
+                      <TD style="FONT-SIZE: 11px; COLOR: white; padding-left: 15px;" align="left">
                          Turns:
                       </TD>
                       <TD style="FONT-SIZE: 11px">
@@ -183,7 +179,7 @@ if ($_SESSION['isLogined']) {
                       </TD>
                     </TR>
                     <TR>
-                      <TD style="FONT-SIZE: 11px; COLOR: white" align="left">
+                      <TD style="FONT-SIZE: 11px; COLOR: white; padding-left: 15px;" align="left">
                          Gold:
                       </TD>
                       <TD style="FONT-SIZE: 11px">
@@ -193,7 +189,7 @@ if ($_SESSION['isLogined']) {
                       </TD>
                     </TR>
                     <TR>
-                      <TD style="FONT-SIZE: 11px; COLOR: white" align=left>
+                      <TD style="FONT-SIZE: 11px; COLOR: white; padding-left: 15px;" align=left>
                          <a href="bank.php" style="color: white; font-size: 11px; font-weight: normal;">Treasury:</a>
                       </TD>
                       <TD style="FONT-SIZE: 11px">
@@ -203,8 +199,8 @@ if ($_SESSION['isLogined']) {
                       </TD>
                     </TR>
                     <TR>
-                      <TD style="FONT-SIZE: 11px; COLOR: white" align=left>
-                         Experience:
+                      <TD style="FONT-SIZE: 11px; COLOR: white; padding-left: 15px;" align=left>
+                         EXP:
                       </TD>
                       <TD style="FONT-SIZE: 11px">
                         <FONT color=white>
@@ -213,7 +209,7 @@ if ($_SESSION['isLogined']) {
                       </TD>
                     </TR>
                     <TR>
-                      <TD style="FONT-SIZE: 11px; COLOR: white" align=left>
+                      <TD style="FONT-SIZE: 11px; COLOR: white; padding-left: 15px;" align=left>
                          Next Turn:
                       </TD>
                       <TD style="FONT-SIZE: 11px">
@@ -246,7 +242,7 @@ if ($_SESSION['isLogined']) {
                       </TD>
                     </TR>
                     <TR>
-                      <TD height="24"  align=left style="FONT-SIZE: 10px; COLOR: white">
+                      <TD height="24"  align=left style="FONT-SIZE: 10px; COLOR: white; padding-left: 15px;">
                          Messages:
                       </TD>
                       <TD >
@@ -269,7 +265,7 @@ if ($_SESSION['isLogined']) {
                             <TD style="FONT-SIZE: 6pt; COLOR: white" 
                 align=center>
                               <div align="left">
-                                <img src="pic/Bottom.gif" width="142" height="12">
+                                <img src="pic/Bottom.gif" width="<?=$w+142?>" height="12">
                               </div>
                             </TD>
                             <TD style="FONT-SIZE: 6pt">&nbsp;
@@ -286,25 +282,25 @@ if ($_SESSION['isLogined']) {
                                 <TR>
                                   <TD class=menu_cell_repeater_vert>
                                     <div align="left">
-                                      <img src="pic/Top.gif" width="142" height="13">
+                                      <img src="pic/Top.gif" width="<?=$w+142?>" height="13">
                                     </div>
                                   </TD>
                                 </TR>
                                 <TR>
                                   <TD class=menu_cell_repeater_vert>
-                                    <P align=center>
+                                    <!-- <P align=center>
                                       <FONT color=#ff0000><a href="online.php">
           <?=getOnlineUsersCount() /* + $number=rand(100,105)*/;;
 ?> online</a> </FONT>
-                                    </P>
+                                    </P> -->
                                     <p align="center">
                                       <a href='battlefield.php?page=1'>Rankings</a>
                                     </p>
                                     <p align="center">
                                       <a href='statistics.php'>Statistics</a>
                                     </p>
-                                    <p align="center"><a href='hof.php'>Previous Age Statistics</a></p>
-                                    <p align="center">
+                                    <p align="center"><a href='hof.php'>Previous Age<br>Statistics</a></p>
+                                    <!-- <p align="center">
                                       <a href='chat.php' target="_blank">Chat</a>
                                     </p>
 									 <p align="center">
@@ -314,11 +310,11 @@ if ($_SESSION['isLogined']) {
                                       <a href='http://ww2game.net/forum'>Forum</a>
                                     </p>
                                   </TD>
-                                </TR>
+                                </TR> -->
                                 <TR>
                                   <TD class=menu_cell_repeater_vert>
                                     <div align="left">
-                                      <img src="pic/Bottom.gif" width="142" height="12">
+                                      <img src="pic/Bottom.gif" width="<?=$w+142?>" height="12">
                                     </div>
                                   </TD>
                                 </TR>
@@ -333,7 +329,7 @@ if ($_SESSION['isLogined']) {
                                 <TR>
                                   <TD class=menu_cell_repeater_vert>
                                     <div align="left">
-                                      <img src="pic/Top.gif" width="142" height="13">
+                                      <img src="pic/Top.gif" width="<?=$w+142?>" height="13">
                                     </div>
                                   </TD>
                                 </TR>
@@ -357,7 +353,7 @@ echo " ";
                                 <TR>
                                   <TD class=menu_cell_repeater_vert>
                                     <div align="left">
-                                      <img src="pic/Bottom.gif" width="142" height="12">
+                                      <img src="pic/Bottom.gif" width="<?=$w+142?>" height="12">
                                     </div>
                                   </TD>
                                 </TR>
@@ -367,13 +363,13 @@ echo " ";
                             </TABLE>
                           </p>
                          
-                          <p>
+                          <!-- <p>
                             <TABLE bgcolor="#000000" cellSpacing=0 cellPadding=0 width=142 border=0>
                               <TBODY>
                                 <TR>
                                   <TD class=menu_cell_repeater_vert>
                                     <div align="left">
-                                      <img src="pic/Top.gif" width="142" height="13">
+                                      <img src="pic/Top.gif" width="<?=$w+142?>" height="13">
                                     </div>
                                   </TD>
                                 </TR>
@@ -387,7 +383,7 @@ echo " ";
                                 <TR>
                                   <TD class=menu_cell_repeater_vert>
                                     <div align="left">
-                                      <img src="pic/Bottom.gif" width="142" height="12">
+                                      <img src="pic/Bottom.gif" width="<?=$w+142?>" height="12">
                                     </div>
                                   </TD>
                                 </TR>
@@ -395,7 +391,7 @@ echo " ";
                                 </tr>
                               </TBODY>
                             </TABLE>
-                          </p>
+                          </p> -->
 
 
 
