@@ -121,7 +121,7 @@ for ($i = 0; $i < count($tableList); $i++) {
 				}
 			else
 				{
-					die("1.1:".mysqli_error($db));
+					die("1.1:".mysqli_error($db_backups));
 				}
 		} 
 }
@@ -461,7 +461,7 @@ $clean = array(
 	'Weapon',
 );
 echo "done";
-exit();
+
 foreach ($clean as $tbl) {
 	echo "resetscript: truncating table $tbl\n";
 	$sql = "TRUNCATE $tbl";

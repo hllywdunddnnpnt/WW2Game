@@ -88,7 +88,7 @@
 		<div class="panel-title">
 			Rankings
 		</div>
-		<table class="large">
+		<table class="large">w
 			<tr>
 				<th>Rank</th>
 				<th>Nation</th>
