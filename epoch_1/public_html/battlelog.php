@@ -16,6 +16,7 @@ class User {
 	var $expgain = 0;
 	var $powgain = 0;
 	function __construct($id) {
+		global $db;
 		$q = mysqli_query($db, "SELECT username,race,alliance FROM UserDetails WHERE id=$id") or die(mysqli_error($db));
 		$a = mysqli_fetch_object($q);
 		mysqli_free_result($q);

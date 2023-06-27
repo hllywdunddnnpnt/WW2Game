@@ -154,7 +154,7 @@ include "islogined.php";
                                                 <?php
 if ($user->alliance > 0) {
 	$qal = mysqli_query($db, "SELECT name,up,bunkers FROM alliances WHERE ID='" . $user->alliance . "'") or die(mysqli_error($db));
-	$alliance_stuff = mysqli_fetch_array($qal, mysqli_ASSOC);
+	$alliance_stuff = mysqli_fetch_array($qal, MYSQLI_ASSOC);
 	echo (($alliance_stuff['name'] != '') ? $alliance_stuff['name'] . ($user->aaccepted == 0 ? '&nbsp;<a href="alliance.php?leave=true"">Leave<a>' : '') : "None");
 } else {
 	echo "None";

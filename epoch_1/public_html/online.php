@@ -43,7 +43,7 @@ for ($i = 0;$i < count($users);$i++) {
 		$tag = $all_cache[$users[$i]->alliance];
 	} elseif ($users[$i]->alliance > 0) {
 		$qal = mysqli_query($db, "SELECT tag FROM alliances WHERE ID='" . $users[$i]->alliance . "'") or die(mysqli_error($db));
-		$r = mysqli_fetch_array($qal, mysqli_ASSOC);
+		$r = mysqli_fetch_array($qal, MYSQLI_ASSOC);
 		$all_cache[$users[$i]->alliance] = $r['tag'];
 		if ($r['tag']) {
 			$tag = "[" . $r['tag'] . "]";

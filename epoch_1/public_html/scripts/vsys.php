@@ -143,7 +143,7 @@ function isLogined($uname, $psword) {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		return $st->ID;
 	}
@@ -163,7 +163,7 @@ function getUserByUniqId($uniqueLink, $fields = " ID ") {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		$st->uu = floor($st->uu);
 		return $st;
@@ -184,7 +184,7 @@ function getUserDetailsByName($name, $fields = " ID ") {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		$st->uu = floor($st->uu);
 		return $st;
@@ -202,7 +202,7 @@ function getUserDetailsByEmail($email, $fields = " ID ") {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		$st->uu = floor($st->uu);
 		return $st;
@@ -238,7 +238,7 @@ function getUserDetails($id, $fields = "*") {
 		if(floatval($st->RABONUS)<=0){ $st->DABONUS=0; }
 		if(floatval($st->RABONUS)<=0){ $st->CABONUS=0; }
 		if(floatval($st->RABONUS)<=0){ $st->RABONUS=0; }*/
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		$st->uu = floor($st->uu);
 		return $st;
@@ -428,7 +428,7 @@ function getUserAllWeapon($user) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -504,7 +504,7 @@ function getActiveUsers($fields = "*") {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$row->uu = floor($row->uu);
@@ -527,7 +527,7 @@ function getActiveUsers2($fields = "*") {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$row->uu = floor($row->uu);
@@ -550,7 +550,7 @@ function getRanksList($page) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -582,7 +582,7 @@ function getRanksUsersList2($page) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -620,7 +620,7 @@ function searchRanksUsersList($page, $str, $fields = " UserDetails.ID, userName 
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$row->uu = floor($row->uu);
@@ -648,7 +648,7 @@ function getUserRanks($id) {
 		$st->rarank = 'unranked';
 		return $st;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		if (!$st->rank) {
 			$st->rank = 'unranked';
@@ -732,7 +732,7 @@ function getOnlineUsers() {
 	//echo $str;
 	$q = mysqli_query($db, $str);
 	if ($q) {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -748,7 +748,7 @@ function getOnlineUsers() {
 function getOldUsers() {
 	global $conf, $db;
 	$time = time() - $conf["days_of_inactivity_before_delete_this_user"] * 24 * 60 * 60;
-	$str = "SELECT ID, active FROM `UserDetails` where lastturntime<'$time'";
+	$str = "SELECT `ID`, `active` FROM `UserDetails` where `lastturntime`<'$time'";
 	$q = mysqli_query($db, $str);
 	if (!$q) {
 		print ('Query failed: ' . mysqli_error($db));
@@ -757,7 +757,7 @@ function getOldUsers() {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -889,7 +889,7 @@ function getCommonInfo() {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		return $st;
 	}
@@ -911,7 +911,7 @@ function getOfficers($id, $page, $fields = "userID,userName, rank, sasoldiers,sa
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -922,7 +922,7 @@ function getOfficers($id, $page, $fields = "userID,userName, rank, sasoldiers,sa
 }
 function getOfficersCount($id) {
 	global $conf, $db;
-	$str = "SELECT COUNT(*) FROM `UserDetails`,`Ranks` where Ranks.userID=UserDetails.ID AND commander='$id' AND Ranks.active='1' AND rank<>'0'";
+	$str = "SELECT COUNT(*) FROM `UserDetails`,`Ranks` where `Ranks.userID`=`UserDetails.ID` AND `UserDetails.commander`='$id' AND `Ranks.active`='1' AND `Ranks.rank`>'0'";
 	//echo $str;
 	$q = mysqli_query($db, $str);
 	if (!$q) {
@@ -1072,7 +1072,7 @@ function getIP($id) {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		return $st;
 	}
@@ -1089,7 +1089,7 @@ function getUserIPs($id) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1163,7 +1163,7 @@ function getAllAttacks($userID) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1184,7 +1184,7 @@ function getAllDefences($userID) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1205,7 +1205,7 @@ function getAttack($id) {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		return $st;
 	}
@@ -1240,7 +1240,7 @@ function getAttackByAttacker($id, $page) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1274,7 +1274,7 @@ function getAttackByDefender($id, $page) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1295,7 +1295,7 @@ function getAttackByUser1User2AndTime($User1, $User2, $time, $fields = "*") {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		return $st;
 	}
@@ -1363,7 +1363,7 @@ function getAllSpys($userID) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1384,7 +1384,7 @@ function getAllSpyDefences($userID) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1405,7 +1405,7 @@ function getSpy($id) {
 	if (!mysqli_num_rows($q)) {
 		return 0;
 	} else {
-		$st = "";
+		$st = [];
 		$st = mysqli_fetch_object($q);
 		return $st;
 	}
@@ -1440,7 +1440,7 @@ function getSpyBySpyer($id, $page) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1477,7 +1477,7 @@ function getSpyByDefender($id, $page) {
 	if (!mysqli_num_rows($q)) {
 		return;
 	} else {
-		$st = "";
+		$st = [];
 		$i = 0;
 		while ($row = mysqli_fetch_object($q)) {
 			$st[$i] = $row;
@@ -1534,7 +1534,7 @@ function RepairWeaponMax($wepid, $user, $type) {
 	global $conf, $cgi, $conf_use_savings, $db;
 	$user = getUserDetails($user->ID, 'gold,ID');
 	$q = mysqli_query($db, "SELECT weaponCount,weaponStrength FROM Weapon WHERE weaponID='$wepid' AND userID='$user->ID' AND isAttack='$type'") or die(mysqli_error($db));
-	$r = mysqli_fetch_array($q, mysqli_ASSOC);
+	$r = mysqli_fetch_array($q, MYSQLI_ASSOC);
 	if (!$r['weaponCount']) {
 		return;
 	}
@@ -1563,7 +1563,7 @@ function RepairWeapon($wepid, $wal, $user, $type) {
 	$wal = ToPositive($wal);
 	$tp = 'weapon';
 	$q = mysqli_query($db, "select weaponCount,weaponStrength from `Weapon` where weaponID='$wepid' and userID='$user->ID' and isAttack='$type' ");
-	$el = mysqli_fetch_array($q, mysqli_ASSOC);
+	$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
 	if ($conf["weapon{$wepid}strength"] != 0) $pris = round($conf["weapon{$wepid}pp"] * $el["weaponCount"] * $wal);
 	else return;
 	if ($pris <= ($user->gold)) {
@@ -1623,7 +1623,7 @@ function BuyWeapon($wepid, $wal, $at, $user) {
 	$stren = $conf["weapon{$wepid}strength"];
 	if ($pris <= ($user->gold)) {
 		$q = mysqli_query($db, "select weaponCount from `Weapon` where weaponID='$wepid' and userID='$user->ID' and isAttack='$at' ");
-		$el = mysqli_fetch_array($q, mysqli_ASSOC);
+		$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
 		if ($el['weaponCount'] >= 200000 OR ($wal + $el['weaponCount']) > 200000) {
 			return "You cannot buy anymore of that weapon";
 		}
@@ -1637,7 +1637,7 @@ function BuyWeapon($wepid, $wal, $at, $user) {
 		updateUserStats($user);
 	} elseif ($pris <= ($user->savings) AND $conf_use_savings AND $cgi['c_savings']) {
 		$q = mysqli_query($db, "select weaponCount from `Weapon` where weaponID='$wepid' and userID='$user->ID' and isAttack='$at' ");
-		$el = mysqli_fetch_array($q, mysqli_ASSOC);
+		$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
 		if ($el['weaponCount'] >= 200000 OR ($wal + $el['weaponCount']) > 200000) {
 			return "You cannot buy anymore of that weapon";
 		}
@@ -1694,10 +1694,10 @@ function Train($user, $wal, $type) {
 	if ($type == 0) {
 		$pris = 2000 * $wal;
 		if ($pris <= ($user->gold)) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set sasoldiers=sasoldiers+'$wal', uu=uu-'$wal', gold=gold-'$pris' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `sasoldiers`=`sasoldiers`+'$wal', `uu`=`uu`-'$wal', `gold`=`gold`-'$pris' where `ID`='$user->ID' ");
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
 					return;
@@ -1705,10 +1705,10 @@ function Train($user, $wal, $type) {
 				updateUserStats($user);
 			} else return $nosold;
 		} elseif ($pris <= ($user->savings) AND $conf_use_savings AND $cgi['c_savings']) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set sasoldiers=sasoldiers+'$wal', uu=uu-'$wal', savings=savings-'$pris' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `sasoldiers`=`sasoldiers`+'$wal', `uu`=`uu`-'$wal', `savings`=`savings`-'$pris' where `ID`='$user->ID' ");
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
 					return;
@@ -1721,10 +1721,10 @@ function Train($user, $wal, $type) {
 	} elseif ($type == 1) {
 		$pris = 2000 * $wal;
 		if ($pris <= ($user->gold)) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set dasoldiers=dasoldiers+'$wal', uu=uu-'$wal', gold=gold-'$pris' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `dasoldiers`=`dasoldiers`+'$wal', `uu`=`uu`-'$wal', `gold`=`gold`-'$pris' where `ID`='$user->ID' ");
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
 					return;
@@ -1732,10 +1732,10 @@ function Train($user, $wal, $type) {
 				updateUserStats($user);
 			} else return $nosold;
 		} elseif ($pris <= ($user->savings) AND $conf_use_savings AND $cgi['c_savings']) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set dasoldiers=dasoldiers+'$wal', uu=uu-'$wal', savings=savings-'$pris' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `dasoldiers`=`dasoldiers`+'$wal', `uu`=`uu`-'$wal', `savings`=`savings`-'$pris' where `ID`='$user->ID' ");
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
 					return;
@@ -1748,10 +1748,10 @@ function Train($user, $wal, $type) {
 	} elseif ($type == 2) {
 		$pris = 3500 * $wal;
 		if ($pris <= ($user->gold)) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set spies=spies+'$wal', uu=uu-'$wal', gold=gold-'$pris' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `spies`=`spies`+'$wal', `uu`=`uu`-'$wal', `gold`=`gold`-'$pris' where `ID`='$user->ID' ");
 				updateUserStats($user);
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
@@ -1760,9 +1760,9 @@ function Train($user, $wal, $type) {
 			} else return $nosold;
 		} elseif ($pris <= ($user->savings) AND $conf_use_savings AND $cgi['c_savings']) {
 			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set spies=spies+'$wal', uu=uu-'$wal', savings=savings-'$pris' where ID='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `spies`=`spies`+'$wal', `uu`=`uu`-'$wal', `savings`=`savings`-'$pris' where `ID`='$user->ID' ");
 				updateUserStats($user);
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
@@ -1775,10 +1775,10 @@ function Train($user, $wal, $type) {
 	} elseif ($type == 3) {
 		$pris = 100000 * $wal;
 		if ($pris <= ($user->gold)) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set specialforces=specialforces+'$wal', uu=uu-'$wal', gold=gold-'$pris' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `specialforces`=`specialforces`+'$wal', `uu`=`uu`-'$wal', `gold`=`gold`-'$pris' where `ID`='$user->ID' ");
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
 					return;
@@ -1786,10 +1786,10 @@ function Train($user, $wal, $type) {
 				updateUserStats($user);
 			} else return $nosold;
 		} elseif ($pris <= ($user->savings) AND $cgi['c_savings'] AND $conf_use_savings) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set specialforces=specialforces+'$wal', uu=uu-'$wal', savings=savings-'$pris' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `specialforces`=`specialforces`+'$wal', `uu`=`uu`-'$wal', `savings`=`savings`-'$pris' where `ID`='$user->ID' ");
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
 					return;
@@ -1800,33 +1800,33 @@ function Train($user, $wal, $type) {
 			return $nogold;
 		}
 	} elseif ($type == 4) {
-		$q = mysqli_query($db, "select sasoldiers from `UserDetails` where ID='$user->ID' ");
-		$el = mysqli_fetch_array($q, mysqli_ASSOC);
-		if ($el[sasoldiers]) $q = mysqli_query($db, "update `UserDetails` set sasoldiers=sasoldiers-'$wal', uu=uu+'$wal' where ID='$user->ID' ");
+		$q = mysqli_query($db, "select `sasoldiers` from `UserDetails` where `ID`='$user->ID' ");
+		$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+		if ($el['sasoldiers']) $q = mysqli_query($db, "update `UserDetails` set `sasoldiers`=`sasoldiers`-'$wal', `uu`=`uu`+'$wal' where `ID`='$user->ID' ");
 		updateUserStats($user);
 	} elseif ($type == 5) {
-		$q = mysqli_query($db, "select dasoldiers from `UserDetails` where ID='$user->ID' ");
-		$el = mysqli_fetch_array($q, mysqli_ASSOC);
-		if ($el[dasoldiers]) $q = mysqli_query($db, "update `UserDetails` set dasoldiers=dasoldiers-'$wal', uu=uu+'$wal' where ID='$user->ID' ");
+		$q = mysqli_query($db, "select `dasoldiers` from `UserDetails` where `ID`='$user->ID' ");
+		$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+		if ($el['dasoldiers']) $q = mysqli_query($db, "update `UserDetails` set `dasoldiers`=`dasoldiers`-'$wal', `uu`=`uu`+'$wal' where `ID`='$user->ID' ");
 		updateUserStats($user);
 	} elseif ($type == 6) {
-		$q = mysqli_query($db, "select spies from `UserDetails` where ID='$user->ID' ");
-		$el = mysqli_fetch_array($q, mysqli_ASSOC);
-		if ($el[spies]) $q = mysqli_query($db, "update `UserDetails` set spies=spies-'$wal', uu=uu+'$wal' where ID='$user->ID' ");
+		$q = mysqli_query($db, "select `spies` from `UserDetails` where `ID`='$user->ID' ");
+		$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+		if ($el['spies']) $q = mysqli_query($db, "update `UserDetails` set `spies`=`spies`-'$wal', `uu`=`uu`+'$wal' where `ID`='$user->ID' ");
 		updateUserStats($user);
 	} elseif ($type == 7) {
-		$q = mysqli_query($db, "select specialforces from `UserDetails` where ID='$user->ID' ");
-		$el = mysqli_fetch_array($q, mysqli_ASSOC);
-		if ($el[specialforces]) $q = mysqli_query($db, "update `UserDetails` set specialforces=specialforces-'$wal', uu=uu+'$wal' where ID='$user->ID' ");
+		$q = mysqli_query($db, "select `specialforces` from `UserDetails` where `ID`='$user->ID' ");
+		$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+		if ($el['specialforces']) $q = mysqli_query($db, "update `UserDetails` set `specialforces`=`specialforces`-'$wal', `uu`=`uu`+'$wal' where `ID`='$user->ID' ");
 		updateUserStats($user);
 	} elseif ($type == 8) {
 		$pris = 300000 * $wal;
 		$exp = 100 * $wal;
 		if ($pris <= ($user->gold) AND $exp <= ($user->exp)) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set scientists=scientists+'$wal', uu=uu-'$wal', gold=gold-'$pris',exp=exp-'$exp' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `scientists`=`scientists`+'$wal', `uu`=`uu`-'$wal', `gold`=`gold`-'$pris',`exp`=`exp`-'$exp' where `ID`='$user->ID' ");
 				updateUserStats($user);
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
@@ -1834,10 +1834,10 @@ function Train($user, $wal, $type) {
 				}
 			} else return $nosold;
 		} elseif ($pris <= ($user->savings) AND $conf_use_savings AND $cgi['c_savings'] AND $exp <= ($user->exp)) {
-			$q = mysqli_query($db, "select uu from `UserDetails` where ID='$user->ID' ");
-			$el = mysqli_fetch_array($q, mysqli_ASSOC);
-			if ($el[uu] >= $wal) {
-				$q = mysqli_query($db, "update `UserDetails` set scientists=scientists+'$wal', uu=uu-'$wal', savings=savings-'$pris',exp=exp-'$exp' where ID='$user->ID' ");
+			$q = mysqli_query($db, "select `uu` from `UserDetails` where `ID`='$user->ID' ");
+			$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+			if ($el['uu'] >= $wal) {
+				$q = mysqli_query($db, "update `UserDetails` set `scientists`=`scientists`+'$wal', `uu`=`uu`-'$wal', `savings`=`savings`-'$pris',`exp`=`exp`-'$exp' where `ID`='$user->ID' ");
 				updateUserStats($user);
 				if (!$q) {
 					print ('Query failed: ' . mysqli_error($db));
@@ -1848,9 +1848,9 @@ function Train($user, $wal, $type) {
 			return $nogold;
 		}
 	} elseif ($type == 9) {
-		$q = mysqli_query($db, "select scientists from `UserDetails` where ID='$user->ID' ");
-		$el = mysqli_fetch_array($q, mysqli_ASSOC);
-		if ($el[scientists]) $q = mysqli_query($db, "update `UserDetails` set scientists=scientists-'$wal', uu=uu+'$wal' where ID='$user->ID' ");
+		$q = mysqli_query($db, "select `scientists` from `UserDetails` where `ID`='$user->ID' ");
+		$el = mysqli_fetch_array($q, MYSQLI_ASSOC);
+		if ($el['scientists']) $q = mysqli_query($db, "update `UserDetails` set `scientists`=`scientists`-'$wal', `uu`=`uu`+'$wal' where `ID`='$user->ID' ");
 		updateUserStats($user);
 	}
 }

@@ -21,7 +21,7 @@ if ($cgi['edit'] AND is_numeric($cgi['uid'])) {
 }
 if (is_numeric($cgi['uid'])) {
 	$q = mysqli_query($db, "SELECT * FROM UserDetails WHERE id=$cgi[uid] LIMIT 0,1") or die(mysqli_error($db));
-	$details = mysqli_fetch_array($q, mysqli_ASSOC);
+	$details = mysqli_fetch_array($q, MYSQLI_ASSOC);
 	$q = mysqli_query($db, "SELECT * FROM Ranks WHERE userid=$cgi[uid] limit 0,1") or die(mysqli_error($db));
 	$ranks = mysqli_fetch_object($q);
 	$q = mysqli_query($db, "SELECT * FROM Weapon WHERE userid=$cgi[uid] ORDER BY weaponid asc") or die(mysqli_error($db));

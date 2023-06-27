@@ -1,46 +1,46 @@
 <?php include "gzheader.php";
 include "scripts/vsys.php";
 if ($cgi['train'] and ($user->gold >= 0)) {
-	$pris = ((2000 * $cgi['atsold']) + (2000 * $cgi['defsold']) + (3500 * $cgi[spy]) + (100000 * $cgi[sf]));
+	$pris = ((2000 * $cgi['atsold']) + (2000 * $cgi['defsold']) + (3500 * $cgi['spy']) + (100000 * $cgi['sf']));
 	if ($pris > $user->gold AND $pris > $user->savings) {
 		$detail = "Not Enough Gold!";
 		header("Location: train.php?strErr=$detail");
 		exit;
 	}
-	if ($cgi[atsold]) {
-		$wal = (int)$cgi[atsold];
+	if ($cgi['atsold']) {
+		$wal = (int)$cgi['atsold'];
 		$typ = 0;
 		if ($wal < 1.0) {
 			$wal = 1;
 		}
 		$detail.= Train($user, $wal, $typ);
 	}
-	if ($cgi[defsold]) {
-		$wal = (int)$cgi[defsold];
+	if ($cgi['defsold']) {
+		$wal = (int)$cgi['defsold'];
 		$typ = 1;
 		if ($wal < 1.0) {
 			$wal = 1;
 		}
 		$detail.= Train($user, $wal, $typ);
 	}
-	if ($cgi[spy]) {
-		$wal = (int)$cgi[spy];
+	if ($cgi['spy']) {
+		$wal = (int)$cgi['spy'];
 		$typ = 2;
 		if ($wal < 1.0) {
 			$wal = 1;
 		}
 		$detail.= Train($user, $wal, $typ);
 	}
-	if ($cgi[sf]) {
-		$wal = (int)$cgi[sf];
+	if ($cgi['sf']) {
+		$wal = (int)$cgi['sf'];
 		$typ = 3;
 		if ($wal < 1.0) {
 			$wal = 1;
 		}
 		$detail.= Train($user, $wal, $typ);
 	}
-	if ($cgi[reat]) {
-		$wal = (int)$cgi[reat];
+	if ($cgi['reat']) {
+		$wal = (int)$cgi['reat'];
 		$typ = 4;
 		if ($wal < 1.0) {
 			$wal = 1;
@@ -51,8 +51,8 @@ if ($cgi['train'] and ($user->gold >= 0)) {
 			$detail = "Not enough Soldiers to untrain";
 		}
 	}
-	if ($cgi[redef]) {
-		$wal = (int)$cgi[redef];
+	if ($cgi['redef']) {
+		$wal = (int)$cgi['redef'];
 		$typ = 5;
 		if ($wal < 1.0) {
 			$wal = 1;
@@ -63,8 +63,8 @@ if ($cgi['train'] and ($user->gold >= 0)) {
 			$detail = "Not enough Soldiers to untrain";
 		}
 	}
-	if ($cgi[respy]) {
-		$wal = (int)$cgi[respy];
+	if ($cgi['respy']) {
+		$wal = (int)$cgi['respy'];
 		$typ = 6;
 		if ($wal < 1.0) {
 			$wal = 1;
@@ -75,8 +75,8 @@ if ($cgi['train'] and ($user->gold >= 0)) {
 			$detail = "Not enough Soldiers to untrain";
 		}
 	}
-	if ($cgi[resf]) {
-		$wal = (int)$cgi[resf];
+	if ($cgi['resf']) {
+		$wal = (int)$cgi['resf'];
 		$typ = 7;
 		if ($wal < 1.0) {
 			$wal = 1;

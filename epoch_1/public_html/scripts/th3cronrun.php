@@ -37,7 +37,7 @@ if ($a->mbytes >= 1024) {
 echo "done logs<br>\n";
 //Updates the Ranks.active
 $rank_sql = "UPDATE Ranks,UserDetails SET Ranks.active=UserDetails.active WHERE UserDetails.ID=Ranks.userID";
-$rank_sql_2 = "UPDATE Ranks SET rank=0,rankfloat=0,sarank=0,darank=0,carank=0,rarank=0 WHERE active!=1";
+$rank_sql_2 = "UPDATE Ranks SET `rank`=0,rankfloat=0,sarank=0,darank=0,carank=0,rarank=0 WHERE active!=1";
 $a = mysqli_query($db, $rank_sql) or die(mysqli_error($db));
 $b = mysqli_query($db, $rank_sql_2) or die(mysqli_error($db));
 if (!$a or !$b) {
@@ -60,7 +60,7 @@ mysqli_query($db, "UPDATE UserDetails SET officerup=0,commandergold=0,clickall=0
 echo "done savings<br>\n";
 $catchup = 1;
 $q = mysqli_query($db, "select lastturntime from Mercenaries") or die(mysqli_error($db));
-$r = mysqli_fetch_array($q, mysqli_ASSOC);
+$r = mysqli_fetch_array($q, MYSQLI_ASSOC);
 echo "mercs<br>\n";
 $d = floor((time() - $r['lastturntime']) / 900) - 1;
 if ($d > 2) {
@@ -126,7 +126,7 @@ while ($r = mysqli_fetch_object($q)) {
 mysqli_free_result($q);
 $avgsql = "SELECT floor(sum(sa)/count(*)) as avgsa, floor(sum(da)/count(*)) as avgda, floor(sum(ca)/count(*)) as avgca, floor(sum(ra)/count(*)) as avgra FROM UserDetails where active=1";
 $avq = mysqli_query($db, $avgsql) or die(mysqli_error($db));
-$avr = mysqli_fetch_array($avq, mysqli_ASSOC);
+$avr = mysqli_fetch_array($avq, MYSQLI_ASSOC);
 $avgsa = 0;
 $avgda = 0;
 $avgca = 0;
@@ -136,6 +136,7 @@ $t = time() - (60 * 60 * 24);
 $q = mysqli_query($db, "SELECT (SUM(gold)/count(*)) as avghit FROM AttackLog WHERE gold>0 AND time>$t") or die(mysqli_error($db));
 $aha = mysqli_fetch_object($q);
 $avghit = $aha->avghit;
+if ($avghit == "") $avghit = 0;
 $avgarmy = floor($avgarmy);
 $avgsa = $avr['avgsa'];
 $avgda = $avr['avgda'];
@@ -150,56 +151,56 @@ $UpdateSQL.= " avgarmy='$avgarmy',avghit='$avghit',avgtbg='$avgtbg',avgup='$avgu
 $UpdateSQL.= " avgra='$avgra';";
 mysqli_query($db, $UpdateSQL) or die(mysqli_error($db));
 echo "updated Turn data <br>\n";
-$q = mysqli_query($db, "SELECT * FROM UserDetails WHERE active=1") or die(mysqli_error($db));
+$q = mysqli_query($db, "SELECT * FROM `UserDetails` WHERE `active`=1") or die(mysqli_error($db));
 while ($user = mysqli_fetch_object($q)) {
 	updateUserStats($user);
 }
-$q = mysqli_query($db, "SELECT ID FROM UserDetails WHERE active=1 ORDER BY SA DESC") or die(mysqli_error($db));
+$q = mysqli_query($db, "SELECT `ID` FROM `UserDetails` WHERE `active`=1 ORDER BY `SA` DESC") or die(mysqli_error($db));
 $i = 1;
 echo "Doing SA ========= <br>";
-while ($row = mysqli_fetch_array($q, mysqli_ASSOC)) {
-	$update = mysqli_query($db, "UPDATE Ranks SET sarank=$i WHERE userID=" . $row[ID]) or die(mysqli_error($db));
+while ($row = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+	$update = mysqli_query($db, "UPDATE Ranks SET sarank=$i WHERE userID=" . $row['ID']) or die(mysqli_error($db));
 	$i++;
-	echo "UPDATE Ranks SET sarank=$i WHERE userID=$row[ID]<br>\n";
+	echo "UPDATE Ranks SET sarank=$i WHERE userID=".$row['ID']."<br>\n";
 }
-$q = mysqli_query($db, "SELECT ID FROM UserDetails WHERE active=1 ORDER BY DA DESC") or die(mysqli_error($db));
+$q = mysqli_query($db, "SELECT `ID` FROM `UserDetails` WHERE `active`=1 ORDER BY `DA` DESC") or die(mysqli_error($db));
 $i = 1;
 echo "Doing DA ========= <br>";
-while ($row = mysqli_fetch_array($q, mysqli_ASSOC)) {
-	$update = mysqli_query($db, "UPDATE Ranks SET darank=$i WHERE userID=" . $row[ID]) or die(mysqli_error($db));
+while ($row = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+	$update = mysqli_query($db, "UPDATE Ranks SET darank=$i WHERE userID=" . $row['ID']) or die(mysqli_error($db));
 	$i++;
-	echo "UPDATE Ranks SET defenseActionRank=$i WHERE userID=$row[ID]<br>\n";
+	echo "UPDATE Ranks SET defenseActionRank=$i WHERE userID=".$row['ID']."<br>\n";
 }
-$q = mysqli_query($db, "SELECT ID FROM UserDetails WHERE active=1 ORDER BY CA DESC") or die(mysqli_error($db));
+$q = mysqli_query($db, "SELECT `ID` FROM `UserDetails` WHERE `active`=1 ORDER BY `CA` DESC") or die(mysqli_error($db));
 $i = 1;
 echo "Doing CA ========= <br>";
-while ($row = mysqli_fetch_array($q, mysqli_ASSOC)) {
-	$update = mysqli_query($db, "UPDATE Ranks SET carank=$i WHERE userID=" . $row[ID]) or die(mysqli_error($db));
+while ($row = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+	$update = mysqli_query($db, "UPDATE Ranks SET carank=$i WHERE userID=" . $row['ID']) or die(mysqli_error($db));
 	$i++;
-	echo "UPDATE Ranks SET carank=$i WHERE userID=$row[ID]<br>\n";
+	echo "UPDATE `Ranks` SET carank=$i WHERE userID=".$row['ID']."<br>\n";
 }
-$q = mysqli_query($db, "SELECT ID,active FROM UserDetails WHERE active=1 ORDER BY RA DESC") or die(mysqli_error($db));
+$q = mysqli_query($db, "SELECT `ID`,`active` FROM `UserDetails` WHERE `active`=1 ORDER BY `RA` DESC") or die(mysqli_error($db));
 $i = 1;
 echo "Doing RA ========= <br>";
-while ($row = mysqli_fetch_array($q, mysqli_ASSOC)) {
-	$update = mysqli_query($db, "UPDATE Ranks SET rarank=$i,active=" . $row[active] . " WHERE userID=" . $row[ID]) or die(mysqli_error($db));
+while ($row = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+	$update = mysqli_query($db, "UPDATE `Ranks` SET `rarank`='$i',`active`='" . $row['active'] . "' WHERE `userID`='" . $row['ID'] . "'") or die(mysqli_error($db));
 	$i++;
-	echo "UPDATE Ranks SET rarank=$i WHERE userID=$row[ID]<br>\n";
+	echo "UPDATE `Ranks` SET `rarank`='$i' WHERE `userID`='".$row['ID']."'<br>\n";
 }
-$q = mysqli_query($db, "SELECT * FROM Ranks where active=1") or die(mysqli_error($db));
+$q = mysqli_query($db, "SELECT * FROM `Ranks` where `active`=1") or die(mysqli_error($db));
 echo "Setting ranbk float;<br>";
-while ($row = mysqli_fetch_array($q, mysqli_ASSOC)) {
-	$f = ($row[rarank] + $row[carank] + $row[sarank] + $row[darank]) / 4;
-	$update = mysqli_query($db, "UPDATE Ranks SET rankfloat=$f WHERE userID=" . $row[userID]) or die(mysqli_error($db));
-	echo "UPDATE Ranks SET rankfloat=$f WHERE userID=$row[userID]<br>\n";
+while ($row = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+	$f = ($row['rarank'] + $row['carank'] + $row['sarank'] + $row['darank']) / 4;
+	$update = mysqli_query($db, "UPDATE `Ranks` SET `rankfloat`='$f' WHERE `userID`='" . $row['userID'] . "'") or die(mysqli_error($db));
+	echo "UPDATE `Ranks` SET `rankfloat`='$f' WHERE `userID`='".$row['ID']."'<br>\n";
 }
-$q = mysqli_query($db, "SELECT userID FROM Ranks WHERE active=1  ORDER BY rankfloat ASC") or die(mysqli_error($db));
+$q = mysqli_query($db, "SELECT `userID` FROM `Ranks` WHERE `active`='1'  ORDER BY `rankfloat` ASC") or die(mysqli_error($db));
 $i = 1;
 echo "Updating ranks<br>\n";
-while ($row = mysqli_fetch_array($q, mysqli_ASSOC)) {
-	$update = mysqli_query($db, "UPDATE Ranks SET rank=$i WHERE userID=" . $row[userID]) or die(mysqli_error($db));
+while ($row = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+	$update = mysqli_query($db, "UPDATE `Ranks` SET `rank`='$i' WHERE `userID`='" . $row['userID'] . "'") or die(mysqli_error($db));
 	$i++;
-	echo "UPDATE Ranks SET rank=$i WHERE userID=$row[userID]<br>\n";
+	echo "UPDATE `Ranks` SET `rank`='$i' WHERE `userID`='".$row['ID']."'<br>\n";
 }
 deleteoldusers();
 echo "Deleted old users<br>\n";

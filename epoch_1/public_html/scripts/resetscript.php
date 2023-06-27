@@ -70,10 +70,10 @@ UNIQUE (
 mysqli_query($db, $hof_table) or die("2:" . mysqli_error($db));
 mysqli_query($db, "TRUNCATE hof{$hf};") or die("0:" . mysqli_error($db));
 $hofq = mysqli_query($db, "SELECT UserDetails{$tbl}.*,Ranks{$tbl}.sarank,Ranks{$tbl}.darank,Ranks{$tbl}.carank,Ranks{$tbl}.rarank FROM UserDetails{$tbl},Ranks{$tbl} WHERE UserDetails{$tbl}.active=1 AND UserDetails{$tbl}.ID=Ranks{$tbl}.userID") or die("1:" . mysqli_error($db));
-while ($hofa = mysqli_fetch_array($hofq, mysqli_ASSOC)) {
+while ($hofa = mysqli_fetch_array($hofq, MYSQLI_ASSOC)) {
 	ob_clean();
 	$alliq = mysqli_query($db, "SELECT name FROM alliances WHERE id=$hofa[alliance]") or die(mysqli_error($db));
-	$allia = mysqli_fetch_array($alliq, mysqli_ASSOC);
+	$allia = mysqli_fetch_array($alliq, MYSQLI_ASSOC);
 	$alliance = addslashes($allia['name'] ? $allia['name'] : '');
 	$offcountq = mysqli_query($db, "SELECT count(*) FROM UserDetails{$tbl} WHERE commander=$hofa[ID]") or die("3:" . mysqli_error($db));
 	$offcounta = mysqli_fetch_array($offcountq);

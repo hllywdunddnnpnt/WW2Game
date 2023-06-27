@@ -79,7 +79,7 @@ include ("left.php");
 	echo "<table class=\"lines\"><TR><Th >Rank</Th><TH class=subh>UserName</TH><TH >Nation</TH><TH >Army Size</TH><TH >Attack</TH><TH >Defence</TH><TH >Covert</TH><TH >Retaliation</TH></TR>";
 	$query = mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) AS rf,hof" . $cgi['age'] . ".* FROM hof" . $cgi['age'] . " ORDER BY rf ASC limit 0,100") or die(mysqli_error($db));
 	$i = 1;
-	while ($row = mysqli_fetch_array($query, mysqli_ASSOC)) {
+	while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		echo "<Tr><td>";
 		echo $i;
 		echo "</td><td>";
@@ -315,7 +315,7 @@ include ("left.php");
 	echo "<table width=\"100%\" class=\"lines\"><TR><Th >Rank</Th><TH class=subh>UserName</TH><TH >Army Size</TH></TR>";
 	$query = mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) AS rf,hof" . $cgi['age'] . ".* FROM hof" . $cgi['age'] . " WHERE race='0' ORDER BY rf ASC limit 0,10") or die(mysqli_error($db));
 	$i = 1;
-	while ($row = mysqli_fetch_array($query, mysqli_ASSOC)) {
+	while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		echo "<Tr><td>";
 		echo $i;
 		echo "</td><td>";
@@ -331,7 +331,7 @@ include ("left.php");
 	echo "<table width=\"100%\" class=\"lines\"><TR><Th >Rank</Th><TH class=subh>UserName</TH><TH >Army Size</TH></TR>";
 	$query = mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) AS rf,hof" . $cgi['age'] . ".* FROM hof" . $cgi['age'] . " WHERE race='1' ORDER BY rf ASC limit 0,10") or die(mysqli_error($db));
 	$i = 1;
-	while ($row = mysqli_fetch_array($query, mysqli_ASSOC)) {
+	while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		echo "<Tr><td>";
 		echo $i;
 		echo "</td><td>";
@@ -347,7 +347,7 @@ include ("left.php");
 	echo "<table width=\"100%\" class=\"lines\"><TR><Th >Rank</Th><TH class=subh>UserName</TH><TH >Army Size</TH></TR>";
 	$query = mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) AS rf,hof" . $cgi['age'] . ".* FROM hof" . $cgi['age'] . " WHERE race='2' ORDER BY rf ASC limit 0,10") or die(mysqli_error($db));
 	$i = 1;
-	while ($row = mysqli_fetch_array($query, mysqli_ASSOC)) {
+	while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		echo "<Tr><td>";
 		echo $i;
 		echo "</td><td>";
@@ -363,7 +363,7 @@ include ("left.php");
 	echo "<table width=\"100%\" class=\"lines\"><TR><Th >Rank</Th><TH class=subh>UserName</TH><TH >Army Size</TH></TR>";
 	$query = mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) AS rf,hof" . $cgi['age'] . ".* FROM hof" . $cgi['age'] . " WHERE race='3' ORDER BY rf ASC limit 0,10") or die(mysqli_error($db));
 	$i = 1;
-	while ($row = mysqli_fetch_array($query, mysqli_ASSOC)) {
+	while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		echo "<Tr><td>";
 		echo $i;
 		echo "</td><td>";
@@ -379,7 +379,7 @@ include ("left.php");
 	echo "<table width=\"100%\" class=\"lines\"><TR><Th >Rank</Th><TH class=subh>UserName</TH><TH >Army Size</TH></TR>";
 	$query = mysqli_query($db, "SELECT ((sarank+darank+carank+rarank)/4) AS rf,hof" . $cgi['age'] . ".* FROM hof" . $cgi['age'] . " WHERE race='4' ORDER BY rf ASC limit 0,10") or die(mysqli_error($db));
 	$i = 1;
-	while ($row = mysqli_fetch_array($query, mysqli_ASSOC)) {
+	while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		echo "<Tr><td>";
 		echo $i;
 		echo "</td><td>";

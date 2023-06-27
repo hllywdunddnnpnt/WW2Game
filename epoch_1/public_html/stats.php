@@ -11,7 +11,7 @@ $attacker = $user;
 $def = getUserDetails($cgi['id']);
 if ($user->alliance > 0 and $user->accepted > 0) {
 	$tagq = mysqli_query($db, "SELECT tag FROM alliances WHERE id={$def->alliance}") or die(mysqli_error($db));
-	$t = mysqli_fetch_array($tagq, mysqli_ASSOC);
+	$t = mysqli_fetch_array($tagq, MYSQLI_ASSOC);
 	$tag = $t['tag'];
 }
 if ($def->active != 1) {

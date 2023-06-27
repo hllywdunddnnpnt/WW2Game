@@ -8,8 +8,9 @@ function getKilled($count, $atturns, $success, $death) {
 	}
 }
 function damageWeapons($userid, $attacker = 0, $ra = 0, $attackturns, $success) {
+	global $db;
 	$q = mysqli_query($db, "SELECT sum(weaponStrength*weaponCount) AS wpoints,sum(weaponCount) AS wcount FROM Weapon WHERE userID=$userid AND isAttack=$attacker") or die(mysqli_error($db));
-	$a = mysqli_fetch_array($q, mysqli_ASSOC);
+	$a = mysqli_fetch_array($q, MYSQLI_ASSOC);
 	$count = $a['wcount'] ? $a['wcount'] : 0;
 	$a['wcount'] = ($a['wcount'] == 0 ? 1 : $a['wcount']);
 	if ($success == 1) {
@@ -40,7 +41,7 @@ function damageWeapons($userid, $attacker = 0, $ra = 0, $attackturns, $success) 
 	}
 	mysqli_query($db, "DELETE FROM Weapon WHERE weaponStrength<=0");
 	$q = mysqli_query($db, "SELECT sum(weaponStrength*weaponCount) AS wpoints FROM Weapon WHERE userID=$userid AND isAttack=$attacker") or die(mysqli_error($db));
-	$a = mysqli_fetch_array($q, mysqli_ASSOC);
+	$a = mysqli_fetch_array($q, MYSQLI_ASSOC);
 	$after = $a['wpoints'];
 	mysqli_free_result($q);
 	$p = (100 - ($before > 0 ? round($after / $before * 100, 2) : 100));

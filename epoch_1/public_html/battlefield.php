@@ -44,16 +44,16 @@ border=0>
               <TH class="subh" colspan="5">Battlefield</TH>
 			</tr>
             <TR> 
-              <TH>Name</TH>
+              <TH style="text-align: center; width: 20%;">Rank</TH>
+              <TH style="text-align: left; width: 30%;">Name</TH>
               <?php
 $attacker = $user;
 if ($attacker->supporter > 0) {
 	echo "<th>Offensive Type</th>";
 }
 ?>
-              <TH colSpan=2>Army Size</TH>
-              <TH>Treasury</TH>
-              <TH>Rank</TH>
+              <TH style="text-align: center; width: 20%;" colSpan="2">Army Size</TH>
+              <TH style="text-align: right; width: 30%;">Treasury</TH>
             </TR>
             <?php
 if (!is_numeric($cgi['page']))
@@ -82,14 +82,14 @@ if ($cgi['search']) {
 }
 $all_cache = array();
 //echo "<!-- ";print_r($users);echo " -->";
-if (is_countable($atackA1)){
+if (isset($users) && is_countable($users)){
 for ($i = 0;$i < count($users);$i++) {
 	$tag = '';
 	if (in_array($users[$i]->alliance, $all_cache) AND !isset($all_cache[$users[$i]->alliance])) {
 		$tag = $all_cache[$users[$i]->alliance];
 	} elseif ($users[$i]->alliance > 0 AND $users[$i]->aaccepted > 0) {
 		$qal = mysqli_query($db, "SELECT tag FROM alliances WHERE ID='{$users[$i]->alliance}'") or die(mysqli_error($db));
-		$r = mysqli_fetch_array($qal, mysqli_ASSOC);
+		$r = mysqli_fetch_array($qal, MYSQLI_ASSOC);
 		$all_cache[$users[$i]->alliance] = $r['tag'];
 		if ($r['tag']) {
 			$tag = "[" . $r['tag'] . "]";
@@ -101,7 +101,8 @@ for ($i = 0;$i < count($users);$i++) {
 	
 ?>
 			<TR> 
-              <TD><A  href="stats.php?id=<?=$users[$i]->ID ?>"><?php echo $users[$i]->userName ?></A>&nbsp;<?=$tag ?></TD>
+              <TD style="PADDING-RIGHT: 20px; text-align: center;"><?php numecho($users[$i]->rank); ?></TD>
+              <TD style="text-align: left;"><A  href="stats.php?id=<?=$users[$i]->ID ?>"><?php echo $users[$i]->userName ?></A>&nbsp;<?=$tag ?></TD>
               <?php if ($attacker->supporter > 0) {
 		echo "<td><a href='attack.php?numspies=1&defender_id=" . ($users[$i]->ID) . "&mission_type=recon'>Spy</a>
               			&nbsp;<a href='attack.php?defender_id2=" . ($users[$i]->ID) . "&amp;attackbut=Balanced!'>Attack</a>
@@ -110,11 +111,11 @@ for ($i = 0;$i < count($users);$i++) {
 ?>
               
               
-                   <TD align=right><?php
+                   <TD style="text-align: right; width: 10%;"><?php
 	numecho(getTotalFightingForce($users[$i]));
 ?></TD>
-              <TD align=left><?=$conf["race"][$users[$i]->race]["name"] ?></TD>
-              <TD style="PADDING-RIGHT: 20px" align=right><?php
+              <TD style="text-align: left; width: 10%;"><?=$conf["race"][$users[$i]->race]["name"] ?></TD>
+              <TD style="PADDING-RIGHT: 20px; text-align: right;"><?php
 	$rn = (rand(90, 110) / 100);
 	$dC = $users[$i]->CA;
 	$aC = $attacker->CA;
@@ -126,7 +127,6 @@ for ($i = 0;$i < count($users);$i++) {
 	// echo "<!--$rn $dC";print_r($users[$i]); echo " $aC-->";
 	
 ?> Gold</TD>
-              <TD style="PADDING-RIGHT: 20px" align=right><?php numecho($users[$i]->rank); ?></TD>
             </TR>
 			<?php
 }}
@@ -149,8 +149,8 @@ if ($cgi['page'] > 1) {
 }
 ?>
 			  </TD>
-              <TD align=middle colSpan=3><?php numecho($activeUsersC) ?> players total | page <?=$cgi['page'] ?> of <?php numecho($pCountF); ?></TD>
-              <TD align=right><?php
+              <TD style="text-align: left;" colSpan=3><?php numecho($activeUsersC) ?> players total | page <?=$cgi['page'] ?> of <?php numecho($pCountF); ?></TD>
+              <TD style="text-align: right;"><?php
 if ($cgi['page'] < $pCountF) {
 	echo '<A href="battlefield.php?page=' . ($cgi['page'] + 1) . '&search=' . $cgi["search"] . '&search_type=' . $cgi["search_type"] . '">Next &gt;&gt;</A>';
 } else {

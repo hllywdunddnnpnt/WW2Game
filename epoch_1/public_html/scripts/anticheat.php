@@ -84,7 +84,7 @@ if (isset($_SESSION['hash'])) {
 			$_SESSION['banpass'] = null;
 			$alert.= "auto-banned";
 			$get = mysqli_query($db, "SELECT ID FROM UserDetails WHERE userName='$cgi[uname]' AND password='" . md5($cgi['psword']) . "'");
-			$ar = mysqli_fetch_array($get, mysqli_ASSOC);
+			$ar = mysqli_fetch_array($get, MYSQLI_ASSOC);
 			mysqli_query($db, "UPDATE UserDetails SET active=4 WHERE ID='$ar[ID]'");
 			$_SESSION['isLogined'] = null;
 			mail($conf['admin_email'], "Banned - $cgi[uname]", "User $ar[ID] $cgi[uname] Banned for automated scripts");

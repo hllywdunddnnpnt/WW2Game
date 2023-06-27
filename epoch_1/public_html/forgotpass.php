@@ -43,7 +43,7 @@ Enter your e-mail address or username to retrieve your login details.
 if ($cgi['email']) {
 	$cgi['email'] = addslashes($cgi['email']);
 	$q = mysqli_query($db, "SELECT userName,admin FROM UserDetails WHERE email LIKE '%$cgi[email]%' LIMIT 0,1") or die(mysqli_error($db));
-	$a = mysqli_fetch_array($q, mysqli_ASSOC);
+	$a = mysqli_fetch_array($q, MYSQLI_ASSOC);
 	if ($a[admin] == 1) {
 		$strErr.= "You are not allowed to change an admin's password<br />";
 	}
