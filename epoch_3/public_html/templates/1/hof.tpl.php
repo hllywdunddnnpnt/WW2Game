@@ -19,6 +19,24 @@
 
 -->
 <!-- Begin HOF -->
+
+<?php if (isset($_GET["list"])): ?>
+
+	<div class="panel">
+		<div class="panel-title">
+			<table>
+				<?php for ($i = 1; $i <= $this->current_age; $i++): ?>
+					<tr>
+						<td>Age <?=$i?></td>
+						<td><a href="hof.php?age=<?=$i?>">Age <?=$i?></a></td>
+					</tr>
+				<?php endfor; ?>
+			</table>
+		</div>
+	</div>
+
+<?php elseif (isset($_GET["age"])): ?>
+
 <div id="hof-container">
 	<form method="get">
 		<select name="age">
@@ -26,7 +44,7 @@
 				<option value="<?= $i ?>" <?= ($i == $this->age ? 'selected="selected"' : '') ?>>Age <?= $i ?></option>
 			<?php } ?>
 		</select>
-		<?php if ($this->age >= 15) { ?>
+		<?php if (AREAS && $this->age >= 15) { ?>
 			<select name="area">
 				<?php for ($i = 1; $i <= 3; $i++) { ?>
 					<option value="<?= $i ?>" <?= ($this->area == $i ? 'selected="selected"' : '') ?>><?= $conf['area'][$i]['name'] ?></option>
@@ -82,7 +100,7 @@
 				<th>Rank Average</th>
 			</tr>
 			<?php $rank = 0; $lastR = 0; ?>
-			<?php foreach ($this->ranks as $r) { ?>
+			<?php foreach ($this->results as $r) { ?>
 				<?php if ($r->rave > $lastR) { $rank++; }  ?>
 				<!--<?php var_dump($r) ?>-->
 				<tr>
@@ -101,3 +119,5 @@
 	</div>
 </div>
 <!-- End HOF -->
+
+<?php endif; ?>

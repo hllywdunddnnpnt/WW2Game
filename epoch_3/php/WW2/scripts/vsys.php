@@ -259,4 +259,16 @@ if (Privacy::isIn()){
 
 }
 
+function select_db($database)
+	{
+		global $db_user, $db_pass;
+		if ($is_production) $connection = mysqli_connect("localhost",$db_user,$db_pass,$database);
+		else $connection = mysqli_connect("localhost","root","",$database);
+		if (!$connection)
+			{
+				die("Connection error: " . mysqli_connect_errno());
+			}
+		return $connection;
+	}
+
 ?>

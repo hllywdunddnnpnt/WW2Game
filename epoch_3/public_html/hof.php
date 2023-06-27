@@ -60,7 +60,7 @@ if ($area and $age >= 15) {
 	$WHERE = " WHERE area = $area ";
 }*/
 
-
+/*
 $q = mysqli_query($db, "SELECT *, (sarank+darank+carank+rarank) as rave FROM hof$age $WHERE order by rave ASC") or die(mysqli_error($db));
 
 $t->u = null;
@@ -70,12 +70,19 @@ while ($r = mysqli_fetch_object($q)) {
 	if ($uid and $uid == $r->id) {
 		$t->u = $r;
 	}
-}
+}*/
+
+$db_hof = select_db("ww3game_hof");
+$results = mysqli_query($db_hof, "SELECT * FROM hof_$age ORDER BY `rank` ASC") or die(mysqli_error($db_hof));
 
 $t->current_age = $current_age;
 $t->age = $age;
 $t->area = $area;
 $t->user = $user;
+$t->results = $results;
 $t->pageTitle = 'Previous Age Stats';
 $t->display();
+
+
+
 ?>

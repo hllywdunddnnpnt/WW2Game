@@ -55,7 +55,18 @@ update User set area=3 where area=6;
 // First, tell all the scripts that we're running without HTML
 $incron = true;
 // Include everything we need
-require_once('vsys.php');
+//require_once('vsys.php');
+require_once('cron.php');
+
+$db_hof = select_db("ww3game_hof");
+$db_backups = select_db("ww3game_backups");
+
+$hof = $_AGE;
+$table_name_hof = "hof_$hof";
+
+$mode_submit = true;
+$mode_reset = false;
+
 /*
 function report($message, $area=null)
 	{
@@ -74,8 +85,9 @@ function query_submit($db, $query, $area)
 $reports = [ "default" => [] ];
 
 
+if ($mode_submit):
 
-$hof = $_AGE;
+
 //die("MAKE SURE THE AGE IS CORRECT");
 /*
 	Stage 1 : Back up the tables
@@ -88,36 +100,110 @@ $tableList = array(
 	'weapon'
 );
 
-foreach ($tableList as $table) {
+for ($i = 0; $i < count($tableList); $i++) {
+//foreach ($tableList as $i => $tabitem) {
+	$tabitem = $tableList[$i];
 	// Copy the tables
-	echo "resetscript: dropping $table$hof if exists<br>";
-	mysqli_query($db, "drop table if exists hof$hof");
-	echo "resetscript: backing up table $table as $table$hof<br>";
-	$q = mysqli_query($db, "CREATE TABLE IF NOT EXISTS $table$hof SELECT * FROM $table");
+	$tabitem_hof = $tabitem."_".$hof;
+	echo "resetscript: dropping $tabitem_hof if exists<br>";
+	mysqli_query($db_backups, "drop table if exists $tabitem_hof");
+	echo "resetscript: backing up table $table as $tabitem_hof<br>";
+	$q = mysqli_query($db_backups, "CREATE TABLE IF NOT EXISTS $tabitem_hof SELECT * FROM $dbname.$tabitem");
 	if (!$q)
 		{
 			$str_error = "Table '.\ww3game_db\\$table' is marked as crashed and should be repaired";
-			echo mysqli_error($db);
-			if (mysqli_error($db) == $str_error)
+			echo mysqli_error($db_backups);
+			if (mysqli_error($db_backups) == $str_error)
 				{
-					mysqli_query($db, "REPAIR TABLE $table") or die(mysqli_error($db));
+					mysqli_query($db, "REPAIR TABLE $table") or die("1.2:".mysqli_error($db));
 					echo "$table repaired!";
+					$i--;
+				}
+			else
+				{
+					die("1.1:".mysqli_error($db));
 				}
 		} 
 }
 
 // TODO: update for table column names.
 
+$hofTable = "CREATE TABLE IF NOT EXISTS `$table_name_hof` (
+	`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+	`uid` INT(11) NOT NULL DEFAULT 0,
+	`username` varchar(25) NOT NULL,
+	`nation` tinyint(4) NOT NULL default '0',
+	`email` varchar(100) NOT NULL,
+	`gclick` tinyint(2) NOT NULL default '15',
+	`commander` int(10) NOT NULL default '0',
+	`active` int(1) NOT NULL default '0',
+	`area` int(11) NOT NULL default '0',
+	`dalevel` int(10) NOT NULL default '0',
+	`salevel` int(10) NOT NULL default '0',
+	`gold` bigint(15) NOT NULL default '0',
+	`bank` bigint(10) unsigned NOT NULL default '0',
+	`primary` tinyint(1) NOT NULL default '0',
+	`attackturns` bigint(15) NOT NULL default '0',
+	`up` bigint(15) unsigned NOT NULL default '0',
+	`calevel` int(10) unsigned NOT NULL default '0',
+	`ralevel` int(10) unsigned NOT NULL default '0',
+	`maxofficers` smallint(2) NOT NULL default '5',
+	`sasoldiers` bigint(15) NOT NULL default '0',
+	`samercs` bigint(15) NOT NULL default '0',
+	`dasoldiers` bigint(15) NOT NULL default '0',
+	`damercs` bigint(15) NOT NULL default '0',
+	`uu` bigint(15) unsigned NOT NULL default '0',
+	`spies` bigint(15) unsigned NOT NULL default '0',
+	`accepted` tinyint(1) NOT NULL default '0',
+	`commandergold` bigint(15) NOT NULL default '0',
+	`gameSkill` int(10) NOT NULL default '0',
+	`specialforces` bigint(15) unsigned NOT NULL default '0',
+	`bankper` int(10) NOT NULL default '10',
+	`SA` bigint(15) unsigned NOT NULL default '0',
+	`DA` bigint(15) unsigned NOT NULL default '0',
+	`CA` bigint(15) unsigned NOT NULL default '0',
+	`RA` bigint(15) unsigned NOT NULL default '0',
+	`rank` int(10) NOT NULL default '0',
+	`sarank` int(10) NOT NULL default '0',
+	`darank` int(10) NOT NULL default '0',
+	`carank` int(10) NOT NULL default '0',
+	`rarank` int(10) NOT NULL default '0',
+	`alliance` int(5) NOT NULL default '0',
+	`hhlevel` int(10) NOT NULL default '0',
+	`officerup` float NOT NULL default '0',
+	`changenick` tinyint(4) NOT NULL default '0',
+	`admin` int(10) NOT NULL default '0',
+	`clicks` int(10) NOT NULL default '0',
+	`clickall` tinyint(1) NOT NULL default '0',
+	`cheatcount` int(10) NOT NULL default '0',
+	`status` varchar(50) NOT NULL default '',
+	`numofficers` int(10) NOT NULL default '0',
+	`aaccepted` tinyint(1) NOT NULL default '0',
+	`minattack` bigint(15) NOT NULL default '0',
+	`goldwon` BIGINT( 21 ) NOT NULL  DEFAULT 0,
+	`goldlost` BIGINT( 21 ) NOT NULL  DEFAULT 0,
+	`battleswon` BIGINT( 15 ) NOT NULL  DEFAULT 0,
+	`battleslost` BIGINT( 15 ) NOT NULL  DEFAULT 0,
+	`battlesdefended` BIGINT( 15 ) NOT NULL  DEFAULT 0,
+	`battlesuuwon` BIGINT(15) NOT NULL DEFAULT 0,
+	`battlesuulost` BIGINT(15) NOT NULL DEFAULT 0,
+	`theftscore` BIGINT( 15 ) NOT NULL  DEFAULT 0,
+	`theftuu` BIGINT( 15 ) NOT NULL  DEFAULT 0,
+	`theftgold` BIGINT( 21 ) NOT NULL  DEFAULT 0,
+	`income` INT( 11 ) NOT NULL  DEFAULT 0,
+	PRIMARY KEY ( `id` )
+) ENGINE = MYISAM ;";
+/*
 // create the new HOF table
-$hofTable = "CREATE TABLE IF NOT EXISTS `hof{$hof}` (
-	`id` INT( 10 ) NOT NULL AUTO_INCREMENT ,
-	`uid` INT(10) NOT NULL DEFAULT 0,
+$hofTable = "CREATE TABLE IF NOT EXISTS `$table_name_hof` (
+	`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+	`uid` INT(11) NOT NULL DEFAULT 0,
 	`area` TINYINT(2) NOT NULL DEFAULT 2,
 	`username` VARCHAR( 50 ) NOT NULL ,
 	`alliance` VARCHAR( 50 )  DEFAULT 0,
 	`nation` SMALLINT( 1 ) NOT NULL  DEFAULT 0,
-	`bankper` TINYINT( 2 ) NOT NULL  DEFAULT 0,
-	`officerup` INT( 10 ) NOT NULL  DEFAULT 0,
+	`bankper` TINYINT( 3 ) NOT NULL  DEFAULT 0,
+	`officerup` INT( 11 ) NOT NULL  DEFAULT 0,
 	`untrained` INT( 11 ) NOT NULL  DEFAULT 0,
 	`trainedsa` INT( 11 ) NOT NULL  DEFAULT 0,
 	`trainedda` INT( 11 ) NOT NULL  DEFAULT 0,
@@ -125,10 +211,10 @@ $hofTable = "CREATE TABLE IF NOT EXISTS `hof{$hof}` (
 	`damerc` INT( 11 ) NOT NULL  DEFAULT 0,
 	`spies` INT( 11 ) NOT NULL  DEFAULT 0,
 	`sf` INT( 11 ) NOT NULL  DEFAULT 0,
-	`raupgrade` INT( 2 ) NOT NULL  DEFAULT 0,
-	`saupgrade` INT( 2 ) NOT NULL  DEFAULT 0,
-	`daupgrade` INT( 2 ) NOT NULL  DEFAULT 0,
-	`caupgrade` INT( 2 ) NOT NULL  DEFAULT 0,
+	`raupgrade` INT( 3 ) NOT NULL  DEFAULT 0,
+	`saupgrade` INT( 3 ) NOT NULL  DEFAULT 0,
+	`daupgrade` INT( 3 ) NOT NULL  DEFAULT 0,
+	`caupgrade` INT( 3 ) NOT NULL  DEFAULT 0,
 	`sa` BIGINT( 15 ) NOT NULL  DEFAULT 0,
 	`da` BIGINT( 15 ) NOT NULL  DEFAULT 0,
 	`ca` BIGINT( 15 ) NOT NULL  DEFAULT 0,
@@ -137,8 +223,8 @@ $hofTable = "CREATE TABLE IF NOT EXISTS `hof{$hof}` (
 	`darank` INT( 11 ) NOT NULL  DEFAULT 0,
 	`carank` INT( 11 ) NOT NULL  DEFAULT 0,
 	`rarank` INT( 11 ) NOT NULL  DEFAULT 0,
-	`goldwon` BIGINT( 15 ) NOT NULL  DEFAULT 0,
-	`goldlost` BIGINT( 15 ) NOT NULL  DEFAULT 0,
+	`goldwon` BIGINT( 21 ) NOT NULL  DEFAULT 0,
+	`goldlost` BIGINT( 21 ) NOT NULL  DEFAULT 0,
 	`battleswon` BIGINT( 15 ) NOT NULL  DEFAULT 0,
 	`battleslost` BIGINT( 15 ) NOT NULL  DEFAULT 0,
 	`battlesdefended` BIGINT( 15 ) NOT NULL  DEFAULT 0,
@@ -146,7 +232,7 @@ $hofTable = "CREATE TABLE IF NOT EXISTS `hof{$hof}` (
 	`battlesuulost` BIGINT(15) NOT NULL DEFAULT 0,
 	`theftscore` BIGINT( 15 ) NOT NULL  DEFAULT 0,
 	`theftuu` BIGINT( 15 ) NOT NULL  DEFAULT 0,
-	`theftgold` BIGINT( 15 ) NOT NULL  DEFAULT 0,
+	`theftgold` BIGINT( 21 ) NOT NULL  DEFAULT 0,
 	`up` INT( 11 ) NOT NULL  DEFAULT 0,
 	`income` INT( 11 ) NOT NULL  DEFAULT 0,
 	`numofficers` INT( 11 ) NOT NULL  DEFAULT 0,
@@ -155,80 +241,125 @@ $hofTable = "CREATE TABLE IF NOT EXISTS `hof{$hof}` (
 	`username`
 	)
 ) ENGINE = MYISAM ;";
+*/	
 
-mysqli_query($db, $hofTable) or die("2:".mysqli_error($db));
 
-mysqli_query($db, "truncate hof$hof") or die(mysqli_error($db));
+mysqli_query($db_hof, $hofTable) or die("2:".mysqli_error($db_hof));
+mysqli_query($db_hof, "truncate $table_name_hof") or die("3:".mysqli_error($db_hof));
 
-echo "resetscript: inserting primary values into hof$hof\n";
+
+
+echo "resetscript: inserting primary values into $table_name_hof\n";
 // insert the basic values
-$hofq = mysqli_query($db, "
+$hofq = mysqli_query($db_hof, "
 	INSERT INTO
-		hof$hof
+	$table_name_hof
 	(
-		uid,
-		area,
-		username,
-		alliance,
-		nation,
-		bankper,
-		officerup,
-		untrained,
-		trainedsa,
-		trainedda,
-		samerc,
-		damerc,
-		spies,
-		sf,
-		raupgrade,
-		saupgrade,
-		daupgrade,
-		caupgrade,
-		sa,
-		da,
-		ca,
-		ra,
-		sarank,
-		darank,
-		carank,
-		rarank,
-		up,
-		numofficers
+		`uid`,
+		`username`,
+		`nation`,
+		`email`,
+		`gclick`,
+		`commander`,
+		`active`,
+		`area`,
+		`dalevel`,
+		`salevel`,
+		`gold`,
+		`bank`,
+		`primary`,
+		`attackturns`,
+		`up`,
+		`calevel`,
+		`ralevel`,
+		`maxofficers`,
+		`sasoldiers`,
+		`samercs`,
+		`dasoldiers`,
+		`damercs`,
+		`uu`,
+		`spies`,
+		`accepted`,
+		`commandergold`,
+		`gameSkill`,
+		`specialforces`,
+		`bankper`,
+		`SA`,
+		`DA`,
+		`CA`,
+		`RA`,
+		`rank`,
+		`sarank`,
+		`darank`,
+		`carank`,
+		`rarank`,
+		`alliance`,
+		`hhlevel`,
+		`officerup`,
+		`admin`,
+		`clicks`,
+		`clickall`,
+		`cheatcount`,
+		`status`,
+		`numofficers`,
+		`aaccepted`,
+		`minattack`
 	)
 	SELECT
-		id,
-		area,
-		username,
-		alliance,
-		nation,
-		bankper,
-		officerup,
-		uu,
-		sasoldiers,
-		dasoldiers,
-		samercs,
-		damercs,
-		spies,
-		specialforces,
-		ralevel,
-		salevel,
-		dalevel,
-		calevel,
-		sa,
-		da,
-		ca,
-		ra,
-		sarank,
-		darank,
-		carank,
-		rarank,
-		up,
-		numofficers
+		`id`,
+		`username`,
+		`nation`,
+		`email`,
+		`gclick`,
+		`commander`,
+		`active`,
+		`area`,
+		`dalevel`,
+		`salevel`,
+		`gold`,
+		`bank`,
+		`primary`,
+		`attackturns`,
+		`up`,
+		`calevel`,
+		`ralevel`,
+		`maxofficers`,
+		`sasoldiers`,
+		`samercs`,
+		`dasoldiers`,
+		`damercs`,
+		`uu`,
+		`spies`,
+		`accepted`,
+		`commandergold`,
+		`gameSkill`,
+		`specialforces`,
+		`bankper`,
+		`SA`,
+		`DA`,
+		`CA`,
+		`RA`,
+		`rank`,
+		`sarank`,
+		`darank`,
+		`carank`,
+		`rarank`,
+		`alliance`,
+		`hhlevel`,
+		`officerup`,
+		`admin`,
+		`clicks`,
+		`clickall`,
+		`cheatcount`,
+		`status`,
+		`numofficers`,
+		`aaccepted`,
+		`minattack`
 	FROM
-		User
+		$dbname.User
 	WHERE
-		active = 1;
-") or die("1:".mysqli_error($db));
+		$dbname.User.active = 1;
+") or die("4:".mysqli_error($db_hof));
 
 $users = User::getActiveUsers(false, false);
 
@@ -241,43 +372,43 @@ foreach($users as $user) {
 	$i++;
 	$ret = (Object) [];
 	
-	$q = mysqli_query($db, "select sum(goldStolen) as retCode from BattleLog where attackerId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select sum(goldStolen) as retCode from BattleLog where attackerId = $user->id") or die("5.1:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->goldTaken = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select sum(goldStolen) as retCode from BattleLog where targetId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select sum(goldStolen) as retCode from BattleLog where targetId = $user->id") or die("5.2:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->goldLost = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 1 and attackerId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 1 and attackerId = $user->id") or die("5.3:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->battlesWon = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 1 and targetId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 1 and targetId = $user->id") or die("5.4:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->battlesDefended = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 0 and attackerId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 0 and attackerId = $user->id") or die("5.5:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->battlesLost = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 0 and targetId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select count(*) as retCode from BattleLog where isSuccess = 0 and targetId = $user->id") or die("5.6:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->battlesNotDefended = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select sum(attackerHostages) as retCode from BattleLog where attackerId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select sum(attackerHostages) as retCode from BattleLog where attackerId = $user->id") or die("5.7:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->powTaken = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select sum(targetHostages) as retCode from BattleLog where targetId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select sum(targetHostages) as retCode from BattleLog where targetId = $user->id") or die("5.8:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->powTaken += (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select sum(attackerHostages) as retCode from BattleLog where  targetId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select sum(attackerHostages) as retCode from BattleLog where  targetId = $user->id") or die("5.9:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->powLost = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select sum(targetHostages) as retCode from BattleLog where attackerId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select sum(targetHostages) as retCode from BattleLog where attackerId = $user->id") or die("5.10:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->powLost += (float)$a->retCode;
 	
@@ -285,43 +416,47 @@ foreach($users as $user) {
 	$ret->income = $user->getIncome();
 	
 	$ret->theftScore = 0;
-	$q = mysqli_query($db, "select * from SpyLog where type=1 and attackerId = $user->id and isSuccess = 1 and weaponamount > 0") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select * from SpyLog where type=1 and attackerId = $user->id and isSuccess = 1 and weaponamount > 0") or die("5.11:".mysqli_error($db));
 	while ($r = mysqli_fetch_object($q)) {
 		$ret->theftScore += ($r->weaponamount * $conf['weapon' . $r->weapontype2 . 'strength']);
 	}
 	
-	$q = mysqli_query($db, "select sum(goldStolen) as retCode from SpyLog where type=2 and attackerId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select sum(goldStolen) as retCode from SpyLog where type=2 and attackerId = $user->id") or die("5.12:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->theftGold = (float)$a->retCode;
 	
-	$q = mysqli_query($db, "select sum(hostages) as retCode from SpyLog where type > 0 and attackerId = $user->id") or die(mysqli_error($db));
+	$q = mysqli_query($db, "select sum(hostages) as retCode from SpyLog where type > 0 and attackerId = $user->id") or die("5.13:".mysqli_error($db));
 	$a = mysqli_fetch_object($q);
 	$ret->theftUU = (float)$a->retCode;
 	
 	$sql = "
-		update hof$hof
-		set
-			goldwon         = $ret->goldTaken,
-			goldlost        = $ret->goldLost,
-			battleswon      = $ret->battlesWon,
-			battleslost     = $ret->battlesLost,
-			battlesdefended = $ret->battlesDefended,
-			battlesuuwon    = $ret->powTaken,
-			battlesuulost   = $ret->powLost,
-			theftscore      = $ret->theftScore,
-			theftuu         = $ret->theftUU,
-			theftgold       = $ret->theftGold,
-			income          = $ret->income
-		where
-			uid = $user->id
+		UPDATE `$table_name_hof`
+		SET
+			`goldwon`         = '$ret->goldTaken',
+			`goldlost`        = '$ret->goldLost',
+			`battleswon`     = '$ret->battlesWon',
+			`battleslost`     = '$ret->battlesLost',
+			`battlesdefended` = '$ret->battlesDefended',
+			`battlesuuwon`    = '$ret->powTaken',
+			`battlesuulost`   = '$ret->powLost',
+			`theftscore`      = '$ret->theftScore',
+			`theftuu`         = '$ret->theftUU',
+			`theftgold`      = '$ret->theftGold',
+			`income`          = '$ret->income'
+		WHERE
+			`uid` = '$user->id'
 	";
-	mysqli_query($db, $sql) or die(mysqli_error($db));
+	mysqli_query($db_hof, $sql) or die("6:".mysqli_error($db_hof)."<BR>".$sql);
 }
+
+endif;
+
+if ($mode_reset):
 
 // Tables to Truncate
 $clean = array(
 	'BattleLog',
-	'Recruit',
+	//'Recruit',
 	'SpyLog',
 	'Weapon',
 );
@@ -330,7 +465,7 @@ exit();
 foreach ($clean as $tbl) {
 	echo "resetscript: truncating table $tbl\n";
 	$sql = "TRUNCATE $tbl";
-	mysqli_query($db, $sql) or die(mysqli_error($db));
+	mysqli_query($db, $sql) or die("7:".mysqli_error($db));
 }
 
 // Now reset the Mercenaries table
@@ -342,7 +477,7 @@ set
 	defspeccount    = 0,
 	untrainedcount  = 0;
 ";
-mysqli_query($db, $sql) or die(mysqli_error($db));
+mysqli_query($db, $sql) or die("8:".mysqli_error($db));
 
 echo "resetscript: resetting User\n";
 // reset User
@@ -379,6 +514,8 @@ set
 	clickall      = 0,
 	bankimg       = 0	
 ";
-mysqli_query($db, $sql) or die(mysqli_error($db));
+mysqli_query($db, $sql) or die("9:".mysqli_error($db));
+
+endif;
 
 ?>

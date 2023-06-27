@@ -32,7 +32,9 @@ require_once(CACHEDIR . 'end_time.php');
 
 $db_user = isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"] == $host_local ? 'ww3game_user' : 'ww2-johnny';
 $db_pass = isset($_SERVER) && isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"] == $host_local ? 'password' : 'johnnyisinWW2';
-$db_database = 'ww3game_db';
+$dbname = 'ww3game_db';
+$dbname_hof = "ww3game_hof";
+$dbname_backups = "ww3game_backups";
 
 $game_offline = false;
 $offline_message = 'We are resetting the game, please come back in a few hours';
